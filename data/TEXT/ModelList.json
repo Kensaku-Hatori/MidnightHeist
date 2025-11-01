@@ -1,0 +1,25 @@
+{
+  "PathList": [
+    {
+      "Path": "data/MODEL/stone.x"
+    },
+    {
+      "Path": "data/MODEL/floor_block.x"
+    },
+    {
+      "Path": "data/MODEL/Forklift.x"
+    },
+    {
+      "Path": "data/MODEL/rack.x"
+    },
+    {
+      "Path": "data/MODEL/wall.x"
+    },
+    {
+      "Path": "data/MODEL/Floor.x"
+    },
+    {
+      "Path": "data/MODEL/container_lowpolygon.x"
+    }
+  ]
+}
