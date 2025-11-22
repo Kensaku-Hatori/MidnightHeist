@@ -11,7 +11,10 @@
 #include "modelmanager.h"
 #include "object2D.h"
 #include "titlelogo.h"
+#include "Factories.h"
 #include "titlemanager.h"
+#include "fade.h"
+#include "game.h"
 
 // 規定値を設定
 // カメラ
@@ -46,8 +49,14 @@ HRESULT CTitle::Init(void)
 {
 	// 平行光源の色をリセット
 	CManager::GetLight()->ResetCol();
-		
-	m_pTitleManager = CTitleManager::CreateSingleton();
+
+	//m_pTitleManager = CTitleManager::CreateSingleton();
+
+	Factories::makeObject3D(GetReg());
+	//Factories::makeObjectX(GetReg());
+	Factories::makePlayer(GetReg());
+	Factories::makeMapobject(GetReg(), "data\\MODEL\\rack.x", VEC3_NULL, D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f));
+	MeshFactories::makeMeshField(GetReg(), 100, 100, { 10.0f,10.0f });
 
 	return S_OK;
 }
@@ -57,6 +66,22 @@ HRESULT CTitle::Init(void)
 //***************************************
 void CTitle::Update(void)
 {
+	if (CManager::GetInputKeyboard()->GetPress(DIK_SPACE) == true)
+	{
+		Factories::makeObject3D(GetReg());
+	}
+	if (CManager::GetInputKeyboard()->GetPress(DIK_H) == true)
+	{
+		Factories::makeObject2D(GetReg(), 2, {});
+	}
+	if (CManager::GetInputKeyboard()->GetPress(DIK_B) == true)
+	{
+		Factories::makeObject2D(GetReg(), 1, "data\\TEXTURE\\grass003.png");
+	}
+	if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true)
+	{
+		CFade::SetFade(new CGame);
+	}
 }
 
 //***************************************
@@ -64,6 +89,7 @@ void CTitle::Update(void)
 //***************************************
 void CTitle::Uninit(void)
 {
+	GetReg().clear();
 	delete this;
 }
 

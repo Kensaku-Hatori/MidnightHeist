@@ -44,8 +44,8 @@ public:
 	static void UnRegistModel(void);
 
 	// ゲッター
-	static MapObject* GetModelInfo(std::string Path);
-	static MapObject* GetModelInfo(const int Indx);
+	static MapObject& GetModelInfo(std::string Path);
+	//static MapObject* GetModelInfo(const int Indx);
 private:
 	// コンストラクタ・デストラクタ
 	CModelManager();

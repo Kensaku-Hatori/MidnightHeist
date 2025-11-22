@@ -1,0 +1,74 @@
+//****************************************************************
+//
+// 2D更新システムのクラスの処理[Update2DSystem.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// インクルード
+#include "TransformComponent.hpp"
+#include "VertexRenderingComponent.hpp"
+#include "SizeComponent.hpp"
+#include "ColorComponent.hpp"
+#include "TagComp.hpp"
+#include "UVComponent.hpp"
+#include "Update2DSystem.h"
+
+using namespace Tag;
+
+//*********************************************
+// 更新
+//*********************************************
+void Update2DSystem::Update(entt::registry& reg)
+{
+	auto view = reg.view<Object2DComponent>();
+
+	for (auto entity : view)
+	{
+		auto& TransformCmp = reg.get<Transform2D>(entity);
+		auto& VtxCmp = reg.get<VertexComp>(entity);
+		auto& SizeCmp = reg.get<SizeComp>(entity);
+		auto& ColorCmp = reg.get<ColorComp>(entity);
+		auto& UVCmp = reg.get<UVComp>(entity);
+
+		VERTEX_2D* pVtx = NULL;
+
+		if (VtxCmp.pVertex != NULL)
+		{
+			VtxCmp.pVertex->Lock(0, 0, (void**)&pVtx, 0);
+		}
+		else return;
+		if (pVtx != NULL)
+		{
+			//頂点座標の更新
+			pVtx[0].pos.x = TransformCmp.Pos.x - (SizeCmp.Size.x * TransformCmp.Scale.x);
+			pVtx[0].pos.y = TransformCmp.Pos.y - (SizeCmp.Size.y * TransformCmp.Scale.y);
+			pVtx[0].pos.z = 0.0f;
+			pVtx[1].pos.x = TransformCmp.Pos.x + (SizeCmp.Size.x * TransformCmp.Scale.x);
+			pVtx[1].pos.y = TransformCmp.Pos.y - (SizeCmp.Size.y * TransformCmp.Scale.y);
+			pVtx[1].pos.z = 0.0f;
+			pVtx[2].pos.x = TransformCmp.Pos.x - (SizeCmp.Size.x * TransformCmp.Scale.x);
+			pVtx[2].pos.y = TransformCmp.Pos.y + (SizeCmp.Size.y * TransformCmp.Scale.y);
+			pVtx[2].pos.z = 0.0f;
+			pVtx[3].pos.x = TransformCmp.Pos.x + (SizeCmp.Size.x * TransformCmp.Scale.x);
+			pVtx[3].pos.y = TransformCmp.Pos.y + (SizeCmp.Size.y * TransformCmp.Scale.y);
+			pVtx[3].pos.z = 0.0f;
+
+			pVtx[0].rhw = 1.0f;
+			pVtx[1].rhw = 1.0f;
+			pVtx[2].rhw = 1.0f;
+			pVtx[3].rhw = 1.0f;
+
+			pVtx[0].col = ColorCmp.Col;
+			pVtx[1].col = ColorCmp.Col;
+			pVtx[2].col = ColorCmp.Col;
+			pVtx[3].col = ColorCmp.Col;
+
+			pVtx[0].tex = UVCmp.UV[0];
+			pVtx[1].tex = UVCmp.UV[1];
+			pVtx[2].tex = UVCmp.UV[2];
+			pVtx[3].tex = UVCmp.UV[3];
+		}
+		VtxCmp.pVertex->Unlock();
+	}
+}

@@ -8,12 +8,13 @@
 // インクルード
 #include "Object.h"
 #include "manager.h"
+#include "sound.h"
+#include "scene.h"
 
 // 静的メンバ変数宣言
 int CObject::m_nNumAll = 0;
 CObject* CObject::m_pTop[Config::Priority] = {};
 CObject* CObject::m_pCur[Config::Priority] = {};
-entt::registry CObject::m_Registry = {};
 
 //*********************************************
 // コンストラクタ
@@ -21,9 +22,9 @@ entt::registry CObject::m_Registry = {};
 CObject::CObject(int Priority)
 {
 	// エンティティ生成
-	m_Entity = m_Registry.create();
-	m_Registry.emplace<Transform>(m_Entity);
-	m_Registry.emplace<ObjectBase>(m_Entity, ObjectBase{ Priority, 0,false });
+	m_Entity = CManager::GetScene()->GetReg().create();
+	CManager::GetScene()->GetReg().emplace<Transform3D>(m_Entity);
+	CManager::GetScene()->GetReg().emplace<ObjectBase>(m_Entity, ObjectBase{ Priority, 0,false });
 	m_nNumAll++;
 
 	CObject* pObjectCur = m_pCur[Priority];
@@ -60,7 +61,7 @@ void CObject::Delete(const int PriorityCount)
 		// 消すかもしれないから次のやつを保存
 		CObject* pObjectNext = pObject->m_pNext;
 		// ベースコンポーネントを取得
-		auto& base = m_Registry.get<ObjectBase>(pObject->m_Entity);
+		auto& base = CManager::GetScene()->GetReg().get<ObjectBase>(pObject->m_Entity);
 
 		// 死亡フラグ立っていたら
 		if (base.Death == true)

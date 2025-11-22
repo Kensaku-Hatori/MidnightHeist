@@ -1,14 +1,22 @@
+//****************************************************************
+//
+// トランスフォームのコンポーネント[ObjectBaceComponent.hpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// 二重インクルード防止
 #pragma once
-#include "Transform.hpp"
+
+// インクルード
+#include "TransformComponent.hpp"
+
+// オブジェクトの基本情報
 struct ObjectBase {
+    // 描画の優先度
     int Priority = 3;
+    // ID
     int nID = 0;
+    // 死亡フラグ
     bool Death = false;
-
-    void SetPriority(const int Pri) { Priority = Pri; }
-    void SetFlag(const bool Flag) { Death = Flag; }
-
-    const int GetPriority(void) { return Priority; }
-    const int GetID(void) { return nID; }
-    const bool GetFlag(void) { return Death; }
 };

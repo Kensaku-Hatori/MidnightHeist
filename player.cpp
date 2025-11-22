@@ -12,6 +12,8 @@ CPlayer::~CPlayer()
 
 HRESULT CPlayer::Init(void)
 {
+	SetPosition({ 0.0f,100.0f,0.0f });
+
 	m_CollisionShape = std::make_unique<btCapsuleShape>(btScalar(7.0f), btScalar(20.0f));
 
 	btScalar mass = 1.0f; // ¿—Ê‚ğ1ˆÈã‚É‚·‚é‚±‚Æ‚Å“®“I„‘Ì‚É‚È‚é

@@ -19,6 +19,7 @@
 #include "manager.h"
 #include "scene.h"
 #include "fade.h"
+#include "SystemManager.h"
 
 // 名前空間
 using namespace std;
@@ -198,6 +199,8 @@ void CRenderer::Uninit()
 
 	CObject::ReleaseAll();
 
+	CSystemManager::EndSystem();
+
 	m_pDebugProc->Uninit();
 	delete m_pDebugProc;
 	m_pDebugProc = NULL;
@@ -273,6 +276,8 @@ void CRenderer::Draw()
 
 		// オブジェクトの描画
 		CObject::DrawAll();
+
+		CSystemManager::RenderingAll(CManager::GetScene()->GetReg());
 
 		CManager::GetScene()->Draw();
 		CManager::GetFade()->Draw();

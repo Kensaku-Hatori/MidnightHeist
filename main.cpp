@@ -221,9 +221,6 @@ int GetFPS(void)
 //*************************************
 float GetDeltaTime(void)
 {
-	static DWORD prevTime = timeGetTime();
-	DWORD curr = timeGetTime();
-	float dt = (curr - prevTime) / 1000.0f;
-	prevTime = curr;
+	float dt = 1.0f / GetFPS();
 	return dt;
 }

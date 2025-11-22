@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Shader">
       <UniqueIdentifier>{6a908cf0-0523-4e6e-b761-1fe7020139ab}</UniqueIdentifier>
     </Filter>
@@ -30,6 +26,52 @@
     </Filter>
     <Filter Include="Component">
       <UniqueIdentifier>{ca9d8ca4-bbe4-42d0-b997-8f731063b666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{2a853400-85ce-4099-8a4e-01ab884f480c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Factory">
+      <UniqueIdentifier>{ec8da67a-2938-4ef7-825c-37bb41080a6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="System\Update">
+      <UniqueIdentifier>{1cef28f4-f240-4beb-9ebf-47ef593c0f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering">
+      <UniqueIdentifier>{1f0fdda5-5ba4-4128-980c-02e81ff4c033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\Object">
+      <UniqueIdentifier>{da422059-c763-44f8-80d7-f3da91e397f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\Bace">
+      <UniqueIdentifier>{b74e73b4-1a73-4485-ad24-087838dafcd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Bace">
+      <UniqueIdentifier>{31ef84af-631a-40b1-bdd7-5bce1b2cb1e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Object">
+      <UniqueIdentifier>{de6eb936-d537-4319-b541-4ab4bd4991ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Manager">
+      <UniqueIdentifier>{0dde4b15-a541-4506-83af-2ddd24aaa9c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Pysics">
+      <UniqueIdentifier>{e6b45cdf-599a-46e6-8404-2d8f17448ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Object">
+      <UniqueIdentifier>{1877d57f-c0e3-434b-901e-38ca94c215fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Mesh">
+      <UniqueIdentifier>{ad9475d6-f977-46d3-86e8-c83b69f27694}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Mesh">
+      <UniqueIdentifier>{2371ff08-e835-41c9-bc5c-53e95cc913cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\Mesh">
+      <UniqueIdentifier>{bfbc150f-e6d1-49e7-9aee-01dfd6cdd5ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -146,6 +188,48 @@
     </ClCompile>
     <ClCompile Include="laser.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Factories.cpp">
+      <Filter>Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering2Dbace.cpp">
+      <Filter>System\Rendering\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering3DBace.cpp">
+      <Filter>System\Rendering\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingXSystem.cpp">
+      <Filter>System\Rendering\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Update3DSystem.cpp">
+      <Filter>System\Update\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Update2DSystem.cpp">
+      <Filter>System\Update\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateXSystem.cpp">
+      <Filter>System\Update\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemManager.cpp">
+      <Filter>System\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="playerUpdateSystem.cpp">
+      <Filter>System\Update</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingPlayerSystem.cpp">
+      <Filter>System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingMapobjectComponent.cpp">
+      <Filter>System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateMapobjectSystem.cpp">
+      <Filter>System\Update</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateMeshFieldSystem.cpp">
+      <Filter>System\Update\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingMeshFieldSystem.cpp">
+      <Filter>System\Rendering\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,14 +359,110 @@
     <ClInclude Include="entt.hpp">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Factories.h">
+      <Filter>Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="baceRenderingsystem.hpp">
+      <Filter>System\Rendering\Bace</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering2Dbace.h">
+      <Filter>System\Rendering\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering3DBace.h">
+      <Filter>System\Rendering\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingXSystem.h">
+      <Filter>System\Rendering\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="baceUpdatesystem.hpp">
+      <Filter>System\Update\Bace</Filter>
+    </ClInclude>
+    <ClInclude Include="Update3DSystem.h">
+      <Filter>System\Update\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Update2DSystem.h">
+      <Filter>System\Update\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateXSystem.h">
+      <Filter>System\Update\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerManager.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SystemManager.h">
+      <Filter>System\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="RigitBodyComponent.hpp">
+      <Filter>Component\Pysics</Filter>
+    </ClInclude>
+    <ClInclude Include="SingleCollisionShapeComponent.hpp">
+      <Filter>Component\Pysics</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="LayerComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
     <ClInclude Include="ObjectBaceComponent.hpp">
-      <Filter>Component</Filter>
+      <Filter>Component\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.hpp">
-      <Filter>Component</Filter>
+    <ClInclude Include="SizeComponent.hpp">
+      <Filter>Component\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Object2DComponent.h">
-      <Filter>Component</Filter>
+    <ClInclude Include="TagComp.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureRenderingComponent.h">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UVComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexRenderingComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="XRenderingComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="playerUpdateSystem.h">
+      <Filter>System\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingPlayerSystem.h">
+      <Filter>System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingMapobjectComponent.h">
+      <Filter>System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateMapobjectSystem.h">
+      <Filter>System\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBufferComponent.hpp">
+      <Filter>Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateMeshFieldSystem.h">
+      <Filter>System\Update\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingMeshFieldSystem.h">
+      <Filter>System\Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="RayComponent.hpp">
+      <Filter>Component\Pysics</Filter>
+    </ClInclude>
+    <ClInclude Include="DivisionComponent.hpp">
+      <Filter>Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshInfoComponent.hpp">
+      <Filter>Component\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

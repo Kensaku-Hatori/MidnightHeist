@@ -11,7 +11,9 @@
 
 // インクルード防止
 #include "Object.h"
-#include "Object2DComponent.h"
+#include "manager.h"
+#include "scene.h"
+#include "TagComp.hpp"
 
 // オブジェクトクラスを継承した2Dポリゴン用のクラスを宣言
 class CObject2D :public CObject
@@ -36,11 +38,10 @@ public:
 	void SetCol(const D3DXCOLOR Col);
 	void SetTexIndx(const int Indx);
 
-	// ゲッター
-	D3DXVECTOR3 GetPosition(void) {return m_Registry.get<Transform>(m_Entity).Pos; };
-	D3DXQUATERNION GetRotasion(void) { return m_Registry.get<Transform>(m_Entity).Quat; };
-	D3DXVECTOR2 GetSize(void) { return m_Registry.get<Object2DComponent>(m_Entity).Size; };
-	int GetTexIndx(void) { return m_Registry.get<Object2DComponent>(m_Entity).TexIndex; };
+	//// ゲッター
+	//D3DXVECTOR3 GetPosition(void) {return CManager::GetScene()->GetReg().get<Transform>(m_Entity).Pos; };
+	//D3DXQUATERNION GetRotasion(void) { return CManager::GetScene()->GetReg().get<Transform>(m_Entity).Quat; };
+	//D3DXVECTOR2 GetSize(void) { return CManager::GetScene()->GetReg().get<Object2DComponent>(m_Entity).Size; };
 private:
 };
 #endif // !_OBJECT2D_H_

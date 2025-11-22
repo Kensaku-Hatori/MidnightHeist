@@ -11,6 +11,8 @@
 
 // インクルード
 #include "main.h"
+#include "manager.h"
+#include "scene.h"
 #include "ObjectBaceComponent.hpp"
 
 // クラス宣言
@@ -42,9 +44,8 @@ public:
 	static int GetObjectNum(void) { return m_nNumAll; };
 protected:
 	// メンバ関数
-	void Release(void) { m_Registry.get<ObjectBase>(m_Entity).SetFlag(true); }
+	void Release(void) { /*CManager::GetScene()->GetReg().get<ObjectBase>(m_Entity).Death = true*/; }
 	entt::entity m_Entity;								// エンテティ
-	static entt::registry m_Registry;					// エンティティの集まり
 private:
 	// メンバ変数
 	static CObject* m_pTop[Config::Priority];			// 一番先頭のポインタ

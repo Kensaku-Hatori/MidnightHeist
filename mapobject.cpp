@@ -229,7 +229,7 @@ void CMapObject::DrawObject(void)
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_ModelPath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_ModelPath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -249,7 +249,7 @@ void CMapObject::DrawObject(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
 	D3DXVECTOR4 Light = { -0.5f,0.5f,0.5f,0.0f };
@@ -258,7 +258,7 @@ void CMapObject::DrawObject(void)
 
 	CToon::Instance()->Begin();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.dwNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
 		D3DXMATERIAL col = pMat[nCntMat];
 
@@ -276,10 +276,10 @@ void CMapObject::DrawObject(void)
 		}
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo->modelinfo.TexPath[nCntMat]));
+		pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo.modelinfo.TexPath[nCntMat]));
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}
@@ -303,7 +303,7 @@ void CMapObject::DrawShape(void)
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_ModelPath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_ModelPath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -323,16 +323,16 @@ void CMapObject::DrawShape(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 	{
 		CShapeShadow::Instance()->SetParameters(m_mtxWorld);
 
 		CShapeShadow::Instance()->BeginPass(0);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CShapeShadow::Instance()->EndPass();
 	}
@@ -354,7 +354,7 @@ void CMapObject::CastShadow(void)
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_ModelPath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_ModelPath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -374,7 +374,7 @@ void CMapObject::CastShadow(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
 	D3DXVECTOR4 Light = { -0.5f,0.5f,0.5f,0.0f };
@@ -383,13 +383,13 @@ void CMapObject::CastShadow(void)
 
 	CToon::Instance()->Begin();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.dwNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
 		D3DXMATERIAL col = pMat[nCntMat];
 
 		D3DXVECTOR4 SettCol = { col.MatD3D.Diffuse.r,col.MatD3D.Diffuse.g,col.MatD3D.Diffuse.b,col.MatD3D.Diffuse.a };
 
-		CToon::Instance()->SetParameters(m_mtxWorld, View, Proj, Light, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(modelinfo->modelinfo.TexPath[nCntMat]),CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+		CToon::Instance()->SetParameters(m_mtxWorld, View, Proj, Light, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(modelinfo.modelinfo.TexPath[nCntMat]),CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 		if (col.pTextureFilename == NULL)
 		{
@@ -404,7 +404,7 @@ void CMapObject::CastShadow(void)
 		//pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo->modelinfo.TexPath[nCntMat]));
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}
@@ -428,7 +428,7 @@ void CMapObject::DrawShadow(void)
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_ModelPath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_ModelPath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -448,16 +448,16 @@ void CMapObject::DrawShadow(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 	{
 		CShadowMap::Instance()->SetParameters(m_mtxWorld);
 
 		CShadowMap::Instance()->BeginPass(0);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CShadowMap::Instance()->EndPass();
 	}
@@ -482,7 +482,7 @@ void CMapObject::DrawOutline(void)
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_ModelPath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_ModelPath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -502,7 +502,7 @@ void CMapObject::DrawOutline(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
 	D3DXVECTOR4 Light = { -0.5f,0.5f,0.5f,0.0f };
@@ -511,7 +511,7 @@ void CMapObject::DrawOutline(void)
 
 	CToon::Instance()->Begin();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.dwNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
 		D3DXMATERIAL col = pMat[nCntMat];
 
@@ -522,7 +522,7 @@ void CMapObject::DrawOutline(void)
 		CToon::Instance()->BeginPass(2);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}
@@ -538,11 +538,11 @@ void CMapObject::DrawOutline(void)
 void CMapObject::CalcSize(void)
 {
 	// モデルmanagerからインデックスを指定して取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_ModelPath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_ModelPath);
 	BYTE* pVtxBuff = NULL;
-	WORD SizeFVF = (WORD)D3DXGetFVFVertexSize(modelinfo->modelinfo.pMesh->GetFVF());
-	int nNumVtx = modelinfo->modelinfo.pMesh->GetNumVertices();
-	modelinfo->modelinfo.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+	WORD SizeFVF = (WORD)D3DXGetFVFVertexSize(modelinfo.modelinfo.pMesh->GetFVF());
+	int nNumVtx = modelinfo.modelinfo.pMesh->GetNumVertices();
+	modelinfo.modelinfo.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
 	D3DXVECTOR3 Max, Min;
 	Max = VEC3_NULL;
 	Min = VEC3_NULL;
@@ -580,7 +580,7 @@ void CMapObject::CalcSize(void)
 	m_Size.y *= 0.5f;
 	m_RBOffset = { 0.0f,m_Size.y * m_Scale.y,0.0f };
 
-	modelinfo->modelinfo.pMesh->UnlockVertexBuffer();
+	modelinfo.modelinfo.pMesh->UnlockVertexBuffer();
 }
 
 //***************************************
@@ -700,25 +700,6 @@ D3DXVECTOR3 CMapObject::GetRot(void)
 }
 
 //***************************************
-// Mouseとの当たり判定
-//***************************************
-bool CMapObject::CollisionMouse(void)
-{
-	CCamera::ResetProjectionMtx();
-
-	D3DXVECTOR2 MousePos = CManager::GetInputMouse()->CInputMouse::GetPos();
-	D3DXVECTOR3 Pos2D = CMath::Get3Dto2DPosition(m_Pos);
-
-	// 矩形の当たり判定
-	if (Pos2D.x - Config::CoreSize < MousePos.x && Pos2D.x + Config::CoreSize > MousePos.x &&
-		Pos2D.y - Config::CoreSize < MousePos.y && Pos2D.y + Config::CoreSize > MousePos.y)
-	{
-		return true;
-	}
-	return false;
-}
-
-//***************************************
 // マウスとモデルのメッシュの当たり判定
 //***************************************
 bool CMapObject::CollisionMousetoMesh(float* Distance)
@@ -748,7 +729,7 @@ bool CMapObject::CollisionMousetoMesh(float* Distance)
 	BOOL hit;
 
 	// 当たり判定を実行
-	D3DXIntersect(CModelManager::GetModelInfo(m_ModelPath)->modelinfo.pMesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, Distance, NULL, NULL);
+	D3DXIntersect(CModelManager::GetModelInfo(m_ModelPath).modelinfo.pMesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, Distance, NULL, NULL);
 
 	// 当たったかどうかを返す
 	return hit;
@@ -783,7 +764,7 @@ bool CMapObject::CollisionRaytoMesh(D3DXVECTOR3 Origin, D3DXVECTOR3 Dir, float* 
 	BOOL hit;
 
 	// 当たり判定を実行
-	D3DXIntersect(CModelManager::GetModelInfo(m_ModelPath)->modelinfo.pMesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, Distance, NULL, NULL);
+	D3DXIntersect(CModelManager::GetModelInfo(m_ModelPath).modelinfo.pMesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, Distance, NULL, NULL);
 
 	// 当たったかどうかを返す
 	return hit;

@@ -1,0 +1,241 @@
+#include "TagComp.hpp"
+#include "TransformComponent.hpp"
+#include "VertexRenderingComponent.hpp"
+#include "TextureRenderingComponent.h"
+#include "SizeComponent.hpp"
+#include "ColorComponent.hpp"
+#include "UVComponent.hpp"
+#include "NormalComponent.hpp"
+#include "XRenderingComponent.hpp"
+#include "LayerComponent.hpp"
+#include "Factories.h"
+#include "manager.h"
+#include "math.h"
+#include "RigitBodyComponent.hpp"
+#include "SingleCollisionShapeComponent.hpp"
+#include "Mesh.hpp"
+
+using namespace Tag;
+
+entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform2D>(myEntity);
+	Reg.emplace<Object2DComponent>(myEntity);
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<TexComp>(myEntity, Path);
+	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(100.0f,100.0f));
+	Reg.emplace<ColorComp>(myEntity);
+	Reg.emplace<UVComp>(myEntity);
+	Reg.emplace<LayerComp>(myEntity, Layer);
+
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&myVtx.pVertex,
+		NULL);
+
+	return myEntity;
+}
+
+entt::entity Factories::makeObject3D(entt::registry& Reg)
+{
+	static int test;
+	test++;
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(100.0f * test, 0.0f, 0.0f));
+	Reg.emplace<Object3DComponent>(myEntity);
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
+	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(100.0f, 100.0f));
+	Reg.emplace<ColorComp>(myEntity);
+	Reg.emplace<UVComp>(myEntity);
+	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 1.0f));
+	Reg.emplace<LayerComp>(myEntity, 3);
+
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&myVtx.pVertex,
+		NULL);
+
+	return myEntity;
+}
+
+entt::entity Factories::makeObjectX(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity);
+	Reg.emplace<ObjectXComponent>(myEntity);
+	Reg.emplace<LayerComp>(myEntity,3);
+	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\rack.x");
+
+	return myEntity;
+}
+
+entt::entity Factories::makePlayer(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity).Pos = { 0.0f,200.0f,0.0f };
+	Reg.emplace<PlayerComponent>(myEntity);
+	Reg.emplace<SingleCollisionShapeComp>(myEntity);
+	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
+
+	return myEntity;
+}
+
+entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, Pos, Quat, Scale);
+	Reg.emplace<MapObjectComponent>(myEntity);
+	Reg.emplace<SingleCollisionShapeComp>(myEntity);
+	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<Size3DComp>(myEntity, Path);
+	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
+	Reg.emplace<XRenderingComp>(myEntity, Path);
+
+	return myEntity;
+}
+
+entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity);
+	Reg.emplace<MeshFieldComponent>(myEntity);
+
+	Reg.emplace<DivisionComp>(myEntity,DivH,DivV);
+
+	Reg.emplace<MeshInfoComp>(myEntity, DivH, DivV);
+
+	Reg.emplace<SizeComp>(myEntity, Size);
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<IndexBufferComp>(myEntity);
+
+	InitMeshField(Reg, myEntity);
+
+	return myEntity;
+}
+
+HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& Entity)
+{
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	auto& MeshInfoCmp = Reg.get<MeshInfoComp>(Entity);
+
+	auto& VtxCmp = Reg.get<VertexComp>(Entity);
+	auto& IdxBuffCmp = Reg.get<IndexBufferComp>(Entity);
+
+	auto& SizeCmp = Reg.get<SizeComp>(Entity);
+
+	auto& DivCmp = Reg.get<DivisionComp>(Entity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * MeshInfoCmp.nNumVtx,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&VtxCmp.pVertex,
+		NULL);
+
+
+	//インデックスへのポインタ
+	WORD* pIdx = NULL;
+
+	//頂点情報へのポインタ
+	VERTEX_3D* pVtx = NULL;
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	VtxCmp.pVertex->Lock(0, 0, (void**)&pVtx, 0);
+
+	int nCntVtx = 0;
+
+	//中央へずらす
+	float centerX = SizeCmp.Size.x * (DivCmp.nDivHorizontal - 2) * 0.5f;
+	float centerY = SizeCmp.Size.y * (DivCmp.nDivVertical - 2) * 0.5f;
+
+	//頂点情報の設定
+	for (int nCntZ = 0; nCntZ <= DivCmp.nDivVertical; nCntZ++)
+	{
+		for (int nCntX = 0; nCntX <= DivCmp.nDivHorizontal; nCntX++)
+		{
+			//頂点座標の設定
+			pVtx[nCntVtx].pos = D3DXVECTOR3((float)(-SizeCmp.Size.x + (SizeCmp.Size.x * nCntX) - centerX),
+				0.0f,
+				(float)(SizeCmp.Size.y - (SizeCmp.Size.y * nCntZ) + centerY));
+
+			//法線ベクトルの設定
+			pVtx[nCntVtx].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+
+			//頂点カラーの設定
+			pVtx[nCntVtx].col = WHITE;
+
+			//テクスチャ座標の設定
+			pVtx[nCntVtx].tex = D3DXVECTOR2(1.0f * nCntX, 1.0f * nCntZ);
+
+			nCntVtx++;
+		}
+	}
+
+	//頂点バッファをアンロック　
+	VtxCmp.pVertex->Unlock();
+
+	//インデックスバッファの生成
+	pDevice->CreateIndexBuffer(sizeof(WORD) * MeshInfoCmp.nNumIdx,
+		D3DUSAGE_WRITEONLY,
+		D3DFMT_INDEX16,
+		D3DPOOL_MANAGED,
+		&IdxBuffCmp.pIdx,
+		NULL);
+
+	// インデックスバッファをロック
+	IdxBuffCmp.pIdx->Lock(0, 0, (void**)&pIdx, 0);
+	int nIdxA = DivCmp.nDivHorizontal + 1;	// 上側インデックス
+	int nIdxB = 0;				// 今のインデックス
+	int nCntIdx = 0;			// インデックスカウンター
+
+	// インデックスを求める
+	for (int nCntA = 0; nCntA < DivCmp.nDivVertical; nCntA++)
+	{// Zの分割数分回す
+		for (int nCntB = 0; nCntB <= DivCmp.nDivHorizontal; nCntB++)
+		{// Xの分割数分回す
+			pIdx[nCntIdx] = (WORD)nIdxA;
+			pIdx[nCntIdx + 1] = (WORD)nIdxB;
+			nCntIdx += 2;
+			nIdxA++;
+			nIdxB++;
+		}
+		if (nCntA < DivCmp.nDivVertical - 1)
+		{// 安全装置
+			pIdx[nCntIdx] = (WORD)nIdxB - 1;
+			pIdx[nCntIdx + 1] = (WORD)nIdxA;
+			nCntIdx += 2;
+		}
+	}
+	// インデックスバッファのアンロック
+	IdxBuffCmp.pIdx->Unlock();
+
+	return S_OK;
+}

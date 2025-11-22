@@ -18,11 +18,6 @@
 class CMapObject : public CObject
 {
 public:
-	// 定数を設定
-	struct Config {
-		static constexpr float CoreSize = 10.0f;	// マウスとの当たり判定時に使う情報
-	};
-
 	// コンストラクタ・デストラクタ
 	CMapObject();
 	~CMapObject();
@@ -67,7 +62,6 @@ public:
 	std::string GetModelPath(void) { return m_ModelPath; };
 
 	// Mouseとの当たり判定
-	bool CollisionMouse(void);
 	bool CollisionMousetoMesh(float* Distance);
 	bool CollisionRaytoMesh(D3DXVECTOR3 Origin, D3DXVECTOR3 Dir, float* Distance);
 

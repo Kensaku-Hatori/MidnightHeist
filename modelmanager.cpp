@@ -78,13 +78,13 @@ void CModelManager::Load(std::string LoadFilePath)
 //*********************************************
 // モデルの情報を取得 & 追加
 //*********************************************
-CModelManager::MapObject* CModelManager::GetModelInfo(string Path)
+CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 {
 	// 検索結果を代入
 	auto Find = m_ModelMap.find(Path);
 
 	// すでに存在したら
-	if (Find != m_ModelMap.end())return &Find->second;
+	if (Find != m_ModelMap.end())return Find->second;
 
 	// 被りがなくてパスの長さが短かったらクリエイト
 	CRenderer* pRenderer;
@@ -150,26 +150,26 @@ CModelManager::MapObject* CModelManager::GetModelInfo(string Path)
 	m_ModelMap[Path] = LocalInfo;
 
 	// 情報を返す
-	return &m_ModelMap[Path];
+	return m_ModelMap[Path];
 }
 
-//*********************************************
-// モデルの情報を取得
-//*********************************************
-CModelManager::MapObject* CModelManager::GetModelInfo(const int Indx)
-{
-	// 不正なインデックスならアサート
-	if (Indx < 0 || Indx >= (int)m_ModelMap.size()) assert(0 && "存在しないモデルにアクセスしようとしています");
-
-	// 配列でアクセスするためのイテレーター
-	auto Map = m_ModelMap.begin();
-
-	// 要素を進める
-	std::advance(Map, Indx);
-
-	// Vlueを返す
-	return &Map->second;
-}
+////*********************************************
+//// モデルの情報を取得
+////*********************************************
+//CModelManager::MapObject* CModelManager::GetModelInfo(const int Indx)
+//{
+//	// 不正なインデックスならアサート
+//	if (Indx < 0 || Indx >= (int)m_ModelMap.size()) assert(0 && "存在しないモデルにアクセスしようとしています");
+//
+//	// 配列でアクセスするためのイテレーター
+//	auto Map = m_ModelMap.begin();
+//
+//	// 要素を進める
+//	std::advance(Map, Indx);
+//
+//	// Vlueを返す
+//	return &Map->second;
+//}
 
 //*********************************************
 // いろいろ破棄

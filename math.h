@@ -24,6 +24,9 @@ public:
 	static D3DXVECTOR3 RandVector(D3DXVECTOR3 MaxDir, D3DXVECTOR3 MinDir);
 	static float VectersFromAngle(D3DXVECTOR3 VecA, D3DXVECTOR3 VecB, D3DXVECTOR3 Border);
 	static float ConvertFloat(float Value, int Format = 2);
+	static btQuaternion SetQuad(D3DXQUATERNION Set);
+	static D3DXQUATERNION SetQuad(btQuaternion Set);
+	static D3DXVECTOR3 CalcModelSize(std::string Path);
 	//static float CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 	//static float CalcCapCapDist(CCollision::Capsule Cap1, CCollision::Capsule Cap2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 private:

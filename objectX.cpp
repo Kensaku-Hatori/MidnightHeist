@@ -71,7 +71,7 @@ void CObjectX::Draw(void)
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_FilePath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_FilePath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -102,7 +102,7 @@ void CObjectX::Draw(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
 	D3DXVECTOR4 Light = { -0.5f,0.5f,0.5f,0.0f };
@@ -111,7 +111,7 @@ void CObjectX::Draw(void)
 
 	CToon::Instance()->Begin();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 	{
 		CToon::Instance()->SetParameters(m_mtxWorld, View, Proj, Light);
 
@@ -121,12 +121,12 @@ void CObjectX::Draw(void)
 		pDevice->SetTexture(0, NULL);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pSmoothMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pSmoothMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.dwNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
 		D3DXMATERIAL col = pMat[nCntMat];
 
@@ -144,10 +144,10 @@ void CObjectX::Draw(void)
 		}
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo->modelinfo.TexPath[nCntMat]));
+		pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo.modelinfo.TexPath[nCntMat]));
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}
@@ -165,7 +165,7 @@ void CObjectX::DrawShape(void)
 	D3DXMATRIX mtxRot, mtxTrans, mtxScale;		// 計算用マトリックス
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_FilePath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_FilePath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -195,14 +195,14 @@ void CObjectX::DrawShape(void)
 	// 現在のマテリアルの取得
 	pDevice->GetMaterial(&matDef);
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 	{
 		CShapeShadow::Instance()->SetParameters(m_mtxWorld);
 
 		CShapeShadow::Instance()->BeginPass(0);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CShapeShadow::Instance()->EndPass();
 	}
@@ -220,7 +220,7 @@ void CObjectX::CastShadow(void)
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_FilePath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_FilePath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -251,7 +251,7 @@ void CObjectX::CastShadow(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
 	D3DXVECTOR4 Light = { -0.5f,0.5f,0.5f,0.0f };
@@ -260,7 +260,7 @@ void CObjectX::CastShadow(void)
 
 	CToon::Instance()->Begin();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.dwNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
 		D3DXMATERIAL col = pMat[nCntMat];
 
@@ -278,7 +278,7 @@ void CObjectX::CastShadow(void)
 		}
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}
@@ -298,7 +298,7 @@ void CObjectX::DrawShadow(void)
 	D3DXMATRIX mtxRot, mtxTrans, mtxScale;		// 計算用マトリックス
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_FilePath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_FilePath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -328,14 +328,14 @@ void CObjectX::DrawShadow(void)
 	// 現在のマテリアルの取得
 	pDevice->GetMaterial(&matDef);
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 	{
 		CShadowMap::Instance()->SetParameters(m_mtxWorld);
 
 		CShadowMap::Instance()->BeginPass(0);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CShadowMap::Instance()->EndPass();
 	}
@@ -353,7 +353,7 @@ void CObjectX::DrawOutline(void)
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(m_FilePath);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(m_FilePath);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
@@ -384,7 +384,7 @@ void CObjectX::DrawOutline(void)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
 	D3DXVECTOR4 Light = { -0.5f,0.5f,0.5f,0.0f };
@@ -393,7 +393,7 @@ void CObjectX::DrawOutline(void)
 
 	CToon::Instance()->Begin();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.dwNumMat; nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
 		D3DXMATERIAL col = pMat[nCntMat];
 
@@ -404,7 +404,7 @@ void CObjectX::DrawOutline(void)
 		CToon::Instance()->BeginPass(2);
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		CToon::Instance()->EndPass();
 	}

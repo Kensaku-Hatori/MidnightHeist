@@ -26,8 +26,8 @@ public:
 	static void Load(std::string LoadFilePath);
 
 	// 静的メンバ関数
-	static LPDIRECT3DTEXTURE9 GetTex(std::string Path);
-	static LPDIRECT3DTEXTURE9 GetTex(const int Idx);
+	static LPDIRECT3DTEXTURE9& GetTex(std::string Path);
+	//static LPDIRECT3DTEXTURE9& GetTex(const int Idx);
 	static void UnRegistTex(void);
 private:
 	// コンストラクタ

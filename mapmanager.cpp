@@ -12,6 +12,7 @@
 #include "game.h"
 #include "player.h"
 #include "laser.h"
+#include "Factories.h"
 
 // ネームスペース
 using namespace nlohmann;
@@ -173,15 +174,16 @@ void CMapManager::Load(string Path)
 		Scale.y = obj["Transform"]["Scale"]["y"];
 		Scale.z = obj["Transform"]["Scale"]["z"];
 
-		CMapObject* SetInfo = CMapObject::Create(Pos, { Quad.x,Quad.y ,Quad.z }, LocalPath);
+		Factories::makeMapobject(CManager::GetScene()->GetReg(), LocalPath, Pos, Quad,Scale);
+		//CMapObject* SetInfo = CMapObject::Create(Pos, { Quad.x,Quad.y ,Quad.z }, LocalPath);
 
-		SetInfo->SetRotFromQuad(SetInfo->SetQuad(Quad));
-		SetInfo->SetStatic(Static);
-		SetInfo->SetPos(Pos);
-		SetInfo->SetMass(Mass);
-		SetInfo->SetScale(Scale);
+		//SetInfo->SetRotFromQuad(SetInfo->SetQuad(Quad));
+		//SetInfo->SetStatic(Static);
+		//SetInfo->SetPos(Pos);
+		//SetInfo->SetMass(Mass);
+		//SetInfo->SetScale(Scale);
 
 		// 連結
-		m_vMapObject.push_back(SetInfo);
+		//m_vMapObject.push_back(SetInfo);
 	}
 }

@@ -77,7 +77,7 @@ void CLoadTexture::Load(std::string LoadFilePath)
 //*********************************************
 // テクスチャの取得処理
 //*********************************************
-LPDIRECT3DTEXTURE9 CLoadTexture::GetTex(string Path)
+LPDIRECT3DTEXTURE9& CLoadTexture::GetTex(string Path)
 {
 	// 検索結果を代入
 	auto Find = m_TexMap.find(Path);
@@ -107,23 +107,26 @@ LPDIRECT3DTEXTURE9 CLoadTexture::GetTex(string Path)
 	return m_TexMap[Path];
 }
 
-//*********************************************
-// インデックスでテクスチャ取得
-//*********************************************
-LPDIRECT3DTEXTURE9 CLoadTexture::GetTex(const int Idx)
-{
-	// 不正なインデックスならアサート
-	if (Idx < 0 || Idx >= (int)m_TexMap.size()) assert(0 && "存在しないテクスチャにアクセスしようとしています");
-
-	// 配列でアクセスするためのイテレーター
-	auto Map = m_TexMap.begin();
-
-	// 要素を進める
-	std::advance(Map, Idx);
-
-	// Vlueを返す
-	return Map->second;
-}
+////*********************************************
+//// インデックスでテクスチャ取得
+////*********************************************
+//LPDIRECT3DTEXTURE9& CLoadTexture::GetTex(const int Idx)
+//{
+//	// NULLを返す
+//	if (Idx == -1) return NULL;
+//
+//	// 不正なインデックスならアサート
+//	if (Idx < 0 || Idx >= (int)m_TexMap.size()) assert(0 && "存在しないテクスチャにアクセスしようとしています");
+//
+//	// 配列でアクセスするためのイテレーター
+//	auto Map = m_TexMap.begin();
+//
+//	// 要素を進める
+//	std::advance(Map, Idx);
+//
+//	// Vlueを返す
+//	return Map->second;
+//}
 
 //*********************************************
 // テクスチャの破棄
@@ -317,7 +320,7 @@ void CXTexture::DrawObject(std::string Path)
 	D3DXMATERIAL* pMat;									// マテリアルへのポインタ
 
 	// モデルの情報を取得
-	CModelManager::MapObject* modelinfo = CModelManager::GetModelInfo(Path);
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(Path);
 
 	// ワールドマトリックスの初期化
 	D3DXMatrixIdentity(&mtxWorld);
@@ -341,18 +344,18 @@ void CXTexture::DrawObject(std::string Path)
 	pDevice->GetMaterial(&matDef);
 
 	// マテリアルデータへのポインタ
-	pMat = (D3DXMATERIAL*)modelinfo->modelinfo.pBuffMat->GetBufferPointer();
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo->modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 	{
 		// マテリアルの設定
 		pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo->modelinfo.TexPath[nCntMat]));
+		pDevice->SetTexture(0, CLoadTexture::GetTex(modelinfo.modelinfo.TexPath[nCntMat]));
 
 		// モデル(パーツ)の描画
-		modelinfo->modelinfo.pMesh->DrawSubset(nCntMat);
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 	}
 	pDevice->SetMaterial(&matDef);
 }

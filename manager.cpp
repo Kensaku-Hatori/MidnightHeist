@@ -22,6 +22,21 @@
 #include "scene.h"
 #include "fade.h"
 #include "title.h"
+#include "SystemManager.h"
+
+#include "playerUpdateSystem.h"
+#include "Update2DSystem.h"
+#include "Update3DSystem.h"
+#include "UpdateXSystem.h"
+#include "UpdateMapobjectSystem.h"
+#include "UpdateMeshFieldSystem.h"
+
+#include "Rendering2Dbace.h"
+#include "Rendering3DBace.h"
+#include "RenderingXSystem.h"
+#include "RenderingPlayerSystem.h"
+#include "RenderingMeshFieldSystem.h"
+#include "RenderingMapobjectComponent.h"
 
 // 名前空間
 using namespace std;
@@ -71,6 +86,20 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pSound = new CSound;
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
+
+	CSystemManager::AddUpdateSystem(new Update2DSystem);
+	CSystemManager::AddUpdateSystem(new Update3DSystem);
+	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
+	//CBaceSystem::AddSystem(new CXUpdateSystem);
+
+	CSystemManager::AddRenderingSystem(new Render2DSystem);
+	CSystemManager::AddRenderingSystem(new Render3DSystem);
+	CSystemManager::AddRenderingSystem(new RenderXSystem);
+	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
+	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
+	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 
 	// 物理世界に必要なポインタを生成
 	m_pBroadPhase = make_unique<btDbvtBroadphase>();
@@ -200,6 +229,13 @@ void CManager::Uninit()
 		m_pFade = NULL;
 	}
 
+	// シーンの終了処理
+	if (m_pScene != nullptr)
+	{
+		m_pScene->Uninit();
+		m_pScene = nullptr;
+	}
+
 	// 剛体の削除
 	if (m_RigitBody)
 	{
@@ -264,6 +300,7 @@ void CManager::Update()
 	{
 		m_pInputMouse->Update();
 	}
+	CSystemManager::UpdateAll(CManager::GetScene()->GetReg());
 }
 
 //***************************************

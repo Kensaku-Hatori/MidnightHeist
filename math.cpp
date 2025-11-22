@@ -8,6 +8,7 @@
 // インクルード
 #include "math.h"
 #include "math_T.h"
+#include "modelmanager.h"
 
 //***************************************
 // 浮動小数点のランダム
@@ -168,6 +169,73 @@ float CMath::ConvertFloat(float Value,int Format)
 	Convert = (int)(Value * powf(10.0f, (float)Format));
 	Out = Convert / powf(10.0f, (float)Format);
 	return Out;
+}
+
+//***************************************
+// クォータニオンを変換
+//***************************************
+btQuaternion CMath::SetQuad(D3DXQUATERNION Set)
+{
+	return btQuaternion(Set.x, Set.y, Set.z, Set.w);
+}
+
+D3DXQUATERNION CMath::SetQuad(btQuaternion Set)
+{
+	return D3DXQUATERNION(Set.x(), Set.y(), Set.z(), Set.w());
+}
+
+//***************************************
+// モデルの大きさを計測
+// 戻り値半分の大きさ
+//***************************************
+D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
+{
+	// モデルmanagerからインデックスを指定して取得
+	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(Path);
+
+	BYTE* pVtxBuff = NULL;
+	WORD SizeFVF = (WORD)D3DXGetFVFVertexSize(modelinfo.modelinfo.pMesh->GetFVF());
+	int nNumVtx = modelinfo.modelinfo.pMesh->GetNumVertices();
+	modelinfo.modelinfo.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+	D3DXVECTOR3 Max, Min;
+	Max = VEC3_NULL;
+	Min = VEC3_NULL;
+
+	for (int nCnt = 0; nCnt < nNumVtx; nCnt++)
+	{
+		D3DXVECTOR3* Size = (D3DXVECTOR3*)pVtxBuff;
+		if (Max.x < Size->x)
+		{
+			Max.x = Size->x;
+		}
+		if (Max.y < Size->y)
+		{
+			Max.y = Size->y;
+		}
+		if (Max.z < Size->z)
+		{
+			Max.z = Size->z;
+		}
+		if (Min.x > Size->x)
+		{
+			Min.x = Size->x;
+		}
+		if (Min.y > Size->y)
+		{
+			Min.y = Size->y;
+		}
+		if (Min.z > Size->z)
+		{
+			Min.z = Size->z;
+		}
+		pVtxBuff += SizeFVF;
+	}
+	D3DXVECTOR3 Size;
+	Size = Max;
+	Size.y *= 0.5f;
+
+	modelinfo.modelinfo.pMesh->UnlockVertexBuffer();
+	return Size;
 }
 
 ////***************************************
