@@ -16,6 +16,7 @@
 #include "mapobject.h"
 #include "mapmanager.h"
 #include "player.h"
+#include "Factories.h"
 
 // 規定値を設定
 // プレイヤー
@@ -59,8 +60,9 @@ HRESULT CGame::Init(void)
 {
 	m_pMapManager = CMapManager::Instance();
 	m_pMapManager->Load("data\\TEXT\\StageInfo.json");
-	m_pPlayer = CPlayer::Create();
-
+	//m_pPlayer = CPlayer::Create();
+	Factories::makePlayer(GetReg());
+	Factories::makeEnemy(GetReg());
 	return S_OK;
 }
 

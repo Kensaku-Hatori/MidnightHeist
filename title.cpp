@@ -53,7 +53,6 @@ HRESULT CTitle::Init(void)
 	//m_pTitleManager = CTitleManager::CreateSingleton();
 
 	Factories::makeObject3D(GetReg());
-	//Factories::makeObjectX(GetReg());
 	Factories::makePlayer(GetReg());
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\rack.x", VEC3_NULL, D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f));
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 10.0f,10.0f });

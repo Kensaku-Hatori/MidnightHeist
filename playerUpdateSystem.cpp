@@ -11,6 +11,7 @@
 #include "RigitBodyComponent.hpp"
 #include "SingleCollisionShapeComponent.hpp"
 #include "TagComp.hpp"
+#include "math.h"
 
 using namespace Tag;
 
@@ -37,9 +38,7 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 //*********************************************
 void PlayerUpdateSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp)
 {
-	static bool Trigger = false;
-	if (Trigger == true) return;
-	Trigger = true;
+	if (RBCmp.RigitBody != nullptr) return;
 
 	ColliderCmp.CollisionShape = std::make_unique<btCapsuleShape>(btScalar(7.0f), btScalar(20.0f));
 
@@ -101,6 +100,17 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 	// 移動していたら
 	if (moveDir.length2() > 0.0f)
 	{
+		D3DXVECTOR3 Axis = CMath::SetVec(moveDir);
+		D3DXVECTOR3 VecFront = { 0.0f,0.0f,-1.0f };
+		D3DXVECTOR3 VecUp = VEC_UP;
+		// 移動値を方向ベクトルに変換
+		moveDir.normalize();
+
+		// 方向ベクトルのZX平面上での角度を求める
+		float angle = atan2f(moveDir.x(), moveDir.z());
+		angle += D3DX_PI;
+
+		D3DXQuaternionRotationAxis(&TransformCmp.Quat, &VecUp, angle);
 		// スピードを掛ける
 		moveDir *= Speed;
 	}

@@ -102,7 +102,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     float Toon = 1.0f;
     float AmountLight;
     float Shadow = 1.0f;
-    float LightPower = 0.5f;
+    float LightPower = 1.0f;
 	
     // 射影空間のXY座標をテクスチャ座標に変換
     float2 TransTexCoord;
@@ -129,17 +129,19 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
      	// ライト目線によるZ値の再算出
-        float ZValue = input.LightPos.z / input.LightPos.w;   
+        float ZValue = input.LightPos.z / input.LightPos.w;
         // リアルZ値抽出
         float SM_Z = tex2D(ShadowSampler, TransTexCoord).x;
-	
-        // 算出点がシャドウマップのZ値よりも大きければ影と判断
-        if (ZValue - 0.00005f > SM_Z)
+    
+        if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
-            Shadow = 0.5f;
+            // 算出点がシャドウマップのZ値よりも大きければ影と判断
+            if (ZValue - 0.005f > SM_Z)
+            {
+                Shadow = 0.5f;
+            }
         }
 	}
-	
     return float4(Col.rgb * LightPower * Toon * Shadow, Col.a);
 }
 

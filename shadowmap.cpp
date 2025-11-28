@@ -33,11 +33,7 @@ HRESULT CShadowMap::Init(std::string Path)
     // エフェクト取得
     LPD3DXEFFECT pEffect = GetEffect();
 
-    // 深度バッファの幅と高さを取得
-    UINT uiWidth;
-    UINT uiHeight;
-
-    // 既存の震度バッファ取得用
+    // 深度バッファの情報を取得
     IDirect3DSurface9* pSuf;
     D3DSURFACE_DESC SufDesc;
 
@@ -49,32 +45,22 @@ HRESULT CShadowMap::Init(std::string Path)
 
     // 情報取得
     pSuf->GetDesc(&SufDesc);
-    uiWidth = SufDesc.Width;
-    uiHeight = SufDesc.Height;
 
     // グローバル変数ハンドル取得
     GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
     GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
     GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
 
-    D3DXVECTOR3 LightPos(-1000.0f, 1000.0f, 1000.0f);
-    D3DXVECTOR3 LightTarget(0.0f, 0.0f, 0.0f);
-    D3DXVECTOR3 LightUp(0.0f, 1.0f, 0.0f);
-
-    D3DXMatrixLookAtLH(&m_LightView, &LightPos, &LightTarget, &LightUp);
-
-    // アスペクト比を設定
-    float fAspect = (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT;
-
-    //プロジェクションマトリックスの作成
-    D3DXMatrixPerspectiveFovLH(&m_LightProj,			// マトリックス
-        D3DXToRadian(CCamera::Config::Defoult::Fov),	// 視野角
-        fAspect,										// アスペクト比
-        CCamera::Config::Defoult::Near,					// ニア
-        CCamera::Config::Defoult::Far);					// ファー
+    // シャドウマップのパラメータを設定
+    m_LightVec = { 1.0f, 1.0f, 1.0f };
+    m_MapRange = 2048;
+    m_ZRange = 1500.0f;
+    m_LightDistance = 400.0f;
+    m_MapResolveW = 2048;
+    m_MapResolveH = 2048;
 
     // テクスチャを作成
-    pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
+    pDevice->CreateTexture(m_MapResolveW, m_MapResolveH, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_R32F, D3DPOOL_DEFAULT, &m_ShadowMap, NULL);
 
     // サーフェイスを取得
@@ -82,7 +68,7 @@ HRESULT CShadowMap::Init(std::string Path)
 
     // シャドウマップ用のZバッファ作成
     pDevice->CreateDepthStencilSurface(
-        uiWidth, uiHeight,
+        m_MapResolveW, m_MapResolveH,
         SufDesc.Format, SufDesc.MultiSampleType, SufDesc.MultiSampleQuality, TRUE,
         &m_ShadowDepthSurface, NULL);
 
@@ -216,9 +202,7 @@ void CShadowMap::ReSet(void)
 //***************************************
 void CShadowMap::ReStart(void)
 {
-    // 深度バッファの幅と高さを取得
-    UINT uiWidth;
-    UINT uiHeight;
+    // 深度バッファの情報を取得
     IDirect3DSurface9* pSuf;
     D3DSURFACE_DESC SufDesc;
 
@@ -230,17 +214,15 @@ void CShadowMap::ReStart(void)
 
     // 情報取得
     pSuf->GetDesc(&SufDesc);
-    uiWidth = SufDesc.Width;
-    uiHeight = SufDesc.Height;
 
     // テクスチャを作成
-    pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
+    pDevice->CreateTexture(m_MapResolveW, m_MapResolveH, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_R32F, D3DPOOL_DEFAULT, &m_ShadowMap, NULL);
     m_ShadowMap->GetSurfaceLevel(0, &m_ShadowMapSurface);
 
     // シャドウマップ用のZバッファ作成
     pDevice->CreateDepthStencilSurface(
-        uiWidth, uiHeight,
+        m_MapResolveW, m_MapResolveH,
         SufDesc.Format, SufDesc.MultiSampleType, SufDesc.MultiSampleQuality, TRUE,
         &m_ShadowDepthSurface, NULL);
 
@@ -263,6 +245,17 @@ void CShadowMap::ReStart(void)
 //***************************************
 void CShadowMap::SetParameters(D3DXMATRIX World)
 {
+    D3DXVECTOR3 LightPos;
+    D3DXVECTOR3 LightTarget;
+    D3DXVECTOR3 LightUp(0.0f, 1.0f, 0.0f);
+    D3DXVECTOR3 CamPos = CManager::GetCamera()->GetPosR();
+    LightPos = CamPos + m_LightVec * m_LightDistance;
+    LightTarget = CamPos;
+
+    D3DXMatrixLookAtLH(&m_LightView, &LightPos, &LightTarget, &LightUp);
+
+    D3DXMatrixOrthoOffCenterLH(&m_LightProj, -m_MapRange, m_MapRange, -m_MapRange, m_MapRange, 0.1f, m_ZRange);
+
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
 

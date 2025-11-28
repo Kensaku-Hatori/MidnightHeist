@@ -185,6 +185,19 @@ D3DXQUATERNION CMath::SetQuad(btQuaternion Set)
 }
 
 //***************************************
+// ベクトルを変換
+//***************************************
+btVector3 CMath::SetVec(D3DXVECTOR3 Set)
+{
+	return btVector3(Set.x, Set.y, Set.z);
+}
+
+D3DXVECTOR3 CMath::SetVec(btVector3 Set)
+{
+	return D3DXVECTOR3(Set.x(), Set.y(), Set.z());
+}
+
+//***************************************
 // モデルの大きさを計測
 // 戻り値半分の大きさ
 //***************************************

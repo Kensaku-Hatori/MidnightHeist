@@ -10,33 +10,35 @@ struct VS_INPUT
 struct VS_OUTPUT
 {
 	float4 Pos : POSITION;
-    float4 Depth : TEXCOORD1;
+    float Depth : TEXCOORD1;
 };
 
-VS_OUTPUT VS_main(VS_INPUT In)
+VS_OUTPUT VS_Main(VS_INPUT In)
 {
-	VS_OUTPUT Out;
+    VS_OUTPUT Out;
 
-	float4 wpos = mul(In.Pos, g_mtxWorld);
-	// ライト空間での位置（射影テクスチャ座標）
-    Out.Pos = mul(wpos, g_LightView);
-    Out.Pos = mul(Out.Pos, g_LightProj);
-    Out.Depth = Out.Pos;
+    float4 wpos = mul(In.Pos, g_mtxWorld);
+    float4 lightPos = mul(wpos, g_LightView);
+    lightPos = mul(lightPos, g_LightProj);
 
-	return Out;
+    Out.Pos = lightPos;
+	
+    Out.Depth = Out.Pos.z / Out.Pos.w;
+    
+    return Out;
 }
 
-float4 PS_main(VS_OUTPUT In) : COLOR0
+float4 PS_Main(VS_OUTPUT In) : COLOR0
 {
 	// 深度をそのまま書き込む（明るいほど遠い）
-	return In.Depth.z / In.Depth.w;
+    return float4(In.Depth.xxx, 1.0f);
 }
 
 technique StandardDraw
 {
 	pass P0
 	{
-		VertexShader = compile vs_3_0 VS_main();
-		PixelShader  = compile ps_3_0 PS_main();
+		VertexShader = compile vs_3_0 VS_Main();
+		PixelShader  = compile ps_3_0 PS_Main();
 	}
 }

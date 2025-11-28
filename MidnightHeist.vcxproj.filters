@@ -231,6 +231,15 @@
     <ClCompile Include="RenderingMeshFieldSystem.cpp">
       <Filter>System\Rendering\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="UpdateEnemySystem.cpp">
+      <Filter>System\Update</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateMeshLaserSystem.cpp">
+      <Filter>System\Update\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingMeshLaserSystem.cpp">
+      <Filter>System\Rendering\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -463,6 +472,21 @@
     </ClInclude>
     <ClInclude Include="MeshInfoComponent.hpp">
       <Filter>Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemySystem.h">
+      <Filter>System\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="ParentComponent.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateMeshLaserSystem.h">
+      <Filter>System\Update\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingMeshLaserSystem.h">
+      <Filter>System\Rendering\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="FactorieUtils.h">
+      <Filter>Factory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

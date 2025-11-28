@@ -1,22 +1,19 @@
-#include "TagComp.hpp"
-#include "TransformComponent.hpp"
-#include "VertexRenderingComponent.hpp"
-#include "TextureRenderingComponent.h"
-#include "SizeComponent.hpp"
-#include "ColorComponent.hpp"
-#include "UVComponent.hpp"
-#include "NormalComponent.hpp"
-#include "XRenderingComponent.hpp"
-#include "LayerComponent.hpp"
-#include "Factories.h"
-#include "manager.h"
-#include "math.h"
-#include "RigitBodyComponent.hpp"
-#include "SingleCollisionShapeComponent.hpp"
-#include "Mesh.hpp"
+//****************************************************************
+//
+// ファクトリ[Factories.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
 
+// インクルード
+#include "FactorieUtils.h"
+
+// 名前空間
 using namespace Tag;
 
+//*********************************************
+// オブジェクト2Dの生成
+//*********************************************
 entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path)
 {
 	const entt::entity myEntity = Reg.create();
@@ -47,6 +44,9 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 	return myEntity;
 }
 
+//*********************************************
+// オブジェクト3Dの生成
+//*********************************************
 entt::entity Factories::makeObject3D(entt::registry& Reg)
 {
 	static int test;
@@ -80,17 +80,23 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 	return myEntity;
 }
 
-entt::entity Factories::makeObjectX(entt::registry& Reg)
+//*********************************************
+// オブジェクトXの生成
+//*********************************************
+entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform3D>(myEntity);
 	Reg.emplace<ObjectXComponent>(myEntity);
 	Reg.emplace<LayerComp>(myEntity,3);
-	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\rack.x");
+	Reg.emplace<XRenderingComp>(myEntity, Path);
 
 	return myEntity;
 }
 
+//*********************************************
+// オブジェクトPlayerの生成
+//*********************************************
 entt::entity Factories::makePlayer(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
@@ -103,6 +109,26 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 	return myEntity;
 }
 
+//*********************************************
+// オブジェクトEnemyの生成
+//*********************************************
+entt::entity Factories::makeEnemy(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity).Pos = { 0.0f,200.0f,-100.0f };
+	Reg.emplace<EnemyComponent>(myEntity);
+	Reg.emplace<ObjectXComponent>(myEntity);
+	Reg.emplace<SingleCollisionShapeComp>(myEntity);
+	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
+	MeshFactories::makeLaser(Reg, myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// オブジェクトMapobjectの生成
+//*********************************************
 entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale)
 {
 	const entt::entity myEntity = Reg.create();
@@ -117,6 +143,9 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	return myEntity;
 }
 
+//*********************************************
+// メッシュフィールドの生成
+//*********************************************
 entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size)
 {
 	const entt::entity myEntity = Reg.create();
@@ -136,6 +165,9 @@ entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, c
 	return myEntity;
 }
 
+//*********************************************
+// メッシュフィールドの初期化
+//*********************************************
 HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& Entity)
 {
 	// デバイスを取得
@@ -228,6 +260,148 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 			nIdxB++;
 		}
 		if (nCntA < DivCmp.nDivVertical - 1)
+		{// 安全装置
+			pIdx[nCntIdx] = (WORD)nIdxB - 1;
+			pIdx[nCntIdx + 1] = (WORD)nIdxA;
+			nCntIdx += 2;
+		}
+	}
+	// インデックスバッファのアンロック
+	IdxBuffCmp.pIdx->Unlock();
+
+	return S_OK;
+}
+
+//*********************************************
+// メッシュレーザーの生成
+//*********************************************
+entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
+	Reg.emplace<LaserComponent>(myEntity);
+	Reg.emplace<SingleParentComp>(myEntity, Parent);
+
+	Reg.emplace<DivisionComp>(myEntity, 2, 8);
+
+	Reg.emplace<MeshInfoComp>(myEntity, 2, 8);
+
+	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(1.0f, 100000.0f));
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<IndexBufferComp>(myEntity);
+
+	InitLaserMesh(Reg, myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// メッシュレーザーの初期化
+//*********************************************
+HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& Entity)
+{
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	auto& MeshInfoCmp = Reg.get<MeshInfoComp>(Entity);
+
+	auto& VtxCmp = Reg.get<VertexComp>(Entity);
+	auto& IdxBuffCmp = Reg.get<IndexBufferComp>(Entity);
+
+	auto& SizeCmp = Reg.get<SizeComp>(Entity);
+
+	auto& DivCmp = Reg.get<DivisionComp>(Entity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * MeshInfoCmp.nNumVtx,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&VtxCmp.pVertex,
+		NULL);
+
+
+	//インデックスへのポインタ
+	WORD* pIdx = NULL;
+
+	//頂点情報へのポインタ
+	VERTEX_3D* pVtx = NULL;
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	VtxCmp.pVertex->Lock(0, 0, (void**)&pVtx, 0);
+
+	int nCntVtx = 0;
+
+	// スタートの高さ
+	float StartHeight = 0.0f;
+
+	// 高さを下げる割合
+	float HeightRatio = SizeCmp.Size.y / DivCmp.nDivHorizontal;
+
+	// 角度の割合
+	float fRatio = (D3DX_PI * 2) / DivCmp.nDivVertical;
+
+	//頂点情報の設定
+	for (int nCntZ = 0; nCntZ <= DivCmp.nDivHorizontal; nCntZ++)
+	{
+		for (int nCntX = 0; nCntX <= DivCmp.nDivVertical; nCntX++)
+		{
+			//頂点座標の設定
+			pVtx[nCntVtx].pos.x = sinf(fRatio * nCntX) * SizeCmp.Size.x;
+			pVtx[nCntVtx].pos.y = cosf(fRatio * nCntX) * SizeCmp.Size.x;
+			pVtx[nCntVtx].pos.z = StartHeight - (HeightRatio * nCntZ);
+			
+			// 法線を計算
+			D3DXVECTOR3 CenterVec = D3DXVECTOR3(-pVtx[nCntVtx].pos.x, 0.0f, -pVtx[nCntVtx].pos.z);
+			D3DXVec3Normalize(&CenterVec, &CenterVec);
+
+			//法線ベクトルの設定
+			pVtx[nCntVtx].nor = CenterVec;
+
+			//頂点カラーの設定
+			pVtx[nCntVtx].col = RED;
+
+			float TexX = 1.0f / (DivCmp.nDivVertical);
+			float TexY = 1.0f / DivCmp.nDivHorizontal;
+
+			//テクスチャ座標の設定
+			pVtx[nCntVtx].tex = D3DXVECTOR2((float)TexX * nCntX, (float)TexY * nCntZ);
+
+			nCntVtx++;
+		}
+	}
+
+	//頂点バッファをアンロック　
+	VtxCmp.pVertex->Unlock();
+
+	//インデックスバッファの生成
+	pDevice->CreateIndexBuffer(sizeof(WORD) * MeshInfoCmp.nNumIdx,
+		D3DUSAGE_WRITEONLY,
+		D3DFMT_INDEX16,
+		D3DPOOL_MANAGED,
+		&IdxBuffCmp.pIdx,
+		NULL);
+
+	// インデックスバッファをロック
+	IdxBuffCmp.pIdx->Lock(0, 0, (void**)&pIdx, 0);
+	int nIdxA = DivCmp.nDivVertical + 1;	// 上側インデックス
+	int nIdxB = 0;				// 今のインデックス
+	int nCntIdx = 0;			// インデックスカウンター
+
+	// インデックスを求める
+	for (int nCntA = 0; nCntA < DivCmp.nDivHorizontal; nCntA++)
+	{// Zの分割数分回す
+		for (int nCntB = 0; nCntB <= DivCmp.nDivVertical; nCntB++)
+		{// Xの分割数分回す
+			pIdx[nCntIdx] = (WORD)nIdxA;
+			pIdx[nCntIdx + 1] = (WORD)nIdxB;
+			nCntIdx += 2;
+			nIdxA++;
+			nIdxB++;
+		}
+		if (nCntA < DivCmp.nDivHorizontal - 1)
 		{// 安全装置
 			pIdx[nCntIdx] = (WORD)nIdxB - 1;
 			pIdx[nCntIdx + 1] = (WORD)nIdxA;

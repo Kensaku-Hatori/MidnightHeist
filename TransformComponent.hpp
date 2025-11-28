@@ -36,6 +36,40 @@ struct Transform3D {
 		return mtxWorld;
 	}
 
+	// ワールドマトリックスを取得
+	D3DXMATRIX GetMultiplyWorldMatrix(D3DXMATRIX Parent) const {
+		// 拡大率のマトリックス、回転行列、平行移動行列を計算
+		D3DXMATRIX mtxScale, mtxRotation, mtxTransform, mtxWorld;
+		D3DXMatrixIdentity(&mtxWorld);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &Parent);
+		D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
+		D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRotation);
+		D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTransform);
+
+		// かけ合わせたものを返す
+		return mtxWorld;
+	}
+
+	// ワールドマトリックスを取得
+	D3DXMATRIX GetWorldMatrixInv(void) const {
+		// 拡大率のマトリックス、回転行列、平行移動行列を計算
+		D3DXMATRIX mtxScale, mtxRotation, mtxTransform, mtxWorld,Out;
+		D3DXMatrixIdentity(&mtxWorld);
+		D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
+		D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRotation);
+		D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTransform);
+		D3DXMatrixInverse(&Out, NULL, &mtxWorld);
+
+		// かけ合わせたものを返す
+		return Out;
+	}
+
 	// 回転行列を取得
 	D3DXMATRIX GetBasis(void) const {
 		// 出力用行列

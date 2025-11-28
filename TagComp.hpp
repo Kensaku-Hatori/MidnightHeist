@@ -17,6 +17,10 @@ namespace Tag {
 	struct ObjectXComponent {};
 	// プレイヤー情報
 	struct PlayerComponent {};
+	// 敵
+	struct EnemyComponent {};
+	// レーザー
+	struct LaserComponent {};
 	// マップオブジェクト
 	struct MapObjectComponent {};
 	// メッシュフィールド

@@ -30,6 +30,8 @@
 #include "UpdateXSystem.h"
 #include "UpdateMapobjectSystem.h"
 #include "UpdateMeshFieldSystem.h"
+#include "UpdateMeshLaserSystem.h"
+#include "UpdateEnemySystem.h"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
@@ -37,6 +39,7 @@
 #include "RenderingPlayerSystem.h"
 #include "RenderingMeshFieldSystem.h"
 #include "RenderingMapobjectComponent.h"
+#include "RenderingMeshLaserSystem.h"
 
 // 名前空間
 using namespace std;
@@ -92,6 +95,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
 	CSystemManager::AddRenderingSystem(new Render2DSystem);
@@ -100,6 +105,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
 	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
+	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
 
 	// 物理世界に必要なポインタを生成
 	m_pBroadPhase = make_unique<btDbvtBroadphase>();

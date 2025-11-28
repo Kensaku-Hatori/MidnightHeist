@@ -42,32 +42,6 @@ void CMapManager::Uninit(void)
 //***************************************
 void CMapManager::Update(void)
 {
-	// モデルとマウスの当たり判定用の距離
-	float Distance, CurrentDistance;
-
-	// 現在の距離を10000.0fにする(ソートするため)
-	Distance = 1000000.0f;
-
-	// 昔の距離を初期化
-	CurrentDistance = 0.0f;
-
-	// モデルとの当たり判定を開始
-	for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
-	{
-		// 当たったら
-		if ((*Models)->CollisionRaytoMesh(CGame::GetPlayer()->GetLaser()->GetOrigin(), CGame::GetPlayer()->GetLaser()->GetDir(),&CurrentDistance) == true)
-		{
-			// 最新の距離と当たったオブジェクトとの距離を比較
-			if (CurrentDistance < Distance)
-			{
-				// 最新の距離を更新
-				Distance = CurrentDistance;
-			}
-		}
-	}
-
-	// 距離を設定
-	CGame::GetPlayer()->GetLaser()->SetHeight(Distance);
 }
 
 //***************************************
@@ -75,35 +49,24 @@ void CMapManager::Update(void)
 //***************************************
 void CMapManager::Draw(void)
 {
-	// シャドウマップへの書き込みを開始
-	CShadowMap::Instance()->Begin();
-	CShadowMap::Instance()->WriteMaps();
+	//// シャドウマップへの書き込みを開始
+	//CShadowMap::Instance()->Begin();
+	//CShadowMap::Instance()->WriteMaps();
 
-	for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
-	{
-		(*Models)->DrawShadow();
-	}
+	//for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
+	//{
+	//	(*Models)->DrawShadow();
+	//}
 
-	// 書き込みを終わる
-	CShadowMap::Instance()->EndMaps();
-	CShadowMap::Instance()->End();
+	//// 書き込みを終わる
+	//CShadowMap::Instance()->EndMaps();
+	//CShadowMap::Instance()->End();
 
-	// シャドウマップを使って描画
-	for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
-	{
-		(*Models)->CastShadow();
-	}
-}
-
-//***************************************
-// オブジェクトの生成
-//***************************************
-void CMapManager::CreateObject(D3DXVECTOR3 Pos, D3DXVECTOR3 Rot, std::string Path)
-{
-	// 生成、要素に追加
-	CMapObject* LocalObject = NULL;
-	LocalObject = CMapObject::Create(Pos, Rot, Path);
-	m_vMapObject.push_back(LocalObject);
+	//// シャドウマップを使って描画
+	//for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
+	//{
+	//	(*Models)->CastShadow();
+	//}
 }
 
 //***************************************
@@ -128,7 +91,6 @@ void CMapManager::Load(string Path)
 	// 今置いてあるオブジェクトの破棄
 	for (auto MapObjects = m_vMapObject.begin(); MapObjects != m_vMapObject.end(); MapObjects++)
 	{
-		(*MapObjects)->Uninit();
 		MapObjects = m_vMapObject.erase(MapObjects);
 		if (MapObjects == m_vMapObject.end()) break;
 	}
@@ -174,16 +136,6 @@ void CMapManager::Load(string Path)
 		Scale.y = obj["Transform"]["Scale"]["y"];
 		Scale.z = obj["Transform"]["Scale"]["z"];
 
-		Factories::makeMapobject(CManager::GetScene()->GetReg(), LocalPath, Pos, Quad,Scale);
-		//CMapObject* SetInfo = CMapObject::Create(Pos, { Quad.x,Quad.y ,Quad.z }, LocalPath);
-
-		//SetInfo->SetRotFromQuad(SetInfo->SetQuad(Quad));
-		//SetInfo->SetStatic(Static);
-		//SetInfo->SetPos(Pos);
-		//SetInfo->SetMass(Mass);
-		//SetInfo->SetScale(Scale);
-
-		// 連結
-		//m_vMapObject.push_back(SetInfo);
+		m_vMapObject.push_back(Factories::makeMapobject(CManager::GetScene()->GetReg(), LocalPath, Pos, Quad,Scale));
 	}
 }

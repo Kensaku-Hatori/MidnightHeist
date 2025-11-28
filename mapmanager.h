@@ -25,9 +25,6 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	// 生成
-	void CreateObject(D3DXVECTOR3 Pos, D3DXVECTOR3 Rot, std::string Path);
-
 	// 読み込み
 	void Load(std::string Path);
 
@@ -41,7 +38,7 @@ private:
 	// コンストラクタ
 	CMapManager() { Init(); }
 	// メンバ変数
-	std::vector<CMapObject*> m_vMapObject;			// マップに置くオブジェクト
+	std::vector<entt::entity> m_vMapObject;			// マップに置くオブジェクト
 };
 
 #endif // !_MAPMANAGER_H_
