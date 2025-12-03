@@ -22,5 +22,5 @@ struct UpdateMeshLaserSystem : BaceSystem
 	void UpdateVertex(entt::registry& Reg, entt::entity Entity);
 
 	// マップオブジェクトとの当たり判定
-	bool CollisionMapObject(entt::registry& Reg,entt::entity Entity,entt::entity MapObjectEntity,float& Distance);
+	bool CollisionEntity(entt::registry& Reg,entt::entity Entity,entt::entity ToEntity,float& Distance);
 };

@@ -21,6 +21,5 @@ struct RenderingMapobjectSystem : BaceRenderingSystem
 	~RenderingMapobjectSystem() = default;
 	// •`‰æ
 	void Rendering(entt::registry& reg)override;
-	void DrawShadowMap(entt::registry& Reg, entt::entity Entity);
 	void DrawUseShadowMap(entt::registry& Reg, entt::entity Entity);
 };

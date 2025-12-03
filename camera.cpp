@@ -57,12 +57,10 @@ HRESULT CCamera::Init(void)
 	// カメラの初期化の値
 	m_posV = VEC3_NULL;
 	m_posVDest = VEC3_NULL;
-	m_posVDest.y += 100.0f;
-	m_posVDest.z -= 500.0f;
 	m_posR = VEC3_NULL;
 	m_posRDest = VEC3_NULL;
 	m_vecU = VEC_UP;
-	m_rot = VEC3_NULL;
+	m_rot = { D3DX_PI * 0.35f,0.0f,0.0f };
 
 	// 視点の補完速度を初期化
 	m_fSpeedV = CCamera::Config::Defoult::SpeedV;
@@ -116,6 +114,9 @@ void CCamera::Update(void)
 	// それぞれの更新処理を呼ぶ
 	UpdateMouseMove();
 	//UpdateJoyPadMove();
+
+	UpdateCameraPositionV();
+	//UpdateCameraPositionR();
 
 	// ホイールでカメラの距離を変える
 	SetMouseWheel(m_pInputMouse->GetMouseState().lZ);
@@ -518,7 +519,7 @@ void CCamera::UpdateCameraPositionV()
 {
 	// 視点の座標更新、高さだけより離す
 	m_posVDest.x = m_posRDest.x + cosf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
-	m_posVDest.y = m_posRDest.y + sinf(m_rot.x) * m_fDistance + 10.0f;
+	m_posVDest.y = m_posRDest.y + sinf(m_rot.x) * m_fDistance;
 	m_posVDest.z = m_posRDest.z + cosf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
 
 	m_posV.x += (m_posVDest.x - m_posV.x) * m_fSpeedV;
@@ -533,7 +534,7 @@ void CCamera::UpdateCameraPositionR()
 {
 	// 視点の座標更新、高さだけ高く設定する
 	m_posRDest.x = m_posV.x - cosf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
-	m_posRDest.y = m_posV.y - sinf(m_rot.x) * m_fDistance + 10.0f;
+	m_posRDest.y = m_posV.y - sinf(m_rot.x) * m_fDistance;
 	m_posRDest.z = m_posV.z - cosf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
 
 	// 注視点の更新

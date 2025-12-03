@@ -69,7 +69,5 @@ private:
 	static CMapManager* m_pMapManager;					// プレイヤーマネージャー
 	static CPlayer* m_pPlayer;
 	static bool m_isPause;								// ポーズ中かどうか
-	std::unique_ptr<btCollisionShape> m_GroundShape;	// 当たり判定
-	std::unique_ptr<btRigidBody> m_RigitBody;			// リジットボディー
 };
 #endif // !_GAME_H_

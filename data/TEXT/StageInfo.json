@@ -349,5 +349,86 @@
                 "z": 36.0
             }
         }
+    },
+    {
+        "RigitBody": {
+            "IsStatic": true,
+            "Mass": 100.0
+        },
+        "Assets": {
+            "Path": "data/MODEL/item01.x"
+        },
+        "Transform": {
+            "Pos": {
+                "x": 160.0,
+                "y": 0.0,
+                "z": 260.0
+            },
+            "Rot": {
+                "w": 0.0,
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+    {
+        "RigitBody": {
+            "IsStatic": true,
+            "Mass": 100.0
+        },
+        "Assets": {
+            "Path": "data/MODEL/item01.x"
+        },
+        "Transform": {
+            "Pos": {
+                "x": -230.0,
+                "y": 0.0,
+                "z": 230.0
+            },
+            "Rot": {
+                "w": 0.0,
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+    {
+        "RigitBody": {
+          "IsStatic": true,
+          "Mass": 100.0
+        },
+        "Assets": {
+          "Path": "data/MODEL/item01.x"
+        },
+        "Transform": {
+            "Pos": {
+              "x": -500.0,
+              "y": 0.0,
+              "z": -280.0
+            },
+            "Rot": {
+              "w": 0.0,
+              "x": 0.0,
+              "y": 1.0,
+              "z": 0.0
+            },
+            "Scale": {
+              "x": 1.0,
+              "y": 1.0,
+              "z": 1.0
+            }
+        }
     }
 ]

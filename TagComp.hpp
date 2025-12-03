@@ -15,6 +15,10 @@ namespace Tag {
 	struct Object3DComponent {};
 	// オブジェクトXの情報
 	struct ObjectXComponent {};
+	// タイトルマネージャー
+	struct TitleManagerComponent {};
+	// タイトルメニュー
+	struct TitleMenuComponent {};
 	// プレイヤー情報
 	struct PlayerComponent {};
 	// 敵
@@ -25,4 +29,12 @@ namespace Tag {
 	struct MapObjectComponent {};
 	// メッシュフィールド
 	struct MeshFieldComponent {};
+	// シャドウマップに書き込む
+	struct CastShadow {};
+	// 物陰として書き込む
+	struct CastShapeShadow {};
+	// アウトライン描画
+	struct RenderingOutLine {};
+	// パトロールポイント情報
+	struct PatrolPointManager {};
 }

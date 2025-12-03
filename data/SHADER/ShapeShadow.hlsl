@@ -66,7 +66,7 @@ VS_OUTPUT VS_main(VS_OUTPUT input)
 float4 PS_Write(VS_OUTPUT input) : COLOR
 {
 	// 深度をそのまま書き込む（明るいほど遠い）
-    return input.Depth.z / input.Depth.w;
+    return float4((input.Depth.z / input.Depth.w).xxx, 1.0f);
 }
 
 //**********************************************************************************
@@ -74,13 +74,20 @@ float4 PS_Write(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 float4 PS_Comp(VS_OUTPUT input) : COLOR
 {
-	// 物体（障害物）側の深度テクスチャを取得
-    float ObjectDepth = tex2D(ObjectSampler, input.Uv).x;
-    // 物体（障害物）側の深度テクスチャを取得
-    float TargetDepth = tex2D(TargetSampler, input.Uv).x;
+    // 現在の震度を計算
+    float Depth = input.Depth.z / input.Depth.w;
+    
+    float2 TransTexCoord;
+    TransTexCoord.x = input.Depth.x / input.Depth.w / 2.0f + 0.5f;
+    TransTexCoord.y = -input.Depth.y / input.Depth.w / 2.0f + 0.5f;
 
+	// 物体（障害物）側の深度テクスチャを取得
+    float ObjectDepth = tex2D(ObjectSampler, TransTexCoord).x;
+
+    if (ObjectDepth == 0.0f)
+        return float4(0.0f, 0.0f, 0.0f, 0.0f);
 	// プレイヤーが物体の裏側にある場合
-    if (TargetDepth < ObjectDepth)
+    if (Depth > ObjectDepth)
     {
 		// シルエットカラーで描く
         return float4(1.0f, 0.0f, 0.0f, 1.0f);

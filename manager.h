@@ -95,8 +95,6 @@ private:
 	static bool m_isPause;						// ポーズ中かどうか
 	static bool m_isClear;						// 敵を全滅させたかどうか
 	// メンバ変数
-	std::unique_ptr<btCollisionShape> m_GroundShape;
-	std::unique_ptr<btRigidBody> m_RigitBody;							// リジットボディー
 	std::unique_ptr<btDbvtBroadphase> m_pBroadPhase;					// 衝突判定のクラス
 	std::unique_ptr<btDefaultCollisionConfiguration> m_pConfiguration;	// 衝突判定を実行するクラス
 	std::unique_ptr<btSequentialImpulseConstraintSolver> m_pSolver;		// 制約ソルバー

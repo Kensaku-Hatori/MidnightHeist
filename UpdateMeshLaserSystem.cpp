@@ -16,6 +16,7 @@
 #include "MeshInfoComponent.hpp"
 #include "VertexRenderingComponent.hpp"
 #include "DivisionComponent.hpp"
+#include "LaserCollisionFragComp.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -32,20 +33,37 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 	{
 		if (Reg.get<SingleParentComp>(entity).Parent == entt::null) continue;
 		auto& SizeCmp = Reg.get<SizeComp>(entity);
+		auto& CollisionFrag = Reg.get<LaserCollisionFragComp>(entity);
+
+		CollisionFrag.IsLaserCollision = false;
+		CollisionFrag.IsRayCollision = false;
 
 		// モデルとマウスの当たり判定用の距離
 		float Distance, CurrentDistance;
 
 		// 現在の距離を10000.0fにする(ソートするため)
 		Distance = 100.0f;
+		const float DefaultDist = Distance;
+		float ToPlayer = -1;
 		// 昔の距離を初期化
 		CurrentDistance = 0.0f;
+
+		auto PlayerView = Reg.view<PlayerComponent>();
+		// プレイヤーが存在したら
+		if (!PlayerView.empty())
+		{
+			// Entityを取得
+			auto playerEntity = *PlayerView.begin();
+			// 当たったら
+			CollisionEntity(Reg, entity, playerEntity, ToPlayer);
+		}
 
 		for (auto entityMapObject : viewMapObject)
 		{
 			// 当たったら
-			if (CollisionMapObject(Reg, entity, entityMapObject, CurrentDistance) == true)
+			if (CollisionEntity(Reg, entity, entityMapObject, CurrentDistance) == true)
 			{
+				if (ToPlayer >= CurrentDistance)CollisionFrag.IsRayCollision = true;
 				// 最新の距離と当たったオブジェクトとの距離を比較
 				if (CurrentDistance < Distance)
 				{
@@ -55,6 +73,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			}
 		}
 		SizeCmp.Size.y = Distance;
+		if (SizeCmp.Size.y <= DefaultDist) CollisionFrag.IsLaserCollision = true;
 		UpdateVertex(Reg, entity);
 	}
 }
@@ -120,13 +139,13 @@ void UpdateMeshLaserSystem::UpdateVertex(entt::registry& Reg, entt::entity Entit
 }
 
 //*********************************************
-// マップオブジェクトとの当たり判定
+// ほかのエンティティとの当たり判定
 //*********************************************
-bool UpdateMeshLaserSystem::CollisionMapObject(entt::registry& Reg, entt::entity Entity, entt::entity MapObjectEntity, float& Distance)
+bool UpdateMeshLaserSystem::CollisionEntity(entt::registry& Reg, entt::entity Entity, entt::entity ToEntity, float& Distance)
 {
 	// マップオブジェクトのコンポーネントを取得
-	auto& TransformCmp = Reg.get<Transform3D>(MapObjectEntity);
-	auto& ModelInfo = Reg.get<XRenderingComp>(MapObjectEntity);
+	auto& TransformCmp = Reg.get<Transform3D>(ToEntity);
+	auto& ModelInfo = Reg.get<XRenderingComp>(ToEntity);
 
 	// 自分自身のコンポーネントを取得
 	auto& LaserTrans = Reg.get<Transform3D>(Entity);

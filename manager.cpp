@@ -32,14 +32,22 @@
 #include "UpdateMeshFieldSystem.h"
 #include "UpdateMeshLaserSystem.h"
 #include "UpdateEnemySystem.h"
+#include "UpdateEnemyChase.h"
+#include "UpdateEnemyPredict.h"
+#include "UpdateTitleManager.h"
+#include "UpdateEnemySearch.h"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
 #include "RenderingXSystem.h"
 #include "RenderingPlayerSystem.h"
 #include "RenderingMeshFieldSystem.h"
-#include "RenderingMapobjectComponent.h"
+#include "RenderingMapobjectSystem.h"
 #include "RenderingMeshLaserSystem.h"
+#include "RenderingEnemySystem.h"
+#include "RenderingToShadowmap.h"
+#include "RenderingToShapeShadow.h"
+#include "RenderingOutLineSystem.h"
 
 // 名前空間
 using namespace std;
@@ -90,6 +98,10 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
 
+	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictFrontSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictFollowSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
 	CSystemManager::AddUpdateSystem(new Update2DSystem);
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
 	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
@@ -97,13 +109,18 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
+	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
 	CSystemManager::AddRenderingSystem(new Render2DSystem);
 	CSystemManager::AddRenderingSystem(new Render3DSystem);
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
-	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
+	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
+	CSystemManager::AddRenderingSystem(new RenderingToShapeShadowSystem);
+	CSystemManager::AddRenderingSystem(new RenderingOutLineSystem);
 	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
+	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
+	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
 
@@ -159,7 +176,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pFade = CFade::CreateSingle();
 
 	// タイトル画面に設定
-	CFade::SetFade(new CTitle);
+	SetScene(new CTitle);
 
 	CShapeShadow::Instance()->Init("data\\SHADER\\ShapeShadow.hlsl");
 	CShadowMap::Instance()->Init("data\\SHADER\\ShadowMap.hlsl");
@@ -180,6 +197,13 @@ void CManager::Uninit()
 		m_pCamera->Uninit();
 		delete m_pCamera;
 		m_pCamera = NULL;
+	}
+
+	// シーンの終了処理
+	if (m_pScene != nullptr)
+	{
+		m_pScene->Uninit();
+		m_pScene = nullptr;
 	}
 
 	// レンダラークラスが使われていたら
@@ -235,24 +259,8 @@ void CManager::Uninit()
 		m_pFade = NULL;
 	}
 
-	// シーンの終了処理
-	if (m_pScene != nullptr)
-	{
-		m_pScene->Uninit();
-		m_pScene = nullptr;
-	}
-
-	// 剛体の削除
-	if (m_RigitBody)
-	{
-		CManager::GetDynamicsWorld()->removeRigidBody(m_RigitBody.get());
-		if (m_RigitBody->getMotionState())
-		{
-			delete m_RigitBody->getMotionState();
-		}
-		m_RigitBody.reset();
-	}
-
+	CShadowMap::Instance()->ReSet();
+	CShapeShadow::Instance()->ReSet();
 	CLoadTexture::UnRegistTex();
 	CModelManager::UnRegistModel();
 }
@@ -306,7 +314,6 @@ void CManager::Update()
 	{
 		m_pInputMouse->Update();
 	}
-	CSystemManager::UpdateAll(CManager::GetScene()->GetReg());
 }
 
 //***************************************

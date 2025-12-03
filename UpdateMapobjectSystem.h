@@ -26,4 +26,6 @@ struct UpdateMapobjectSystem : BaceSystem
 	void Update(entt::registry& reg)override;
 	// 剛体の更新
 	void UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp,Size3DComp& SizeCmp);
+	// アイテム用の更新
+	void UpdateItem(entt::registry& Reg, entt::entity Entity);
 };

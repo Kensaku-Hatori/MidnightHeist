@@ -41,6 +41,9 @@ HRESULT CLight::Init(void)
 
 	D3DXVECTOR3 vecDir[Config::NumLIght];
 
+	// ライトの方向を設定
+	vecDir[0] = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+
 	for (int nCnt = 0; nCnt < Config::NumLIght; nCnt++)
 	{
 		// ライトの種類を設定
@@ -49,13 +52,6 @@ HRESULT CLight::Init(void)
 		// ライトの拡散光を設定
 		// ライトの色
 		m_Light[nCnt].Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-
-		// ライトの方向を設定
-		vecDir[0] = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
-		//// ライトの方向を設定
-		//vecDir[1] = D3DXVECTOR3(-0.2f, 0.8f, 0.8f);
-		//// ライトの方向を設定
-		//vecDir[2] = D3DXVECTOR3(-1, -0.57f, -0.3f);
 
 		//正規化する（大きさ１のベクトルにする）
 		D3DXVec3Normalize(&vecDir[nCnt], &vecDir[nCnt]);

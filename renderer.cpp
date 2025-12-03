@@ -35,7 +35,7 @@ CRenderer::CRenderer()
 	m_pD3D = NULL;
 	m_pD3DDevice = NULL;
 	m_d3dpp = {};
-	m_BackBufferCol = { 0.4f,0.4f,0.4f,1.0f };
+	m_BackBufferCol = { 0.1f,0.1f,0.1f,1.0f };
 }
 
 //************************************
@@ -225,6 +225,7 @@ void CRenderer::Uninit()
 void CRenderer::Update()
 {
 	CObject::UpdateAll();
+	if (CSystemManager::GetUpdateSystemSize != NULL)CSystemManager::UpdateAll(CManager::GetScene()->GetReg());
 
 	static bool isFullScrean = false;
 	if (CManager::GetInputKeyboard()->GetTrigger(DIK_F11) == true)
@@ -261,6 +262,9 @@ void CRenderer::Draw()
 		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL),
 		m_BackBufferCol, 1.0f, 0);
 
+	CShapeShadow::Instance()->Clear();
+	CShadowMap::Instance()->Clear();
+
 	//描画開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
 	{//描画開始成功時
@@ -268,25 +272,18 @@ void CRenderer::Draw()
 		//各種オブジェクトの描画処理
 		//-----------------------------
 
-		CShapeShadow::Instance()->Clear();
-		CShadowMap::Instance()->Clear();
-
 		// ラインの描画
-		m_pLine->Draw();
+		//m_pLine->Draw();
 
 		// オブジェクトの描画
 		CObject::DrawAll();
 
-		CSystemManager::RenderingAll(CManager::GetScene()->GetReg());
+		if (CSystemManager::GetRenderingSystemSize != NULL)CSystemManager::RenderingAll(CManager::GetScene()->GetReg());
 
 		CManager::GetScene()->Draw();
 		CManager::GetFade()->Draw();
 
-		CShapeShadow::Instance()->BeginScene();
-		CShapeShadow::Instance()->Draw();
-		CShapeShadow::Instance()->EndTexs();
-
-		//CShapeShadow::Instance()->DrawTex();
+		CShapeShadow::Instance()->DrawTex();
 
 		CDebugProc::Draw(0, 0);
 		CDebugProc::End();

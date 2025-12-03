@@ -8,6 +8,8 @@
 #include "RenderingPlayerSystem.h"
 #include "XRenderingComponent.hpp"
 #include "TagComp.hpp"
+#include "shapeshadow.h"
+#include "toon.h"
 
 using namespace Tag;
 
@@ -26,6 +28,15 @@ void PlayerRenderingSystem::Rendering(entt::registry& reg)
 
 	// エンテティのリストを取得
 	auto view = reg.view<PlayerComponent>();
+
+	CShapeShadow::Instance()->Begin();
+	CShapeShadow::Instance()->BeginScene();
+	for (auto Entity : view)
+	{
+		RenderingShape(reg, Entity);
+	}
+	CShapeShadow::Instance()->EndTexs();
+	CShapeShadow::Instance()->End();
 
 	for (auto entity : view)
 	{
@@ -64,4 +75,99 @@ void PlayerRenderingSystem::Rendering(entt::registry& reg)
 		}
 		pDevice->SetMaterial(&matDef);
 	}
+}
+
+//*********************************************
+// プレイヤーの強調線描画
+//*********************************************
+void PlayerRenderingSystem::RenderingOutLine(entt::registry& Reg, entt::entity Entity)
+{
+	auto& TransformComp = Reg.get<Transform3D>(Entity);
+	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);
+
+	// モデルへのインデックスが-1だったら終わる
+	if (RenderingComp.FilePath.empty() == true) return;
+
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	D3DXMATRIX mtxWorld;						// 計算用マトリックス
+	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
+	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
+
+	// モデルmanagerからインデックスを指定して取得
+	CModelManager::MapObject modelinfo = RenderingComp.Info;
+
+	mtxWorld = TransformComp.GetWorldMatrix();
+
+	// 現在のマテリアルの取得
+	pDevice->GetMaterial(&matDef);
+
+	// マテリアルデータへのポインタ
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
+
+	D3DXMATRIX View, Proj;
+	D3DXVECTOR4 Light = { 1.0f,1.0f,1.0f,0.0f };
+	pDevice->GetTransform(D3DTS_VIEW, &View);
+	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
+
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
+	{
+		CToon::Instance()->SetParameters(mtxWorld, View, Proj, Light);
+
+		CToon::Instance()->BeginPass(2);
+
+		// モデル(パーツ)の描画
+		modelinfo.modelinfo.pSmoothMesh->DrawSubset(nCntMat);
+
+		CToon::Instance()->EndPass();
+	}
+
+	pDevice->SetMaterial(&matDef);
+}
+
+//*********************************************
+// プレイヤーのシルエット描画
+//*********************************************
+void PlayerRenderingSystem::RenderingShape(entt::registry& Reg, entt::entity Entity)
+{
+	auto& TransformComp = Reg.get<Transform3D>(Entity);
+	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);
+
+	// モデルへのインデックスが-1だったら終わる
+	if (RenderingComp.FilePath.empty() == true) return;
+
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	D3DXMATRIX mtxWorld;						// 計算用マトリックス
+	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
+	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
+
+	// モデルmanagerからインデックスを指定して取得
+	CModelManager::MapObject modelinfo = RenderingComp.Info;
+
+	mtxWorld = TransformComp.GetWorldMatrix();
+
+	// 現在のマテリアルの取得
+	pDevice->GetMaterial(&matDef);
+
+	// マテリアルデータへのポインタ
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
+
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
+	{
+		CShapeShadow::Instance()->SetParameters(mtxWorld);
+
+		CShapeShadow::Instance()->BeginPass(1);
+
+		// モデル(パーツ)の描画
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
+
+		CShapeShadow::Instance()->EndPass();
+	}
+
+	pDevice->SetMaterial(&matDef);
 }

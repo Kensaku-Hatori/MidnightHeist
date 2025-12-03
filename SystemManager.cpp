@@ -34,13 +34,13 @@ void CSystemManager::AddRenderingSystem(BaceRenderingSystem* System)
 
 void CSystemManager::EndSystem(void)
 {
-	for (auto Systems = m_UpdateSystems.begin(); Systems != m_UpdateSystems.end(); Systems)
+	for (auto Systems = m_UpdateSystems.begin(); Systems != m_UpdateSystems.end();)
 	{
 		delete (*Systems);
 		Systems = m_UpdateSystems.erase(Systems);
 		if (Systems == m_UpdateSystems.end()) break;
 	}
-	for (auto Systems = m_RenderingSystems.begin(); Systems != m_RenderingSystems.end(); Systems++)
+	for (auto Systems = m_RenderingSystems.begin(); Systems != m_RenderingSystems.end();)
 	{
 		delete (*Systems);
 		Systems = m_RenderingSystems.erase(Systems);

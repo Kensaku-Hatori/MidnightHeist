@@ -43,23 +43,6 @@ HRESULT CShapeShadow::Init(std::string Path)
     uiHeight = SufDesc.Height;
 
 
-
-
-    // テクスチャを作成
-    pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
-        D3DFMT_R32F, D3DPOOL_DEFAULT, &m_TargetTex, NULL);
-
-    // サーフェイスを取得
-    m_TargetTex->GetSurfaceLevel(0, &m_TargetSurface);
-
-    // シャドウマップ用のZバッファ作成
-    pDevice->CreateDepthStencilSurface(
-        uiWidth, uiHeight,
-        SufDesc.Format, SufDesc.MultiSampleType, SufDesc.MultiSampleQuality, TRUE,
-        &m_TargetDepthSurface, NULL);
-
-
-
     // テクスチャを作成
     pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_R32F, D3DPOOL_DEFAULT, &m_ObjectTex, NULL);
@@ -78,7 +61,7 @@ HRESULT CShapeShadow::Init(std::string Path)
 
     // テクスチャを作成
     pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
-        D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &m_SceneTex, NULL);
+        D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_SceneTex, NULL);
 
     // サーフェイスを取得
     m_SceneTex->GetSurfaceLevel(0, &m_SceneSurface);
@@ -181,22 +164,13 @@ void CShapeShadow::Clear(void)
     pDevice->GetDepthStencilSurface(&m_OldDepthSurface);
 
     // シャドウマップ用RTに切り替え
-    pDevice->SetRenderTarget(0, m_TargetSurface);
-    // シャドウマップ用RTに切り替え
-    pDevice->SetDepthStencilSurface(m_TargetDepthSurface);
-
-    // クリア
-    pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-        D3DCOLOR_RGBA(255, 255, 255, 255), 1.0f, 0);
-
-    // シャドウマップ用RTに切り替え
     pDevice->SetRenderTarget(0, m_ObjectSurface);
     // シャドウマップ用RTに切り替え
     pDevice->SetDepthStencilSurface(m_ObjectDepthSurface);
 
     // クリア
     pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-        D3DCOLOR_RGBA(255, 255, 255, 255), 1.0f, 0);
+        D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 
     // シャドウマップ用RTに切り替え
     pDevice->SetRenderTarget(0, m_SceneSurface);
@@ -205,7 +179,7 @@ void CShapeShadow::Clear(void)
 
     // クリア
     pDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER,
-        D3DCOLOR_RGBA(255, 255, 255, 255), 1.0f, 0);
+        D3DCOLOR_RGBA(0, 0, 0, 0), 1.0f, 0);
 
     // 元のRTに戻す
     pDevice->SetRenderTarget(0, m_OldRT);
@@ -224,22 +198,6 @@ void CShapeShadow::Clear(void)
         m_OldDepthSurface->Release();
         m_OldDepthSurface = nullptr;
     }
-}
-
-void CShapeShadow::BeginTarget(void)
-{
-    // デバイス取得
-    LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-    // 現在のレンダーターゲットを保存
-    pDevice->GetRenderTarget(0, &m_OldRT);
-    // 現在のレンダーターゲットを保存
-    pDevice->GetDepthStencilSurface(&m_OldDepthSurface);
-
-    // シャドウマップ用RTに切り替え
-    pDevice->SetRenderTarget(0, m_TargetSurface);
-    // シャドウマップ用RTに切り替え
-    pDevice->SetDepthStencilSurface(m_TargetDepthSurface);
 }
 
 void CShapeShadow::BeginObject(void)
@@ -325,21 +283,6 @@ void CShapeShadow::ReSet(void)
         m_SceneDepthSurface->Release();
         m_SceneDepthSurface = nullptr;
     }
-    if (m_TargetTex != nullptr)
-    {
-        m_TargetTex->Release();
-        m_TargetTex = nullptr;
-    }
-    if (m_TargetSurface != nullptr)
-    {
-        m_TargetSurface->Release();
-        m_TargetSurface = nullptr;
-    }
-    if (m_TargetDepthSurface != nullptr)
-    {
-        m_TargetDepthSurface->Release();
-        m_TargetDepthSurface = nullptr;
-    }
     if (m_ObjectTex != nullptr)
     {
         m_ObjectTex->Release();
@@ -380,23 +323,6 @@ void CShapeShadow::ReStart(void)
     uiHeight = SufDesc.Height;
 
 
-
-
-    // テクスチャを作成
-    pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
-        D3DFMT_R32F, D3DPOOL_DEFAULT, &m_TargetTex, NULL);
-
-    // サーフェイスを取得
-    m_TargetTex->GetSurfaceLevel(0, &m_TargetSurface);
-
-    // シャドウマップ用のZバッファ作成
-    pDevice->CreateDepthStencilSurface(
-        uiWidth, uiHeight,
-        SufDesc.Format, SufDesc.MultiSampleType, SufDesc.MultiSampleQuality, TRUE,
-        &m_TargetDepthSurface, NULL);
-
-
-
     // テクスチャを作成
     pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
         D3DFMT_R32F, D3DPOOL_DEFAULT, &m_ObjectTex, NULL);
@@ -415,7 +341,7 @@ void CShapeShadow::ReStart(void)
 
     // テクスチャを作成
     pDevice->CreateTexture(uiWidth, uiHeight, 1, D3DUSAGE_RENDERTARGET,
-        D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &m_SceneTex, NULL);
+        D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_SceneTex, NULL);
 
     // サーフェイスを取得
     m_SceneTex->GetSurfaceLevel(0, &m_SceneSurface);
@@ -439,7 +365,6 @@ void CShapeShadow::ReStart(void)
     GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
     GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
     GetHandle("g_ObjectTexture") = pEffect->GetParameterByName(NULL, "g_ObjectTexture");
-    GetHandle("g_TargetTexture") = pEffect->GetParameterByName(NULL, "g_TargetTexture");
 }
 
 void CShapeShadow::SetParameters(D3DXMATRIX World)
@@ -470,10 +395,6 @@ void CShapeShadow::SetParameters(D3DXMATRIX World)
     if (GetHandle("g_ObjectTexture") != nullptr)
     {
         pEffect->SetTexture(GetHandle("g_ObjectTexture"), m_ObjectTex);
-    }
-    if (GetHandle("g_TargetTexture") != nullptr)
-    {
-        pEffect->SetTexture(GetHandle("g_TargetTexture"), m_TargetTex);
     }
 
     // GPUに変更を適応

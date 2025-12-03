@@ -107,6 +107,14 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 		&LocalInfo.modelinfo.pMesh
 	);
 
+	// メッシュをコピー
+	LocalInfo.modelinfo.pMesh->CloneMeshFVF(
+		D3DXMESH_SYSTEMMEM,
+		LocalInfo.modelinfo.pMesh->GetFVF(),
+		pDevice,
+		&LocalInfo.modelinfo.pSmoothMesh
+	);
+
 	// 読み込めなかったら
 	if (FAILED(hr))
 	{
@@ -115,7 +123,6 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 	}
 
 	// 法線のスムース化
-	LocalInfo.modelinfo.pSmoothMesh = LocalInfo.modelinfo.pMesh;
 	const float Epsilon = 1e-6f;
 	std::vector<DWORD> adjacency(LocalInfo.modelinfo.pSmoothMesh->GetNumFaces() * 3);
 	LocalInfo.modelinfo.pSmoothMesh->GenerateAdjacency(Epsilon, adjacency.data());
@@ -153,24 +160,6 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 	return m_ModelMap[Path];
 }
 
-////*********************************************
-//// モデルの情報を取得
-////*********************************************
-//CModelManager::MapObject* CModelManager::GetModelInfo(const int Indx)
-//{
-//	// 不正なインデックスならアサート
-//	if (Indx < 0 || Indx >= (int)m_ModelMap.size()) assert(0 && "存在しないモデルにアクセスしようとしています");
-//
-//	// 配列でアクセスするためのイテレーター
-//	auto Map = m_ModelMap.begin();
-//
-//	// 要素を進める
-//	std::advance(Map, Indx);
-//
-//	// Vlueを返す
-//	return &Map->second;
-//}
-
 //*********************************************
 // いろいろ破棄
 //*********************************************
@@ -187,6 +176,15 @@ void CModelManager::UnRegistModel(void)
 
 			// nullptrを代入する
 			Map.second.modelinfo.pMesh = nullptr;
+		}
+		// nullptrチェック
+		if (Map.second.modelinfo.pSmoothMesh != nullptr)
+		{
+			// メモリ開放
+			Map.second.modelinfo.pSmoothMesh->Release();
+
+			// nullptrを代入する
+			Map.second.modelinfo.pSmoothMesh = nullptr;
 		}
 		// nullptrチェック
 		if (Map.second.modelinfo.pBuffMat != nullptr)

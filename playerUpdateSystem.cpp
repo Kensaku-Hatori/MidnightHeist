@@ -13,6 +13,7 @@
 #include "TagComp.hpp"
 #include "math.h"
 
+// 名前空間
 using namespace Tag;
 
 //*********************************************
@@ -48,7 +49,7 @@ void PlayerUpdateSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCm
 
 	btTransform transform;
 	transform.setIdentity();
-	transform.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y + 20.0f, TransformCmp.Pos.z));
+	transform.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y + 17.0f, TransformCmp.Pos.z));
 
 	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, ColliderCmp.CollisionShape.get());
@@ -129,5 +130,5 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 	newPos = trans.getOrigin();
 
 	// 位置を計算、設定
-	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
+	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 17.0f, newPos.z()));
 }

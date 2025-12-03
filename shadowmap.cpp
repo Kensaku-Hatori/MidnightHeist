@@ -52,7 +52,7 @@ HRESULT CShadowMap::Init(std::string Path)
     GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
 
     // シャドウマップのパラメータを設定
-    m_LightVec = { 1.0f, 1.0f, 1.0f };
+    m_LightVec = { 0.5f, 1.0f, 0.5f };
     m_MapRange = 2048;
     m_ZRange = 1500.0f;
     m_LightDistance = 400.0f;

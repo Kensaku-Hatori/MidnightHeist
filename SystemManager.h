@@ -21,6 +21,8 @@ public:
 	static void AddUpdateSystem(BaceSystem* System);
 	static void AddRenderingSystem(BaceRenderingSystem* System);
 	static void EndSystem(void);
+	static size_t GetUpdateSystemSize(void) { return m_UpdateSystems.size(); }
+	static size_t GetRenderingSystemSize(void) { return m_RenderingSystems.size(); }
 private:
 	CSystemManager() {}
 	static std::vector<BaceSystem*> m_UpdateSystems;				// XVˆ—‚Ì”z—ñ

@@ -11,6 +11,7 @@
 // インクルード
 #include "TagComp.hpp"
 #include "TransformComponent.hpp"
+#include "Velocity.hpp"
 #include "VertexRenderingComponent.hpp"
 #include "TextureRenderingComponent.h"
 #include "SizeComponent.hpp"
@@ -26,3 +27,8 @@
 #include "SingleCollisionShapeComponent.hpp"
 #include "Mesh.hpp"
 #include "ParentComponent.hpp"
+#include "EnemyAIComponent.hpp"
+#include "LaserCollisionFragComp.hpp"
+#include "TitleManagerComp.hpp"
+#include "TitleMenuComp.hpp"
+#include "EnemyPatrolPointComp.hpp"

@@ -19,6 +19,5 @@ struct UpdateEnemySystem : BaceSystem
 	~UpdateEnemySystem() = default;
 	// XV
 	void Update(entt::registry& reg)override;
-	void UpdateMovement(entt::registry& Reg, entt::entity& Entity);
 	void UpdateRB(entt::registry& Reg, entt::entity& Entity);
 };

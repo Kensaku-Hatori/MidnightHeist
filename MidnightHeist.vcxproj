@@ -37,13 +37,13 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -77,9 +77,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -106,18 +110,26 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)build\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BulletDynamics.lib;BulletCollision.lib;LinearMath.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,10 +161,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="RenderingMapobjectComponent.cpp" />
+    <ClCompile Include="RenderingEnemySystem.cpp" />
+    <ClCompile Include="RenderingMapobjectSystem.cpp" />
     <ClCompile Include="RenderingMeshLaserSystem.cpp" />
     <ClCompile Include="RenderingMeshFieldSystem.cpp" />
+    <ClCompile Include="RenderingOutLineSystem.cpp" />
     <ClCompile Include="RenderingPlayerSystem.cpp" />
+    <ClCompile Include="RenderingToShadowmap.cpp" />
+    <ClCompile Include="RenderingToShapeShadow.cpp" />
+    <ClCompile Include="UpdateEnemyChase.cpp" />
+    <ClCompile Include="UpdateEnemyPredict.cpp" />
+    <ClCompile Include="UpdateEnemySearch.cpp" />
     <ClCompile Include="UpdateMeshLaserSystem.cpp" />
     <ClCompile Include="UpdateEnemySystem.cpp" />
     <ClCompile Include="Update2DSystem.cpp" />
@@ -184,6 +203,7 @@
     <ClCompile Include="pausemanager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playerUpdateSystem.cpp" />
@@ -205,20 +225,33 @@
     <ClCompile Include="RenderingXSystem.cpp" />
     <ClCompile Include="UpdateMapobjectSystem.cpp" />
     <ClCompile Include="UpdateMeshFieldSystem.cpp" />
+    <ClCompile Include="UpdateTitleManager.cpp" />
     <ClCompile Include="UpdateXSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EnemyAIComponent.hpp" />
     <ClInclude Include="DivisionComponent.hpp" />
+    <ClInclude Include="EnemyPatrolPointComp.hpp" />
     <ClInclude Include="FactorieUtils.h" />
     <ClInclude Include="IndexBufferComponent.hpp" />
+    <ClInclude Include="LaserCollisionFragComp.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="MeshInfoComponent.hpp" />
     <ClInclude Include="ParentComponent.hpp" />
     <ClInclude Include="RayComponent.hpp" />
-    <ClInclude Include="RenderingMapobjectComponent.h" />
+    <ClInclude Include="RenderingEnemySystem.h" />
+    <ClInclude Include="RenderingMapobjectSystem.h" />
     <ClInclude Include="RenderingMeshLaserSystem.h" />
     <ClInclude Include="RenderingMeshFieldSystem.h" />
+    <ClInclude Include="RenderingOutLineSystem.h" />
     <ClInclude Include="RenderingPlayerSystem.h" />
+    <ClInclude Include="RenderingToShadowmap.h" />
+    <ClInclude Include="RenderingToShapeShadow.h" />
+    <ClInclude Include="TitleManagerComp.hpp" />
+    <ClInclude Include="TitleMenuComp.hpp" />
+    <ClInclude Include="UpdateEnemyChase.h" />
+    <ClInclude Include="UpdateEnemyPredict.h" />
+    <ClInclude Include="UpdateEnemySearch.h" />
     <ClInclude Include="UpdateMeshLaserSystem.h" />
     <ClInclude Include="UpdateEnemySystem.h" />
     <ClInclude Include="Update2DSystem.h" />
@@ -285,7 +318,9 @@
     <ClInclude Include="TransformComponent.hpp" />
     <ClInclude Include="UpdateMapobjectSystem.h" />
     <ClInclude Include="UpdateMeshFieldSystem.h" />
+    <ClInclude Include="UpdateTitleManager.h" />
     <ClInclude Include="UVComponent.hpp" />
+    <ClInclude Include="Velocity.hpp" />
     <ClInclude Include="VertexRenderingComponent.hpp" />
     <ClInclude Include="XRenderingComponent.hpp" />
     <ClInclude Include="RenderingXSystem.h" />
@@ -302,16 +337,25 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_Main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_Main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\ShapeShadow.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\Toon.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

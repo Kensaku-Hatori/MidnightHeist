@@ -63,6 +63,7 @@ HRESULT CGame::Init(void)
 	//m_pPlayer = CPlayer::Create();
 	Factories::makePlayer(GetReg());
 	Factories::makeEnemy(GetReg());
+	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
 	return S_OK;
 }
 
@@ -91,18 +92,7 @@ void CGame::Uninit(void)
 		m_pPauseManager->Uninit();
 		m_pPauseManager = NULL;
 	}
-
-	// „‘Ì‚Ìíœ
-	if (m_RigitBody)
-	{
-		CManager::GetDynamicsWorld()->removeRigidBody(m_RigitBody.get());
-		if (m_RigitBody->getMotionState())
-		{
-			delete m_RigitBody->getMotionState();
-		}
-		m_RigitBody.reset();
-	}
-
+	GetReg().clear();
 	delete this;
 }
 

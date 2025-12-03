@@ -73,6 +73,21 @@
     <Filter Include="System\Rendering\Mesh">
       <UniqueIdentifier>{bfbc150f-e6d1-49e7-9aee-01dfd6cdd5ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\AI">
+      <UniqueIdentifier>{a08ca797-51be-4027-bda5-d579550fe3dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Enemy">
+      <UniqueIdentifier>{7b48dd37-6db3-4b78-84f3-96ec439722fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Enemy">
+      <UniqueIdentifier>{a0bb9222-9dec-43da-91d9-90db9719ac28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Title">
+      <UniqueIdentifier>{84bc1700-095e-44d4-a320-5a1b273bf21d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Title">
+      <UniqueIdentifier>{8bb6e375-5d4b-4997-bcfc-2fad584d770c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -219,7 +234,7 @@
     <ClCompile Include="RenderingPlayerSystem.cpp">
       <Filter>System\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingMapobjectComponent.cpp">
+    <ClCompile Include="RenderingMapobjectSystem.cpp">
       <Filter>System\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="UpdateMapobjectSystem.cpp">
@@ -231,14 +246,38 @@
     <ClCompile Include="RenderingMeshFieldSystem.cpp">
       <Filter>System\Rendering\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateEnemySystem.cpp">
-      <Filter>System\Update</Filter>
-    </ClCompile>
     <ClCompile Include="UpdateMeshLaserSystem.cpp">
       <Filter>System\Update\Mesh</Filter>
     </ClCompile>
     <ClCompile Include="RenderingMeshLaserSystem.cpp">
       <Filter>System\Rendering\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingEnemySystem.cpp">
+      <Filter>System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingToShadowmap.cpp">
+      <Filter>System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingToShapeShadow.cpp">
+      <Filter>System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateEnemySystem.cpp">
+      <Filter>System\Update\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateEnemyChase.cpp">
+      <Filter>System\Update\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateEnemySearch.cpp">
+      <Filter>System\Update\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateEnemyPredict.cpp">
+      <Filter>System\Update\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateTitleManager.cpp">
+      <Filter>System\Update\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingOutLineSystem.cpp">
+      <Filter>System\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -446,7 +485,7 @@
     <ClInclude Include="RenderingPlayerSystem.h">
       <Filter>System\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingMapobjectComponent.h">
+    <ClInclude Include="RenderingMapobjectSystem.h">
       <Filter>System\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="UpdateMapobjectSystem.h">
@@ -473,9 +512,6 @@
     <ClInclude Include="MeshInfoComponent.hpp">
       <Filter>Component\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateEnemySystem.h">
-      <Filter>System\Update</Filter>
-    </ClInclude>
     <ClInclude Include="ParentComponent.hpp">
       <Filter>Component\Object</Filter>
     </ClInclude>
@@ -487,6 +523,51 @@
     </ClInclude>
     <ClInclude Include="FactorieUtils.h">
       <Filter>Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingEnemySystem.h">
+      <Filter>System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingToShadowmap.h">
+      <Filter>System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingToShapeShadow.h">
+      <Filter>System\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAIComponent.hpp">
+      <Filter>Component\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemySystem.h">
+      <Filter>System\Update\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemyChase.h">
+      <Filter>System\Update\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Velocity.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemySearch.h">
+      <Filter>System\Update\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="LaserCollisionFragComp.hpp">
+      <Filter>Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemyPredict.h">
+      <Filter>System\Update\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateTitleManager.h">
+      <Filter>System\Update\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleManagerComp.hpp">
+      <Filter>Component\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleMenuComp.hpp">
+      <Filter>Component\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPatrolPointComp.hpp">
+      <Filter>Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingOutLineSystem.h">
+      <Filter>System\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

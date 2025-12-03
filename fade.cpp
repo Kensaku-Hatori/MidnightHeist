@@ -11,7 +11,7 @@
 #include "math_T.h"
 
 // 規定値を設定
-const D3DXCOLOR CFade::Config::DefoultCol = { 0.0f,0.0f,0.0f,1.0f };
+const D3DXCOLOR CFade::Config::DefoultCol = { 0.0f,0.0f,0.0f,0.0f };
 // シングルトンを宣言
 CFade* CFade::m_pSingleto = NULL;
 
@@ -20,7 +20,7 @@ CFade* CFade::m_pSingleto = NULL;
 //************************************
 void CFade::Init(void)
 {
-	m_pSingleto->m_Fade = FADE_NONE;
+	m_pSingleto->m_Fade = FADE_IN;
 	m_pSingleto->m_colorFade = Config::DefoultCol;
 
 	CRenderer* pRenderer;

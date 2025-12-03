@@ -14,7 +14,6 @@ public:
 	void Draw(void);
 	void DrawTex(void);
 	void Clear(void);
-	void BeginTarget(void);
 	void BeginObject(void);
 	void BeginScene(void);
 	void EndTexs(void);
@@ -26,7 +25,6 @@ public:
 
 	// ゲッター
 	LPDIRECT3DTEXTURE9 GetTex(void) { return m_SceneTex; }
-	LPDIRECT3DTEXTURE9 GetTargetTex(void) { return m_TargetTex; }
 	LPDIRECT3DTEXTURE9 GetObjectTex(void) { return m_ObjectTex; }
 
 	// 静的メンバ関数
@@ -40,10 +38,6 @@ private:
 	CShapeShadow() {};
 	// メンバ変数
 	LPDIRECT3DVERTEXBUFFER9 m_pVertexBuffMT;		// 頂点バッファ
-
-	LPDIRECT3DTEXTURE9 m_TargetTex;					// Z値テクスチャ
-	LPDIRECT3DSURFACE9 m_TargetSurface;				// Z値サーフェイス
-	LPDIRECT3DSURFACE9 m_TargetDepthSurface;		// 震度バッファサーフェイス
 
 	LPDIRECT3DTEXTURE9 m_ObjectTex;					// Z値テクスチャ
 	LPDIRECT3DSURFACE9 m_ObjectSurface;				// Z値サーフェイス

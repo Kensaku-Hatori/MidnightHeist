@@ -8,7 +8,10 @@
 // インクルード
 #include "UpdateMapobjectSystem.h"
 #include "SizeComponent.hpp"
+#include "XRenderingComponent.hpp"
 #include "TagComp.hpp"
+#include "title.h"
+#include "fade.h"
 #include "math.h"
 
 using namespace Tag;
@@ -20,12 +23,24 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 {
 	auto view = reg.view<MapObjectComponent>();
 
+	// ファイルパスにitem01が含まれているモデルの数
+	int nNumIte = -1;
+
 	for (auto entity : view)
 	{
 		auto& TransformCmp = reg.get<Transform3D>(entity);
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& ColliderCmp = reg.get <SingleCollisionShapeComp>(entity);
 		auto& SizeCmp = reg.get <Size3DComp>(entity);
+		auto& FilePath = reg.get<XRenderingComp>(entity);
+
+		if (FilePath.FilePath.find("item01.x") != std::string::npos)
+		{
+			UpdateItem(reg, entity);
+			// 無効だったらコンテニュー
+			if (reg.valid(entity) == false)	continue;
+			nNumIte++;
+		}
 
 		// リジットボディーの更新
 		UpdateRB(TransformCmp, RBCmp, ColliderCmp, SizeCmp);
@@ -46,6 +61,7 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		// 位置に代入
 		TransformCmp.Pos = { pos.x(), pos.y(), pos.z() };
 	}
+	if (nNumIte == -1) CFade::SetFade(new CTitle);
 }
 
 //*********************************************
@@ -116,4 +132,26 @@ void UpdateMapobjectSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& R
 
 	// 物理世界にリジットボディーを追加
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get());
+}
+
+//*********************************************
+// アイテムの更新
+//*********************************************
+void UpdateMapobjectSystem::UpdateItem(entt::registry& Reg, entt::entity Entity)
+{
+	auto& TransformCmp = Reg.get<Transform3D>(Entity);
+
+	auto PlayerView = Reg.view<PlayerComponent>();
+
+	// プレイヤーが存在したら
+	if (!PlayerView.empty())
+	{
+		// Entityを取得
+		auto playerEntity = *PlayerView.begin();
+		// コンポーネントを取得
+		auto& PlayerTransCmp = Reg.get<Transform3D>(playerEntity);
+		D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
+		// アイテムを削除
+		if (D3DXVec3Length(&ToPlayer) < 50.0f) Reg.destroy(Entity);
+	}
 }

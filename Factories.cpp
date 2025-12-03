@@ -14,14 +14,14 @@ using namespace Tag;
 //*********************************************
 // オブジェクト2Dの生成
 //*********************************************
-entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path)
+entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path, D3DXVECTOR2 Pos, D3DXVECTOR2 Size)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform2D>(myEntity);
+	Reg.emplace<Transform2D>(myEntity, Pos);
 	Reg.emplace<Object2DComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, Path);
-	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(100.0f,100.0f));
+	Reg.emplace<SizeComp>(myEntity, Size);
 	Reg.emplace<ColorComp>(myEntity);
 	Reg.emplace<UVComp>(myEntity);
 	Reg.emplace<LayerComp>(myEntity, Layer);
@@ -95,13 +95,43 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 }
 
 //*********************************************
+// タイトルマネージャーの生成
+//*********************************************
+entt::entity Factories::makeTitleManager(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<TitleManagerComponent>(myEntity);
+	Reg.emplace<TitleSelectComp>(myEntity);
+	Reg.emplace<LayerComp>(myEntity, 3);
+
+	InitTitleManager(Reg);
+
+	return myEntity;
+}
+
+//*********************************************
+// タイトルマネージャー初期化
+//*********************************************
+void Factories::InitTitleManager(entt::registry& Reg)
+{
+	for (int nCnt = 0; nCnt < static_cast<unsigned int>(TitleMenu::MENUTYPE::MAX); nCnt++)
+	{
+		const entt::entity menuEntity = Factories::makeObject2D(Reg, 3, TitleMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
+		Reg.emplace<TitleMenuComponent>(menuEntity);
+		Reg.emplace<TitleMenuComp>(menuEntity, static_cast<TitleMenu::MENUTYPE>(nCnt));
+	}
+}
+
+//*********************************************
 // オブジェクトPlayerの生成
 //*********************************************
 entt::entity Factories::makePlayer(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity).Pos = { 0.0f,200.0f,0.0f };
+	Reg.emplace<Transform3D>(myEntity).Pos = { 600.0f,200.0f,300.0f };
 	Reg.emplace<PlayerComponent>(myEntity);
+	Reg.emplace<CastShadow>(myEntity);
+	Reg.emplace<RenderingOutLine>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
@@ -115,13 +145,17 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 entt::entity Factories::makeEnemy(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity).Pos = { 0.0f,200.0f,-100.0f };
+	Reg.emplace<Transform3D>(myEntity).Pos = { -600.0f,200.0f,-280.0f };
+	auto& Quat = Reg.get<Transform3D>(myEntity);
+	D3DXQuaternionRotationYawPitchRoll(&Quat.Quat, D3DX_PI, 0.0f, 0.0f);
+	Reg.emplace<VelocityComp>(myEntity);
 	Reg.emplace<EnemyComponent>(myEntity);
-	Reg.emplace<ObjectXComponent>(myEntity);
+	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH);
+	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
-	MeshFactories::makeLaser(Reg, myEntity);
+	Reg.emplace<SingleParentComp>(myEntity, MeshFactories::makeLaser(Reg, myEntity));
 
 	return myEntity;
 }
@@ -133,10 +167,13 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform3D>(myEntity, Pos, Quat, Scale);
+	Reg.emplace<CastShadow>(myEntity);
+	Reg.emplace<CastShapeShadow>(myEntity);
 	Reg.emplace<MapObjectComponent>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<Size3DComp>(myEntity, Path);
+	if (Path.find("item01.x") != std::string::npos)Reg.emplace<RenderingOutLine>(myEntity);
 	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
 	Reg.emplace<XRenderingComp>(myEntity, Path);
 
@@ -281,6 +318,7 @@ entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
 	Reg.emplace<LaserComponent>(myEntity);
 	Reg.emplace<SingleParentComp>(myEntity, Parent);
+	Reg.emplace <LaserCollisionFragComp>(myEntity);
 
 	Reg.emplace<DivisionComp>(myEntity, 2, 8);
 
@@ -411,5 +449,28 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 	// インデックスバッファのアンロック
 	IdxBuffCmp.pIdx->Unlock();
 
+	return S_OK;
+}
+
+//*********************************************
+// 巡回ポイントの作成
+//*********************************************
+entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::string Path)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<PatrolPointComp>(myEntity, Path);
+
+	Reg.emplace<PatrolPointManager>(myEntity);
+
+	InitPatrolPointFromFile(Reg, myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// 巡回ポイントの初期化
+//*********************************************
+HRESULT MeshFactories::InitPatrolPointFromFile(entt::registry& Reg, const entt::entity& Entity)
+{
 	return S_OK;
 }

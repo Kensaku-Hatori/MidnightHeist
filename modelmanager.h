@@ -45,7 +45,6 @@ public:
 
 	// ゲッター
 	static MapObject& GetModelInfo(std::string Path);
-	//static MapObject* GetModelInfo(const int Indx);
 private:
 	// コンストラクタ・デストラクタ
 	CModelManager();
