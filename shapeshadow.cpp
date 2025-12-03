@@ -1,5 +1,5 @@
 #include "shapeshadow.h"
-#include "resource1.h"
+#include "ShaderResource.h"
 #include "manager.h"
 
 CShapeShadow::~CShapeShadow()

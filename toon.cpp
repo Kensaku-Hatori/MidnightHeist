@@ -8,7 +8,7 @@
 // インクルード
 #include "toon.h"
 #include "manager.h"
-#include "resource1.h"
+#include "ShaderResource.h"
 #include "shadowmap.h"
 
 // 静的メンバ変数

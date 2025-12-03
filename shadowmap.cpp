@@ -8,7 +8,7 @@
 // インクルード
 #include "shadowmap.h"
 #include "manager.h"
-#include"resource1.h"
+#include "ShaderResource.h"
 
 // 静的メンバ変数
 std::unique_ptr<CShadowMap> CShadowMap::m_Instance = nullptr;

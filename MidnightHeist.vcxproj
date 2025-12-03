@@ -247,7 +247,7 @@
     <ClInclude Include="RenderingPlayerSystem.h" />
     <ClInclude Include="RenderingToShadowmap.h" />
     <ClInclude Include="RenderingToShapeShadow.h" />
-    <ClInclude Include="resource1.h" />
+    <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="TitleManagerComp.hpp" />
     <ClInclude Include="TitleMenuComp.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
@@ -360,7 +360,7 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MidnightHeist.rc" />
+    <ResourceCompile Include="Shader.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
