@@ -178,10 +178,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	// ƒ^ƒCƒgƒ‹‰æ–Ê‚Éİ’è
 	SetScene(new CTitle);
 
-	CShapeShadow::Instance()->Init("data\\SHADER\\ShapeShadow.hlsl");
-	CShadowMap::Instance()->Init("data\\SHADER\\ShadowMap.hlsl");
-	CDefoult::Instance()->Init("data\\SHADER\\Defoult.hlsl");
-	CToon::Instance()->Init("data\\SHADER\\Toon.hlsl");
+	CShapeShadow::Instance()->Init();
+	CShadowMap::Instance()->Init();
+	CToon::Instance()->Init();
 
 	return S_OK;
 }

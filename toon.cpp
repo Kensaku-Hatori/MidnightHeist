@@ -8,6 +8,7 @@
 // インクルード
 #include "toon.h"
 #include "manager.h"
+#include "resource1.h"
 #include "shadowmap.h"
 
 // 静的メンバ変数
@@ -23,10 +24,10 @@ CToon::~CToon()
 //***************************************
 // 初期化処理
 //***************************************
-HRESULT CToon::Init(std::string Path)
+HRESULT CToon::Init(void)
 {
     // 初期化
-    HRESULT hr = CShader::Init(Path);
+    HRESULT hr = CShader::Init(HLSLID_TOON);
 
     // 初期化失敗
     if (FAILED(hr)) return E_FAIL;

@@ -19,7 +19,7 @@ namespace Factories {
 
 	entt::entity makePlayer(entt::registry& Reg);
 	entt::entity makeEnemy(entt::registry& Reg);
-	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f), const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
+	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
 }
 
 // メッシュ系のファクトリー

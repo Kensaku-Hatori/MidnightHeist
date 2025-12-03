@@ -18,7 +18,7 @@ public:
 	~CShader();
 
 	// メンバ関数
-	HRESULT Init(std::string Path);
+	HRESULT Init(int ResourseId);
 	void Uninit(void);
 	void Begin(void);
 	void BeginPass(const UINT Pass = 0);
@@ -32,7 +32,7 @@ public:
 	LPD3DXEFFECT& GetEffect() { return m_pEffect; }
 private:
 	// メンバ変数
-	std::string m_EffectPath;						// シェーダーファイルへのファイルパス
+	LPSTR m_EffectPath;						// シェーダーファイルへのファイルパス
 	LPD3DXEFFECT m_pEffect = NULL;					// シェーダーオブジェクト
 	D3DXHANDLE m_Tech = NULL;						// テクニックへのハンドル
 	std::map<std::string, D3DXHANDLE> m_vHandle;	// ハンドル

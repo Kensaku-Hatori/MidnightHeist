@@ -247,6 +247,7 @@
     <ClInclude Include="RenderingPlayerSystem.h" />
     <ClInclude Include="RenderingToShadowmap.h" />
     <ClInclude Include="RenderingToShapeShadow.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="TitleManagerComp.hpp" />
     <ClInclude Include="TitleMenuComp.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
@@ -357,6 +358,9 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MidnightHeist.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

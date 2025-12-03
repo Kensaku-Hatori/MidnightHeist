@@ -20,7 +20,6 @@ using namespace Tag;
 //*********************************************
 void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 {
-	return;
 	// エンテティのリストを取得
 	auto view = reg.view<CastShadow>();
 

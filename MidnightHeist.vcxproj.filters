@@ -569,6 +569,9 @@
     <ClInclude Include="RenderingOutLineSystem.h">
       <Filter>System\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="resource1.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
@@ -586,5 +589,10 @@
     <FxCompile Include="data\SHADER\Toon.hlsl">
       <Filter>Shader\Toon</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MidnightHeist.rc">
+      <Filter>リソース ファイル</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

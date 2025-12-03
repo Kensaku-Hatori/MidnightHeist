@@ -8,6 +8,7 @@
 // インクルード
 #include "shadowmap.h"
 #include "manager.h"
+#include"resource1.h"
 
 // 静的メンバ変数
 std::unique_ptr<CShadowMap> CShadowMap::m_Instance = nullptr;
@@ -22,10 +23,10 @@ CShadowMap::~CShadowMap()
 //***************************************
 // 初期化処理
 //***************************************
-HRESULT CShadowMap::Init(std::string Path)
+HRESULT CShadowMap::Init(void)
 {
     // 初期化処理
-    HRESULT hr = CShader::Init(Path);
+    HRESULT hr = CShader::Init(HLSLID_SHADOWMAP);
 
     // 初期化失敗
     if (FAILED(hr)) return E_FAIL;

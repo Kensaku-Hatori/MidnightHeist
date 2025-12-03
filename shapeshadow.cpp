@@ -1,14 +1,15 @@
 #include "shapeshadow.h"
+#include "resource1.h"
 #include "manager.h"
 
 CShapeShadow::~CShapeShadow()
 {
 }
 
-HRESULT CShapeShadow::Init(std::string Path)
+HRESULT CShapeShadow::Init(void)
 {
     // ‰Šú‰»ˆ—
-    HRESULT hr = CShader::Init(Path);
+    HRESULT hr = CShader::Init(HLSLID_SHAPESHADOW);
 
     // ‰Šú‰»¸”s
     if (FAILED(hr)) return E_FAIL;

@@ -54,7 +54,7 @@ HRESULT CTitle::Init(void)
 
 	Factories::makeObject3D(GetReg());
 	Factories::makePlayer(GetReg());
-	Factories::makeMapobject(GetReg(), "data\\MODEL\\item01.x", VEC3_NULL, D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f));
+	Factories::makeMapobject(GetReg(), "data\\MODEL\\item01.x");
 	Factories::makeTitleManager(GetReg());
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 10.0f,10.0f });
 

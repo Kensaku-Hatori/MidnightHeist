@@ -73,6 +73,7 @@
 #define MAX_WORD (4096)
 
 // å^ÇÃèâä˙íl
+#define QUAT_NULL D3DXQUATERNION(0.0f,0.0f,0.0f,1.0f)
 #define VEC3_NULL D3DXVECTOR3(0.0f,0.0f,0.0f)
 #define VEC_UP D3DXVECTOR3(0.0f,1.0f,0.0f)
 #define VEC2_NULL D3DXVECTOR2(0.0f,0.0f)

@@ -25,13 +25,10 @@ CShader::~CShader()
     m_vHandle.clear();
 }
 
-//***************************************
-// 初期化処理
-//***************************************
-HRESULT CShader::Init(std::string Path)
+HRESULT CShader::Init(int ResourseId)
 {
     // パスを保存
-    m_EffectPath = Path;
+    m_EffectPath = MAKEINTRESOURCE(ResourseId);
 
     // デバイスを取得
     CRenderer* pRenderer;
@@ -42,12 +39,12 @@ HRESULT CShader::Init(std::string Path)
     ID3DXBuffer* pError = nullptr;
 
     // エフェクト生成
-    HRESULT hr = D3DXCreateEffectFromFile(pDevice,
-        Path.c_str(),
-        nullptr,
-        nullptr,
-        D3DXSHADER_DEBUG,
-        nullptr,
+    HRESULT hr = D3DXCreateEffectFromResource(pDevice,NULL,
+        MAKEINTRESOURCE(ResourseId),
+        NULL,
+        NULL,
+        0,
+        NULL,
         &m_pEffect,
         &pError);
 
@@ -139,12 +136,12 @@ void CShader::Restart(void)
     ID3DXBuffer* pError = nullptr;
 
     // エフェクト生成
-    HRESULT hr = D3DXCreateEffectFromFile(pDevice,
-        m_EffectPath.c_str(),
-        nullptr,
-        nullptr,
-        D3DXSHADER_DEBUG,
-        nullptr,
+    HRESULT hr = D3DXCreateEffectFromResource(pDevice, NULL,
+        m_EffectPath,
+        NULL,
+        NULL,
+        0,
+        NULL,
         &m_pEffect,
         &pError);
 

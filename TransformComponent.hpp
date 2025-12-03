@@ -11,14 +11,14 @@
 // 3D変身コンポーネント情報
 struct Transform3D {
 	// イニシャライズコンストラクタ
-	Transform3D(D3DXVECTOR3 _Pos = VEC3_NULL, D3DXQUATERNION _Quat = { 0.0f,0.0f,0.0f,1.0f }, D3DXVECTOR3 _Scale = { 1.0f,1.0f,1.0f })
+	Transform3D(D3DXVECTOR3 _Pos = VEC3_NULL, D3DXQUATERNION _Quat = QUAT_NULL, D3DXVECTOR3 _Scale = { 1.0f,1.0f,1.0f })
 		: Pos(_Pos), Quat(_Quat), Scale(_Scale) {};
 	// 位置
-	D3DXVECTOR3 Pos = { 0.0f,0.0f,0.0f };
+	D3DXVECTOR3 Pos;
 	// 向き
-	D3DXQUATERNION Quat = { 0.0f,0.0f,0.0f,1.0f };
+	D3DXQUATERNION Quat;
 	// 拡大率
-	D3DXVECTOR3 Scale = { 1.0f,1.0f,1.0f };
+	D3DXVECTOR3 Scale;
 
 	// ワールドマトリックスを取得
 	D3DXMATRIX GetWorldMatrix(void) const {

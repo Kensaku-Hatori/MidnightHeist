@@ -20,7 +20,7 @@ public:
 	~CShadowMap();
 
 	// ƒƒ“ƒoŠÖ”
-	HRESULT Init(std::string Path);
+	HRESULT Init(void);
 	void Clear(void);
 	void WriteMaps(void);
 	void EndMaps(void);

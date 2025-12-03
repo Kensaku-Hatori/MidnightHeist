@@ -65,7 +65,7 @@ struct PatrolPointComp {
 
 			int Idx = 0;
 
-			for (const auto& CanMoveInfo : Info["Point"]["CanMove"])
+			for (int nCnt = 0;nCnt < static_cast<int>(Info["Point"]["CanMove"].size());nCnt++)
 			{
 				std::string Key = "Idx" + to_string(Idx);
 				Idx++;

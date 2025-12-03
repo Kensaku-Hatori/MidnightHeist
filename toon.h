@@ -20,7 +20,7 @@ public:
 	~CToon();
 
 	// ƒƒ“ƒoŠÖ”
-	HRESULT Init(std::string Path);
+	HRESULT Init(void);
 	void ReSet(void);
 	void ReStart(void);
 

@@ -10,7 +10,7 @@ public:
 	~CShapeShadow();
 
 	// ƒƒ“ƒoŠÖ”
-	HRESULT Init(std::string Path);
+	HRESULT Init(void);
 	void Draw(void);
 	void DrawTex(void);
 	void Clear(void);
