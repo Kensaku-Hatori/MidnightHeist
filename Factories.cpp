@@ -101,8 +101,7 @@ entt::entity Factories::makeTitleManager(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<TitleManagerComponent>(myEntity);
-	Reg.emplace<TitleSelectComp>(myEntity);
-	Reg.emplace<LayerComp>(myEntity, 3);
+	Reg.emplace<Select2DComp>(myEntity, TitleMenu::MENUTYPE::START);
 
 	InitTitleManager(Reg);
 
@@ -116,9 +115,38 @@ void Factories::InitTitleManager(entt::registry& Reg)
 {
 	for (int nCnt = 0; nCnt < static_cast<unsigned int>(TitleMenu::MENUTYPE::MAX); nCnt++)
 	{
-		const entt::entity menuEntity = Factories::makeObject2D(Reg, 3, TitleMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
+		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, TitleMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
 		Reg.emplace<TitleMenuComponent>(menuEntity);
-		Reg.emplace<TitleMenuComp>(menuEntity, static_cast<TitleMenu::MENUTYPE>(nCnt));
+		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
+	}
+}
+
+//*********************************************
+// ポーズマネージャーの生成
+//*********************************************
+entt::entity Factories::makePauseManager(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<PauseManagerComponent>(myEntity);
+	Reg.emplace<Select2DComp>(myEntity, PauseMenu::MENUTYPE::CONTINUE);
+
+	InitPauseManager(Reg,myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// ポーズマネージャー初期化
+//*********************************************
+void Factories::InitPauseManager(entt::registry& Reg,entt::entity Parent)
+{
+	for (int nCnt = 0; nCnt < static_cast<unsigned int>(PauseMenu::MENUTYPE::MAX); nCnt++)
+	{
+		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, PauseMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
+		Reg.remove<Object2DComponent>(menuEntity);
+		Reg.emplace<PauseMenuComponent>(menuEntity);
+		Reg.emplace<SingleParentComp>(menuEntity, Parent);
+		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
 	}
 }
 

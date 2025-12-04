@@ -26,13 +26,28 @@ template <class T> T Clamp(const T t, const T min, const T max)
 //***************************************
 // ƒ‰ƒbƒv
 //***************************************
-template <class T> T Wrap(const T t, const T min, const T max)
+template <class T> T Wrap(T &t, const T min, const T max)
 {
-	if (t > max) return min;
-	if (t < min) return max;
+	if (t > max) {
+		t = min;
+		return min;
+	}
+	if (t < min) {
+		t = max;
+		return max;
+	}
 	return t;
 }
-
+template <class T> T Wrap(const T t, const T min, const T max)
+{
+	if (t > max) {
+		return min;
+	}
+	if (t < min) {
+		return max;
+	}
+	return t;
+}
 //***************************************
 // Šp“x‚Ì‹ß“¹‰»
 //***************************************

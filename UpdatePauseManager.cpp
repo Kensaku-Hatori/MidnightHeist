@@ -6,48 +6,53 @@
 //****************************************************************
 
 // インクルード
-#include "UpdateTitleManager.h"
+#include "UpdatePauseManager.h"
 #include "manager.h"
 #include "Select2DComponent.hpp"
 #include "Menu2DComponent.hpp"
-#include "TitleUI.hpp"
+#include "PauseUI.hpp"
 #include "TagComp.hpp"
 #include "fade.h"
 #include "game.h"
 #include "ColorComponent.hpp"
+#include "SystemManager.h"
+#include "title.h"
 #include "math_T.h"
 
 // 名前空間
 using namespace Tag;
-using namespace TitleMenu;
+using namespace PauseMenu;
 
 //*********************************************
 // 更新
 //*********************************************
-void UpdateTitleManagerSystem::Update(entt::registry& reg)
+void UpdatePauseManagerSystem::Update(entt::registry& reg)
 {
-	auto view = reg.view<TitleManagerComponent>();
+	auto view = reg.view<PauseManagerComponent>();
 
 	for (auto entity : view)
 	{
 		auto& SelectMenuCmp = reg.get<Select2DComp>(entity);
+
+		if (CSystemManager::IsPause() == false) continue;
+
 		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true) {
-			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu - 1), MENUTYPE::START, MENUTYPE::EXIT));
+			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu - 1), MENUTYPE::CONTINUE, MENUTYPE::QUIT));
 		}
 		if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true) {
-			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu + 1), MENUTYPE::START, MENUTYPE::EXIT));
+			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu + 1), MENUTYPE::CONTINUE, MENUTYPE::QUIT));
 		}
-		UpdateTitleMenu(reg, entity);
+		UpdatePauseMenu(reg, entity);
 	}
 }
 
 //*********************************************
 // メニューの更新
 //*********************************************
-void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity& Manager)
+void UpdatePauseManagerSystem::UpdatePauseMenu(entt::registry& Reg, entt::entity& Manager)
 {
 	auto& SelectMenuCmp = Reg.get<Select2DComp>(Manager);
-	auto view = Reg.view<TitleMenuComponent>();
+	auto view = Reg.view<PauseMenuComponent>();
 
 	for (auto entity : view)
 	{
@@ -67,9 +72,10 @@ void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity
 //*********************************************
 // メニューの機能
 //*********************************************
-void UpdateTitleManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& Menu)
+void UpdatePauseManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& Menu)
 {
 	auto& myType = Reg.get<Menu2DComp>(Menu);
-	if (MENUTYPE::START == myType.myType)CFade::SetFade(new CGame);
-	else if (MENUTYPE::EXIT == myType.myType)PostQuitMessage(0);
+	if (MENUTYPE::CONTINUE == myType.myType)CSystemManager::SetPause(false);
+	else if (MENUTYPE::RETRY == myType.myType)CFade::SetFade(new CGame);
+	else if (MENUTYPE::QUIT == myType.myType)CFade::SetFade(new CTitle);
 }

@@ -33,6 +33,8 @@
 #include "UpdateEnemyChase.h"
 #include "UpdateEnemyPredict.h"
 #include "UpdateTitleManager.h"
+#include "UpdatePauseManager.h"
+#include "UpdatePauseMenu.h"
 #include "UpdateEnemySearch.h"
 
 #include "Rendering2Dbace.h"
@@ -46,6 +48,7 @@
 #include "RenderingToShadowmap.h"
 #include "RenderingToShapeShadow.h"
 #include "RenderingOutLineSystem.h"
+#include "RenderingPauseMenu.h"
 
 // 名前空間
 using namespace std;
@@ -108,9 +111,10 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
 	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);
+	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
+	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
-	CSystemManager::AddRenderingSystem(new Render2DSystem);
 	CSystemManager::AddRenderingSystem(new Render3DSystem);
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
@@ -121,6 +125,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
+	CSystemManager::AddRenderingSystem(new Render2DSystem);
+	CSystemManager::AddRenderingSystem(new RenderingPauseMenuSystem);
 
 	// 物理世界に必要なポインタを生成
 	m_pBroadPhase = make_unique<btDbvtBroadphase>();

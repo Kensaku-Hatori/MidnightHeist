@@ -14,12 +14,14 @@
 class CSystemManager
 {
 public:
-	~CSystemManager() {}
+	~CSystemManager() {};
 
 	static void UpdateAll(entt::registry& Reg);
 	static void RenderingAll(entt::registry& Reg);
 	static void AddUpdateSystem(BaceSystem* System);
 	static void AddRenderingSystem(BaceRenderingSystem* System);
+	static void SetPause(bool Set) { m_IsPause = Set; };
+	static bool IsPause(void) { return m_IsPause; }
 	static void EndSystem(void);
 	static size_t GetUpdateSystemSize(void) { return m_UpdateSystems.size(); }
 	static size_t GetRenderingSystemSize(void) { return m_RenderingSystems.size(); }
@@ -27,4 +29,5 @@ private:
 	CSystemManager() {}
 	static std::vector<BaceSystem*> m_UpdateSystems;				// 更新処理の配列
 	static std::vector<BaceRenderingSystem*> m_RenderingSystems;	// 描画処理の配列
+	static bool m_IsPause;											// ポーズ中かどうか
 };

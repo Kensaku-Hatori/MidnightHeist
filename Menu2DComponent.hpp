@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// タイトルのコンポーネント[TitleSelectComp.hpp]
+// メニューのコンポーネント[Menu2DComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -8,13 +8,10 @@
 // 二重インクルード防止
 #pragma once
 
-// インクルード
-#include "TitleManagerComp.hpp"
-
 // テクスチャ情報
-struct TitleMenuComp {
+struct Menu2DComp {
     // イニシャライズコンストラクタ
-    TitleMenuComp(TitleMenu::MENUTYPE _myType) : myType(_myType) {};
+    Menu2DComp(int _myType) : myType(_myType) {};
     // 自分のメニューの種類
-    TitleMenu::MENUTYPE myType;
+    const int myType;
 };

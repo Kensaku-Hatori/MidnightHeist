@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// タイトルのコンポーネント[TitleSelectComp.hpp]
+// ポーズメニューの情報[PauseUI.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -9,14 +9,27 @@
 #pragma once
 
 // 名前空間で囲っておく
-namespace TitleMenu {
+namespace PauseMenu {
     // メニューの種類の列挙型
     enum class MENUTYPE : int
     {
-        START,  // 開始
-        EXIT,       // 終了
+        CONTINUE,   // 続ける
+        RETRY,      // やり直す
+        QUIT,       // やめる
         MAX         // 最大数
     };
+    // 列挙子のコンペア
+    inline bool operator==(int Othor, MENUTYPE My) {
+        // インクリメントするためにイント型にキャスト
+        int _Value = static_cast<int>(My);
+        return _Value == Othor;
+    }
+    // 列挙子のコンペア
+    inline bool operator==(MENUTYPE My, int Othor) {
+        // インクリメントするためにイント型にキャスト
+        int _Value = static_cast<int>(My);
+        return _Value == Othor;
+    }
     // 列挙子の前置インクリメント
     inline MENUTYPE& operator++(MENUTYPE& Value) {
         // インクリメントするためにイント型にキャスト
@@ -49,7 +62,7 @@ namespace TitleMenu {
         return Cpy;
     }
     // 列挙子の後置デクリメント
-    inline MENUTYPE operator--(MENUTYPE& Value,int) {
+    inline MENUTYPE operator--(MENUTYPE& Value, int) {
         // 別の変数としてコピー
         MENUTYPE Cpy = Value;
         // デクリメントするために元の値をキャスト
@@ -80,17 +93,10 @@ namespace TitleMenu {
         return Value;
     }
 
-    // タイトルメニューのテクスチャパス一覧
-    const std::string PathList[static_cast<uint8_t>(TitleMenu::MENUTYPE::MAX)] = {
-    "data\\TEXTURE\\Title\\start.png",
-    "data\\TEXTURE\\Title\\quit01.png",
+    // ポーズメニューのテクスチャパス一覧
+    const std::string PathList[static_cast<uint8_t>(PauseMenu::MENUTYPE::MAX)] = {
+    "data\\TEXTURE\\Pause\\continue.png",
+    "data\\TEXTURE\\Pause\\retry.png",
+    "data\\TEXTURE\\Pause\\quit.png",
     };
 }
-
-// テクスチャ情報
-struct TitleSelectComp {
-    // イニシャライズコンストラクタ
-    TitleSelectComp(TitleMenu::MENUTYPE Default = TitleMenu::MENUTYPE::START) : SelectMenu(Default) {};
-    // 選んでいるメニュー
-    TitleMenu::MENUTYPE SelectMenu;
-};

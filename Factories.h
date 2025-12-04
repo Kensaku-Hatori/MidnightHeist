@@ -17,6 +17,9 @@ namespace Factories {
 	entt::entity makeTitleManager(entt::registry& Reg);
 	void InitTitleManager(entt::registry& Reg);
 
+	entt::entity makePauseManager(entt::registry& Reg);
+	void InitPauseManager(entt::registry& Reg, entt::entity Parent);
+
 	entt::entity makePlayer(entt::registry& Reg);
 	entt::entity makeEnemy(entt::registry& Reg);
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });

@@ -52,30 +52,30 @@ void CPauseManager::Uninit(void)
 //***************************************
 void CPauseManager::Update(void)
 {
-	if (CManager::GetCamera()->IsAnim() == false)
-	{
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_P) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_START) == true)
-		{
-			CManager::ChangePause();
-			m_SelectMenu = CPause::CONTINUE;
-		}
-	}
+	//if (CManager::GetCamera()->IsAnim() == false)
+	//{
+	//	if (CManager::GetInputKeyboard()->GetTrigger(DIK_P) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_START) == true)
+	//	{
+	//		CManager::ChangePause();
+	//		m_SelectMenu = CPause::CONTINUE;
+	//	}
+	//}
 
-	if (CManager::isPause() == true)
-	{
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true)
-		{
-			m_SelectMenu = (CPause::Menu)Wrap(m_SelectMenu - 1, 0, (int)CPause::MAX - 1);
-		}
-		else if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true)
-		{
-			m_Singleton->m_SelectMenu = (CPause::Menu)Wrap(m_SelectMenu + 1, 0, (int)CPause::MAX - 1);
-		}
-		for (auto iter = m_apPauseMenu.begin(); iter != m_apPauseMenu.end(); iter++)
-		{
-			(*iter)->Update();
-		}
-	}
+	//if (CManager::isPause() == true)
+	//{
+	//	if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true)
+	//	{
+	//		m_SelectMenu = (CPause::Menu)Wrap(m_SelectMenu - 1, 0, (int)CPause::MAX - 1);
+	//	}
+	//	else if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true)
+	//	{
+	//		m_Singleton->m_SelectMenu = (CPause::Menu)Wrap(m_SelectMenu + 1, 0, (int)CPause::MAX - 1);
+	//	}
+	//	for (auto iter = m_apPauseMenu.begin(); iter != m_apPauseMenu.end(); iter++)
+	//	{
+	//		(*iter)->Update();
+	//	}
+	//}
 }
 
 //***************************************

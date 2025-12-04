@@ -19,6 +19,10 @@ namespace Tag {
 	struct TitleManagerComponent {};
 	// タイトルメニュー
 	struct TitleMenuComponent {};
+	// ポーズマネージャー
+	struct PauseManagerComponent {};
+	// ポーズメニュー
+	struct PauseMenuComponent {};
 	// プレイヤー情報
 	struct PlayerComponent {};
 	// 敵

@@ -65,19 +65,19 @@ void CTitleManager::Uninit(void)
 //***************************************
 void CTitleManager::Update(void)
 {
-	// メニューを選ぶ
-	if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true || CManager::GetInputMouse()->GetMouseState().lZ < 0 ||
-		CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true)
-	{
-		//CManager::GetSound()->Play(CSound::LABEL_MOVESELECT);
-		m_SelectMenu = (CTitleMenu::Menu)Wrap(m_SelectMenu - 1, 0, (int)CTitleMenu::MAX - 1);
-	}
-	else if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true || CManager::GetInputMouse()->GetMouseState().lZ > 0 ||
-		CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true)
-	{
-		//CManager::GetSound()->Play(CSound::LABEL_MOVESELECT);
-		m_SelectMenu = (CTitleMenu::Menu)Wrap(m_SelectMenu + 1, 0, (int)CTitleMenu::MAX - 1);
-	}
+	//// メニューを選ぶ
+	//if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true || CManager::GetInputMouse()->GetMouseState().lZ < 0 ||
+	//	CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true)
+	//{
+	//	//CManager::GetSound()->Play(CSound::LABEL_MOVESELECT);
+	//	m_SelectMenu = (CTitleMenu::Menu)Wrap(m_SelectMenu - 1, 0, (int)CTitleMenu::MAX - 1);
+	//}
+	//else if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true || CManager::GetInputMouse()->GetMouseState().lZ > 0 ||
+	//	CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true)
+	//{
+	//	//CManager::GetSound()->Play(CSound::LABEL_MOVESELECT);
+	//	m_SelectMenu = (CTitleMenu::Menu)Wrap(m_SelectMenu + 1, 0, (int)CTitleMenu::MAX - 1);
+	//}
 }
 
 //***************************************

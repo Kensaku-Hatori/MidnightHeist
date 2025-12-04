@@ -15,22 +15,10 @@
 #include "fade.h"
 #include "mapmanager.h"
 #include "Factories.h"
-
-// 規定値を設定
-// プレイヤー
-const D3DXVECTOR3 CGame::Config::Player::Pos = { 120.0f,0.0f,-1700.0f };
-const D3DXVECTOR3 CGame::Config::Player::Rot = { 0.0f,D3DX_PI,0.0f };
-// カメラ
-const D3DXVECTOR3 CGame::Config::Camera::Rot = { 0.0f,D3DX_PI,0.0f };
-const D3DXVECTOR3 CGame::Config::Camera::PosR = { 120.0f,50.0f,-1700.0f };
-const D3DXVECTOR3 CGame::Config::Camera::PosV = { 119.9f,60.0f,-1900.0f };
-// 空
-const D3DXVECTOR3 CGame::Config::Sky::Pos = VEC3_NULL;
+#include "SystemManager.h"
 
 // 静的メンバ変数
-CPauseManager* CGame::m_pPauseManager = NULL;
 CMapManager* CGame::m_pMapManager = NULL;
-bool CGame::m_isPause = false;
 
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
@@ -60,6 +48,7 @@ HRESULT CGame::Init(void)
 	Factories::makePlayer(GetReg());
 	Factories::makeEnemy(GetReg());
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
+	Factories::makePauseManager(GetReg());
 	return S_OK;
 }
 
@@ -68,10 +57,6 @@ HRESULT CGame::Init(void)
 //***************************************
 void CGame::Update(void)
 {
-	if (m_pPauseManager != NULL)
-	{
-		m_pPauseManager->Update();
-	}
 	if (m_pMapManager != nullptr)
 	{
 		m_pMapManager->Update();
@@ -83,11 +68,7 @@ void CGame::Update(void)
 //***************************************
 void CGame::Uninit(void)
 {
-	if (m_pPauseManager != NULL)
-	{
-		m_pPauseManager->Uninit();
-		m_pPauseManager = NULL;
-	}
+	CSystemManager::SetPause(false);
 	GetReg().clear();
 	delete this;
 }

@@ -166,6 +166,7 @@
     <ClCompile Include="RenderingMeshLaserSystem.cpp" />
     <ClCompile Include="RenderingMeshFieldSystem.cpp" />
     <ClCompile Include="RenderingOutLineSystem.cpp" />
+    <ClCompile Include="RenderingPauseMenu.cpp" />
     <ClCompile Include="RenderingPlayerSystem.cpp" />
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
@@ -222,6 +223,8 @@
     <ClCompile Include="RenderingXSystem.cpp" />
     <ClCompile Include="UpdateMapobjectSystem.cpp" />
     <ClCompile Include="UpdateMeshFieldSystem.cpp" />
+    <ClCompile Include="UpdatePauseManager.cpp" />
+    <ClCompile Include="UpdatePauseMenu.cpp" />
     <ClCompile Include="UpdateTitleManager.cpp" />
     <ClCompile Include="UpdateXSystem.cpp" />
   </ItemGroup>
@@ -233,21 +236,24 @@
     <ClInclude Include="FanInfoComponent.hpp" />
     <ClInclude Include="IndexBufferComponent.hpp" />
     <ClInclude Include="LaserCollisionFragComp.hpp" />
+    <ClInclude Include="Menu2DComponent.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="MeshInfoComponent.hpp" />
     <ClInclude Include="ParentComponent.hpp" />
+    <ClInclude Include="PauseUI.hpp" />
     <ClInclude Include="RayComponent.hpp" />
     <ClInclude Include="RenderingEnemySystem.h" />
     <ClInclude Include="RenderingMapobjectSystem.h" />
     <ClInclude Include="RenderingMeshLaserSystem.h" />
     <ClInclude Include="RenderingMeshFieldSystem.h" />
     <ClInclude Include="RenderingOutLineSystem.h" />
+    <ClInclude Include="RenderingPauseMenu.h" />
     <ClInclude Include="RenderingPlayerSystem.h" />
     <ClInclude Include="RenderingToShadowmap.h" />
     <ClInclude Include="RenderingToShapeShadow.h" />
+    <ClInclude Include="Select2DComponent.hpp" />
     <ClInclude Include="ShaderResource.h" />
-    <ClInclude Include="TitleManagerComp.hpp" />
-    <ClInclude Include="TitleMenuComp.hpp" />
+    <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
     <ClInclude Include="UpdateEnemySearch.h" />
@@ -314,6 +320,8 @@
     <ClInclude Include="TransformComponent.hpp" />
     <ClInclude Include="UpdateMapobjectSystem.h" />
     <ClInclude Include="UpdateMeshFieldSystem.h" />
+    <ClInclude Include="UpdatePauseManager.h" />
+    <ClInclude Include="UpdatePauseMenu.h" />
     <ClInclude Include="UpdateTitleManager.h" />
     <ClInclude Include="UVComponent.hpp" />
     <ClInclude Include="Velocity.hpp" />

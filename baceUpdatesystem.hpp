@@ -12,9 +12,11 @@
 struct BaceSystem
 {
 	// コンストラクタ
-	BaceSystem() = default;
+	BaceSystem(const bool RefPause = true) { IsRefPause = RefPause; };
 	// デストラクタ
 	virtual ~BaceSystem() = default;
 	// 更新
 	virtual void Update(entt::registry& reg) = 0;
+	// ポーズを参照するかどうか
+	bool IsRefPause;
 };

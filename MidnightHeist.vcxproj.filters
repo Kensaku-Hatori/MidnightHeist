@@ -91,6 +91,18 @@
     <Filter Include="Component\myColliderInfo">
       <UniqueIdentifier>{2ec852e6-b7db-40b4-b9cd-366c564f2be7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Pause">
+      <UniqueIdentifier>{58f8c510-e8df-407e-8679-cadf1cc765bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\UI">
+      <UniqueIdentifier>{93d6127c-5d37-42f1-a5f3-1fff07cd9538}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Pause">
+      <UniqueIdentifier>{5983280d-a05b-4f07-9d33-012648c37bfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\Pause">
+      <UniqueIdentifier>{e3269bbd-5d3f-4a8e-914b-2e60c69af5f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -272,6 +284,15 @@
     </ClCompile>
     <ClCompile Include="RenderingOutLineSystem.cpp">
       <Filter>System\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatePauseManager.cpp">
+      <Filter>System\Update\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingPauseMenu.cpp">
+      <Filter>System\Rendering\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatePauseMenu.cpp">
+      <Filter>System\Update\Pause</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,10 +563,7 @@
     <ClInclude Include="UpdateTitleManager.h">
       <Filter>System\Update\Title</Filter>
     </ClInclude>
-    <ClInclude Include="TitleManagerComp.hpp">
-      <Filter>Component\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleMenuComp.hpp">
+    <ClInclude Include="TitleUI.hpp">
       <Filter>Component\Title</Filter>
     </ClInclude>
     <ClInclude Include="EnemyPatrolPointComp.hpp">
@@ -559,6 +577,24 @@
     </ClInclude>
     <ClInclude Include="FanInfoComponent.hpp">
       <Filter>Component\myColliderInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseUI.hpp">
+      <Filter>Component\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="Select2DComponent.hpp">
+      <Filter>Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu2DComponent.hpp">
+      <Filter>Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatePauseManager.h">
+      <Filter>System\Update\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingPauseMenu.h">
+      <Filter>System\Rendering\Pause</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatePauseMenu.h">
+      <Filter>System\Update\Pause</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

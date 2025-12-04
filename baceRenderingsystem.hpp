@@ -12,9 +12,11 @@
 struct BaceRenderingSystem
 {
 	// コンストラクタ
-	BaceRenderingSystem() = default;
+	BaceRenderingSystem(const bool RefPause = false) { IsRefPause = RefPause; };
 	// デストラクタ
 	virtual ~BaceRenderingSystem() = default;
 	// 純粋仮想関数
 	virtual void Rendering(entt::registry& reg) = 0;
+	// ポーズを参照するかどうか
+	bool IsRefPause;
 };

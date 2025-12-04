@@ -1,14 +1,27 @@
 #include "SystemManager.h"
+#include "manager.h"
 
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
 std::vector<BaceSystem*> CSystemManager::m_UpdateSystems = {};
 std::vector<BaceRenderingSystem*> CSystemManager::m_RenderingSystems = {};
+bool CSystemManager::m_IsPause = false;
 
 void CSystemManager::UpdateAll(entt::registry& Reg)
 {
+	if (CManager::GetInputKeyboard()->GetTrigger(DIK_P) == true) {
+		m_IsPause = !m_IsPause;
+	}
+
 	for (auto Systems = m_UpdateSystems.begin(); Systems != m_UpdateSystems.end(); Systems++)
 	{
-		(*Systems)->Update(Reg);
+		if ((*Systems)->IsRefPause == true && m_IsPause == false)
+		{
+			(*Systems)->Update(Reg);
+		}
+		else if ((*Systems)->IsRefPause == false)
+		{
+			(*Systems)->Update(Reg);
+		}
 	}
 }
 
@@ -16,7 +29,14 @@ void CSystemManager::RenderingAll(entt::registry& Reg)
 {
 	for (auto Systems = m_RenderingSystems.begin(); Systems != m_RenderingSystems.end(); Systems++)
 	{
-		(*Systems)->Rendering(Reg);
+		if ((*Systems)->IsRefPause == true && m_IsPause == false)
+		{
+			(*Systems)->Rendering(Reg);
+		}
+		else if ((*Systems)->IsRefPause == false)
+		{
+			(*Systems)->Rendering(Reg);
+		}
 	}
 }
 
