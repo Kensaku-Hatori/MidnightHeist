@@ -21,6 +21,5 @@ struct PlayerRenderingSystem : BaceRenderingSystem
 	~PlayerRenderingSystem() = default;
 	// •`‰æ
 	void Rendering(entt::registry& reg)override;
-	void RenderingOutLine(entt::registry& Reg, entt::entity Entity);
 	void RenderingShape(entt::registry& Reg, entt::entity Entity);
 };

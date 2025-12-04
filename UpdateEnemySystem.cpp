@@ -13,6 +13,7 @@
 #include "SingleCollisionShapeComponent.hpp"
 #include "SizeComponent.hpp"
 #include "Velocity.hpp"
+#include "FanInfoComponent.hpp"
 
 // ñºëOãÛä‘
 using namespace Tag;
@@ -26,6 +27,13 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 
 	for (auto entity : view)
 	{
+		auto& Transform = reg.get<Transform3D>(entity);
+		auto& FanInfoCmp = reg.get<FanComp>(entity);
+		D3DXMATRIX myMatrix = Transform.GetWorldMatrix();
+
+		FanInfoCmp.Origin = { myMatrix._41,myMatrix._42,myMatrix._43 };
+		FanInfoCmp.Dir = { -myMatrix._31,-myMatrix._32,-myMatrix._33 };
+
 		// çÑëÃÇÃçXêV
 		UpdateRB(reg, entity);
 	}

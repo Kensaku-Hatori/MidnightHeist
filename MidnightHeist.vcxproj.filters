@@ -88,6 +88,9 @@
     <Filter Include="Component\Title">
       <UniqueIdentifier>{8bb6e375-5d4b-4997-bcfc-2fad584d770c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\myColliderInfo">
+      <UniqueIdentifier>{2ec852e6-b7db-40b4-b9cd-366c564f2be7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -117,9 +120,6 @@
     <ClCompile Include="manager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="mapobject.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="math.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -138,16 +138,10 @@
     <ClCompile Include="objectbillboard.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="objectX.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="particle3d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="renderer.cpp">
@@ -311,9 +305,6 @@
     <ClInclude Include="manager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="mapobject.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="math.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -335,16 +326,10 @@
     <ClInclude Include="objectbillboard.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="objectX.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="particle3d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="renderer.h">
@@ -571,6 +556,9 @@
     </ClInclude>
     <ClInclude Include="ShaderResource.h">
       <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="FanInfoComponent.hpp">
+      <Filter>Component\myColliderInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

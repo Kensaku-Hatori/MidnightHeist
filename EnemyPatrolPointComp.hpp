@@ -25,7 +25,7 @@ namespace PatrolPoint {
 // テクスチャ情報
 struct PatrolPointComp {
     // イニシャライズコンストラクタ
-    PatrolPointComp(std::string Path) {
+    PatrolPointComp(const std::string& Path,const float Radius) {
 		// 名前空間
 		using namespace nlohmann;
 		using namespace std;
@@ -33,6 +33,9 @@ struct PatrolPointComp {
 
 		// jsonファイルを開く
 		ifstream ifs(Path);
+
+		// ポイントの大きさ
+		PointRadius = Radius;
 
 		if (!ifs)
 		{
@@ -63,25 +66,36 @@ struct PatrolPointComp {
 			LoadInfo.Point.y = Info["Point"]["Pos"]["y"];
 			LoadInfo.Point.z = Info["Point"]["Pos"]["z"];
 
+			// Idxキーに対してのIdx
 			int Idx = 0;
 
+			// CanMoveの中にあるサイズ分繰り返す
 			for (int nCnt = 0;nCnt < static_cast<int>(Info["Point"]["CanMove"].size());nCnt++)
 			{
+				// キーを計算して算出
 				std::string Key = "Idx" + to_string(Idx);
+				// Idxをインクリメント
 				Idx++;
+				// 情報を取り出す
 				int set = Info["Point"]["CanMove"][Key];
 				LoadInfo.CanMove.push_back(set);
 			}
 			PatrolPoint.push_back(LoadInfo);
 		}
     };
+	// デストラクタ
 	~PatrolPointComp() {
+		// コンテナにアクセス
 		for (auto PatPoint = PatrolPoint.begin(); PatPoint != PatrolPoint.end(); PatPoint++)
 		{
+			// 配列をクリア
 			(*PatPoint).CanMove.clear();
 		}
+		// 配列をクリア
 		PatrolPoint.clear();
 	};
     // コリジョンフラグ
     std::vector<PatrolPoint::PatrolPointInfo> PatrolPoint;
+	// 巡回ポイントの当たり判定の大きさ
+	float PointRadius;
 };

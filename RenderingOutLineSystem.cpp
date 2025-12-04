@@ -31,7 +31,6 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	D3DXMATRIX View, Proj;
-	D3DXVECTOR4 Light = { 1.0f,1.0f,1.0f,0.0f };
 	pDevice->GetTransform(D3DTS_VIEW, &View);
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
@@ -60,7 +59,7 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 		{
-			CToon::Instance()->SetParameters(mtxWorld, View, Proj, Light);
+			CToon::Instance()->SetUseOutLineParameters(mtxWorld, View, Proj);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);

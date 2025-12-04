@@ -32,3 +32,4 @@
 #include "TitleManagerComp.hpp"
 #include "TitleMenuComp.hpp"
 #include "EnemyPatrolPointComp.hpp"
+#include "FanInfoComponent.hpp"

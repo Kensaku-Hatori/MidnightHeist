@@ -33,10 +33,11 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 	{
 		if (Reg.get<SingleParentComp>(entity).Parent == entt::null) continue;
 		auto& SizeCmp = Reg.get<SizeComp>(entity);
-		auto& CollisionFrag = Reg.get<LaserCollisionFragComp>(entity);
+		auto& CollisionInfo = Reg.get<LaserCollisionInfoComp>(entity);
 
-		CollisionFrag.IsLaserCollision = false;
-		CollisionFrag.IsRayCollision = false;
+		CollisionInfo.IsLaserCollision = false;
+		CollisionInfo.IsRayCollision = false;
+		CollisionInfo.NearObjectDistance = LasetCollisionInfo::InvalidNearDistance;
 
 		// モデルとマウスの当たり判定用の距離
 		float Distance, CurrentDistance;
@@ -63,7 +64,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			// 当たったら
 			if (CollisionEntity(Reg, entity, entityMapObject, CurrentDistance) == true)
 			{
-				if (ToPlayer >= CurrentDistance)CollisionFrag.IsRayCollision = true;
+				if (ToPlayer >= CurrentDistance)CollisionInfo.IsRayCollision = true;
 				// 最新の距離と当たったオブジェクトとの距離を比較
 				if (CurrentDistance < Distance)
 				{
@@ -73,7 +74,8 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			}
 		}
 		SizeCmp.Size.y = Distance;
-		if (SizeCmp.Size.y <= DefaultDist) CollisionFrag.IsLaserCollision = true;
+		if (Distance != DefaultDist)CollisionInfo.NearObjectDistance = Distance;
+		if (SizeCmp.Size.y <= DefaultDist) CollisionInfo.IsLaserCollision = true;
 		UpdateVertex(Reg, entity);
 	}
 }

@@ -7,10 +7,8 @@
 
 // インクルード
 #include "mapmanager.h"
-#include "mapobject.h"
 #include "shadowmap.h"
 #include "game.h"
-#include "player.h"
 #include "laser.h"
 #include "Factories.h"
 

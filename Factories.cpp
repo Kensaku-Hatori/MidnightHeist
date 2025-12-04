@@ -146,9 +146,12 @@ entt::entity Factories::makeEnemy(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform3D>(myEntity).Pos = { -600.0f,200.0f,-280.0f };
-	auto& Quat = Reg.get<Transform3D>(myEntity);
-	D3DXQuaternionRotationYawPitchRoll(&Quat.Quat, D3DX_PI, 0.0f, 0.0f);
+	auto& Trans = Reg.get<Transform3D>(myEntity);
+	D3DXMATRIX Basis = Trans.GetBasis();
+	D3DXVECTOR3 FrontVec = { Basis._31,Basis._32,Basis._33 };
+	D3DXQuaternionRotationYawPitchRoll(&Trans.Quat, D3DX_PI, 0.0f, 0.0f);
 	Reg.emplace<VelocityComp>(myEntity);
+	Reg.emplace<FanComp>(myEntity, Trans.Pos, FrontVec, 90.0f, 200.0f);
 	Reg.emplace<EnemyComponent>(myEntity);
 	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH);
 	Reg.emplace<CastShadow>(myEntity);
@@ -318,7 +321,7 @@ entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
 	Reg.emplace<LaserComponent>(myEntity);
 	Reg.emplace<SingleParentComp>(myEntity, Parent);
-	Reg.emplace <LaserCollisionFragComp>(myEntity);
+	Reg.emplace <LaserCollisionInfoComp>(myEntity);
 
 	Reg.emplace<DivisionComp>(myEntity, 2, 8);
 
@@ -458,7 +461,7 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::string Path)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<PatrolPointComp>(myEntity, Path);
+	Reg.emplace<PatrolPointComp>(myEntity, Path, 10.0f);
 
 	Reg.emplace<PatrolPointManager>(myEntity);
 

@@ -189,7 +189,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="mapmanager.cpp" />
-    <ClCompile Include="mapobject.cpp" />
     <ClCompile Include="math.cpp" />
     <ClCompile Include="modelmanager.cpp" />
     <ClCompile Include="object.cpp" />
@@ -197,7 +196,6 @@
     <ClCompile Include="object3D.cpp" />
     <ClCompile Include="objectbillboard.cpp" />
     <ClCompile Include="Factories.cpp" />
-    <ClCompile Include="objectX.cpp" />
     <ClCompile Include="particle3d.cpp" />
     <ClCompile Include="pause.cpp" />
     <ClCompile Include="pausemanager.cpp" />
@@ -205,7 +203,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="playerUpdateSystem.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="Rendering2Dbace.cpp" />
@@ -233,6 +230,7 @@
     <ClInclude Include="DivisionComponent.hpp" />
     <ClInclude Include="EnemyPatrolPointComp.hpp" />
     <ClInclude Include="FactorieUtils.h" />
+    <ClInclude Include="FanInfoComponent.hpp" />
     <ClInclude Include="IndexBufferComponent.hpp" />
     <ClInclude Include="LaserCollisionFragComp.hpp" />
     <ClInclude Include="Mesh.hpp" />
@@ -277,7 +275,6 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
     <ClInclude Include="mapmanager.h" />
-    <ClInclude Include="mapobject.h" />
     <ClInclude Include="math.h" />
     <ClInclude Include="math_T.h" />
     <ClInclude Include="modelmanager.h" />
@@ -288,12 +285,10 @@
     <ClInclude Include="ObjectBaceComponent.hpp" />
     <ClInclude Include="objectbillboard.h" />
     <ClInclude Include="Factories.h" />
-    <ClInclude Include="objectX.h" />
     <ClInclude Include="particle3d.h" />
     <ClInclude Include="pause.h" />
     <ClInclude Include="pausemanager.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="playerUpdateSystem.h" />
     <ClInclude Include="RigitBodyComponent.hpp" />
     <ClInclude Include="SingleCollisionShapeComponent.hpp" />

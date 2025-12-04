@@ -251,6 +251,83 @@ D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
 	return Size;
 }
 
+//***************************************
+// 扇形の中に点が存在するかどうか
+//***************************************
+bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)
+{
+	// 距離を計算
+	D3DXVECTOR3 ToPoint = Point - Fan.Origin;
+	float Length = D3DXVec3Length(&ToPoint);
+	// ベクトルと扇の長さの比較
+	if (Fan.Length < Length)
+	{
+		// 当たっていない
+		return false;
+	}
+	// 扇の向き
+	D3DXVECTOR3 FanDir = Fan.Dir;
+	// 扇と点のベクトルを単位ベクトルにする
+	D3DXVECTOR3 ToPointDir;
+	D3DXVec3Normalize(&ToPointDir, &ToPoint);
+	// 内積計算
+	float Dot = D3DXVec3Dot(&ToPointDir, &FanDir);
+	// 扇の範囲をcosにする
+	float Cos = cosf(D3DXToRadian(Fan.RangeDegree / 2.0f));
+
+	// 点が扇の範囲内にあるかを比較する
+	if (Cos > Dot)
+	{
+		// 当たってない
+		return false;
+	}
+	else
+	{
+		// 当たった
+		return true;
+	}
+}
+
+////***************************************
+//// 光線状にメッシュがあるかどうか
+////***************************************
+bool CMath::IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance)
+{
+	// モデルのマトリックスの逆行列
+	D3DXMATRIX invWorld;
+	D3DXMatrixInverse(&invWorld, NULL, &MeshMtx);
+
+	// レイの始点と向きのローカル変数
+	D3DXVECTOR3 localRayOrigin, localRayDir;
+
+	// マウスのレイを取得
+	D3DXVECTOR3 RayPos = Ray.Origin;
+	D3DXVECTOR3 RayDir = Ray.Dir;
+
+	CInputMouse::Ray LocalRay;
+	LocalRay.Origin = RayPos;
+	LocalRay.Dir = RayDir;
+
+	// 始点を位置としてマトリックスで変換
+	D3DXVec3TransformCoord(&localRayOrigin, &LocalRay.Origin, &invWorld);
+
+	// レイの向きを方向ベクトルとしてマトリックスで変換
+	D3DXVec3TransformNormal(&localRayDir, &LocalRay.Dir, &invWorld);
+
+	// 当たったかどうかの一時変数
+	BOOL hit;
+
+	// 当たり判定を実行
+	if (Distance != nullptr)
+	{
+		D3DXIntersect(Mesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, Distance, NULL, NULL);
+	}
+	else D3DXIntersect(Mesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, NULL, NULL, NULL);
+
+	// 当たったかどうかを返す
+	return hit;
+}
+
 ////***************************************
 //// 線分と線分の最接点距離
 ////***************************************

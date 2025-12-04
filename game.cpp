@@ -13,9 +13,7 @@
 #include "math.h"
 #include "object3D.h"
 #include "fade.h"
-#include "mapobject.h"
 #include "mapmanager.h"
-#include "player.h"
 #include "Factories.h"
 
 // ‹K’è’l‚ðÝ’è
@@ -30,7 +28,6 @@ const D3DXVECTOR3 CGame::Config::Camera::PosV = { 119.9f,60.0f,-1900.0f };
 const D3DXVECTOR3 CGame::Config::Sky::Pos = VEC3_NULL;
 
 // Ã“Iƒƒ“ƒo•Ï”
-CPlayer* CGame::m_pPlayer = NULL;
 CPauseManager* CGame::m_pPauseManager = NULL;
 CMapManager* CGame::m_pMapManager = NULL;
 bool CGame::m_isPause = false;
@@ -60,7 +57,6 @@ HRESULT CGame::Init(void)
 {
 	m_pMapManager = CMapManager::Instance();
 	m_pMapManager->Load("data\\TEXT\\StageInfo.json");
-	//m_pPlayer = CPlayer::Create();
 	Factories::makePlayer(GetReg());
 	Factories::makeEnemy(GetReg());
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");

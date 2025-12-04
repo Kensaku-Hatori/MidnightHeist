@@ -28,7 +28,7 @@ namespace EnemyState {
 // 敵のステートコンポーネント
 struct EnemtAIComp {
 	// コンストラクタ
-	EnemtAIComp(EnemyState::ENEMYSTATE Default) : State(Default), LastLookPlayerPosition(VEC3_NULL) { NowPatrolPoint = 4; DestPatrolPoint = 10; IsFinish = false; };
+	EnemtAIComp(EnemyState::ENEMYSTATE Default) : State(Default), LastLookPlayerPosition(VEC3_NULL) { NowPatrolPoint = 10; DestPatrolPoint = 10; IsFinish = false; DontRepeatStrength = 100; };
 	// 管理者
 	EnemyState::ENEMYSTATE State;
 	D3DXVECTOR3 LastLookPlayerPosition;
@@ -36,6 +36,8 @@ struct EnemtAIComp {
 	int NowPatrolPoint;
 	// 目標
 	int DestPatrolPoint;
+	// 前回の巡回ポイントと被った場合何回までやり直すか
+	int DontRepeatStrength;
 	// 着いたかどうか
 	bool IsFinish;
 };

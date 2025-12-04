@@ -39,7 +39,6 @@ HRESULT CToon::Init(void)
     GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
     GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
     GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
     GetHandle("g_Deffuse") = pEffect->GetParameterByName(NULL, "g_Deffuse");
     GetHandle("g_mtxLightMtx") = pEffect->GetParameterByName(NULL, "g_mtxLightMtx");
     GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
@@ -72,7 +71,6 @@ void CToon::ReStart(void)
     GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
     GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
     GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
     GetHandle("g_Deffuse") = pEffect->GetParameterByName(NULL, "g_Deffuse");
     GetHandle("g_mtxLightMtx") = pEffect->GetParameterByName(NULL, "g_mtxLightMtx");
     GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
@@ -82,9 +80,9 @@ void CToon::ReStart(void)
 }
 
 //***************************************
-// パラメータを設定
+// シャドウマップを使う描画用のパラメーター設定
 //***************************************
-void CToon::SetParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj, D3DXVECTOR4 Light, D3DXVECTOR4 Col, LPDIRECT3DTEXTURE9 ShadowMap, LPDIRECT3DTEXTURE9 ModelTex,D3DXMATRIX LightView , D3DXMATRIX LightProj)
+void CToon::SetUseShadowMapParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj, D3DXVECTOR4 Col, LPDIRECT3DTEXTURE9 ShadowMap, LPDIRECT3DTEXTURE9 ModelTex, D3DXMATRIX LightView, D3DXMATRIX LightProj)
 {
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
@@ -93,12 +91,28 @@ void CToon::SetParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj, D3
     pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
     pEffect->SetMatrix(GetHandle("g_View"), &View);
     pEffect->SetMatrix(GetHandle("g_Proj"), &Proj);
-    pEffect->SetVector(GetHandle("g_vecLight"), &Light);
     pEffect->SetVector(GetHandle("g_Deffuse"), &Col);
     pEffect->SetTexture(GetHandle("g_ShadowTexture"), ShadowMap);
     pEffect->SetMatrix(GetHandle("g_LightView"), &LightView);
     pEffect->SetMatrix(GetHandle("g_LightProj"), &LightProj);
     pEffect->SetTexture(GetHandle("g_ModelTexture"), ModelTex);
+
+    // GPUに変更を適応
+    pEffect->CommitChanges();
+}
+
+//***************************************
+// アウトラインのパラメーター設定
+//***************************************
+void CToon::SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj)
+{
+    // エフェクトを取得
+    LPD3DXEFFECT pEffect = GetEffect();
+
+    // パラメータ(グローバル変数の設定)
+    pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
+    pEffect->SetMatrix(GetHandle("g_View"), &View);
+    pEffect->SetMatrix(GetHandle("g_Proj"), &Proj);
 
     // GPUに変更を適応
     pEffect->CommitChanges();

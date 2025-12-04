@@ -11,6 +11,9 @@
 
 // インクルード
 #include "manager.h"
+#include "FanInfoComponent.hpp"
+#include "XRenderingComponent.hpp"
+#include "RayComponent.hpp"
 
 // クラスを定義
 class CMath
@@ -29,6 +32,8 @@ public:
 	static btVector3 SetVec(D3DXVECTOR3 Set);
 	static D3DXVECTOR3 SetVec(btVector3 Set);
 	static D3DXVECTOR3 CalcModelSize(std::string Path);
+	static bool IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point);
+	static bool IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance = nullptr);
 	//static float CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 	//static float CalcCapCapDist(CCollision::Capsule Cap1, CCollision::Capsule Cap2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 private:

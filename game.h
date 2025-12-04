@@ -61,13 +61,11 @@ public:
 
 	// ゲッター
 	static bool GetPause(void) { return m_isPause; };
-	static CPlayer* GetPlayer(void) { return m_pPlayer; }
 
 private:
 	// 静的メンバ変数
 	static CPauseManager* m_pPauseManager;				// ポーズマネージャーへのポインタ
 	static CMapManager* m_pMapManager;					// プレイヤーマネージャー
-	static CPlayer* m_pPlayer;
 	static bool m_isPause;								// ポーズ中かどうか
 };
 #endif // !_GAME_H_

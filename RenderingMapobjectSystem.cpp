@@ -63,7 +63,6 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	D3DXMATRIX View, Proj;
-	D3DXVECTOR4 Light = { 1.0f,1.0f,1.0f,0.0f };
 	pDevice->GetTransform(D3DTS_VIEW, &View);
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
@@ -75,7 +74,7 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 
 		D3DXVECTOR4 SettCol = { col.MatD3D.Diffuse.r,col.MatD3D.Diffuse.g,col.MatD3D.Diffuse.b,col.MatD3D.Diffuse.a };
 
-		CToon::Instance()->SetParameters(mtxWorld, View, Proj, Light, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(modelinfo.modelinfo.TexPath[nCntMat]), CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+		CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(modelinfo.modelinfo.TexPath[nCntMat]), CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 		if (col.pTextureFilename == NULL)
 		{
