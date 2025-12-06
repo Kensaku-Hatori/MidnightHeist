@@ -170,10 +170,10 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 //*********************************************
 // オブジェクトEnemyの生成
 //*********************************************
-entt::entity Factories::makeEnemy(entt::registry& Reg)
+entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, int SpownPoint)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity).Pos = { -600.0f,200.0f,-280.0f };
+	Reg.emplace<Transform3D>(myEntity).Pos = Pos;
 	auto& Trans = Reg.get<Transform3D>(myEntity);
 	D3DXMATRIX Basis = Trans.GetBasis();
 	D3DXVECTOR3 FrontVec = { Basis._31,Basis._32,Basis._33 };
@@ -181,12 +181,13 @@ entt::entity Factories::makeEnemy(entt::registry& Reg)
 	Reg.emplace<VelocityComp>(myEntity);
 	Reg.emplace<FanComp>(myEntity, Trans.Pos, FrontVec, 90.0f, 200.0f);
 	Reg.emplace<EnemyComponent>(myEntity);
-	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH);
+	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, SpownPoint);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
 	Reg.emplace<SingleParentComp>(myEntity, MeshFactories::makeLaser(Reg, myEntity));
+	Reg.emplace<EnemtAIAstarComp>(myEntity);
 
 	return myEntity;
 }
@@ -227,6 +228,7 @@ entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, c
 	Reg.emplace<SizeComp>(myEntity, Size);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<IndexBufferComp>(myEntity);
+	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\field.jpg");
 
 	InitMeshField(Reg, myEntity);
 
@@ -503,5 +505,120 @@ entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::st
 //*********************************************
 HRESULT MeshFactories::InitPatrolPointFromFile(entt::registry& Reg, const entt::entity& Entity)
 {
+	return S_OK;
+}
+
+//*********************************************
+// スカイボックスの作成
+//*********************************************
+entt::entity MeshFactories::makeSkyBox(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<SkyBoxComponent>(myEntity);
+
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<IndexBufferComp>(myEntity);
+	Reg.emplace<SkyBoxComp>(myEntity, "data\\SKYBOX");
+
+	InitMeshCube(Reg, myEntity);
+	return myEntity;
+}
+
+//*********************************************
+// メッシュ矩形の初期化
+//*********************************************
+HRESULT MeshFactories::InitMeshCube(entt::registry& Reg, const entt::entity& Entity)
+{
+	auto& VertexCmp = Reg.get<VertexComp>(Entity);
+	auto& IdxBuffCmp = Reg.get<IndexBufferComp>(Entity);
+
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 8,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&VertexCmp.pVertex,
+		NULL);
+
+	//インデックスへのポインタ
+	WORD* pIdx = NULL;
+
+	//頂点情報へのポインタ
+	VERTEX_3D* pVtx = NULL;
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	VertexCmp.pVertex->Lock(0, 0, (void**)&pVtx, 0);
+
+	float Size = 50;
+
+	pVtx[0].pos = D3DXVECTOR3(-Size, Size, -Size);
+	pVtx[0].col = WHITE;
+
+	pVtx[1].pos = D3DXVECTOR3(Size, Size, -Size);
+	pVtx[1].col = WHITE;
+
+	pVtx[2].pos = D3DXVECTOR3(Size, -Size, -Size);
+	pVtx[2].col = WHITE;
+
+	pVtx[3].pos = D3DXVECTOR3(-Size, -Size, -Size);
+	pVtx[3].col = WHITE;
+
+	pVtx[4].pos = D3DXVECTOR3(Size, Size, Size);
+	pVtx[4].col = WHITE;
+
+	pVtx[5].pos = D3DXVECTOR3(-Size, Size, Size);
+	pVtx[5].col = WHITE;
+
+	pVtx[6].pos = D3DXVECTOR3(-Size, -Size, Size);
+	pVtx[6].col = WHITE;
+
+	pVtx[7].pos = D3DXVECTOR3(Size, -Size, Size);
+	pVtx[7].col = WHITE;
+
+	//頂点バッファをアンロック　
+	VertexCmp.pVertex->Unlock();
+
+	//インデックスバッファの生成
+	pDevice->CreateIndexBuffer(sizeof(WORD) * 36,
+		D3DUSAGE_WRITEONLY,
+		D3DFMT_INDEX16,
+		D3DPOOL_MANAGED,
+		&IdxBuffCmp.pIdx,
+		NULL);
+
+	// インデックスバッファをロック
+	IdxBuffCmp.pIdx->Lock(0, 0, (void**)&pIdx, 0);
+
+	// --- 前面 ---
+	pIdx[0] = 0; pIdx[1] = 1; pIdx[2] = 2;
+	pIdx[3] = 0; pIdx[4] = 2; pIdx[5] = 3;
+
+	// --- 背面 ---
+	pIdx[6] = 4; pIdx[7] = 5; pIdx[8] = 6;
+	pIdx[9] = 4; pIdx[10] = 6; pIdx[11] = 7;
+
+	// --- 左面 ---
+	pIdx[12] = 5; pIdx[13] = 0; pIdx[14] = 3;
+	pIdx[15] = 5; pIdx[16] = 3; pIdx[17] = 6;
+
+	// --- 右面 ---
+	pIdx[18] = 1; pIdx[19] = 4; pIdx[20] = 7;
+	pIdx[21] = 1; pIdx[22] = 7; pIdx[23] = 2;
+
+	// --- 上面 ---
+	pIdx[24] = 5; pIdx[25] = 4; pIdx[26] = 1;
+	pIdx[27] = 5; pIdx[28] = 1; pIdx[29] = 0;
+
+	// --- 底面 ---
+	pIdx[30] = 3; pIdx[31] = 2; pIdx[32] = 7;
+	pIdx[33] = 3; pIdx[34] = 7; pIdx[35] = 6;
+
+	// インデックスバッファのアンロック
+	IdxBuffCmp.pIdx->Unlock();
+
 	return S_OK;
 }

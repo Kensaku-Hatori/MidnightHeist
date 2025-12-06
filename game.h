@@ -38,7 +38,5 @@ public:
 	// セッター
 	static void ResetPlayer(void);
 private:
-	// 静的メンバ変数
-	static CMapManager* m_pMapManager;					// プレイヤーマネージャー
 };
 #endif // !_GAME_H_

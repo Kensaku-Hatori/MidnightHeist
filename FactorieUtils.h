@@ -35,3 +35,5 @@
 #include "FanInfoComponent.hpp"
 #include "TitleUI.hpp"
 #include "PauseUI.hpp"
+#include "EnemyAIAStarComponent.hpp"
+#include "SkyBoxComponent.hpp"

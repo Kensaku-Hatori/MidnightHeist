@@ -16,6 +16,7 @@
 #include "ParentComponent.hpp"
 #include "EnemyPatrolPointComp.hpp"
 #include "RayComponent.hpp"
+#include "EnemyAIAStarComponent.hpp"
 #include "math.h"
 
 // 名前空間
@@ -63,7 +64,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			State.State = EnemyState::ENEMYSTATE::SEARCH;
 			// 最後に見たプレイヤーの位置を保存
 			State.LastLookPlayerPosition = PlayerTransCmp.Pos;
-
+			//SetUpPredict(reg, Entity, PatrolManagerEneity);
 			// マップオブジェクトのビュー
 			auto MapObjectView = reg.view<MapObjectComponent>();
 
@@ -191,5 +192,117 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 
 		// 位置を計算、設定
 		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
+	}
+}
+
+//*********************************************
+// 行動予測に向けたセットアップ
+//*********************************************
+void UpdateEnemyChaseSystem::SetUpPredict(entt::registry& Reg, entt::entity& Entity, entt::entity& PatrolPointManager)
+{
+	// マップオブジェクトのビュー
+	auto MapObjectView = Reg.view<MapObjectComponent>();
+
+	// プレイヤーとパトロールポイントマネージャーのコンポーネントを取得
+	auto& PatrolPointCmp = Reg.get<PatrolPointComp>(PatrolPointManager);
+	auto& AStarCmp = Reg.get<EnemtAIAstarComp>(Entity);
+	auto& AICmp = Reg.get<EnemtAIComp>(Entity);
+	// 自分のコンポーネントを取得
+	auto& TransformCmp = Reg.get<Transform3D>(Entity);
+	AStarCmp.ApperNearPoint.clear();
+	AStarCmp.DestRoute.clear();
+
+	// パトロールポイントへアクセス
+	for (int nCnt = 0; nCnt < static_cast<int>(PatrolPointCmp.PatrolPoint.size()); nCnt++)
+	{
+		// ポイントへのレイ
+		RayComp ToPointRay;
+		// 例の向きを正規化するようの変数
+		D3DXVECTOR3 NormalizeToPointVec;
+		// ベクトルを引く
+		D3DXVECTOR3 ToPointVec = PatrolPointCmp.PatrolPoint[nCnt].Point - TransformCmp.Pos;
+		// Y成分を無くす
+		ToPointVec.y = 0.0f;
+		// 正規化した結果を代入
+		D3DXVec3Normalize(&NormalizeToPointVec, &ToPointVec);
+
+		// レイの位置と向きを設定
+		ToPointRay.Origin = TransformCmp.Pos;
+		ToPointRay.Dir = NormalizeToPointVec;
+
+		// 次に判定をとるオブジェクトへの距離
+		float NowDistance = 0.0f;
+
+		// 当たったかどうか
+		bool CantMove = false;
+
+		// マップオブジェクトへアクセス
+		for (auto MapObject : MapObjectView)
+		{
+			// 当たり判定に必要なコンポーネントを取得
+			auto& XRenderingCmp = Reg.get<XRenderingComp>(MapObject);
+			auto& MapObjectTransCmp = Reg.get<Transform3D>(MapObject);
+
+			// 当たったら
+			if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.GetWorldMatrix(), ToPointRay, &NowDistance) == true)
+			{
+				// 距離が現在位置からポイントへの距離より多かったら障害物があると判定
+				float dist = D3DXVec3Length(&ToPointVec);
+				if (dist > NowDistance)
+				{
+					// そのポイントへの移動は不可
+					CantMove = true;
+					break;
+				}
+			}
+		}
+		if (CantMove == false)
+		{
+			EnemyAIAStar::AStarPointInfo Info;
+			Info.PatrolPoint = PatrolPointCmp.PatrolPoint[nCnt];
+			Info.MyIdx = nCnt;
+			D3DXVECTOR3 VecPoint = PatrolPointCmp.PatrolPoint[nCnt].Point - TransformCmp.Pos;
+			D3DXVECTOR3 VecPLayer = AICmp.LastLookPlayerPosition - PatrolPointCmp.PatrolPoint[nCnt].Point;
+			float Cost = D3DXVec3Length(&VecPoint) + D3DXVec3Length(&VecPLayer);
+			Info.Cost = Cost;
+			AStarCmp.ApperNearPoint.push_back(Info);
+		}
+	}
+	std::sort(
+		AStarCmp.ApperNearPoint.begin(),
+		AStarCmp.ApperNearPoint.end(),
+		[](const EnemyAIAStar::AStarPointInfo& a,
+			const EnemyAIAStar::AStarPointInfo& b)
+		{
+			return a.Cost < b.Cost;
+		}
+	);
+	// パトロールポイントへアクセス
+	for (int nCnt = 0; nCnt < static_cast<int>(AStarCmp.ApperNearPoint.size()); nCnt++)
+	{
+		for (int nCntParent = 0; nCntParent < static_cast<int>(AStarCmp.ApperNearPoint[nCnt].PatrolPoint.CanMove.size()); nCntParent++)
+		{
+			float NewCost;
+			D3DXVECTOR3 VecNexPoint = PatrolPointCmp.PatrolPoint[AStarCmp.ApperNearPoint[nCnt].PatrolPoint.CanMove[nCntParent]].Point - AStarCmp.ApperNearPoint[nCnt].PatrolPoint.Point;
+			D3DXVECTOR3 VecPlayer = PatrolPointCmp.PatrolPoint[AStarCmp.ApperNearPoint[nCnt].PatrolPoint.CanMove[nCntParent]].Point - AICmp.LastLookPlayerPosition;
+			NewCost = D3DXVec3Length(&VecNexPoint) + D3DXVec3Length(&VecPlayer);
+			if (AStarCmp.ApperNearPoint[nCnt].Cost < NewCost) continue;
+			for (int nCntParent1 = 0; nCntParent1 < static_cast<int>(AStarCmp.ApperNearPoint[nCntParent].PatrolPoint.CanMove.size()); nCntParent1++)
+			{
+				float NewCost1;
+				D3DXVECTOR3 VecNexPoint1 = PatrolPointCmp.PatrolPoint[AStarCmp.ApperNearPoint[nCntParent].PatrolPoint.CanMove[nCntParent1]].Point - AStarCmp.ApperNearPoint[nCntParent].PatrolPoint.Point;
+				D3DXVECTOR3 VecPlayer1 = PatrolPointCmp.PatrolPoint[AStarCmp.ApperNearPoint[nCntParent].PatrolPoint.CanMove[nCntParent1]].Point - AICmp.LastLookPlayerPosition;
+				NewCost1 = D3DXVec3Length(&VecNexPoint) + D3DXVec3Length(&VecPlayer);
+				if (AStarCmp.ApperNearPoint[nCntParent].Cost < NewCost) continue;
+				AStarCmp.DestRoute.push_back(AStarCmp.ApperNearPoint[nCnt].MyIdx);
+				AStarCmp.DestRoute.push_back(AStarCmp.ApperNearPoint[nCnt].PatrolPoint.CanMove[nCntParent]);
+				int test1 = PatrolPointCmp.PatrolPoint[AStarCmp.ApperNearPoint[nCnt].PatrolPoint.CanMove[nCntParent]].CanMove[nCntParent1];
+				AStarCmp.DestRoute.push_back(test1);
+				Factories::makeMapobject(Reg, "data\\MODEL\\testBall_00.x", PatrolPointCmp.PatrolPoint[AStarCmp.DestRoute[0]].Point);
+				Factories::makeMapobject(Reg, "data\\MODEL\\testBall_00.x", PatrolPointCmp.PatrolPoint[AStarCmp.DestRoute[1]].Point);
+				Factories::makeMapobject(Reg, "data\\MODEL\\testBall_00.x", PatrolPointCmp.PatrolPoint[AStarCmp.DestRoute[2]].Point);
+				return;
+			}
+		}
 	}
 }

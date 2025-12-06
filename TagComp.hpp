@@ -41,4 +41,6 @@ namespace Tag {
 	struct RenderingOutLine {};
 	// パトロールポイント情報
 	struct PatrolPointManager {};
+	// スカイボックス情報
+	struct SkyBoxComponent {};
 }

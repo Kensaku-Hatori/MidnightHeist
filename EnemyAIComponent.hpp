@@ -15,9 +15,7 @@ namespace EnemyState {
 	{
 		NONE = 0,
 		CHASE,
-		PREDICTFRONT,
-		PREDICTFOLLOW,
-		PREDICTTURN,
+		PREDICT,
 		SEARCH,
 		MAX
 	};
@@ -28,7 +26,8 @@ namespace EnemyState {
 // 敵のステートコンポーネント
 struct EnemtAIComp {
 	// コンストラクタ
-	EnemtAIComp(EnemyState::ENEMYSTATE Default) : State(Default), LastLookPlayerPosition(VEC3_NULL) { NowPatrolPoint = 10; DestPatrolPoint = 10; IsFinish = false; DontRepeatStrength = 100; };
+	EnemtAIComp(EnemyState::ENEMYSTATE Default, const int _NowPatrolPoint = 10) : State(Default), LastLookPlayerPosition(VEC3_NULL), NowPatrolPoint(_NowPatrolPoint), DestPatrolPoint(_NowPatrolPoint)
+	{ IsFinish = false; DontRepeatStrength = 100; };
 	// 管理者
 	EnemyState::ENEMYSTATE State;
 	D3DXVECTOR3 LastLookPlayerPosition;

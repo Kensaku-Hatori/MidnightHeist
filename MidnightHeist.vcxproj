@@ -161,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="defaultcubemap.cpp" />
     <ClCompile Include="RenderingEnemySystem.cpp" />
     <ClCompile Include="RenderingMapobjectSystem.cpp" />
     <ClCompile Include="RenderingMeshLaserSystem.cpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="RenderingOutLineSystem.cpp" />
     <ClCompile Include="RenderingPauseMenu.cpp" />
     <ClCompile Include="RenderingPlayerSystem.cpp" />
+    <ClCompile Include="RenderingSkyBoxSystem.cpp" />
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
     <ClCompile Include="UpdateEnemyChase.cpp" />
@@ -229,6 +231,8 @@
     <ClCompile Include="UpdateXSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="defaultcubemap.h" />
+    <ClInclude Include="EnemyAIAStarComponent.hpp" />
     <ClInclude Include="EnemyAIComponent.hpp" />
     <ClInclude Include="DivisionComponent.hpp" />
     <ClInclude Include="EnemyPatrolPointComp.hpp" />
@@ -249,10 +253,12 @@
     <ClInclude Include="RenderingOutLineSystem.h" />
     <ClInclude Include="RenderingPauseMenu.h" />
     <ClInclude Include="RenderingPlayerSystem.h" />
+    <ClInclude Include="RenderingSkyBoxSystem.h" />
     <ClInclude Include="RenderingToShadowmap.h" />
     <ClInclude Include="RenderingToShapeShadow.h" />
     <ClInclude Include="Select2DComponent.hpp" />
     <ClInclude Include="ShaderResource.h" />
+    <ClInclude Include="SkyBoxComponent.hpp" />
     <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
@@ -337,6 +343,14 @@
     <None Include="Toon.cso" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\SHADER\DefaultCubeMap.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="data\SHADER\ShadowMap.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_Main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

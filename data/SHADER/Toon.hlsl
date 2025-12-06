@@ -44,8 +44,8 @@ sampler2D ModelSampler = sampler_state
     MinFilter = POINT;
     MagFilter = POINT;
     MipFilter = NONE;
-    AddressU = CLAMP;
-    AddressV = CLAMP;
+    AddressU = WRAP;
+    AddressV = WRAP;
 };
 
 //**********************************************************************************
@@ -154,12 +154,12 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
 	
     // テクスチャカラー取得
     float4 TexCol = tex2D(ModelSampler, input.tex);
-    float4 Col = g_Deffuse * TexCol;
+    float4 Col = TexCol;
     float4 LightDir = -g_vecLight;
     float Toon = 1.0f;
     float AmountLight;
     float Shadow = 1.0f;
-    float LightPower = 0.5f;
+    float LightPower = 1.0f;
 	
     // 射影空間のXY座標をテクスチャ座標に変換
     float2 TransTexCoord;
@@ -189,14 +189,16 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
         float ZValue = input.LightPos.z / input.LightPos.w;
         // リアルZ値抽出
         float SM_Z = tex2D(ShadowSampler, TransTexCoord).x;
-	
-        // 算出点がシャドウマップのZ値よりも大きければ影と判断
-        if (ZValue - 0.00005f > SM_Z)
+    
+        if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
-            Shadow = 0.5f;
+            // 算出点がシャドウマップのZ値よりも大きければ影と判断
+            if (ZValue - 0.005f > SM_Z)
+            {
+                Shadow = 0.5f;
+            }
         }
-    }
-	
+    }	
     return float4(Col.rgb * LightPower * Toon * Shadow, Col.a);
 }
 

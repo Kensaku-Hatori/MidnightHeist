@@ -69,5 +69,5 @@ void UpdateEnemySystem::UpdateRB(entt::registry& Reg, entt::entity& Entity)
 	RBCmp.RigitBody->setUserPointer(this);
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
 
-	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get());
+	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
 }

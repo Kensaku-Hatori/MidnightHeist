@@ -111,6 +111,13 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 }
 
 //*********************************************
+// A*の更新
+//*********************************************
+void UpdateEnemySearchSystem::UpdateAStar(entt::registry& Reg, entt::entity Entity)
+{
+}
+
+//*********************************************
 // 移動の更新
 //*********************************************
 void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entity)

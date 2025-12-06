@@ -13,6 +13,7 @@
 #include "title.h"
 #include "fade.h"
 #include "math.h"
+#include "scene.h"
 
 using namespace Tag;
 
@@ -25,6 +26,7 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 
 	// ファイルパスにitem01が含まれているモデルの数
 	int nNumIte = -1;
+	if (CManager::GetScene()->GetMode() != CScene::MODE_GAME)nNumIte = 1;
 
 	for (auto entity : view)
 	{
@@ -131,7 +133,7 @@ void UpdateMapobjectSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& R
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
 
 	// 物理世界にリジットボディーを追加
-	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get());
+	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
 }
 
 //*********************************************

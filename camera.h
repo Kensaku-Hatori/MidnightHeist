@@ -26,10 +26,7 @@ public:
 		static constexpr float WheelSpeed = 0.1f;
 		static constexpr float DistanceNear = 100.0f;
 		static constexpr float DistanceFar = 200.0f;
-		static constexpr float MoveRDist = -8.0f;
 		static constexpr float MoveSpeedR = 0.03f;
-		static const D3DXVECTOR3 OffSetR;
-		static const D3DXVECTOR3 CatchSpeedR;
 		// 初期化時の定数
 		struct Defoult {
 			static constexpr float Distance = 1100.0f;
@@ -38,6 +35,16 @@ public:
 			static constexpr float Near = 10.0f;
 			static constexpr float Far = 10000.0f;
 			static constexpr float SpeedV = 0.3f;
+		};
+		struct Title {
+			static const D3DXVECTOR3 PosV;
+			static const D3DXVECTOR3 PosR;
+			static const D3DXVECTOR3 Rot;
+		};
+		struct Game {
+			static const D3DXVECTOR3 PosV;
+			static const D3DXVECTOR3 PosR;
+			static const D3DXVECTOR3 Rot;
 		};
 	};
 
@@ -99,6 +106,10 @@ public:
 	// セッター
 	void SetDistance(float Distance) { m_fDistance = Distance; }
 	void SetRot(D3DXVECTOR3 rot) { m_rot = rot; }
+	void SetPosV(const D3DXVECTOR3 PosV) { m_posV = PosV; }
+	void SetPosVDest(const D3DXVECTOR3 PosVDest) { m_posVDest = PosVDest; }
+	void SetPosR(const D3DXVECTOR3 PosR) { m_posR = PosR; }
+	void SetPosRDest(const D3DXVECTOR3 PosRDest) { m_posVDest = PosRDest; }
 	void SetMouseWheel(int zDelta);
 	void SetSpeedV(const float Speed) { m_fSpeedV = Speed; }
 	void SetMovie(MOTIONTYPE Type);

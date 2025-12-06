@@ -20,6 +20,9 @@
     },
     {
       "Path": "data/MODEL/container_lowpolygon.x"
+    },
+    {
+      "Path": "data/MODEL/Museum.x"
     }
   ]
 }

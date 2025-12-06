@@ -103,6 +103,18 @@
     <Filter Include="System\Rendering\Pause">
       <UniqueIdentifier>{e3269bbd-5d3f-4a8e-914b-2e60c69af5f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Rendering\Shader">
+      <UniqueIdentifier>{4ce1428a-76d4-4a0a-a542-85c0b7d7f86c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\SkyBox">
+      <UniqueIdentifier>{9930a2aa-4b9d-4ac8-9469-3fbeaaaf8278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\SkyBox">
+      <UniqueIdentifier>{0459feea-05fb-4e27-a1c2-d43cde2ee8d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\SkyBox">
+      <UniqueIdentifier>{ceb9390f-80d2-4bd7-9964-1fff26b6bc78}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -261,12 +273,6 @@
     <ClCompile Include="RenderingEnemySystem.cpp">
       <Filter>System\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingToShadowmap.cpp">
-      <Filter>System\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderingToShapeShadow.cpp">
-      <Filter>System\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="UpdateEnemySystem.cpp">
       <Filter>System\Update\Enemy</Filter>
     </ClCompile>
@@ -282,9 +288,6 @@
     <ClCompile Include="UpdateTitleManager.cpp">
       <Filter>System\Update\Title</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingOutLineSystem.cpp">
-      <Filter>System\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="UpdatePauseManager.cpp">
       <Filter>System\Update\Pause</Filter>
     </ClCompile>
@@ -293,6 +296,21 @@
     </ClCompile>
     <ClCompile Include="UpdatePauseMenu.cpp">
       <Filter>System\Update\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingOutLineSystem.cpp">
+      <Filter>System\Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingToShadowmap.cpp">
+      <Filter>System\Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingToShapeShadow.cpp">
+      <Filter>System\Rendering\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="defaultcubemap.cpp">
+      <Filter>Shader\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingSkyBoxSystem.cpp">
+      <Filter>System\Rendering\SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -533,12 +551,6 @@
     <ClInclude Include="RenderingEnemySystem.h">
       <Filter>System\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingToShadowmap.h">
-      <Filter>System\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingToShapeShadow.h">
-      <Filter>System\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyAIComponent.hpp">
       <Filter>Component\AI</Filter>
     </ClInclude>
@@ -569,9 +581,6 @@
     <ClInclude Include="EnemyPatrolPointComp.hpp">
       <Filter>Component\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingOutLineSystem.h">
-      <Filter>System\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderResource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -596,6 +605,27 @@
     <ClInclude Include="UpdatePauseMenu.h">
       <Filter>System\Update\Pause</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyAIAStarComponent.hpp">
+      <Filter>Component\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingOutLineSystem.h">
+      <Filter>System\Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingToShadowmap.h">
+      <Filter>System\Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingToShapeShadow.h">
+      <Filter>System\Rendering\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="defaultcubemap.h">
+      <Filter>Shader\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBoxComponent.hpp">
+      <Filter>Component\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingSkyBoxSystem.h">
+      <Filter>System\Rendering\SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
@@ -612,6 +642,9 @@
     </FxCompile>
     <FxCompile Include="data\SHADER\Toon.hlsl">
       <Filter>Shader\Toon</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\DefaultCubeMap.hlsl">
+      <Filter>Shader\SkyBox</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

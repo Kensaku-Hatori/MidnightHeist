@@ -54,9 +54,16 @@ HRESULT CTitle::Init(void)
 
 	Factories::makeObject3D(GetReg());
 	Factories::makePlayer(GetReg());
-	Factories::makeMapobject(GetReg(), "data\\MODEL\\item01.x");
+	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");
 	Factories::makeTitleManager(GetReg());
-	MeshFactories::makeMeshField(GetReg(), 100, 100, { 10.0f,10.0f });
+	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
+	MeshFactories::makeSkyBox(GetReg());
+
+	CManager::GetCamera()->SetRot(CCamera::Config::Title::Rot);
+	CManager::GetCamera()->SetPosV(CCamera::Config::Title::PosV);
+	CManager::GetCamera()->SetPosVDest(CCamera::Config::Title::PosV);
+	CManager::GetCamera()->SetPosR(CCamera::Config::Title::PosR);
+	CManager::GetCamera()->SetPosRDest(CCamera::Config::Title::PosR);
 
 	return S_OK;
 }

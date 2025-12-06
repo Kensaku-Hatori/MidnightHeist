@@ -55,8 +55,8 @@ HRESULT CShadowMap::Init(void)
     // シャドウマップのパラメータを設定
     m_LightVec = { 0.5f, 1.0f, 0.5f };
     m_MapRange = 2048;
-    m_ZRange = 1500.0f;
-    m_LightDistance = 400.0f;
+    m_ZRange = 2100.0f;
+    m_LightDistance = 1000.0f;
     m_MapResolveW = 2048;
     m_MapResolveH = 2048;
 

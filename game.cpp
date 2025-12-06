@@ -17,9 +17,6 @@
 #include "Factories.h"
 #include "SystemManager.h"
 
-// 静的メンバ変数
-CMapManager* CGame::m_pMapManager = NULL;
-
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
 using namespace std;
@@ -43,12 +40,19 @@ CGame::~CGame()
 //***************************************
 HRESULT CGame::Init(void)
 {
-	m_pMapManager = CMapManager::Instance();
-	m_pMapManager->Load("data\\TEXT\\StageInfo.json");
+	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
 	Factories::makePlayer(GetReg());
-	Factories::makeEnemy(GetReg());
+	Factories::makeEnemy(GetReg(), { -600.0f,0.0f,-280.0f }, 10);
+	Factories::makeEnemy(GetReg(), { -600.0f,0.0f,280.0f }, 10);
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
 	Factories::makePauseManager(GetReg());
+
+	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);
+	CManager::GetCamera()->SetPosV(CCamera::Config::Game::PosV);
+	CManager::GetCamera()->SetPosVDest(CCamera::Config::Game::PosV);
+	CManager::GetCamera()->SetPosR(CCamera::Config::Game::PosR);
+	CManager::GetCamera()->SetPosRDest(CCamera::Config::Game::PosR);
+
 	return S_OK;
 }
 
@@ -57,10 +61,7 @@ HRESULT CGame::Init(void)
 //***************************************
 void CGame::Update(void)
 {
-	if (m_pMapManager != nullptr)
-	{
-		m_pMapManager->Update();
-	}
+	CMapManager::Instance()->Update();
 }
 
 //***************************************
@@ -78,10 +79,7 @@ void CGame::Uninit(void)
 //***************************************
 void CGame::Draw(void)
 {
-	if (m_pMapManager != nullptr)
-	{
-		m_pMapManager->Draw();
-	}
+	CMapManager::Instance()->Draw();
 }
 
 //***************************************

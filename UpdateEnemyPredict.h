@@ -12,21 +12,11 @@
 #include "baceUpdatesystem.hpp"
 
 // 敵前に予測のアップデート
-struct UpdateEnemyPredictFrontSystem : BaceSystem
+struct UpdateEnemyPredictSystem : BaceSystem
 {
 	// コンストラクタ・デストラクタ
-	UpdateEnemyPredictFrontSystem() = default;
-	~UpdateEnemyPredictFrontSystem() = default;
-	// 更新
-	void Update(entt::registry& reg)override;
-};
-
-// 敵のぶつかって沿う感じアップデート
-struct UpdateEnemyPredictFollowSystem : BaceSystem
-{
-	// コンストラクタ・デストラクタ
-	UpdateEnemyPredictFollowSystem() = default;
-	~UpdateEnemyPredictFollowSystem() = default;
+	UpdateEnemyPredictSystem() = default;
+	~UpdateEnemyPredictSystem() = default;
 	// 更新
 	void Update(entt::registry& reg)override;
 };

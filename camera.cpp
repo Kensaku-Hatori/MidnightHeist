@@ -13,9 +13,14 @@
 // 名前空間
 using namespace std;
 
-// 規定値を設定
-const D3DXVECTOR3 CCamera::Config::OffSetR = { 0.0f, 50.0f, 0.0f };
-const D3DXVECTOR3 CCamera::Config::CatchSpeedR = { 0.3f, 0.3f, 0.3f };
+// 定数を設定
+const D3DXVECTOR3 CCamera::Config::Title::PosV = { -400.0f,20.0f ,1020.0f };
+const D3DXVECTOR3 CCamera::Config::Title::PosR = { 200.0f,375.0f ,170.0f };
+const D3DXVECTOR3 CCamera::Config::Title::Rot = { -D3DX_PI * 0.15f,-D3DX_PI * 0.25f ,0.0f };
+
+const D3DXVECTOR3 CCamera::Config::Game::PosV = { 0.0f,980.0f ,500.0f };
+const D3DXVECTOR3 CCamera::Config::Game::PosR = VEC3_NULL;
+const D3DXVECTOR3 CCamera::Config::Game::Rot = { D3DX_PI * 0.35f,0.0f ,0.0f };
 
 // 静的メンバ変数宣言
 CInputKeyboard* CCamera::m_pInputKeyboard = CManager::GetInputKeyboard();
@@ -115,7 +120,7 @@ void CCamera::Update(void)
 	UpdateMouseMove();
 	//UpdateJoyPadMove();
 
-	UpdateCameraPositionV();
+	//UpdateCameraPositionV();
 	//UpdateCameraPositionR();
 
 	// ホイールでカメラの距離を変える
@@ -532,15 +537,15 @@ void CCamera::UpdateCameraPositionV()
 //***************************************
 void CCamera::UpdateCameraPositionR()
 {
-	// 視点の座標更新、高さだけ高く設定する
-	m_posRDest.x = m_posV.x - cosf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
-	m_posRDest.y = m_posV.y - sinf(m_rot.x) * m_fDistance;
-	m_posRDest.z = m_posV.z - cosf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
+	//// 視点の座標更新、高さだけ高く設定する
+	//m_posRDest.x = m_posV.x - cosf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
+	//m_posRDest.y = m_posV.y - sinf(m_rot.x) * m_fDistance;
+	//m_posRDest.z = m_posV.z - cosf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
 
-	// 注視点の更新
-	m_posR.x += (m_posRDest.x - m_posR.x) * Config::CatchSpeedR.x;
-	m_posR.y += (m_posRDest.y - m_posR.y) * Config::CatchSpeedR.y;
-	m_posR.z += (m_posRDest.z - m_posR.z) * Config::CatchSpeedR.z;
+	//// 注視点の更新
+	//m_posR.x += (m_posRDest.x - m_posR.x) * Config::CatchSpeedR.x;
+	//m_posR.y += (m_posRDest.y - m_posR.y) * Config::CatchSpeedR.y;
+	//m_posR.z += (m_posRDest.z - m_posR.z) * Config::CatchSpeedR.z;
 }
 
 //***************************************

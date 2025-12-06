@@ -21,6 +21,7 @@
 #include "fade.h"
 #include "title.h"
 #include "SystemManager.h"
+#include "defaultcubemap.h"
 
 #include "playerUpdateSystem.h"
 #include "Update2DSystem.h"
@@ -49,6 +50,7 @@
 #include "RenderingToShapeShadow.h"
 #include "RenderingOutLineSystem.h"
 #include "RenderingPauseMenu.h"
+#include "RenderingSkyBoxSystem.h"
 
 // –¼‘O‹óŠÔ
 using namespace std;
@@ -100,8 +102,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pLight = new CLight;
 
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
-	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictFrontSystem);
-	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictFollowSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
 	CSystemManager::AddUpdateSystem(new Update2DSystem);
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
@@ -115,6 +116,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
+	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);
 	CSystemManager::AddRenderingSystem(new Render3DSystem);
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
@@ -185,6 +187,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CShapeShadow::Instance()->Init();
 	CShadowMap::Instance()->Init();
 	CToon::Instance()->Init();
+	CDefaultCubemap::Instance()->Init();
 
 	return S_OK;
 }

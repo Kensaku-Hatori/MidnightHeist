@@ -21,7 +21,7 @@ namespace Factories {
 	void InitPauseManager(entt::registry& Reg, entt::entity Parent);
 
 	entt::entity makePlayer(entt::registry& Reg);
-	entt::entity makeEnemy(entt::registry& Reg);
+	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,int SpownPoint);	
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
 }
 
@@ -35,4 +35,7 @@ namespace MeshFactories {
 
 	entt::entity makePatrolPointFromFile(entt::registry& Reg, std::string Path);
 	HRESULT InitPatrolPointFromFile(entt::registry& Reg, const entt::entity& Entity);
+
+	entt::entity makeSkyBox(entt::registry& Reg);
+	HRESULT InitMeshCube(entt::registry& Reg, const entt::entity& Entity);
 }

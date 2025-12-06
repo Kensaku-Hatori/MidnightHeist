@@ -10,6 +10,7 @@
 #include "Mesh.hpp"
 #include "TagComp.hpp"
 #include "VertexRenderingComponent.hpp"
+#include "TextureRenderingComponent.h"
 #include "manager.h"
 
 using namespace Tag;
@@ -29,6 +30,7 @@ void RenderMehFieldSystem::Rendering(entt::registry& reg)
 
 		auto& VtxCmp = reg.get<VertexComp>(entity);
 		auto& IdxBuffCmp = reg.get<IndexBufferComp>(entity);
+		auto& TexCmp = reg.get<TexComp>(entity);
 
 		CRenderer* pRenderer;
 		pRenderer = CManager::GetRenderer();
@@ -49,7 +51,7 @@ void RenderMehFieldSystem::Rendering(entt::registry& reg)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
 		//テクスチャの設定
-		pDevice->SetTexture(0, NULL);
+		pDevice->SetTexture(0, TexCmp.Tex);
 
 		//メッシュ床を描画
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, MeshInfo.nNumVtx, 0, MeshInfo.nNumPoly);
