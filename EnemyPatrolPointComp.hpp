@@ -9,6 +9,8 @@
 #pragma once
 
 #include "Factories.h"
+#include "manager.h"
+#include "scene.h"
 
 // ”O‚Ì‚½‚ß
 namespace PatrolPoint {
@@ -80,6 +82,7 @@ struct PatrolPointComp {
 				int set = Info["Point"]["CanMove"][Key];
 				LoadInfo.CanMove.push_back(set);
 			}
+			Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", LoadInfo.Point);
 			PatrolPoint.push_back(LoadInfo);
 		}
     };
