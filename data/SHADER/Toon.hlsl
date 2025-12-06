@@ -136,7 +136,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
         if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
             // 算出点がシャドウマップのZ値よりも大きければ影と判断
-            if (ZValue - 0.005f > SM_Z)
+            if (ZValue - 0.02f > SM_Z)
             {
                 Shadow = 0.5f;
             }
@@ -193,7 +193,7 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
         if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
             // 算出点がシャドウマップのZ値よりも大きければ影と判断
-            if (ZValue - 0.005f > SM_Z)
+            if (ZValue - 0.02f > SM_Z)
             {
                 Shadow = 0.5f;
             }

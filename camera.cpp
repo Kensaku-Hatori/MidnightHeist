@@ -18,7 +18,7 @@ const D3DXVECTOR3 CCamera::Config::Title::PosV = { -400.0f,20.0f ,1020.0f };
 const D3DXVECTOR3 CCamera::Config::Title::PosR = { 200.0f,375.0f ,170.0f };
 const D3DXVECTOR3 CCamera::Config::Title::Rot = { -D3DX_PI * 0.15f,-D3DX_PI * 0.25f ,0.0f };
 
-const D3DXVECTOR3 CCamera::Config::Game::PosV = { 0.0f,980.0f ,500.0f };
+const D3DXVECTOR3 CCamera::Config::Game::PosV = { 0.0f,1280.0f ,800.0f };
 const D3DXVECTOR3 CCamera::Config::Game::PosR = VEC3_NULL;
 const D3DXVECTOR3 CCamera::Config::Game::Rot = { D3DX_PI * 0.35f,0.0f ,0.0f };
 
