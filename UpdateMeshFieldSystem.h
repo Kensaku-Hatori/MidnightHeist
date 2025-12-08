@@ -19,5 +19,5 @@ struct UpdateMeshFieldSystem : BaceSystem
 	// デストラクタ
 	~UpdateMeshFieldSystem() = default;
 	// 更新
-	void Update(entt::registry& Reg)override;
+	//void Update(entt::registry& Reg)override;
 };

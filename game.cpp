@@ -8,10 +8,7 @@
 // インクルード
 #include "game.h"
 #include "manager.h"
-#include "object2D.h"
-#include "pausemanager.h"
 #include "math.h"
-#include "object3D.h"
 #include "fade.h"
 #include "mapmanager.h"
 #include "Factories.h"

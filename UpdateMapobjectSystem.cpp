@@ -10,10 +10,10 @@
 #include "SizeComponent.hpp"
 #include "XRenderingComponent.hpp"
 #include "TagComp.hpp"
-#include "title.h"
 #include "fade.h"
 #include "math.h"
 #include "scene.h"
+#include "title.h"
 
 using namespace Tag;
 

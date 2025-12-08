@@ -9,10 +9,7 @@
 #include "title.h"
 #include "manager.h"
 #include "modelmanager.h"
-#include "object2D.h"
-#include "titlelogo.h"
 #include "Factories.h"
-#include "titlemanager.h"
 #include "fade.h"
 #include "game.h"
 

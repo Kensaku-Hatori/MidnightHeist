@@ -194,10 +194,3 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
 	}
 }
-
-//*********************************************
-// 行動予測に向けたセットアップ
-//*********************************************
-void UpdateEnemyChaseSystem::SetUpPredict(entt::registry& Reg, entt::entity& Entity, entt::entity& PatrolPointManager)
-{
-}

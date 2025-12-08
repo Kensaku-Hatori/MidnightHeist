@@ -100,7 +100,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	UpdateWindow(hWnd);
 
 	// 乱数のシードを現在の時刻に設定
-	srand(time(0));
+	srand(static_cast<int>(time(0)));
 
 	//メッセージループ
 	while (1)

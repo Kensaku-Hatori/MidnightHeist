@@ -8,7 +8,6 @@
 // インクルード
 #include "renderer.h"
 #include "Object.h"
-#include "Object2D.h"
 #include "debugproc.h"
 #include "manager.h"
 #include "line.h"

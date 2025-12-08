@@ -21,6 +21,4 @@ struct UpdateEnemyChaseSystem : BaceSystem
 	void Update(entt::registry& reg)override;
 	// 移動の更新
 	void UpdateMove(entt::registry& Reg, entt::entity& Entity, entt::entity& PlayerEntity);
-	// 行動予測のセットアップ
-	void SetUpPredict(entt::registry& Reg, entt::entity& Entity, entt::entity& PatrolPointManager);
 };

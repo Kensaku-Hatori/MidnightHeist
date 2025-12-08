@@ -41,7 +41,6 @@ namespace MeshFactories {
 	HRESULT InitLaserMesh(entt::registry& Reg, const entt::entity& Entity);
 
 	entt::entity makePatrolPointFromFile(entt::registry& Reg, std::string Path);
-	HRESULT InitPatrolPointFromFile(entt::registry& Reg, const entt::entity& Entity);
 
 	entt::entity makeSkyBox(entt::registry& Reg);
 	HRESULT InitMeshCube(entt::registry& Reg, const entt::entity& Entity);

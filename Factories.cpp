@@ -505,17 +505,7 @@ entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::st
 
 	Reg.emplace<PatrolPointManager>(myEntity);
 
-	InitPatrolPointFromFile(Reg, myEntity);
-
 	return myEntity;
-}
-
-//*********************************************
-// „‰ñƒ|ƒCƒ“ƒg‚Ì‰Šú‰»
-//*********************************************
-HRESULT MeshFactories::InitPatrolPointFromFile(entt::registry& Reg, const entt::entity& Entity)
-{
-	return S_OK;
 }
 
 //*********************************************

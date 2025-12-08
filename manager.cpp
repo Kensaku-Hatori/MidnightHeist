@@ -9,8 +9,6 @@
 #include "manager.h"
 #include "renderer.h"
 #include "debugproc.h"
-#include "object3D.h"
-#include "object2D.h"
 #include "texmanager.h"
 #include "modelmanager.h"
 #include "default.h"
@@ -108,7 +106,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
 	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
-	CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
+	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
 	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);

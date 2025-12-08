@@ -172,6 +172,7 @@
     <ClCompile Include="RenderingSkyBoxSystem.cpp" />
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
+    <ClCompile Include="title.cpp" />
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
     <ClCompile Include="UpdateEnemySearch.cpp" />
@@ -195,13 +196,9 @@
     <ClCompile Include="math.cpp" />
     <ClCompile Include="modelmanager.cpp" />
     <ClCompile Include="object.cpp" />
-    <ClCompile Include="object2D.cpp" />
-    <ClCompile Include="object3D.cpp" />
     <ClCompile Include="objectbillboard.cpp" />
     <ClCompile Include="Factories.cpp" />
     <ClCompile Include="particle3d.cpp" />
-    <ClCompile Include="pause.cpp" />
-    <ClCompile Include="pausemanager.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -217,10 +214,6 @@
     <ClCompile Include="sound.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="texmanager.cpp" />
-    <ClCompile Include="title.cpp" />
-    <ClCompile Include="titleLogo.cpp" />
-    <ClCompile Include="titlemanager.cpp" />
-    <ClCompile Include="titlemenu.cpp" />
     <ClCompile Include="toon.cpp" />
     <ClCompile Include="RenderingXSystem.cpp" />
     <ClCompile Include="UpdateMapobjectSystem.cpp" />
@@ -260,6 +253,7 @@
     <ClInclude Include="Select2DComponent.hpp" />
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyBoxComponent.hpp" />
+    <ClInclude Include="title.h" />
     <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
@@ -293,14 +287,10 @@
     <ClInclude Include="modelmanager.h" />
     <ClInclude Include="NormalComponent.hpp" />
     <ClInclude Include="object.h" />
-    <ClInclude Include="object2D.h" />
-    <ClInclude Include="object3D.h" />
     <ClInclude Include="ObjectBaceComponent.hpp" />
     <ClInclude Include="objectbillboard.h" />
     <ClInclude Include="Factories.h" />
     <ClInclude Include="particle3d.h" />
-    <ClInclude Include="pause.h" />
-    <ClInclude Include="pausemanager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="playerUpdateSystem.h" />
     <ClInclude Include="RigitBodyComponent.hpp" />
@@ -319,10 +309,6 @@
     <ClInclude Include="TagComp.hpp" />
     <ClInclude Include="texmanager.h" />
     <ClInclude Include="TextureRenderingComponent.h" />
-    <ClInclude Include="title.h" />
-    <ClInclude Include="titlelogo.h" />
-    <ClInclude Include="titlemanager.h" />
-    <ClInclude Include="titlemenu.h" />
     <ClInclude Include="toon.h" />
     <ClInclude Include="TransformComponent.hpp" />
     <ClInclude Include="UpdateMapobjectSystem.h" />
