@@ -8,23 +8,30 @@
 // 二重インクルード防止
 #pragma once
 
+// インクルード
+#include "EnemyAIComponent.hpp"
+
 // 通常のファクトリー
 namespace Factories {
 	entt::entity makeObject2D(entt::registry& Reg, const int Layer = 3, const std::string& Path = {}, D3DXVECTOR2 Pos = VEC2_NULL, D3DXVECTOR2 Size = { 100.0f,100.0f });
 	entt::entity makeObject3D(entt::registry& Reg);
 	entt::entity makeObjectX(entt::registry& Reg, const std::string& Path);
 
+	entt::entity makePlayer(entt::registry& Reg);
+	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
+	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
+}
+
+// マネージャー系のファクトリ
+namespace ManagerFactories {
 	entt::entity makeTitleManager(entt::registry& Reg);
 	void InitTitleManager(entt::registry& Reg);
 
 	entt::entity makePauseManager(entt::registry& Reg);
 	void InitPauseManager(entt::registry& Reg, entt::entity Parent);
 
-	entt::entity makePlayer(entt::registry& Reg);
-	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,int SpownPoint);	
-	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
+	entt::entity makeEnemyManager(entt::registry& Reg);
 }
-
 // メッシュ系のファクトリー
 namespace MeshFactories {
 	entt::entity makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size);

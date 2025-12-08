@@ -626,6 +626,9 @@
     <ClInclude Include="RenderingSkyBoxSystem.h">
       <Filter>System\Rendering\SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManagerComp.hpp">
+      <Filter>Component\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />

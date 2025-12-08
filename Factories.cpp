@@ -95,62 +95,6 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 }
 
 //*********************************************
-// タイトルマネージャーの生成
-//*********************************************
-entt::entity Factories::makeTitleManager(entt::registry& Reg)
-{
-	const entt::entity myEntity = Reg.create();
-	Reg.emplace<TitleManagerComponent>(myEntity);
-	Reg.emplace<Select2DComp>(myEntity, TitleMenu::MENUTYPE::START);
-
-	InitTitleManager(Reg);
-
-	return myEntity;
-}
-
-//*********************************************
-// タイトルマネージャー初期化
-//*********************************************
-void Factories::InitTitleManager(entt::registry& Reg)
-{
-	for (int nCnt = 0; nCnt < static_cast<unsigned int>(TitleMenu::MENUTYPE::MAX); nCnt++)
-	{
-		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, TitleMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
-		Reg.emplace<TitleMenuComponent>(menuEntity);
-		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
-	}
-}
-
-//*********************************************
-// ポーズマネージャーの生成
-//*********************************************
-entt::entity Factories::makePauseManager(entt::registry& Reg)
-{
-	const entt::entity myEntity = Reg.create();
-	Reg.emplace<PauseManagerComponent>(myEntity);
-	Reg.emplace<Select2DComp>(myEntity, PauseMenu::MENUTYPE::CONTINUE);
-
-	InitPauseManager(Reg,myEntity);
-
-	return myEntity;
-}
-
-//*********************************************
-// ポーズマネージャー初期化
-//*********************************************
-void Factories::InitPauseManager(entt::registry& Reg,entt::entity Parent)
-{
-	for (int nCnt = 0; nCnt < static_cast<unsigned int>(PauseMenu::MENUTYPE::MAX); nCnt++)
-	{
-		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, PauseMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
-		Reg.remove<Object2DComponent>(menuEntity);
-		Reg.emplace<PauseMenuComponent>(menuEntity);
-		Reg.emplace<SingleParentComp>(menuEntity, Parent);
-		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
-	}
-}
-
-//*********************************************
 // オブジェクトPlayerの生成
 //*********************************************
 entt::entity Factories::makePlayer(entt::registry& Reg)
@@ -170,7 +114,7 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 //*********************************************
 // オブジェクトEnemyの生成
 //*********************************************
-entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, int SpownPoint)
+entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vector<EnemyState::PatrolMap>& PointList)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform3D>(myEntity).Pos = Pos;
@@ -181,7 +125,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, int Spow
 	Reg.emplace<VelocityComp>(myEntity);
 	Reg.emplace<FanComp>(myEntity, Trans.Pos, FrontVec, 90.0f, 200.0f);
 	Reg.emplace<EnemyComponent>(myEntity);
-	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, SpownPoint);
+	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, PointList);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
@@ -209,6 +153,72 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
 	Reg.emplace<XRenderingComp>(myEntity, Path);
 
+	return myEntity;
+}
+
+//*********************************************
+// タイトルマネージャーの生成
+//*********************************************
+entt::entity ManagerFactories::makeTitleManager(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<TitleManagerComponent>(myEntity);
+	Reg.emplace<Select2DComp>(myEntity, TitleMenu::MENUTYPE::START);
+
+	InitTitleManager(Reg);
+
+	return myEntity;
+}
+
+//*********************************************
+// タイトルマネージャー初期化
+//*********************************************
+void ManagerFactories::InitTitleManager(entt::registry& Reg)
+{
+	for (int nCnt = 0; nCnt < static_cast<unsigned int>(TitleMenu::MENUTYPE::MAX); nCnt++)
+	{
+		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, TitleMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
+		Reg.emplace<TitleMenuComponent>(menuEntity);
+		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
+	}
+}
+
+//*********************************************
+// ポーズマネージャーの生成
+//*********************************************
+entt::entity ManagerFactories::makePauseManager(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<PauseManagerComponent>(myEntity);
+	Reg.emplace<Select2DComp>(myEntity, PauseMenu::MENUTYPE::CONTINUE);
+
+	InitPauseManager(Reg, myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// ポーズマネージャー初期化
+//*********************************************
+void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent)
+{
+	for (int nCnt = 0; nCnt < static_cast<unsigned int>(PauseMenu::MENUTYPE::MAX); nCnt++)
+	{
+		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, PauseMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
+		Reg.remove<Object2DComponent>(menuEntity);
+		Reg.emplace<PauseMenuComponent>(menuEntity);
+		Reg.emplace<SingleParentComp>(menuEntity, Parent);
+		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
+	}
+}
+
+//*********************************************
+// エネミーマネージャーの生成
+//*********************************************
+entt::entity ManagerFactories::makeEnemyManager(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<EnemyManagerComp>(myEntity, "data/TEXT/EnemyManager.json");
 	return myEntity;
 }
 

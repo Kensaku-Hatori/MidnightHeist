@@ -10,6 +10,12 @@
 
 // 念のため
 namespace EnemyState {
+	struct PatrolMap {
+		// そのポイントへのIdx
+		int Idx;
+		// そのポイントに滞在する時間
+		int CoolDown;
+	};
 	// ステートの列挙型
 	enum class ENEMYSTATE
 	{
@@ -26,17 +32,20 @@ namespace EnemyState {
 // 敵のステートコンポーネント
 struct EnemtAIComp {
 	// コンストラクタ
-	EnemtAIComp(EnemyState::ENEMYSTATE Default, const int _NowPatrolPoint = 10) : State(Default), LastLookPlayerPosition(VEC3_NULL), NowPatrolPoint(_NowPatrolPoint), DestPatrolPoint(_NowPatrolPoint)
-	{ IsFinish = false; DontRepeatStrength = 100; };
+	EnemtAIComp(EnemyState::ENEMYSTATE Default, std::vector<EnemyState::PatrolMap>& _PointList) :
+		State(Default), LastLookPlayerPosition(VEC3_NULL), HalfPatrolRoute(_PointList), NowIdx(-1), NextIdx(NowIdx + 1), IsFinish(false), CoolDownCnt(0) {};
 	// 管理者
 	EnemyState::ENEMYSTATE State;
+	// 最後に見たプレイヤーの位置
 	D3DXVECTOR3 LastLookPlayerPosition;
-	// 今いる巡回ポイントへのインデックス
-	int NowPatrolPoint;
-	// 目標
-	int DestPatrolPoint;
-	// 前回の巡回ポイントと被った場合何回までやり直すか
-	int DontRepeatStrength;
-	// 着いたかどうか
+	// 半周分の巡回ポイント
+	std::vector<EnemyState::PatrolMap> HalfPatrolRoute;
+	// 現在のポイントへのIdx
+	int NowIdx;
+	// 次のポイントへのIdx
+	int NextIdx;
+	// クールダウンカウンタ
+	int CoolDownCnt;
+	// 半周下かどうか
 	bool IsFinish;
 };

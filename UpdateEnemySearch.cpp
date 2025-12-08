@@ -54,12 +54,12 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// レーザーのコリジョン情報を取得
 		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parent);
 
-		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
-		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
-		{
-			State.State = EnemyState::ENEMYSTATE::CHASE;
-			continue;
-		}
+		//// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
+		//if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
+		//{
+		//	State.State = EnemyState::ENEMYSTATE::CHASE;
+		//	continue;
+		//}
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigitBodyComp>(Entity);
@@ -70,40 +70,44 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		if (RBCmp.RigitBody == nullptr) continue;
 
 		// 目的地へのベクトルを引く
-		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.DestPatrolPoint].Point - TransformCmp.Pos;
+		State.NextIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
+		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.HalfPatrolRoute[State.NextIdx].Idx].Point - TransformCmp.Pos;
+		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
 		D3DXVECTOR3 Normalize;
 		// 正規化
 		D3DXVec3Normalize(&Normalize, &ToDestPos);
-		// 移動方向を代入
-		VelocityCmp.Velocity = Normalize;
-		// 速さを掛ける
-		VelocityCmp.Velocity *= 8;
-		// Y成分を取り除く
-		VelocityCmp.Velocity.y = RBCmp.RigitBody->getLinearVelocity().y();
 
 		// 目的地に着いたら
 		if (D3DXVec3Length(&ToDestPos) < PatrolPointCmp.PointRadius)
 		{
-			// 終了フラグを立てる
-			State.IsFinish = true;
+			VelocityCmp = VEC3_NULL;
 
-			// 着く前のポイントのIdxを記録
-			int OldPoint = State.NowPatrolPoint;
-			// 今の位置を目標の位置にする
-			State.NowPatrolPoint = State.DestPatrolPoint;
-			// ランダムで移動可能な方向を計算
-			int NextPoint = rand() % PatrolPointCmp.PatrolPoint[State.NowPatrolPoint].CanMove.size() + 0;
-			// 引き返しを避けるために計算しなおす
-			for (int nCnt = 0; nCnt < State.DontRepeatStrength; nCnt++)
+			State.CoolDownCnt++;
+			if (State.CoolDownCnt >= State.HalfPatrolRoute[State.NextIdx].CoolDown)
 			{
-				// すでに引き返さない状態だったら切り上げ
-				if (PatrolPointCmp.PatrolPoint[State.NowPatrolPoint].CanMove[NextPoint] != OldPoint) break;
-				// 計算しなおす
-				NextPoint = rand() % PatrolPointCmp.PatrolPoint[State.NowPatrolPoint].CanMove.size() + 0;
+				State.CoolDownCnt = 0;
+				// 今の位置を目標の位置にする
+				State.NowIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
+				// 終了フラグを立てる
+				if (static_cast<int>(State.HalfPatrolRoute.capacity() - 1) <= State.NowIdx && State.IsFinish == false)
+				{
+					State.IsFinish = true;
+				}
+				if (0 >= State.NowIdx && State.IsFinish == true)
+				{
+					State.IsFinish = false;
+				}
 			}
-			// 目標の位置として設定
-			State.DestPatrolPoint = PatrolPointCmp.PatrolPoint[State.NowPatrolPoint].CanMove[NextPoint];
+		}
+		else
+		{
+			// 移動方向を代入
+			VelocityCmp.Velocity = Normalize;
+			// 速さを掛ける
+			VelocityCmp.Velocity *= 8;
+			// Y成分を取り除く
+			VelocityCmp.Velocity.y = RBCmp.RigitBody->getLinearVelocity().y();
 		}
 		// 移動
 		UpdateMove(reg, Entity);
@@ -140,6 +144,11 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	// 位置を取得
 	newPos = trans.getOrigin();
 
+	// 位置を計算、設定
+	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
+
+	if (VelocityCmp.Velocity == VEC3_NULL) return;
+
 	D3DXVECTOR3 Axis = VelocityCmp.Velocity;
 	D3DXVECTOR3 VecFront = { 0.0f,0.0f,-1.0f };
 	D3DXVECTOR3 VecUp = VEC_UP;
@@ -151,7 +160,4 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	angle += D3DX_PI;
 
 	D3DXQuaternionRotationAxis(&TransformCmp.Quat, &VecUp, angle);
-
-	// 位置を計算、設定
-	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
 }

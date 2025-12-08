@@ -11,7 +11,7 @@
 // インクルード
 #include "EnemyPatrolPointComp.hpp"
 
-namespace EnemyAIAStar {
+namespace EnemyAI {
 	struct AStarPointInfo
 	{
 		PatrolPoint::PatrolPointInfo PatrolPoint;
@@ -25,6 +25,4 @@ struct EnemtAIAstarComp {
 	EnemtAIAstarComp() = default;
 	// 計算結果のルート
 	std::vector<int> DestRoute;
-	// 最初の位置からの近場のポイント
-	std::vector<EnemyAIAStar::AStarPointInfo> ApperNearPoint;
 };

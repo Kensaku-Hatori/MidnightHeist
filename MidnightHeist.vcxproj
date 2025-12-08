@@ -235,6 +235,7 @@
     <ClInclude Include="EnemyAIAStarComponent.hpp" />
     <ClInclude Include="EnemyAIComponent.hpp" />
     <ClInclude Include="DivisionComponent.hpp" />
+    <ClInclude Include="EnemyManagerComp.hpp" />
     <ClInclude Include="EnemyPatrolPointComp.hpp" />
     <ClInclude Include="FactorieUtils.h" />
     <ClInclude Include="FanInfoComponent.hpp" />

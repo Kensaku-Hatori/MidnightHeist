@@ -16,6 +16,7 @@
 #include "mapmanager.h"
 #include "Factories.h"
 #include "SystemManager.h"
+#include "EnemyAIComponent.hpp"
 
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
@@ -42,10 +43,11 @@ HRESULT CGame::Init(void)
 {
 	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
 	Factories::makePlayer(GetReg());
-	Factories::makeEnemy(GetReg(), { -600.0f,0.0f,-280.0f }, 10);
-	Factories::makeEnemy(GetReg(), { -600.0f,0.0f,280.0f }, 10);
+	std::vector<EnemyState::PatrolMap> test;
+
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
-	Factories::makePauseManager(GetReg());
+	ManagerFactories::makeEnemyManager(GetReg());
+	ManagerFactories::makePauseManager(GetReg());
 
 	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);
 	CManager::GetCamera()->SetPosV(CCamera::Config::Game::PosV);

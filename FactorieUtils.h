@@ -37,3 +37,4 @@
 #include "PauseUI.hpp"
 #include "EnemyAIAStarComponent.hpp"
 #include "SkyBoxComponent.hpp"
+#include "EnemyManagerComp.hpp"

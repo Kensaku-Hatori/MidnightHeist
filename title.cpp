@@ -55,7 +55,7 @@ HRESULT CTitle::Init(void)
 	Factories::makeObject3D(GetReg());
 	Factories::makePlayer(GetReg());
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");
-	Factories::makeTitleManager(GetReg());
+	ManagerFactories::makeTitleManager(GetReg());
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
 	MeshFactories::makeSkyBox(GetReg());
 
