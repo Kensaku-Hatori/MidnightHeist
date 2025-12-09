@@ -100,7 +100,7 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 entt::entity Factories::makePlayer(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity).Pos = { 600.0f,200.0f,300.0f };
+	Reg.emplace<Transform3D>(myEntity).Pos = { 800.0f,0.0f,400.0f };
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<RenderingOutLine>(myEntity);

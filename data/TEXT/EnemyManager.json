@@ -175,5 +175,79 @@
         "CoolDown": 300
       }
     }
+  },
+  {
+    "Transform": {
+      "Position": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": -280.0
+      },
+      "Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "PointList": {
+      "P0": {
+        "Idx": 6,
+        "CoolDown": 15
+      },
+      "P1": {
+        "Idx": 7,
+        "CoolDown": 15
+      },
+      "P2": {
+        "Idx": 4,
+        "CoolDown": 15
+      },
+      "P3": {
+        "Idx": 1,
+        "CoolDown": 50
+      },
+      "P4": {
+        "Idx": 0,
+        "CoolDown": 50
+      }
+    }
+  },
+  {
+    "Transform": {
+      "Position": {
+        "x": -350.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "PointList": {
+      "P0": {
+        "Idx": 7,
+        "CoolDown": 15
+      },
+      "P1": {
+        "Idx": 4,
+        "CoolDown": 15
+      },
+      "P2": {
+        "Idx": 5,
+        "CoolDown": 60
+      },
+      "P3": {
+        "Idx": 2,
+        "CoolDown": 60
+      },
+      "P4": {
+        "Idx": 1,
+        "CoolDown": 120
+      }
+    }
   }
 ]

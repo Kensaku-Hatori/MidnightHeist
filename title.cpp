@@ -49,6 +49,7 @@ HRESULT CTitle::Init(void)
 
 	//m_pTitleManager = CTitleManager::CreateSingleton();
 
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/Title/MidNightHeist.png", { 340.0f,160.0f }, { 200.0f,100.0f });
 	Factories::makeObject3D(GetReg());
 	Factories::makePlayer(GetReg());
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");

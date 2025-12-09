@@ -54,12 +54,12 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// レーザーのコリジョン情報を取得
 		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parent);
 
-		//// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
-		//if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
-		//{
-		//	State.State = EnemyState::ENEMYSTATE::CHASE;
-		//	continue;
-		//}
+		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
+		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
+		{
+			State.State = EnemyState::ENEMYSTATE::CHASE;
+			continue;
+		}
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigitBodyComp>(Entity);

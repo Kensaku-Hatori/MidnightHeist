@@ -55,7 +55,7 @@ void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity
 		auto& ColorCmp = Reg.get<ColorComp>(entity);
 		ColorCmp.Col = WHITE;
 		if (SelectMenuCmp.SelectMenu != myType.myType) continue;
-		ColorCmp.Col = RED;
+		ColorCmp.Col = BLUE;
 		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true)
 		{
 			FunctionMenu(Reg, entity);

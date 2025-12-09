@@ -152,7 +152,6 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 			LocalInfo.modelinfo.TexPath[nCntMat] = pMat[nCntMat].pTextureFilename;
 		}
 	}
-
 	// ƒ}ƒbƒv‚ÉVlue‚Æ‚µ‚Äİ’è
 	m_ModelMap[Path] = LocalInfo;
 

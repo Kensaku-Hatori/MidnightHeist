@@ -95,6 +95,6 @@ namespace TitleMenu {
     // タイトルメニューのテクスチャパス一覧
     const std::string PathList[static_cast<uint8_t>(TitleMenu::MENUTYPE::MAX)] = {
     "data\\TEXTURE\\Title\\start.png",
-    "data\\TEXTURE\\Title\\quit01.png",
+    "data\\TEXTURE\\Title\\quit.png",
     };
 }
