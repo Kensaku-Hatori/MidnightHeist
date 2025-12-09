@@ -136,9 +136,18 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			// 初期値から動いていたら
 			if (BestPoint != -1)
 			{
-				// 目的地を設定
-				State.NowIdx = BestPoint;
-				State.NextIdx = BestPoint;
+				if (State.IsFinish == false)
+				{
+					// 目的地を設定
+					State.NowIdx = -1;
+					State.NextIdx = -1;
+				}
+				else
+				{
+					// 目的地を設定
+					State.NowIdx = State.HalfPatrolRoute.size();
+					State.NextIdx = State.HalfPatrolRoute.size();
+				}
 			}
 			// ステートを切り替えたので切り上げ
 			continue;

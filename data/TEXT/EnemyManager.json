@@ -249,5 +249,38 @@
         "CoolDown": 120
       }
     }
+  },
+  {
+    "Transform": {
+      "Position": {
+        "x": 800.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "Rotation": {
+        "w": 1.0,
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    "PointList": {
+      "P0": {
+        "Idx": 18,
+        "CoolDown": 15
+      },
+      "P1": {
+        "Idx": 13,
+        "CoolDown": 15
+      },
+      "P2": {
+        "Idx": 21,
+        "CoolDown": 60
+      },
+      "P3": {
+        "Idx": 10,
+        "CoolDown": 60
+      }
+    }
   }
 ]

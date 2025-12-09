@@ -10,6 +10,7 @@
 #include "TagComp.hpp"
 #include "shapeshadow.h"
 #include "toon.h"
+#include "shadowmap.h"
 
 using namespace Tag;
 
@@ -29,20 +30,27 @@ void PlayerRenderingSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<PlayerComponent>();
 
+	// 物陰マップに書き込む
 	CShapeShadow::Instance()->Begin();
 	CShapeShadow::Instance()->BeginScene();
+	// アクセス
 	for (auto Entity : view)
 	{
+		// 描画
 		RenderingShape(reg, Entity);
 	}
+	// 書き込みを終了する
 	CShapeShadow::Instance()->EndTexs();
 	CShapeShadow::Instance()->End();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// 情報を取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(entity);
 
+		// マトリックスを取得
 		mtxWorld = TransformComp.GetWorldMatrix();
 
 		// ワールドマトリックスの設定
@@ -54,25 +62,37 @@ void PlayerRenderingSystem::Rendering(entt::registry& reg)
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
 
+		D3DXMATRIX View, Proj;
+		pDevice->GetTransform(D3DTS_VIEW, &View);
+		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
+
+		CToon::Instance()->Begin();
+
+		// マテリアル分回す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
 			D3DXMATERIAL pCol = pMat[nCntMat];
 			// マテリアルの設定
 			pDevice->SetMaterial(&pCol.MatD3D);
+			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
 
-			if (RenderingComp.Info.modelinfo.TexPath[nCntMat] != "")
+			CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(RenderingComp.Info.modelinfo.TexPath[nCntMat]), CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+
+			// テクスチャパスがあるかどうか
+			if (pCol.pTextureFilename == NULL)
 			{
-				// テクスチャの設定
-				pDevice->SetTexture(0, CLoadTexture::GetTex(RenderingComp.Info.modelinfo.TexPath[nCntMat]));
+				CToon::Instance()->BeginPass(0);
 			}
 			else
 			{
-				// テクスチャの設定
-				pDevice->SetTexture(0, nullptr);
+				CToon::Instance()->BeginPass(1);
 			}
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
+			CToon::Instance()->EndPass();
 		}
+		CToon::Instance()->End();
+		// 既存のマテリアルに戻す
 		pDevice->SetMaterial(&matDef);
 	}
 }

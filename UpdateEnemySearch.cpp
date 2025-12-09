@@ -41,6 +41,8 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 
 		// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
 		if (PatrolManagerview.empty() || Playerview.empty()) continue;
+
+		// 扇情報を取得
 		auto& FanInfoCmp = reg.get<FanComp>(Entity);
 		// Entityを取得
 		auto PatrolManagerEneity = *PatrolManagerview.begin();
@@ -57,6 +59,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
 		{
+			// 追いかけモード
 			State.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
 		}
@@ -72,6 +75,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// 目的地へのベクトルを引く
 		State.NextIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
 		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.HalfPatrolRoute[State.NextIdx].Idx].Point - TransformCmp.Pos;
+		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
 		D3DXVECTOR3 Normalize;
@@ -81,15 +85,19 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// 目的地に着いたら
 		if (D3DXVec3Length(&ToDestPos) < PatrolPointCmp.PointRadius)
 		{
+			// 移動量を無くす
 			VelocityCmp = VEC3_NULL;
-
+			// カウンタを進める
 			State.CoolDownCnt++;
+
+			// クールダウンが終わったら
 			if (State.CoolDownCnt >= State.HalfPatrolRoute[State.NextIdx].CoolDown)
 			{
+				// リセット
 				State.CoolDownCnt = 0;
 				// 今の位置を目標の位置にする
 				State.NowIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
-				// 終了フラグを立てる
+				// フラグを立てる
 				if (static_cast<int>(State.HalfPatrolRoute.capacity() - 1) <= State.NowIdx && State.IsFinish == false)
 				{
 					State.IsFinish = true;

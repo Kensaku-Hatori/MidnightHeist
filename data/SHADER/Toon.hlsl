@@ -33,7 +33,22 @@ sampler2D ShadowSampler = sampler_state
     AddressV = CLAMP;
 };
 
-// シャドウマップ(テクスチャ)
+// トゥーンマップ(テクスチャ)
+texture g_ToonMap;
+
+// テクスチャサンプラーを宣言
+sampler2D ToonMapSampler = sampler_state
+{
+	// サンプラーを設定
+    Texture = <g_ToonMap>;
+    MinFilter = POINT;
+    MagFilter = POINT;
+    MipFilter = NONE;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+};
+
+// モデルのテクスチャ
 texture g_ModelTexture;
 
 // テクスチャサンプラーを宣言
@@ -99,7 +114,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     // テクスチャカラー取得
     float4 Col = g_Deffuse;
     float4 LightDir = -g_vecLight;
-    float Toon = 1.0f;
+    float4 ToonMap;
     float AmountLight;
     float Shadow = 1.0f;
     float LightPower = 1.0f;
@@ -112,19 +127,12 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     float3 normal = normalize(input.nor);
     float3 lightDir = normalize(g_vecLight.xyz);
 
-    //AmountLight = dot(normal, lightDir);
-	
-    //// 陰影を3段階に分ける
-    //if (AmountLight > 0.9)
-    //    Toon = 1.0;
-    //else if (AmountLight > 0.6)
-    //    Toon = 0.6;
-    //else if (AmountLight > 0.4)
-    //    Toon = 0.4;
-    //else if (AmountLight > 0.2)
-    //    Toon = 0.2;
-    //else
-    //    Toon = 0.0;
+    // 光の量を計算
+    AmountLight = dot(normal, lightDir);
+    AmountLight = AmountLight * 0.5f + 0.5f;
+    AmountLight = AmountLight * AmountLight;
+
+    ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
     
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
@@ -142,7 +150,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
             }
         }
 	}
-    return float4(Col.rgb * LightPower * Toon * Shadow, Col.a);
+    return float4(Col.rgb * LightPower * Shadow, Col.a) * ToonMap;
 }
 
 //**********************************************************************************
@@ -156,8 +164,8 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     float4 TexCol = tex2D(ModelSampler, input.tex);
     float4 Col = TexCol;
     float4 LightDir = -g_vecLight;
-    float Toon = 1.0f;
-    float AmountLight;
+    float4 ToonMap;
+    float AmountLight = 1.0f;
     float Shadow = 1.0f;
     float LightPower = 1.0f;
 	
@@ -169,20 +177,13 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     float3 normal = normalize(input.nor);
     float3 lightDir = normalize(g_vecLight.xyz);
 
-    //AmountLight = dot(normal, lightDir);
-	
-    //// 陰影を3段階に分ける
-    //if (AmountLight > 0.9)
-    //    Toon = 1.0;
-    //else if (AmountLight > 0.6)
-    //    Toon = 0.6;
-    //else if (AmountLight > 0.4)
-    //    Toon = 0.4;
-    //else if (AmountLight > 0.2)
-    //    Toon = 0.2;
-    //else
-    //    Toon = 0.0;
+    // 光の量を計算
+    AmountLight = dot(normal, lightDir);
+    AmountLight = AmountLight * 0.5f + 0.5f;
+    AmountLight = AmountLight * AmountLight;
     
+    ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
+
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
      	// ライト目線によるZ値の再算出
@@ -199,7 +200,7 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
             }
         }
     }	
-    return float4(Col.rgb * LightPower * Toon * Shadow, Col.a);
+    return float4(Col.rgb * LightPower * Shadow, Col.a) * ToonMap;
 }
 
 //**********************************************************************************

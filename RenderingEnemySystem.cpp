@@ -12,6 +12,8 @@
 #include "shapeshadow.h"
 #include "TransformComponent.hpp"
 #include "XRenderingComponent.hpp"
+#include "shadowmap.h"
+#include "toon.h"
 
 // 名前空間
 using namespace Tag;
@@ -54,28 +56,38 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
 
+		D3DXMATRIX View, Proj;
+		pDevice->GetTransform(D3DTS_VIEW, &View);
+		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
+
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
+
+		CToon::Instance()->Begin();
 
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
 			D3DXMATERIAL pCol = pMat[nCntMat];
 			// マテリアルの設定
 			pDevice->SetMaterial(&pCol.MatD3D);
+			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
 
-			if (RenderingComp.Info.modelinfo.TexPath[nCntMat] != "")
+			CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(RenderingComp.Info.modelinfo.TexPath[nCntMat]), CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+
+			// テクスチャパスがあるかどうか
+			if (pCol.pTextureFilename == NULL)
 			{
-				// テクスチャの設定
-				pDevice->SetTexture(0, CLoadTexture::GetTex(RenderingComp.Info.modelinfo.TexPath[nCntMat]));
+				CToon::Instance()->BeginPass(0);
 			}
 			else
 			{
-				// テクスチャの設定
-				pDevice->SetTexture(0, nullptr);
+				CToon::Instance()->BeginPass(1);
 			}
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
+			CToon::Instance()->EndPass();
 		}
+		CToon::Instance()->End();
 		pDevice->SetMaterial(&matDef);
 	}
 }

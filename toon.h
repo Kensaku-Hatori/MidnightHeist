@@ -38,6 +38,8 @@ public:
 private:
 	// コンストラクタ
 	CToon() {};
+	// トゥーンマップ
+	LPDIRECT3DTEXTURE9 m_ToonMap;
 	// 静的メンバ変数
 	static std::unique_ptr<CToon> m_Instance;
 };

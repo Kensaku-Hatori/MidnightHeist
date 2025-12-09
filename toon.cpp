@@ -10,6 +10,7 @@
 #include "manager.h"
 #include "ShaderResource.h"
 #include "shadowmap.h"
+#include "texmanager.h"
 
 // 静的メンバ変数
 std::unique_ptr<CToon> CToon::m_Instance = nullptr;
@@ -44,7 +45,11 @@ HRESULT CToon::Init(void)
     GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
     GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
     GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
+    GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
     GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
+    GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
+
+    m_ToonMap = CLoadTexture::GetTex("data/TEXTURE/toon.jpg");
 
     return S_OK;
 }
@@ -76,7 +81,9 @@ void CToon::ReStart(void)
     GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
     GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
     GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
+    GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
     GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
+    GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
 }
 
 //***************************************
@@ -95,7 +102,10 @@ void CToon::SetUseShadowMapParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMAT
     pEffect->SetTexture(GetHandle("g_ShadowTexture"), ShadowMap);
     pEffect->SetMatrix(GetHandle("g_LightView"), &LightView);
     pEffect->SetMatrix(GetHandle("g_LightProj"), &LightProj);
+    D3DXVECTOR4 LightVec = { 0.5f, 1.0f, 0.5f ,1.0f };
+    pEffect->SetVector(GetHandle("g_vecLight"), &LightVec);
     pEffect->SetTexture(GetHandle("g_ModelTexture"), ModelTex);
+    pEffect->SetTexture(GetHandle("g_ToonMap"), m_ToonMap);
 
     // GPUに変更を適応
     pEffect->CommitChanges();
