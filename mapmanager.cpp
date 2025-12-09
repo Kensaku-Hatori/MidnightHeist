@@ -9,7 +9,6 @@
 #include "mapmanager.h"
 #include "shadowmap.h"
 #include "game.h"
-#include "laser.h"
 #include "Factories.h"
 
 // ネームスペース
@@ -47,24 +46,6 @@ void CMapManager::Update(void)
 //***************************************
 void CMapManager::Draw(void)
 {
-	//// シャドウマップへの書き込みを開始
-	//CShadowMap::Instance()->Begin();
-	//CShadowMap::Instance()->WriteMaps();
-
-	//for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
-	//{
-	//	(*Models)->DrawShadow();
-	//}
-
-	//// 書き込みを終わる
-	//CShadowMap::Instance()->EndMaps();
-	//CShadowMap::Instance()->End();
-
-	//// シャドウマップを使って描画
-	//for (auto Models = m_vMapObject.begin(); Models != m_vMapObject.end(); Models++)
-	//{
-	//	(*Models)->CastShadow();
-	//}
 }
 
 //***************************************

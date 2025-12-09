@@ -195,9 +195,6 @@
     <ClCompile Include="mapmanager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="laser.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Factories.cpp">
       <Filter>Factory</Filter>
     </ClCompile>
@@ -379,9 +376,6 @@
     </ClInclude>
     <ClInclude Include="mapmanager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="laser.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="entt.hpp">
       <Filter>ヘッダー ファイル</Filter>

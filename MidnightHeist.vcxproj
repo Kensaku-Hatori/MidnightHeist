@@ -187,7 +187,6 @@
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
-    <ClCompile Include="laser.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="line.cpp" />
     <ClCompile Include="main.cpp" />
@@ -274,7 +273,6 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="json.hpp" />
-    <ClInclude Include="laser.h" />
     <ClInclude Include="LayerComponent.hpp" />
     <ClInclude Include="LayerManager.hpp" />
     <ClInclude Include="light.h" />
