@@ -38,15 +38,22 @@ CGame::~CGame()
 //***************************************
 HRESULT CGame::Init(void)
 {
+	// ステージ読み込み
 	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
+	// プレイヤー生成
 	Factories::makePlayer(GetReg());
-	std::vector<EnemyState::PatrolMap> test;
-
+	// 巡回ポイント読み込み
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
+	// 敵管理エンティティを生成
 	ManagerFactories::makeEnemyManager(GetReg());
+	// ポーズマネージャー生成
 	ManagerFactories::makePauseManager(GetReg());
-	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 125.0f,75.0f }, { 100.0f,50.0f });
-	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1205.0f,75.0f }, { 50.0f,50.0f });
+	// テスト
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1150.0f,125.0f }, { 50.0f,50.0f });
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/CameraWork.png", { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f }, { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f });
+
+	// カメラの初期化
 	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);
 	CManager::GetCamera()->SetPosV(CCamera::Config::Game::PosV);
 	CManager::GetCamera()->SetPosVDest(CCamera::Config::Game::PosV);

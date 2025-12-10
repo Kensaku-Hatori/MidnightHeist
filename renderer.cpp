@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "fade.h"
 #include "SystemManager.h"
+#include "distortion.h"
 
 // 名前空間
 using namespace std;
@@ -184,6 +185,58 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pLine->AddLine({ 0.0f,0.1f,0.0f }, { 0.0f,0.1f,100.0f }, BLUE);
 	m_pLine->AddLine({ 0.0f,-0.1f,0.0f }, { 0.0f,-0.1f,100.0f }, BLUE);
 
+	//頂点バッファの生成
+	m_pD3DDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_2D,
+		D3DPOOL_MANAGED,
+		&m_pVertex,
+		NULL);
+
+	// 何もないテクスチャを作る
+	m_pD3DDevice->CreateTexture(
+		SCREEN_WIDTH,
+		SCREEN_HEIGHT,
+		1,
+		D3DUSAGE_RENDERTARGET,
+		D3DFMT_X8R8G8B8,
+		D3DPOOL_DEFAULT,
+		&m_SceneTex,
+		NULL
+	);
+
+	// テクスチャからサーフェイスレベルを取得
+	m_SceneTex->GetSurfaceLevel(0, &m_SceneSurface);
+
+	VERTEX_2D* pVtx = NULL;
+
+	m_pVertex->Lock(0, 0, (void**)&pVtx, 0);
+
+	if (pVtx != NULL)
+	{
+		pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		pVtx[1].pos = D3DXVECTOR3(1280.0f, 0.0f, 0.0f);
+		pVtx[2].pos = D3DXVECTOR3(0.0f, 720.0f, 0.0f);
+		pVtx[3].pos = D3DXVECTOR3(1280.0f, 720.0f, 0.0f);
+
+		pVtx[0].col = WHITE;
+		pVtx[1].col = WHITE;
+		pVtx[2].col = WHITE;
+		pVtx[3].col = WHITE;
+
+		pVtx[0].rhw =
+			pVtx[1].rhw =
+			pVtx[2].rhw =
+			pVtx[3].rhw = 1.0f;
+
+		pVtx[0].tex = D3DXVECTOR2(0.0f, 0.0f);
+		pVtx[1].tex = D3DXVECTOR2(1.0f, 0.0f);
+		pVtx[2].tex = D3DXVECTOR2(0.0f, 1.0f);
+		pVtx[3].tex = D3DXVECTOR2(1.0f, 1.0f);
+	}
+
+	m_pVertex->Unlock();
+
 	return S_OK;
 }
 
@@ -203,6 +256,19 @@ void CRenderer::Uninit()
 	m_pDebugProc->Uninit();
 	delete m_pDebugProc;
 	m_pDebugProc = NULL;
+
+	// 頂点バッファの破棄
+	if (m_pVertex != NULL)
+	{
+		m_pVertex->Release();
+		m_pVertex = NULL;
+	}
+	// テクスチャの破棄
+	if (m_SceneTex != NULL)
+	{
+		m_SceneTex->Release();
+		m_SceneTex = NULL;
+	}
 
 	//D3Dデバイスの破棄
 	if (m_pD3DDevice != NULL)
@@ -271,6 +337,17 @@ void CRenderer::Draw()
 		//各種オブジェクトの描画処理
 		//-----------------------------
 
+		LPDIRECT3DSURFACE9 RenderDef;
+
+		m_pD3DDevice->GetRenderTarget(0, &RenderDef);
+
+		m_pD3DDevice->SetRenderTarget(0, m_SceneSurface);
+
+		//画面クリア
+		m_pD3DDevice->Clear(0, NULL,
+			(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL),
+			m_BackBufferCol, 1.0f, 0);
+
 		// ラインの描画
 		//m_pLine->Draw();
 
@@ -286,6 +363,25 @@ void CRenderer::Draw()
 
 		CDebugProc::Draw(0, 0);
 		CDebugProc::End();
+
+		m_pD3DDevice->SetRenderTarget(0, RenderDef);
+
+		CDistortion::Instance()->Begin();
+		CDistortion::Instance()->BeginPass();
+
+		CDistortion::Instance()->SetParameters(m_SceneTex);
+
+		//頂点フォーマットの設定
+		m_pD3DDevice->SetFVF(FVF_VERTEX_2D);
+
+		//頂点バッファをデータストリームに設定
+		m_pD3DDevice->SetStreamSource(0, m_pVertex, 0, sizeof(VERTEX_2D));
+
+		//プレイヤーの描画
+		m_pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+
+		CDistortion::Instance()->EndPass();
+		CDistortion::Instance()->End();
 
 		//描画終了
 		m_pD3DDevice->EndScene();

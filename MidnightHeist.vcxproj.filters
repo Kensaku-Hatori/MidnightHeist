@@ -115,6 +115,9 @@
     <Filter Include="System\Rendering\SkyBox">
       <UniqueIdentifier>{ceb9390f-80d2-4bd7-9964-1fff26b6bc78}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\Distortion">
+      <UniqueIdentifier>{a82cc5e5-fdfb-482b-be6f-86b5ede1bc87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -287,6 +290,9 @@
     </ClCompile>
     <ClCompile Include="title.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="distortion.cpp">
+      <Filter>Shader\Distortion</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -581,6 +587,9 @@
     <ClInclude Include="title.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="distortion.h">
+      <Filter>Shader\Distortion</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
@@ -600,6 +609,9 @@
     </FxCompile>
     <FxCompile Include="data\SHADER\DefaultCubeMap.hlsl">
       <Filter>Shader\SkyBox</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\Distortion.hlsl">
+      <Filter>Shader\Distortion</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

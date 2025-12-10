@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="defaultcubemap.cpp" />
+    <ClCompile Include="distortion.cpp" />
     <ClCompile Include="RenderingEnemySystem.cpp" />
     <ClCompile Include="RenderingMapobjectSystem.cpp" />
     <ClCompile Include="RenderingMeshLaserSystem.cpp" />
@@ -224,6 +225,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defaultcubemap.h" />
+    <ClInclude Include="distortion.h" />
     <ClInclude Include="EnemyAIAStarComponent.hpp" />
     <ClInclude Include="EnemyAIComponent.hpp" />
     <ClInclude Include="DivisionComponent.hpp" />
@@ -333,6 +335,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\Distortion.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
     </FxCompile>

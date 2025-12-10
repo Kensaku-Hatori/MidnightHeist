@@ -20,6 +20,7 @@
 #include "title.h"
 #include "SystemManager.h"
 #include "defaultcubemap.h"
+#include "distortion.h"
 
 #include "playerUpdateSystem.h"
 #include "Update2DSystem.h"
@@ -186,6 +187,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CShadowMap::Instance()->Init();
 	CToon::Instance()->Init();
 	CDefaultCubemap::Instance()->Init();
+	CDistortion::Instance()->Init();
 
 	return S_OK;
 }

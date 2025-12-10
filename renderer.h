@@ -55,6 +55,10 @@ private:
 	D3DPRESENT_PARAMETERS m_d3dpp;	// プレゼンテーションパラメータ
 	UINT m_Width;					// Imgui用のWindowの大きさ(W)
 	UINT m_Height;					// Imgui用のWindowの大きさ(H)
+	// 頂点バッファ
+	LPDIRECT3DVERTEXBUFFER9 m_pVertex;
+	LPDIRECT3DTEXTURE9 m_SceneTex;
+	LPDIRECT3DSURFACE9 m_SceneSurface;
 	std::unique_ptr<CLine> m_pLine;	// 線の可変長配列
 	D3DXCOLOR m_BackBufferCol;		// バックバッファの色
 };
