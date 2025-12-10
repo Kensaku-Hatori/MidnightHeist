@@ -25,6 +25,9 @@ CShader::~CShader()
     m_vHandle.clear();
 }
 
+//***************************************
+// 初期化
+//***************************************
 HRESULT CShader::Init(int ResourseId)
 {
     // パスを保存
@@ -38,7 +41,7 @@ HRESULT CShader::Init(int ResourseId)
     // シェーダ読み込み時のエラーバッファ
     ID3DXBuffer* pError = nullptr;
 
-    // エフェクト生成
+    // エフェクト生成(FromResource)
     HRESULT hr = D3DXCreateEffectFromResource(pDevice,NULL,
         MAKEINTRESOURCE(ResourseId),
         NULL,

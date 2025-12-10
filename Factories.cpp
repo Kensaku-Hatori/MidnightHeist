@@ -152,7 +152,6 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	if (Path.find("item01.x") != std::string::npos)Reg.emplace<RenderingOutLine>(myEntity);
 	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
 	Reg.emplace<XRenderingComp>(myEntity, Path);
-
 	return myEntity;
 }
 

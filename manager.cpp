@@ -106,21 +106,21 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
 	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
-	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
 	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);
 	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
+	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
 	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);
-	CSystemManager::AddRenderingSystem(new Render3DSystem);
-	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
+	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShapeShadowSystem);
 	CSystemManager::AddRenderingSystem(new RenderingOutLineSystem);
-	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
+	CSystemManager::AddRenderingSystem(new Render3DSystem);
+	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
 	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);

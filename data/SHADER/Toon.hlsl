@@ -129,9 +129,11 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
 
     // 光の量を計算
     AmountLight = dot(normal, lightDir);
+    // -1から1を0から1に修正
     AmountLight = AmountLight * 0.5f + 0.5f;
     AmountLight = AmountLight * AmountLight;
 
+    // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
     
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
@@ -179,9 +181,11 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
 
     // 光の量を計算
     AmountLight = dot(normal, lightDir);
+    // -1から1を0から1に修正
     AmountLight = AmountLight * 0.5f + 0.5f;
     AmountLight = AmountLight * AmountLight;
     
+    // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
 
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
@@ -208,14 +212,20 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 float4 VS_Outline(float4 pos : POSITION, float3 normal : NORMAL) : POSITION
 {
-    // 法線方向に拡張
-	float3 expanded = pos.xyz + normal * 1.05;
+    // モデル空間に置ける拡大方向を求める
+    float4 expanded = mul(float4(normal.xyz, 0.0f), g_mtxWorld);
+    // スケールを取り除いた方向を求める
+    expanded = normalize(expanded);
+    // 押し出す
+    expanded *= 6.0f;
 	
 	// 出力用の位置
 	float4 Out;
 	
 	// ワールド座標に変換
-	Out = mul(float4(expanded, 1.0), g_mtxWorld);
+    Out = mul(pos, g_mtxWorld);
+    // 押し出す
+    Out += expanded;
 	
 	// カメラ空間に変換
 	Out = mul(Out, g_View);

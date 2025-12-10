@@ -42,13 +42,14 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingComp.FilePath.empty() == true) return;
 
-		D3DXMATRIX mtxWorld;						// 計算用マトリックス
-		D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
-		D3DXMATERIAL* pMat;							// マテリアルへのポインタ
+		D3DXMATRIX mtxWorld, mtxRot, mtxTransform,mtxScale;	// 計算用マトリックス
+		D3DMATERIAL9 matDef;								// 現在のマテリアルの保存用
+		D3DXMATERIAL* pMat;									// マテリアルへのポインタ
 
 		// モデルmanagerからインデックスを指定して取得
 		CModelManager::MapObject modelinfo = RenderingComp.Info;
 
+		// ワールドマトリックスを取得
 		mtxWorld = TransformComp.GetWorldMatrix();
 
 		// 現在のマテリアルの取得
@@ -62,7 +63,7 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 			CToon::Instance()->SetUseOutLineParameters(mtxWorld, View, Proj);
 
 			// モデル(パーツ)の描画
-			modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
+			modelinfo.modelinfo.pSmoothMesh->DrawSubset(nCntMat);
 		}
 
 		pDevice->SetMaterial(&matDef);

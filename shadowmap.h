@@ -46,7 +46,10 @@ public:
 	void SetLightDistance(const float Distance) { m_LightDistance = Distance; }
 
 	// 静的メンバ関数
-	static CShadowMap* Instance(void);
+	static CShadowMap* Instance(void) {
+		static std::unique_ptr<CShadowMap> Instance(new CShadowMap);
+		return Instance.get();
+	};
 private:
 	// コンストラクタ
 	CShadowMap() {};
@@ -65,7 +68,5 @@ private:
 	float m_LightDistance;							// ライトの距離
 	UINT m_MapResolveW;								// シャドウマップの解像度W
 	UINT m_MapResolveH;								// シャドウマップノ解像度H
-	// 静的メンバ変数
-	static std::unique_ptr<CShadowMap> m_Instance;	// インスタンス
 };
 #endif // !_SHAODWMAP_H_

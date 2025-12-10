@@ -1,11 +1,25 @@
+//****************************************************************
+//
+// 物陰の処理[shapeshadow.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// インクルード
 #include "shapeshadow.h"
 #include "ShaderResource.h"
 #include "manager.h"
 
+//***************************************
+// デストラクタ
+//***************************************
 CShapeShadow::~CShapeShadow()
 {
 }
 
+//***************************************
+// 初期化処理
+//***************************************
 HRESULT CShapeShadow::Init(void)
 {
     // 初期化処理
@@ -84,6 +98,7 @@ HRESULT CShapeShadow::Init(void)
         &m_pVertexBuffMT,
         NULL);
 
+    // 上から重ねる用のポリゴン設定
     VERTEX_2D* pVtx = NULL;
 
     m_pVertexBuffMT->Lock(0, 0, (void**)&pVtx, 0);
@@ -116,27 +131,9 @@ HRESULT CShapeShadow::Init(void)
     return hr;
 }
 
-void CShapeShadow::Draw(void)
-{
-    Begin();
-    BeginPass(1);
-
-    // デバイス取得
-    LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-
-    //頂点フォーマットの設定
-    pDevice->SetFVF(FVF_VERTEX_2D);
-
-    //頂点バッファをデータストリームに設定
-    pDevice->SetStreamSource(0, m_pVertexBuffMT, 0, sizeof(VERTEX_2D));
-
-    //プレイヤーの描画
-    pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-
-    EndPass();
-    End();
-}
-
+//***************************************
+// シーンの描画
+//***************************************
 void CShapeShadow::DrawTex(void)
 {
     // デバイス取得
@@ -154,6 +151,9 @@ void CShapeShadow::DrawTex(void)
     pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }
 
+//***************************************
+// テクスチャ系をクリア
+//***************************************
 void CShapeShadow::Clear(void)
 {
     // デバイス取得
@@ -201,6 +201,9 @@ void CShapeShadow::Clear(void)
     }
 }
 
+//***************************************
+// オブジェクトとしてテクスチャに書き込む
+//***************************************
 void CShapeShadow::BeginObject(void)
 {
     // デバイス取得
@@ -217,6 +220,9 @@ void CShapeShadow::BeginObject(void)
     pDevice->SetDepthStencilSurface(m_ObjectDepthSurface);
 }
 
+//***************************************
+// シーンテクスチャに書き込む
+//***************************************
 void CShapeShadow::BeginScene(void)
 {
     // デバイス取得
@@ -233,6 +239,9 @@ void CShapeShadow::BeginScene(void)
     pDevice->SetDepthStencilSurface(m_SceneDepthSurface);
 }
 
+//***************************************
+// レンダータゲットを元に戻す
+//***************************************
 void CShapeShadow::EndTexs(void)
 {
     // デバイス取得
@@ -256,6 +265,9 @@ void CShapeShadow::EndTexs(void)
     }
 }
 
+//***************************************
+// リセット
+//***************************************
 void CShapeShadow::ReSet(void)
 {
     // 破棄
@@ -299,9 +311,13 @@ void CShapeShadow::ReSet(void)
         m_ObjectDepthSurface->Release();
         m_ObjectDepthSurface = nullptr;
     }
+    // Effectリセット
     Reset();
 }
 
+//***************************************
+// リスタート
+//***************************************
 void CShapeShadow::ReStart(void)
 {
     // 深度バッファの幅と高さを取得
@@ -368,6 +384,9 @@ void CShapeShadow::ReStart(void)
     GetHandle("g_ObjectTexture") = pEffect->GetParameterByName(NULL, "g_ObjectTexture");
 }
 
+//***************************************
+// パラメータ設定
+//***************************************
 void CShapeShadow::SetParameters(D3DXMATRIX World)
 {
     // エフェクトを取得

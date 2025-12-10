@@ -32,9 +32,9 @@ public:
 	LPD3DXEFFECT& GetEffect() { return m_pEffect; }
 private:
 	// メンバ変数
-	LPSTR m_EffectPath;						// シェーダーファイルへのファイルパス
-	LPD3DXEFFECT m_pEffect = NULL;					// シェーダーオブジェクト
-	D3DXHANDLE m_Tech = NULL;						// テクニックへのハンドル
-	std::map<std::string, D3DXHANDLE> m_vHandle;	// ハンドル
+	LPSTR m_EffectPath = {};							// シェーダーファイルへのファイルパス
+	LPD3DXEFFECT m_pEffect = NULL;						// シェーダーオブジェクト
+	D3DXHANDLE m_Tech = NULL;							// テクニックへのハンドル
+	std::map<std::string, D3DXHANDLE> m_vHandle = {};	// ハンドル
 };
 #endif // !_SHADER_H_

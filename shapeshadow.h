@@ -1,8 +1,18 @@
+//****************************************************************
+//
+// 物陰の処理[shapeshadow.h]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// 二重インクルード防止
 #ifndef _SHAPESHADOW_H_
 #define _SHAPESHADOW_H_
 
+// インクルード
 #include "shader.h"
 
+// クラスを定義
 class CShapeShadow : public CShader
 {
 public:
@@ -11,7 +21,6 @@ public:
 
 	// メンバ関数
 	HRESULT Init(void);
-	void Draw(void);
 	void DrawTex(void);
 	void Clear(void);
 	void BeginObject(void);
@@ -45,7 +54,7 @@ private:
 
 	LPDIRECT3DTEXTURE9 m_SceneTex;					// シーンのテクスチャ
 	LPDIRECT3DSURFACE9 m_SceneSurface;				// シーンサーフェイス
-	LPDIRECT3DSURFACE9 m_SceneDepthSurface;		// 震度バッファサーフェイス
+	LPDIRECT3DSURFACE9 m_SceneDepthSurface;			// 震度バッファサーフェイス
 
 	LPDIRECT3DSURFACE9 m_OldRT;						// 既存のレンダータゲット
 	LPDIRECT3DSURFACE9 m_OldDepthSurface;			// 既存の震度バッファ

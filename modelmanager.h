@@ -35,7 +35,6 @@ public:
 
 	// デストラクタ
 	~CModelManager();
-	void SmoothMesh(std::string Path);
 
 	// 読み込み・破棄
 	static void Load(std::string LoadFilePath);
@@ -48,6 +47,8 @@ public:
 private:
 	// コンストラクタ・デストラクタ
 	CModelManager();
+	// プライベートメンバ関数
+	static MapObject& FailedLoadMesh(void);
 
 	// 静的メンバ変数
 	static std::unordered_map<std::string, MapObject> m_ModelMap;	// モデル情報を格納する変数

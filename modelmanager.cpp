@@ -22,13 +22,64 @@ CModelManager::CModelManager()
 }
 
 //*********************************************
+// 読み込み失敗した時用のデフォルトモデルを返す処理
+//*********************************************
+CModelManager::MapObject& CModelManager::FailedLoadMesh(void)
+{
+	// 検索結果を代入
+	auto Find = m_ModelMap.find("");
+
+	// すでに存在したら
+	if (Find != m_ModelMap.end())return Find->second;
+
+	// デバイス取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	// モデルの情報を読み込む一時変数
+	MapObject LocalInfo = {};
+
+	// Xファイル読込
+	D3DXLoadMeshFromX(
+		"data/MODEL/Floor.x",
+		D3DXMESH_MANAGED,
+		pDevice,
+		NULL,
+		&LocalInfo.modelinfo.pBuffMat,
+		NULL,
+		&LocalInfo.modelinfo.dwNumMat,
+		&LocalInfo.modelinfo.pMesh
+	);
+
+	//マテリアル辺のポインタを取得
+	D3DXMATERIAL* pMat;
+	pMat = (D3DXMATERIAL*)LocalInfo.modelinfo.pBuffMat->GetBufferPointer();
+
+	// マテリアル分パスを確保
+	LocalInfo.modelinfo.TexPath.resize(LocalInfo.modelinfo.dwNumMat);
+
+	// マテリアルの数分回す
+	for (int nCntMat = 0; nCntMat < (int)LocalInfo.modelinfo.dwNumMat; nCntMat++)
+	{
+		// パスが存在したら
+		if (pMat[nCntMat].pTextureFilename != NULL)
+		{
+			// 代入
+			LocalInfo.modelinfo.TexPath[nCntMat] = pMat[nCntMat].pTextureFilename;
+		}
+	}
+
+	// マップにVlueとして設定
+	m_ModelMap[""] = LocalInfo;
+
+	return m_ModelMap[""];
+}
+
+//*********************************************
 // デストラクタ
 //*********************************************
 CModelManager::~CModelManager()
-{
-}
-
-void CModelManager::SmoothMesh(std::string Path)
 {
 }
 
@@ -86,7 +137,7 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 	// すでに存在したら
 	if (Find != m_ModelMap.end())return Find->second;
 
-	// 被りがなくてパスの長さが短かったらクリエイト
+	// 被りがなかったらクリエイト
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -107,6 +158,15 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 		&LocalInfo.modelinfo.pMesh
 	);
 
+	// 読み込めなかったら
+	if (FAILED(hr))
+	{
+		// 失敗したら
+		std::string Log = "モデルパスが間違っています[" + Path + "]\n";
+		OutputDebugString(Log.c_str());
+		return FailedLoadMesh();
+	}
+
 	// メッシュをコピー
 	LocalInfo.modelinfo.pMesh->CloneMeshFVF(
 		D3DXMESH_SYSTEMMEM,
@@ -114,13 +174,6 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 		pDevice,
 		&LocalInfo.modelinfo.pSmoothMesh
 	);
-
-	// 読み込めなかったら
-	if (FAILED(hr))
-	{
-		// 失敗したら
-		assert(0 && "モデルパスが間違っています");
-	}
 
 	// 法線のスムース化
 	const float Epsilon = 1e-6f;
@@ -132,7 +185,8 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 	if (FAILED(hr))
 	{
 		// 失敗したら
-		assert(0 && "モデルのスムース化に失敗しました");
+		std::string Log = "モデルのスムース化に失敗しました[" + Path + "]\n";
+		OutputDebugString(Log.c_str());
 	}
 
 	//マテリアル辺のポインタを取得

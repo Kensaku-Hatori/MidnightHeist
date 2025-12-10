@@ -1,7 +1,17 @@
+//****************************************************************
+//
+// デフォルトキューブマップの処理[defaultcubemap.h]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// 二重インクルード防止
 #pragma once
 
+// インクルード
 #include "shader.h"
 
+// クラスを定義
 class CDefaultCubemap : public CShader
 {
 public:
@@ -20,11 +30,11 @@ public:
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
-	static CDefaultCubemap* Instance(void);
+	static CDefaultCubemap* Instance(void) {
+		static std::unique_ptr<CDefaultCubemap> Instance(new CDefaultCubemap);
+		return Instance.get();
+	};
 private:
 	// コンストラクタ
 	CDefaultCubemap() = default;
-
-		// 静的メンバ変数
-	static std::unique_ptr<CDefaultCubemap> m_Instance;
 };

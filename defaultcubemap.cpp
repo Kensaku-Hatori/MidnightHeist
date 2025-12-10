@@ -1,10 +1,18 @@
+//****************************************************************
+//
+// デフォルトキューブマップの処理[defaultcubemap.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// インクルード
 #include "defaultcubemap.h"
 #include "manager.h"
 #include "ShaderResource.h"
 
-// 静的メンバ変数
-std::unique_ptr<CDefaultCubemap> CDefaultCubemap::m_Instance = nullptr;
-
+//***************************************
+// 初期化処理
+//***************************************
 HRESULT CDefaultCubemap::Init(void)
 {
     // 初期化
@@ -25,11 +33,17 @@ HRESULT CDefaultCubemap::Init(void)
     return S_OK;
 }
 
+//***************************************
+// リセット
+//***************************************
 void CDefaultCubemap::ReSet(void)
 {
     Reset();
 }
 
+//***************************************
+// リスタート
+//***************************************
 void CDefaultCubemap::ReStart(void)
 {
     Restart();
@@ -44,6 +58,9 @@ void CDefaultCubemap::ReStart(void)
     GetHandle("g_CubeMap") = pEffect->GetParameterByName(NULL, "g_CubeMap");
 }
 
+//***************************************
+// パラメータ設定
+//***************************************
 void CDefaultCubemap::SetParameters(const D3DXMATRIX& World, const LPDIRECT3DCUBETEXTURE9& Tex)
 {
     // エフェクトを取得
@@ -65,16 +82,4 @@ void CDefaultCubemap::SetParameters(const D3DXMATRIX& World, const LPDIRECT3DCUB
 
     // GPUに変更を適応
     pEffect->CommitChanges();
-}
-
-CDefaultCubemap* CDefaultCubemap::Instance(void)
-{
-    // 生成済みなら
-    if (m_Instance != NULL) return m_Instance.get();
-
-    // メモリ確保
-    m_Instance.reset(new CDefaultCubemap);
-
-    // 返す
-    return m_Instance.get();
 }

@@ -62,7 +62,7 @@
 
 // ゲームに使うマクロ
 #define CLASS_NAME "WindowsClass"
-#define WINDOW_NAME "EditerForHGS"
+#define WINDOW_NAME "MidNightHeist"
 
 // ウィンドウ
 #define SCREEN_WIDTH UINT(1280)

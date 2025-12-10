@@ -10,9 +10,6 @@
 #include "manager.h"
 #include "ShaderResource.h"
 
-// 静的メンバ変数
-std::unique_ptr<CShadowMap> CShadowMap::m_Instance = nullptr;
-
 //***************************************
 // デストラクタ
 //***************************************
@@ -276,14 +273,4 @@ void CShadowMap::SetParameters(D3DXMATRIX World)
 
     // GPUに変更を適応
     pEffect->CommitChanges();
-}
-
-//***************************************
-// インスタンスを取得
-//***************************************
-CShadowMap* CShadowMap::Instance(void)
-{
-	if (m_Instance != NULL) return m_Instance.get();
-	m_Instance.reset(new CShadowMap);
-	return m_Instance.get();
 }
