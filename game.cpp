@@ -45,7 +45,8 @@ HRESULT CGame::Init(void)
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
 	ManagerFactories::makeEnemyManager(GetReg());
 	ManagerFactories::makePauseManager(GetReg());
-
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 125.0f,75.0f }, { 100.0f,50.0f });
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1205.0f,75.0f }, { 50.0f,50.0f });
 	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);
 	CManager::GetCamera()->SetPosV(CCamera::Config::Game::PosV);
 	CManager::GetCamera()->SetPosVDest(CCamera::Config::Game::PosV);
