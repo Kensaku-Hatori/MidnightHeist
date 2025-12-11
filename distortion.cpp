@@ -33,6 +33,9 @@ HRESULT CDistortion::Init(void)
     // グローバル変数ハンドル取得
     GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
     GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
+    GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
+    GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
+    GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
 
     return S_OK;
 }
@@ -57,6 +60,30 @@ void CDistortion::ReStart(void)
     // グローバル変数ハンドル取得
     GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
     GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
+    GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
+    GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
+    GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
+}
+
+//***************************************
+// ノイズスタート
+//***************************************
+void CDistortion::StartNoise(float MaxNoiseRange, float MinNoiseRange, float NoiseSpeed)
+{
+    m_NoiseFrag = true;
+    m_NoiseCount = 0;
+    m_NoiseSpeed = NoiseSpeed;
+    m_NoiseMaxRange = MaxNoiseRange;
+    m_NoiseMinRange = MinNoiseRange;
+}
+
+//***************************************
+// ノイズ終了
+//***************************************
+void CDistortion::EndNoise(void)
+{
+    m_NoiseFrag = false;
+    m_NoiseCount = 0;
 }
 
 //***************************************
@@ -64,13 +91,16 @@ void CDistortion::ReStart(void)
 //***************************************
 void CDistortion::SetParameters(LPDIRECT3DTEXTURE9 Scene)
 {
-    static int test = 0;
-    test++;
+    if (m_NoiseFrag == true)m_NoiseCount++;
+    if (m_NoiseCount > m_NoiseSpeed)m_NoiseFrag = false;
 
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
 
     // パラメータ(グローバル変数の設定)
     pEffect->SetTexture(GetHandle("g_SceneTexture"), Scene);
-    pEffect->SetInt(GetHandle("g_nCnt"), test);
+    pEffect->SetInt(GetHandle("g_nCnt"), m_NoiseCount);
+    pEffect->SetFloat(GetHandle("g_NoiseSpeed"), m_NoiseSpeed);
+    pEffect->SetFloat(GetHandle("g_NoiseMinRange"), m_NoiseMinRange);
+    pEffect->SetFloat(GetHandle("g_NoiseMaxRange"), m_NoiseMaxRange);
 }

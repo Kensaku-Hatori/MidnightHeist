@@ -6,6 +6,11 @@ float SineMacro = 1.0f;
 float Speed = 10.0f;
 // 波の波及率
 float Ripple = 2.0f;
+// ノイズが収束する速さ
+float g_NoiseSpeed;
+// ノイズの範囲
+float g_NoiseMinRange;
+float g_NoiseMaxRange;
 
 // 頂点シェーダ出力構造体
 struct VS_OUTPUT
@@ -56,26 +61,31 @@ VS_OUTPUT VS_main(VS_OUTPUT input)
 //**********************************************************************************
 float4 PS_main(VS_OUTPUT input) : COLOR
 { 
+    // カウンタが進んでなかったら
+    if (g_nCnt <= 0)
+        return float4(tex2D(SceneSampler, input.tex));
+    
+    // 画面をゆがませる用のベクトルと距離変数
     float Vec = 0.5f - input.tex.y;
     float Distance = length(Vec);
 
-    //if (input.tex.y > 0.1f && input.tex.y < 0.11f || input.tex.y > 0.2f && input.tex.y < 0.21f ||
-    //    input.tex.y > 0.3f && input.tex.y < 0.31f || input.tex.y > 0.4f && input.tex.y < 0.41f ||
-    //    input.tex.y > 0.5f && input.tex.y < 0.51f || input.tex.y > 0.6f && input.tex.y < 0.61f ||
-    //    input.tex.y > 0.7f && input.tex.y < 0.71f || input.tex.y > 0.8f && input.tex.y < 0.81f ||
-    //    input.tex.y > 0.9f && input.tex.y < 0.91f)
-    //{
-    //    input.tex.x += frac(sin(dot(input.tex * g_nCnt, float2(12.9898, 78.233))) * 43758.5453);
-    //}
-    // 疑似的なノイズ
-    float rndY = frac(sin((input.tex.y + g_nCnt) * 123.456) * 98765.4321);
+    // 疑似的なノイズ                                      適当          適当
+    float rndY = frac(sin((input.tex.y + (float)g_nCnt) * 123.456) * 98765.4321);
 
-    // 適当判定
-    if (rndY < 0.05 && rndY > 0.01)
+    // 適当判定                                    収束する速さ
+    if (rndY < g_NoiseMaxRange && rndY > g_NoiseMinRange * (float) (g_nCnt / g_NoiseSpeed))
     {
+        // ノイズを走らせる
         input.tex.x += rndY;
     }
-    input.tex.x += sin(SineMacro * ((g_nCnt - (Distance * Ripple)) * Speed)) * 0.0001f;
+    //// ノイズより少し長く判定
+    //if ((float)(g_nCnt / 15.0f) < 15.0f)
+    //{
+        // ゆがませる
+        input.tex.x += sin(SineMacro * ((g_nCnt - (Distance * Ripple)) * Speed)) * 0.0001f;
+        //input.tex.y += cos(SineMacro * ((g_nCnt - (Distance * Ripple)) * Speed)) * 0.0001f;
+    //}
+    // 最終的な色を出力
     return tex2D(SceneSampler, float2(input.tex.x, input.tex.y));
 }
 

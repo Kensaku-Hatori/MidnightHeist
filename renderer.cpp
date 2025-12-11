@@ -327,6 +327,7 @@ void CRenderer::Draw()
 		(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL),
 		m_BackBufferCol, 1.0f, 0);
 
+	// マップ系のテクスチャをクリア
 	CShapeShadow::Instance()->Clear();
 	CShadowMap::Instance()->Clear();
 
@@ -337,10 +338,13 @@ void CRenderer::Draw()
 		//各種オブジェクトの描画処理
 		//-----------------------------
 
+		// 現在のバックバッファを保存する用の一時変数
 		LPDIRECT3DSURFACE9 RenderDef;
 
+		// 現在のレンダーターゲットを取得
 		m_pD3DDevice->GetRenderTarget(0, &RenderDef);
 
+		// レンダータゲットを変える
 		m_pD3DDevice->SetRenderTarget(0, m_SceneSurface);
 
 		//画面クリア
@@ -354,32 +358,34 @@ void CRenderer::Draw()
 		// オブジェクトの描画
 		CObject::DrawAll();
 
+		// 描画システムの描画
 		if (CSystemManager::GetRenderingSystemSize != NULL)CSystemManager::RenderingAll(CManager::GetScene()->GetReg());
 
+		// シーンとフェードの描画
 		CManager::GetScene()->Draw();
 		CManager::GetFade()->Draw();
 
+		// 物陰を描画
 		CShapeShadow::Instance()->DrawTex();
 
+		// デバッグ表示の描画
 		CDebugProc::Draw(0, 0);
 		CDebugProc::End();
 
+		// レンダータゲットを元に戻す
 		m_pD3DDevice->SetRenderTarget(0, RenderDef);
 
+		// 歪みシェーダ起動
 		CDistortion::Instance()->Begin();
 		CDistortion::Instance()->BeginPass();
 
+		// パラメータ設定
 		CDistortion::Instance()->SetParameters(m_SceneTex);
 
-		//頂点フォーマットの設定
-		m_pD3DDevice->SetFVF(FVF_VERTEX_2D);
+		// シーン描画
+		DrawScene();
 
-		//頂点バッファをデータストリームに設定
-		m_pD3DDevice->SetStreamSource(0, m_pVertex, 0, sizeof(VERTEX_2D));
-
-		//プレイヤーの描画
-		m_pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
-
+		// 歪みシェーダ終了
 		CDistortion::Instance()->EndPass();
 		CDistortion::Instance()->End();
 
@@ -389,6 +395,21 @@ void CRenderer::Draw()
 
 	//バックバッファとフロントバッファの入れ替え
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+}
+
+//************************************
+// シーンを描画
+//************************************
+void CRenderer::DrawScene(void)
+{
+	//頂点フォーマットの設定
+	m_pD3DDevice->SetFVF(FVF_VERTEX_2D);
+
+	//頂点バッファをデータストリームに設定
+	m_pD3DDevice->SetStreamSource(0, m_pVertex, 0, sizeof(VERTEX_2D));
+
+	//プレイヤーの描画
+	m_pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }
 
 //*************************************

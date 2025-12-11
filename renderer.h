@@ -29,6 +29,7 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+	void DrawScene(void);
 
 	// セッター
 	void onWireFrame();

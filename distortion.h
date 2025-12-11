@@ -23,9 +23,13 @@ public:
 	void ReSet(void);
 	void ReStart(void);
 
-	void SetParameters(LPDIRECT3DTEXTURE9 Scene); // ライトやマテリアルなどの設定
+	// パラメータ設定
+	void StartNoise(float MaxNoiseRange = 1.0f,float MinNoiseRange = 1.0f,float NoiseSpeed = 150.0f);
+	void EndNoise(void);
+	void SetParameters(LPDIRECT3DTEXTURE9 Scene);
 
 	// ゲッター
+	bool IsNoised(void) { return m_NoiseFrag; }
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
@@ -36,4 +40,12 @@ public:
 private:
 	// コンストラクタ
 	CDistortion() {};
+	// ノイズフラグ
+	bool m_NoiseFrag;
+	// ノイズ用のカウンタ
+	int m_NoiseCount;
+	// ノイズの収束する速さ
+	float m_NoiseSpeed;
+	// ノイズの範囲
+	float m_NoiseMinRange, m_NoiseMaxRange;
 };

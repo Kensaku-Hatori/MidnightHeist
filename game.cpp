@@ -14,6 +14,7 @@
 #include "Factories.h"
 #include "SystemManager.h"
 #include "EnemyAIComponent.hpp"
+#include "distortion.h"
 
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
@@ -52,6 +53,8 @@ HRESULT CGame::Init(void)
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1150.0f,125.0f }, { 50.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/CameraWork.png", { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f }, { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f });
+	// ノイズスタート
+	CDistortion::Instance()->StartNoise();
 
 	// カメラの初期化
 	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);
@@ -68,7 +71,14 @@ HRESULT CGame::Init(void)
 //***************************************
 void CGame::Update(void)
 {
+	// マップマネージャーの更新
 	CMapManager::Instance()->Update();
+
+	if (rand() % 100 + 0 < 1 && CDistortion::Instance()->IsNoised() == false)
+	{
+		// ノイズスタート
+		CDistortion::Instance()->StartNoise(0.1f, 0.1f, 15.0f);
+	}
 }
 
 //***************************************
@@ -76,6 +86,8 @@ void CGame::Update(void)
 //***************************************
 void CGame::Uninit(void)
 {
+	// ノイズ終了
+	CDistortion::Instance()->EndNoise();
 	CSystemManager::SetPause(false);
 	GetReg().clear();
 	delete this;

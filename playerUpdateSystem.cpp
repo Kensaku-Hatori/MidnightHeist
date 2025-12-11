@@ -89,8 +89,12 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 	D3DXVec3Normalize(&V, &V);
 	D3DXVec3Normalize(&H, &H);
 
+	// 速さ
+	float Speed = 12.5f;
+
 	// 素早さ
-	const float Speed = 10;
+	if (CManager::GetInputKeyboard()->GetPress(DIK_LCONTROL) == true)Speed = 8;
+	else if (CManager::GetInputKeyboard()->GetPress(DIK_LSHIFT) == true)Speed = 17;
 
 	// キーボード検知
 	if (CManager::GetInputKeyboard()->GetPress(DIK_W))  moveDir += btVector3(V.x, V.y, V.z);
