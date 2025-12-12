@@ -12,12 +12,9 @@
 #include "Factories.h"
 #include "fade.h"
 #include "game.h"
+#include "TitleCamera.h"
 
 // 規定値を設定
-// カメラ
-const D3DXVECTOR3 CTitle::Config::Camera::PosV = { -231.75f,79.0f,-1025.75f };
-const D3DXVECTOR3 CTitle::Config::Camera::PosR = { -430.0f,75.0f,-1000.0f };
-const D3DXVECTOR3 CTitle::Config::Camera::Rot = { -0.03f,1.7f,0.0f };
 
 // プレイヤー
 const D3DXVECTOR3 CTitle::Config::Player::Pos = { -340.0f,0.0f,-1045.0f };
@@ -47,8 +44,6 @@ HRESULT CTitle::Init(void)
 	// 平行光源の色をリセット
 	CManager::GetLight()->ResetCol();
 
-	//m_pTitleManager = CTitleManager::CreateSingleton();
-
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/Title/MidNightHeist.png", { 340.0f,160.0f }, { 200.0f,100.0f });
 	Factories::makeObject3D(GetReg());
 	Factories::makePlayer(GetReg());
@@ -57,12 +52,7 @@ HRESULT CTitle::Init(void)
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
 	MeshFactories::makeSkyBox(GetReg());
 
-	CManager::GetCamera()->SetRot(CCamera::Config::Title::Rot);
-	CManager::GetCamera()->SetPosV(CCamera::Config::Title::PosV);
-	CManager::GetCamera()->SetPosVDest(CCamera::Config::Title::PosV);
-	CManager::GetCamera()->SetPosR(CCamera::Config::Title::PosR);
-	CManager::GetCamera()->SetPosRDest(CCamera::Config::Title::PosR);
-
+	CManager::GetCamera()->AddSystem(new CTitleCamera);
 	return S_OK;
 }
 
@@ -71,19 +61,10 @@ HRESULT CTitle::Init(void)
 //***************************************
 void CTitle::Update(void)
 {
-	//static entt::entity test;
 	if (CManager::GetInputKeyboard()->GetPress(DIK_SPACE) == true)
 	{
 		Factories::makeObject3D(GetReg());
 	}
-	//if (CManager::GetInputKeyboard()->GetTrigger(DIK_G) == true)
-	//{
-	//	test = Factories::makeObject2D(GetReg());
-	//}
-	//if (CManager::GetInputKeyboard()->GetTrigger(DIK_H) == true)
-	//{
-	//	GetReg().destroy(test);
-	//}
 }
 
 //***************************************
@@ -91,6 +72,7 @@ void CTitle::Update(void)
 //***************************************
 void CTitle::Uninit(void)
 {
+	CManager::GetCamera()->EndSystems();
 	GetReg().clear();
 	delete this;
 }

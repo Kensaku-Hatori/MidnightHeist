@@ -22,12 +22,6 @@ class CTitle : public CScene
 public:
 	// 定数を設定
 	struct Config {
-		//  カメラ
-		struct Camera {
-			static const D3DXVECTOR3 PosV;	// 始点の位置
-			static const D3DXVECTOR3 PosR;	// 注視点の位置
-			static const D3DXVECTOR3 Rot;	// 向き
-		};
 		// プレイヤー
 		struct Player {
 			static const D3DXVECTOR3 Pos;	// 位置

@@ -15,6 +15,7 @@
 #include "SystemManager.h"
 #include "EnemyAIComponent.hpp"
 #include "distortion.h"
+#include "GameCamera.h"
 
 // 静的メンバ変数宣言
 bool CGame::m_IsFinishedFirstNoise = false;
@@ -62,6 +63,9 @@ HRESULT CGame::Init(void)
 	// ノイズスタート
 	CDistortion::Instance()->StartNoise();
 
+	// システム追加
+	CManager::GetCamera()->AddSystem(new CGameCamera);
+
 	// カメラの初期化
 	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);
 	CManager::GetCamera()->SetPosV(CCamera::Config::Game::PosV);
@@ -98,6 +102,7 @@ void CGame::Uninit(void)
 	// ノイズ終了
 	CDistortion::Instance()->EndNoise();
 	CSystemManager::SetPause(false);
+	CManager::GetCamera()->EndSystems();
 	GetReg().clear();
 	delete this;
 }

@@ -72,33 +72,40 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		// 着地判定
 		RBCmp.IsJump = !RBCmp.IsGround(myCapsule);
 
-		// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
-		if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsGround(myCapsule) == true)
+		if (CManager::GetScene()->GetMode() == CScene::MODE_GAME)
 		{
-			UpdateRB(TransformCmp, RBCmp, ColliderCmp, CapsuleCmp);
-			UpdateMovement(TransformCmp, RBCmp);
-		}
-		// ベルトコンベアの上に乗っていたら
-		if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter)
-		{
-			// ベルトコンベアの移動量を設定
-			RBCmp.RigitBody->setLinearVelocity(btVector3(-10.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
-		}
-		// ベルトコンベアの端のほうに着いたら
-		if (D3DXVec3Length(&VecDest) < 10.0f)
-		{
-			// ベルトコンベアの上に載っていない判定
-			PlayerAnimCmp.IsFinishedBelt = true;
-		}
-		// ベルトコンベアの上に乗っているフラグが切り替わった瞬間
-		if (PlayerAnimCmp.IsFinishedBeltOld == false && PlayerAnimCmp.IsFinishedBelt == true)
-		{
-			// ジャンプする
-			RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
-		}
-		if (PlayerAnimCmp.IsFinishedBelt == true)
-		{
-			UpdateLockOn(reg, entity);
+			// 画面にっ入ったら
+			if (TransformCmp.Pos.x < 900.0f)PlayerAnimCmp.IsScreen = true;
+			// ベルトコンベアアニメーションが終わっていて地面に着いてアニメーションが終了していなかったら
+			if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsGround(myCapsule) == true && PlayerAnimCmp.IsFinishedAnim == false)PlayerAnimCmp.IsFinishedAnim = true;
+			// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
+			if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsJump == false)
+			{
+				UpdateRB(TransformCmp, RBCmp, ColliderCmp, CapsuleCmp);
+				UpdateMovement(TransformCmp, RBCmp);
+			}
+			// ベルトコンベアの上に乗っていたら
+			if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter)
+			{
+				// ベルトコンベアの移動量を設定
+				RBCmp.RigitBody->setLinearVelocity(btVector3(-15.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
+			}
+			// ベルトコンベアの端のほうに着いたら
+			if (D3DXVec3Length(&VecDest) < 10.0f)
+			{
+				// ベルトコンベアの上に載っていない判定
+				PlayerAnimCmp.IsFinishedBelt = true;
+			}
+			// ベルトコンベアの上に乗っているフラグが切り替わった瞬間
+			if (PlayerAnimCmp.IsFinishedBeltOld == false && PlayerAnimCmp.IsFinishedBelt == true)
+			{
+				// ジャンプする
+				RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
+			}
+			if (PlayerAnimCmp.IsScreen == true)
+			{
+				UpdateLockOn(reg, entity);
+			}
 		}
 	}
 }
@@ -198,6 +205,8 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 //*********************************************
 void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 {
+	// ゲーム以外なら早期リターン
+	if (CManager::GetScene()->GetMode() != CScene::MODE_GAME) return;
 	// ロックオンが無効だったら
 	if (reg.valid(reg.get<SingleParentComp>(Player).Parent) == false) return;
 

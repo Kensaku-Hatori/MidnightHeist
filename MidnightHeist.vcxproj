@@ -161,8 +161,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaceCameraSystem.cpp" />
     <ClCompile Include="defaultcubemap.cpp" />
     <ClCompile Include="distortion.cpp" />
+    <ClCompile Include="GameCamera.cpp" />
     <ClCompile Include="RenderingEnemySystem.cpp" />
     <ClCompile Include="RenderingMapobjectSystem.cpp" />
     <ClCompile Include="RenderingMeshLaserSystem.cpp" />
@@ -174,6 +176,7 @@
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
     <ClCompile Include="UpdateEnemySearch.cpp" />
@@ -225,6 +228,7 @@
     <ClCompile Include="UpdateXSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaceCameraSystem.h" />
     <ClInclude Include="CapsuleComponent.hpp" />
     <ClInclude Include="defaultcubemap.h" />
     <ClInclude Include="distortion.h" />
@@ -235,6 +239,7 @@
     <ClInclude Include="EnemyPatrolPointComp.hpp" />
     <ClInclude Include="FactorieUtils.h" />
     <ClInclude Include="FanInfoComponent.hpp" />
+    <ClInclude Include="GameCamera.h" />
     <ClInclude Include="IndexBufferComponent.hpp" />
     <ClInclude Include="LaserCollisionFragComp.hpp" />
     <ClInclude Include="LockOnUIAnim.hpp" />
@@ -260,6 +265,7 @@
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyBoxComponent.hpp" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="TitleCamera.h" />
     <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />

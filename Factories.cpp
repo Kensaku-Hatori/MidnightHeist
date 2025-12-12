@@ -113,11 +113,8 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 
 	InitPlayer(Reg, myEntity);
 
-	if (CManager::GetScene()->GetMode() == CScene::MODE_GAME)
-	{
-		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
-		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
-	}
+	entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
+	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 
 	return myEntity;
 }

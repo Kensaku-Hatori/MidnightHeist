@@ -47,8 +47,6 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	entt::registry& GetRegistry(void);
-	btDynamicsWorld* GetPysicsWorld(void);
 
 	// 静的メンバ関数
 	// セッター

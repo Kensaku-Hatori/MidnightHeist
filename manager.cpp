@@ -199,19 +199,19 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 //***************************************
 void CManager::Uninit()
 {
+	// シーンの終了処理
+	if (m_pScene != nullptr)
+	{
+		m_pScene->Uninit();
+		m_pScene = nullptr;
+	}
+
 	// カメラが使われていたら
 	if (m_pCamera != NULL)
 	{
 		m_pCamera->Uninit();
 		delete m_pCamera;
 		m_pCamera = NULL;
-	}
-
-	// シーンの終了処理
-	if (m_pScene != nullptr)
-	{
-		m_pScene->Uninit();
-		m_pScene = nullptr;
 	}
 
 	// レンダラークラスが使われていたら

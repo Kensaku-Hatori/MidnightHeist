@@ -14,8 +14,8 @@
 using namespace std;
 
 // 定数を設定
-const D3DXVECTOR3 CCamera::Config::Title::PosV = { -400.0f,20.0f ,1020.0f };
-const D3DXVECTOR3 CCamera::Config::Title::PosR = { 200.0f,375.0f ,170.0f };
+const D3DXVECTOR3 CCamera::Config::Title::PosV = { 400.0f,20.0f ,1020.0f };
+const D3DXVECTOR3 CCamera::Config::Title::PosR = { 200.0f,0.0f ,170.0f };
 const D3DXVECTOR3 CCamera::Config::Title::Rot = { -D3DX_PI * 0.15f,-D3DX_PI * 0.25f ,0.0f };
 
 const D3DXVECTOR3 CCamera::Config::Game::PosV = { 0.0f,1280.0f ,800.0f };
@@ -83,9 +83,6 @@ HRESULT CCamera::Init(void)
 	m_pInputJoypad = CManager::GetInputJoypad();
 	m_pInputMouse = CManager::GetInputMouse();
 
-	// 読み込み
-	LoadMotion("data\\TEXT\\CameraWork\\CameraWork.txt");
-
 	// 正常終了
 	return S_OK;
 }
@@ -98,30 +95,17 @@ void CCamera::Update(void)
 	// ポーズ中だったら早期リターン
 	if (CManager::isPause() == true) return;
 
-	// ムービー中だったら
-	if (m_isMovie == true)
+	for (auto& Systems : m_SystemList)
 	{
-		// エンターですぐに飛ばす
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true || CManager::GetInputMouse()->OnDown(1) ||
-			CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_BACK) == true || CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
-		{
-			// ムービー中のフラグをfalseにする
-			m_isMovie = false;
-		}
-
-		// ムービー再生
-		UpdateMotion();
-
-		// 処理を終わる
-		return;
+		Systems->Update();
 	}
 
 	// それぞれの更新処理を呼ぶ
 	UpdateMouseMove();
 	//UpdateJoyPadMove();
 
-	//UpdateCameraPositionV();
-	//UpdateCameraPositionR();
+	UpdateCameraPositionV();
+	UpdateCameraPositionR();
 
 	// ホイールでカメラの距離を変える
 	SetMouseWheel(m_pInputMouse->GetMouseState().lZ);
@@ -132,6 +116,19 @@ void CCamera::Update(void)
 //***************************************
 void CCamera::Uninit(void)
 {
+}
+
+//***************************************
+// システムの終了処理
+//***************************************
+void CCamera::EndSystems(void)
+{
+	for (auto& Systems : m_SystemList)
+	{
+		Systems->Uninit();
+		Systems.reset();
+	}
+	m_SystemList.clear();
 }
 
 //***************************************
@@ -323,31 +320,6 @@ void CCamera::NormalizeCameraRot(void)
 }
 
 //***************************************
-// 敵の弱点に対してエイムアシストする
-//***************************************
-D3DXVECTOR3 CCamera::CalcAssistVec(void)
-{
-	// エイムアシストベクトルの一時変数
-	D3DXVECTOR3 AimAssist = VEC3_NULL;
-
-	// NULLを返す
-	return VEC3_NULL;
-}
-
-//***************************************
-// アイムアシストする
-//***************************************
-void CCamera::Assist(D3DXVECTOR3 AssistVec, float Strength)
-{
-	// エイムアシストを使いやすいスケールに直す
-	const float NormalizeScale = 0.005f;
-
-	// エイムアシスト実行
-	m_rot.x += (AssistVec.y * NormalizeScale) * Strength;
-	m_rot.y += (AssistVec.x * NormalizeScale) * Strength;
-}
-
-//***************************************
 // カメラの距離を変える
 //***************************************
 void CCamera::SetMouseWheel(int zDelta)
@@ -364,30 +336,18 @@ void CCamera::SetMouseWheel(int zDelta)
 }
 
 //***************************************
-// ムービーを設定
+// システムの追加
 //***************************************
-void CCamera::SetMovie(MOTIONTYPE Type)
+void CCamera::AddSystem(CBaceSystem* _Add)
 {
-	// モーションの種類を設定
-	m_nMotionType = Type;
-
-	// キーを初期化
-	m_nKey = 0;
-
-	// 次のキーを初期化
-	m_nNextKey = 0;
-
-	// モーションカウンタを初期化
-	m_nCounterMotion = 0;
-
-	// 全体フレームを初期化
-	m_nAllFrame = 0;
-
-	// 終了フラグを初期化
-	m_bFinishMotion = false;
-
-	// ムービーフラグを設定
-	m_isMovie = true;
+	// ポインタ生成
+	std::unique_ptr<CBaceSystem> Add(_Add);
+	// オーナー設定
+	Add->SetOwner(this);
+	// 初期化
+	Add->Init();
+	// 所有権移動
+	m_SystemList.push_back(std::move(Add));
 }
 
 //***************************************
@@ -437,96 +397,10 @@ void CCamera::ResetProjectionMtx(void)
 }
 
 //***************************************
-// モーション読み込み
-//***************************************
-void CCamera::LoadMotion(std::string Path)
-{
-	// ファイルを開く
-	ifstream ifs(Path);
-
-	// 開けなかったら
-	if (!ifs)
-	{
-		MessageBox(NULL, "ファイルが読み込めませんでした", "終了メッセージ", MB_OK);
-		return;
-	}
-
-	// 行を読み込む用の変数
-	string line = {};
-
-	// パラメーター、イコール用の変数
-	string label = {}, equal = {};
-
-	// キーカウントを宣言
-	int KeyCount = 0;
-
-	// モーションを代入する変数を宣言
-	MOTIONINFO LocalMotion;
-
-	// 終了まで繰り返す
-	while (getline(ifs, line))
-	{
-		// 読み込むためのフォーマと鬼変換
-		istringstream iss(line);
-
-		// キーワードを計算
-		if (line.find("LOOP") != string::npos)
-		{
-			// ループするかどうかを読み込む
-			iss >> label >> equal >> LocalMotion.bLoop;
-		}
-		if (line.find("NUMKEY") != string::npos)
-		{
-			// キーの総数を読み込む
-			iss >> label >> equal >> LocalMotion.nNumKey;
-
-			// ベクターのサイズを確保
-			LocalMotion.pKeyInfo.resize(LocalMotion.nNumKey);
-		}
-		if (line.find("POSV") != string::npos)
-		{
-			// 始点の位置を読み込む
-			iss >> label >> equal >> LocalMotion.pKeyInfo[KeyCount].fPosVX >> LocalMotion.pKeyInfo[KeyCount].fPosVY >> LocalMotion.pKeyInfo[KeyCount].fPosVZ;
-		}
-		if (line.find("POSR") != string::npos)
-		{
-			// 注視点の位置を読み込む
-			iss >> label >> equal >> LocalMotion.pKeyInfo[KeyCount].fPosRX >> LocalMotion.pKeyInfo[KeyCount].fPosRY >> LocalMotion.pKeyInfo[KeyCount].fPosRZ;
-		}
-		if (line.find("FRAME") != string::npos)
-		{
-			// フレーム数を読み込む
-			iss >> label >> equal >> LocalMotion.pKeyInfo[KeyCount].nFrame;
-		}
-		if (line.find("END_KEY") != string::npos)
-		{
-			// きーかうんとをインクリメント
-			KeyCount++;
-		}
-		if (line.find("END_CAMERAWORK") != string::npos)
-		{
-			// キーカウントを初期化
-			KeyCount = 0;
-
-			// 連結
-			m_vMotionInfo.push_back(LocalMotion);
-
-			// ローカル変数を初期化
-			LocalMotion = {};
-		}
-	}
-}
-
-//***************************************
 // PosVの座標更新
 //***************************************
 void CCamera::UpdateCameraPositionV()
 {
-	// 視点の座標更新、高さだけより離す
-	m_posVDest.x = m_posRDest.x + cosf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
-	m_posVDest.y = m_posRDest.y + sinf(m_rot.x) * m_fDistance;
-	m_posVDest.z = m_posRDest.z + cosf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
-
 	m_posV.x += (m_posVDest.x - m_posV.x) * m_fSpeedV;
 	m_posV.y += (m_posVDest.y - m_posV.y) * m_fSpeedV;
 	m_posV.z += (m_posVDest.z - m_posV.z) * m_fSpeedV;
@@ -537,96 +411,8 @@ void CCamera::UpdateCameraPositionV()
 //***************************************
 void CCamera::UpdateCameraPositionR()
 {
-	//// 視点の座標更新、高さだけ高く設定する
-	//m_posRDest.x = m_posV.x - cosf(m_rot.x) * sinf(m_rot.y) * m_fDistance;
-	//m_posRDest.y = m_posV.y - sinf(m_rot.x) * m_fDistance;
-	//m_posRDest.z = m_posV.z - cosf(m_rot.x) * cosf(m_rot.y) * m_fDistance;
-
-	//// 注視点の更新
-	//m_posR.x += (m_posRDest.x - m_posR.x) * Config::CatchSpeedR.x;
-	//m_posR.y += (m_posRDest.y - m_posR.y) * Config::CatchSpeedR.y;
-	//m_posR.z += (m_posRDest.z - m_posR.z) * Config::CatchSpeedR.z;
-}
-
-//***************************************
-// モーションを再生
-//***************************************
-void CCamera::UpdateMotion(void)
-{
-	// モーションカウンタをインクリメント
-	m_nCounterMotion++;
-
-	// 全体フレームをインクリメント
-	m_nAllFrame++;
-
-	// キーの総数が読み込めていたら次のキーを設定
-	if (m_vMotionInfo[m_nMotionType].nNumKey != NULL) m_nNextKey = (m_nKey + 1) % m_vMotionInfo[m_nMotionType].nNumKey;
-
-	// 次のキーに進める
-	if (m_nCounterMotion >= m_vMotionInfo[m_nMotionType].pKeyInfo[m_nKey].nFrame)
-	{
-		// カウンタを初期化
-		m_nCounterMotion = 0;
-
-		// キーの総数が読み込めていたらキーを進める
-		if (m_vMotionInfo[m_nMotionType].nNumKey != NULL) m_nKey = (m_nKey + 1) % m_vMotionInfo[m_nMotionType].nNumKey;
-
-		// キーの総数に達したら
-		if (m_nKey >= m_vMotionInfo[m_nMotionType].nNumKey - 1)
-		{
-			// 全体フレームを初期化
-			m_nAllFrame = 0;
-
-			// ループしないタイプだったら
-			if (m_vMotionInfo[m_nMotionType].bLoop == false)
-			{
-				// 終了状態にする
-				m_bFinishMotion = true;
-			}
-		}
-	}
-
-	// 今のキーと次のキーの一時変数
-	CCamera::KEY nKey = m_vMotionInfo[m_nMotionType].pKeyInfo[m_nKey];
-	CCamera::KEY nNexKey = m_vMotionInfo[m_nMotionType].pKeyInfo[m_nNextKey];
-
-	// 差分と目標の一時変数
-	CCamera::KEY KeyDef;
-	CCamera::KEY KeyDest;
-
-	// 差分
-	KeyDef.fPosRX = nNexKey.fPosRX - nKey.fPosRX;
-	KeyDef.fPosRY = nNexKey.fPosRY - nKey.fPosRY;
-	KeyDef.fPosRZ = nNexKey.fPosRZ - nKey.fPosRZ;
-
-	KeyDef.fPosVX = nNexKey.fPosVX - nKey.fPosVX;
-	KeyDef.fPosVY = nNexKey.fPosVY - nKey.fPosVY;
-	KeyDef.fPosVZ = nNexKey.fPosVZ - nKey.fPosVZ;
-
-	// 希望の値
-	KeyDest.fPosVX = nKey.fPosVX + KeyDef.fPosVX * ((float)m_nCounterMotion / (float)nKey.nFrame);
-	KeyDest.fPosVY = nKey.fPosVY + KeyDef.fPosVY * ((float)m_nCounterMotion / (float)nKey.nFrame);
-	KeyDest.fPosVZ = nKey.fPosVZ + KeyDef.fPosVZ * ((float)m_nCounterMotion / (float)nKey.nFrame);
-
-	// 希望の値
-	KeyDest.fPosRX = nKey.fPosRX + KeyDef.fPosRX * ((float)m_nCounterMotion / (float)nKey.nFrame);
-	KeyDest.fPosRY = nKey.fPosRY + KeyDef.fPosRY * ((float)m_nCounterMotion / (float)nKey.nFrame);
-	KeyDest.fPosRZ = nKey.fPosRZ + KeyDef.fPosRZ * ((float)m_nCounterMotion / (float)nKey.nFrame);
-
-	// 足す
-	m_posV.x = KeyDest.fPosVX;
-	m_posV.y = KeyDest.fPosVY;
-	m_posV.z = KeyDest.fPosVZ;
-
-	// 足す
-	m_posR.x = KeyDest.fPosRX;
-	m_posR.y = KeyDest.fPosRY;
-	m_posR.z = KeyDest.fPosRZ;
-
-	// 終了していたら
-	if (m_bFinishMotion == true)
-	{
-		// ムービーフラグを切り替える
-		m_isMovie = false;
-	}
+	// 注視点の更新
+	m_posR.x += (m_posRDest.x - m_posR.x) * m_fSpeedV;
+	m_posR.y += (m_posRDest.y - m_posR.y) * m_fSpeedV;
+	m_posR.z += (m_posRDest.z - m_posR.z) * m_fSpeedV;
 }
