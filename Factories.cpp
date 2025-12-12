@@ -115,7 +115,7 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 
 	if (CManager::GetScene()->GetMode() == CScene::MODE_GAME)
 	{
-		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png")).Parent;
+		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
 		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 60, 60);
 	}
 

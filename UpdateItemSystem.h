@@ -20,4 +20,5 @@ struct UpdateItemSystem : BaceSystem
 	~UpdateItemSystem() = default;
 	// XVˆ—
 	void Update(entt::registry& reg)override;
+	void UpdateLockOn(entt::registry& Reg, entt::entity& Entity);
 };

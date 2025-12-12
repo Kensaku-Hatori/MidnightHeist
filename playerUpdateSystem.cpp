@@ -98,10 +98,7 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		}
 		if (PlayerAnimCmp.IsFinishedBelt == true)
 		{
-			if (PlayerAnimCmp.IsFinishedLockOnAnim == false)
-			{
-				UpdateLockOn(reg, entity);
-			}
+			UpdateLockOn(reg, entity);
 		}
 	}
 }
@@ -201,70 +198,94 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 //*********************************************
 void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 {
+	// ロックオンが無効だったら
+	if (reg.valid(reg.get<SingleParentComp>(Player).Parent) == false) return;
+
+	// ロックオンエンティティを取得
 	entt::entity LockOnEntity = reg.get<SingleParentComp>(Player).Parent;
 
+	// ロックオンエンティティのコンポーネントを取得
 	auto& LockAnimCmp = reg.get<LockOnAnimComp>(LockOnEntity);
 	auto& LockOnSize = reg.get<SizeComp>(LockOnEntity);
 	auto& LockOnColor = reg.get<ColorComp>(LockOnEntity);
 	auto& TransformLockOn = reg.get<Transform2D>(LockOnEntity);
-	auto& PlayerAnimCmp = reg.get<PlayerAnimComp>(Player);
+	// ロックオンの位置を決めるためにコンポーネントを取得
 	auto& RBCmp = reg.get<RigitBodyComp>(Player);
 
 	// トランスフォームを取得
 	btTransform trans;
 	RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
 
-	// 描画モデルの位置
+	// 剛体の位置
 	btVector3 newPos;
-
-	// 位置を取得
 	newPos = trans.getOrigin();
 
+	// 剛体の位置を２D座標に変換
 	D3DXVECTOR3 PlayerCenter = CMath::SetVec(newPos);
 	PlayerCenter = CMath::Get3Dto2DPosition(PlayerCenter);
+	// ロックオンの参照位置を剛体の２D座標に設定
 	LockAnimCmp.Reference = { PlayerCenter.x,PlayerCenter.y };
+	// ロックオンの参照位置を描画ポリゴンの位置に設定
 	TransformLockOn.Pos = LockAnimCmp.Reference;
 
 	// ロックオン
+	// 大きさの差分
 	D3DXVECTOR2 DiffSize = LockAnimCmp.DestSize - LockAnimCmp.ApperSize;
+	// 大きさアニメーションの進行度
 	float RatioLock = (float)LockAnimCmp.ToLockonCounter / (float)LockAnimCmp.ToLockonFrame;
+	// 設定する用の大きさ
 	D3DXVECTOR2 Size = LockAnimCmp.ApperSize + (DiffSize * RatioLock);
 
 	// ロックオンリリース
+	// 色の差分
 	D3DXCOLOR DiffColor = LockAnimCmp.DestColor - LockAnimCmp.ApperColor;
+	// 色アニメーションの進行度
 	float RatioRelease = (float)LockAnimCmp.ReleaseLockCounter / (float)LockAnimCmp.ReleaseLockFrame;
+	// 設定する用の色
 	D3DXCOLOR Color = LockAnimCmp.ApperColor + (DiffColor * RatioRelease);
 
+	// ステートを見て処理を変える
 	switch (LockAnimCmp.NowState)
 	{
+		// 照準を合わせる
 	case LockOnAnimState::State::TOLOCK:
+		// カウンタが最大数まで到達していなかったら
 		if (LockAnimCmp.ToLockonFrame > LockAnimCmp.ToLockonCounter)LockAnimCmp.ToLockonCounter++;
 		else
 		{
+			// ホールドステートに変更
 			LockAnimCmp.NowState = LockOnAnimState::State::LOCKEDIN;
 		}
-		LockOnSize.Size = Size;
 		break;
+		// ホールド
 	case LockOnAnimState::State::LOCKEDIN:
+		// カウンタが最大数まで到達していなかったら
 		if (LockAnimCmp.LockedInFrame > LockAnimCmp.LockedInCounter)LockAnimCmp.LockedInCounter++;
 		else
 		{
+			// 解除状態
 			LockAnimCmp.NowState = LockOnAnimState::State::RELEASELOCK;
 		}
 		break;
+		// 解除
 	case LockOnAnimState::State::RELEASELOCK:
+		// カウンタが最大数まで到達していなかったら
 		if (LockAnimCmp.ReleaseLockFrame > LockAnimCmp.ReleaseLockCounter)LockAnimCmp.ReleaseLockCounter++;
 		else
 		{
+			// 終わった状態
 			LockAnimCmp.NowState = LockOnAnimState::State::MAX;
 		}
-		LockOnColor.Col = Color;
 		break;
+		// 終わった状態
 	case LockOnAnimState::State::MAX:
+		// 削除リストに追加
 		CSystemManager::AddDestroyList(LockOnEntity);
-		PlayerAnimCmp.IsFinishedLockOnAnim = true;
 		break;
 	default:
 		break;
 	}
+	// 情報を設定
+	LockOnSize.Size = Size;
+	LockOnColor.Col = Color;
 }
