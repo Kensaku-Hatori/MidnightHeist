@@ -15,6 +15,8 @@ struct VertexComp {
 	VertexComp() {
 		pVertex = nullptr;
 	}
+	// コピー禁止
+	VertexComp& operator=(const VertexComp&) = delete;
 	// デストラクタ
 	~VertexComp() {
 		// 頂点バッファの破棄

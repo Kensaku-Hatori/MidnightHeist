@@ -40,3 +40,5 @@
 #include "EnemyManagerComp.hpp"
 #include "OutLineComp.hpp"
 #include "CapsuleComponent.hpp"
+#include "PlayerAnimetionComponent.hpp"
+#include "LockOnUIAnim.hpp"

@@ -237,12 +237,14 @@
     <ClInclude Include="FanInfoComponent.hpp" />
     <ClInclude Include="IndexBufferComponent.hpp" />
     <ClInclude Include="LaserCollisionFragComp.hpp" />
+    <ClInclude Include="LockOnUIAnim.hpp" />
     <ClInclude Include="Menu2DComponent.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="MeshInfoComponent.hpp" />
     <ClInclude Include="OutLineComp.hpp" />
     <ClInclude Include="ParentComponent.hpp" />
     <ClInclude Include="PauseUI.hpp" />
+    <ClInclude Include="PlayerAnimetionComponent.hpp" />
     <ClInclude Include="RayComponent.hpp" />
     <ClInclude Include="RenderingEnemySystem.h" />
     <ClInclude Include="RenderingMapobjectSystem.h" />

@@ -121,6 +121,9 @@
     <Filter Include="Component\Shader">
       <UniqueIdentifier>{866afdee-326b-4780-9a20-65c645ac478d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Animation">
+      <UniqueIdentifier>{11781752-c1c9-4c33-ba73-76267ed08c60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -604,6 +607,12 @@
     </ClInclude>
     <ClInclude Include="CapsuleComponent.hpp">
       <Filter>Component\myColliderInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerAnimetionComponent.hpp">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="LockOnUIAnim.hpp">
+      <Filter>Component\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

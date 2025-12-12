@@ -100,17 +100,24 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 entt::entity Factories::makePlayer(entt::registry& Reg)
 {
 	entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(900.0f, 300.0f, 400.0f));
+	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(1200.0f, 300.0f, 375.0f));
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<RenderingOutLine>(myEntity);
 	Reg.emplace<OutLineComp>(myEntity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<PlayerAnimComp>(myEntity);
 	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 
 	InitPlayer(Reg, myEntity);
+
+	if (CManager::GetScene()->GetMode() == CScene::MODE_GAME)
+	{
+		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png")).Parent;
+		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 60, 60);
+	}
 
 	return myEntity;
 }
@@ -204,6 +211,8 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 		Reg.emplace<RenderingOutLine>(Entity);
 		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
 		Reg.emplace<ItemComponent>(Entity);
+		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(Entity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png")).Parent;
+		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 60, 60);
 	}
 }
 

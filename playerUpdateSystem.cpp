@@ -14,6 +14,12 @@
 #include "Velocity.hpp"
 #include "TagComp.hpp"
 #include "CapsuleComponent.hpp"
+#include "PlayerAnimetionComponent.hpp"
+#include "LockOnUIAnim.hpp"
+#include "ParentComponent.hpp"
+#include "SizeComponent.hpp"
+#include "ColorComponent.hpp"
+#include "SystemManager.h"
 #include "game.h"
 #include "math.h"
 
@@ -29,11 +35,18 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 
 	for (auto entity : view)
 	{
+		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& ColliderCmp = reg.get<SingleCollisionShapeComp>(entity);
 		auto& OutLineCmp = reg.get<OutLineComp>(entity);
 		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
+		auto& PlayerAnimCmp = reg.get<PlayerAnimComp>(entity);
+
+		// カウンタインクリメント
+		if (PlayerAnimCmp.FirstDelayFrame > PlayerAnimCmp.FirstDelayCounter)PlayerAnimCmp.FirstDelayCounter++;
+		// 昔のフラグを保存
+		PlayerAnimCmp.IsFinishedBeltOld = PlayerAnimCmp.IsFinishedBelt;
 
 		OutLineCmp.Height -= 1.0f;
 
@@ -50,21 +63,45 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		// 位置を計算、設定
 		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
 
+		// 最初のアニメーションに必要な情報
 		btCapsuleShape myCapsule(btScalar(CapsuleCmp.Radius), btScalar(CapsuleCmp.AllHeight));
-		if (RBCmp.IsJump == true && RBCmp.IsGround(myCapsule) == true)
-		{
-			RBCmp.IsJump = false;
-		}
-		if (RBCmp.IsJump == false && RBCmp.IsGround(myCapsule) == true)
+		D3DXVECTOR3 VecDest = { 700.0f,0.0f,375.0f };
+		VecDest -= TransformCmp.Pos;
+		VecDest.y = 0.0f;
+
+		// 着地判定
+		RBCmp.IsJump = !RBCmp.IsGround(myCapsule);
+
+		// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
+		if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsGround(myCapsule) == true)
 		{
 			UpdateRB(TransformCmp, RBCmp, ColliderCmp, CapsuleCmp);
 			UpdateMovement(TransformCmp, RBCmp);
 		}
-		if (CGame::IsOlfFinishedFirstNoise() == false && CGame::IsFinishedFirstNoise() == true)
+		// ベルトコンベアの上に乗っていたら
+		if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter)
 		{
-			// 設定
+			// ベルトコンベアの移動量を設定
+			RBCmp.RigitBody->setLinearVelocity(btVector3(-10.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
+		}
+		// ベルトコンベアの端のほうに着いたら
+		if (D3DXVec3Length(&VecDest) < 10.0f)
+		{
+			// ベルトコンベアの上に載っていない判定
+			PlayerAnimCmp.IsFinishedBelt = true;
+		}
+		// ベルトコンベアの上に乗っているフラグが切り替わった瞬間
+		if (PlayerAnimCmp.IsFinishedBeltOld == false && PlayerAnimCmp.IsFinishedBelt == true)
+		{
+			// ジャンプする
 			RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
-			RBCmp.IsJump = true;
+		}
+		if (PlayerAnimCmp.IsFinishedBelt == true)
+		{
+			if (PlayerAnimCmp.IsFinishedLockOnAnim == false)
+			{
+				UpdateLockOn(reg, entity);
+			}
 		}
 	}
 }
@@ -157,4 +194,77 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 
 	// 設定
 	RBCmp.RigitBody->setLinearVelocity(moveDir);
+}
+
+//*********************************************
+// ロックオンの更新
+//*********************************************
+void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
+{
+	entt::entity LockOnEntity = reg.get<SingleParentComp>(Player).Parent;
+
+	auto& LockAnimCmp = reg.get<LockOnAnimComp>(LockOnEntity);
+	auto& LockOnSize = reg.get<SizeComp>(LockOnEntity);
+	auto& LockOnColor = reg.get<ColorComp>(LockOnEntity);
+	auto& TransformLockOn = reg.get<Transform2D>(LockOnEntity);
+	auto& PlayerAnimCmp = reg.get<PlayerAnimComp>(Player);
+	auto& RBCmp = reg.get<RigitBodyComp>(Player);
+
+	// トランスフォームを取得
+	btTransform trans;
+	RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+
+	// 描画モデルの位置
+	btVector3 newPos;
+
+	// 位置を取得
+	newPos = trans.getOrigin();
+
+	D3DXVECTOR3 PlayerCenter = CMath::SetVec(newPos);
+	PlayerCenter = CMath::Get3Dto2DPosition(PlayerCenter);
+	LockAnimCmp.Reference = { PlayerCenter.x,PlayerCenter.y };
+	TransformLockOn.Pos = LockAnimCmp.Reference;
+
+	// ロックオン
+	D3DXVECTOR2 DiffSize = LockAnimCmp.DestSize - LockAnimCmp.ApperSize;
+	float RatioLock = (float)LockAnimCmp.ToLockonCounter / (float)LockAnimCmp.ToLockonFrame;
+	D3DXVECTOR2 Size = LockAnimCmp.ApperSize + (DiffSize * RatioLock);
+
+	// ロックオンリリース
+	D3DXCOLOR DiffColor = LockAnimCmp.DestColor - LockAnimCmp.ApperColor;
+	float RatioRelease = (float)LockAnimCmp.ReleaseLockCounter / (float)LockAnimCmp.ReleaseLockFrame;
+	D3DXCOLOR Color = LockAnimCmp.ApperColor + (DiffColor * RatioRelease);
+
+	switch (LockAnimCmp.NowState)
+	{
+	case LockOnAnimState::State::TOLOCK:
+		if (LockAnimCmp.ToLockonFrame > LockAnimCmp.ToLockonCounter)LockAnimCmp.ToLockonCounter++;
+		else
+		{
+			LockAnimCmp.NowState = LockOnAnimState::State::LOCKEDIN;
+		}
+		LockOnSize.Size = Size;
+		break;
+	case LockOnAnimState::State::LOCKEDIN:
+		if (LockAnimCmp.LockedInFrame > LockAnimCmp.LockedInCounter)LockAnimCmp.LockedInCounter++;
+		else
+		{
+			LockAnimCmp.NowState = LockOnAnimState::State::RELEASELOCK;
+		}
+		break;
+	case LockOnAnimState::State::RELEASELOCK:
+		if (LockAnimCmp.ReleaseLockFrame > LockAnimCmp.ReleaseLockCounter)LockAnimCmp.ReleaseLockCounter++;
+		else
+		{
+			LockAnimCmp.NowState = LockOnAnimState::State::MAX;
+		}
+		LockOnColor.Col = Color;
+		break;
+	case LockOnAnimState::State::MAX:
+		CSystemManager::AddDestroyList(LockOnEntity);
+		PlayerAnimCmp.IsFinishedLockOnAnim = true;
+		break;
+	default:
+		break;
+	}
 }

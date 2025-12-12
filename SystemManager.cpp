@@ -1,9 +1,11 @@
 #include "SystemManager.h"
 #include "manager.h"
+#include "scene.h"
 
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
 std::vector<BaceSystem*> CSystemManager::m_UpdateSystems = {};
 std::vector<BaceRenderingSystem*> CSystemManager::m_RenderingSystems = {};
+std::vector<entt::entity> CSystemManager::m_DestroyList = {};
 bool CSystemManager::m_IsPause = false;
 
 void CSystemManager::UpdateAll(entt::registry& Reg)
@@ -38,6 +40,12 @@ void CSystemManager::RenderingAll(entt::registry& Reg)
 			(*Systems)->Rendering(Reg);
 		}
 	}
+	for (auto Destroys = m_DestroyList.begin(); Destroys != m_DestroyList.end();)
+	{
+		CManager::GetScene()->GetReg().destroy((*Destroys));
+		Destroys = m_DestroyList.erase(Destroys);
+		if (Destroys == m_DestroyList.end()) break;
+	}
 }
 
 void CSystemManager::AddUpdateSystem(BaceSystem* System)
@@ -66,4 +74,9 @@ void CSystemManager::EndSystem(void)
 		Systems = m_RenderingSystems.erase(Systems);
 		if (Systems == m_RenderingSystems.end()) break;
 	}
+}
+
+void CSystemManager::AddDestroyList(entt::entity Entity)
+{
+	m_DestroyList.push_back(Entity);
 }

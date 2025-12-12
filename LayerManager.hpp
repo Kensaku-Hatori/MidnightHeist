@@ -23,6 +23,7 @@ namespace LayerManager
 
 		for (auto Entity : view)
 		{
+			if (reg.valid(Entity) == false) continue;
 			EntiryList.push_back(Entity);
 		}
 

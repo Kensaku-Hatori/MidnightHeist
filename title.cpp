@@ -71,18 +71,19 @@ HRESULT CTitle::Init(void)
 //***************************************
 void CTitle::Update(void)
 {
+	//static entt::entity test;
 	if (CManager::GetInputKeyboard()->GetPress(DIK_SPACE) == true)
 	{
 		Factories::makeObject3D(GetReg());
 	}
-	if (CManager::GetInputKeyboard()->GetPress(DIK_H) == true)
-	{
-		Factories::makeObject2D(GetReg(), 2, {});
-	}
-	if (CManager::GetInputKeyboard()->GetPress(DIK_B) == true)
-	{
-		Factories::makeObject2D(GetReg(), 1, "data\\TEXTURE\\grass003.png");
-	}
+	//if (CManager::GetInputKeyboard()->GetTrigger(DIK_G) == true)
+	//{
+	//	test = Factories::makeObject2D(GetReg());
+	//}
+	//if (CManager::GetInputKeyboard()->GetTrigger(DIK_H) == true)
+	//{
+	//	GetReg().destroy(test);
+	//}
 }
 
 //***************************************

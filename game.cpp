@@ -58,7 +58,6 @@ HRESULT CGame::Init(void)
 	// テスト
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1150.0f,125.0f }, { 50.0f,50.0f });
-	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/lockon.png", { 175.0f,590.0f }, { 50.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/CameraWork.png", { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f }, { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f });
 	// ノイズスタート
 	CDistortion::Instance()->StartNoise();
