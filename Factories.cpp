@@ -115,8 +115,8 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 
 	if (CManager::GetScene()->GetMode() == CScene::MODE_GAME)
 	{
-		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
-		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 60, 60);
+		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
+		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 	}
 
 	return myEntity;
@@ -211,7 +211,7 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 		Reg.emplace<RenderingOutLine>(Entity);
 		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
 		Reg.emplace<ItemComponent>(Entity);
-		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(Entity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png")).Parent;
+		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(Entity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
 		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 60, 60);
 	}
 }
