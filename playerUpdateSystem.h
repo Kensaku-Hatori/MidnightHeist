@@ -13,6 +13,7 @@
 #include "TransformComponent.hpp"
 #include "RigitBodyComponent.hpp"
 #include "SingleCollisionShapeComponent.hpp"
+#include "CapsuleComponent.hpp"
 
 // プレイヤーのアップデート
 struct PlayerUpdateSystem : BaceSystem
@@ -22,6 +23,6 @@ struct PlayerUpdateSystem : BaceSystem
 	~PlayerUpdateSystem() = default;
 	// 描画
 	void Update(entt::registry& reg)override;
-	void UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp,SingleCollisionShapeComp& ColliderCmp);
+	void UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp,SingleCollisionShapeComp& ColliderCmp,CapsuleComp& CapsuleCmp);
 	void UpdateMovement(Transform3D& TransformCmp,RigitBodyComp& RBCmp);
 };

@@ -38,3 +38,5 @@
 #include "EnemyAIAStarComponent.hpp"
 #include "SkyBoxComponent.hpp"
 #include "EnemyManagerComp.hpp"
+#include "OutLineComp.hpp"
+#include "CapsuleComponent.hpp"

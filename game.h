@@ -37,6 +37,12 @@ public:
 	// 静的メンバ関数
 	// セッター
 	static void ResetPlayer(void);
+	// ゲッター
+	static bool IsFinishedFirstNoise(void) { return m_IsFinishedFirstNoise; }
+	static bool IsOlfFinishedFirstNoise(void) { return m_IsOlfFinishedFirstNoise; }
 private:
+	// 静的メンバ変数宣言
+	static bool m_IsFinishedFirstNoise;
+	static bool m_IsOlfFinishedFirstNoise;
 };
 #endif // !_GAME_H_

@@ -118,6 +118,9 @@
     <Filter Include="Shader\Distortion">
       <UniqueIdentifier>{a82cc5e5-fdfb-482b-be6f-86b5ede1bc87}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Shader">
+      <UniqueIdentifier>{866afdee-326b-4780-9a20-65c645ac478d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp">
@@ -293,6 +296,9 @@
     </ClCompile>
     <ClCompile Include="distortion.cpp">
       <Filter>Shader\Distortion</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateItemSystem.cpp">
+      <Filter>System\Update</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -589,6 +595,15 @@
     </ClInclude>
     <ClInclude Include="distortion.h">
       <Filter>Shader\Distortion</Filter>
+    </ClInclude>
+    <ClInclude Include="OutLineComp.hpp">
+      <Filter>Component\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateItemSystem.h">
+      <Filter>System\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="CapsuleComponent.hpp">
+      <Filter>Component\myColliderInfo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

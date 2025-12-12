@@ -157,9 +157,8 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 
 	if (VelocityCmp.Velocity == VEC3_NULL) return;
 
-	D3DXVECTOR3 Axis = VelocityCmp.Velocity;
-	D3DXVECTOR3 VecFront = { 0.0f,0.0f,-1.0f };
 	D3DXVECTOR3 VecUp = VEC_UP;
+	D3DXQUATERNION SetQuat;
 	// 移動値を方向ベクトルに変換
 	D3DXVec3Normalize(&VelocityCmp.Velocity, &VelocityCmp.Velocity);
 
@@ -167,5 +166,6 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	float angle = atan2f(VelocityCmp.Velocity.x, VelocityCmp.Velocity.z);
 	angle += D3DX_PI;
 
-	D3DXQuaternionRotationAxis(&TransformCmp.Quat, &VecUp, angle);
+	D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
+	TransformCmp.QuatDest = SetQuat;
 }

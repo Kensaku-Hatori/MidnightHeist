@@ -31,6 +31,8 @@ namespace Tag {
 	struct LaserComponent {};
 	// マップオブジェクト
 	struct MapObjectComponent {};
+	// アイテム
+	struct ItemComponent {};
 	// メッシュフィールド
 	struct MeshFieldComponent {};
 	// シャドウマップに書き込む

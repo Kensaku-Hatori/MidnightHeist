@@ -48,6 +48,9 @@ HRESULT CToon::Init(void)
     GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
     GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
     GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
+    GetHandle("g_Height") = pEffect->GetParameterByName(NULL, "g_Height");
+    GetHandle("g_Thickness") = pEffect->GetParameterByName(NULL, "g_Thickness");
+    GetHandle("g_OutLineColor") = pEffect->GetParameterByName(NULL, "g_OutLineColor");
 
     m_ToonMap = CLoadTexture::GetTex("data/TEXTURE/toon.jpg");
 
@@ -84,6 +87,9 @@ void CToon::ReStart(void)
     GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
     GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
     GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
+    GetHandle("g_Height") = pEffect->GetParameterByName(NULL, "g_Height");
+    GetHandle("g_Thickness") = pEffect->GetParameterByName(NULL, "g_Thickness");
+    GetHandle("g_OutLineColor") = pEffect->GetParameterByName(NULL, "g_OutLineColor");
 }
 
 //***************************************
@@ -114,7 +120,7 @@ void CToon::SetUseShadowMapParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMAT
 //***************************************
 // アウトラインのパラメーター設定
 //***************************************
-void CToon::SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj)
+void CToon::SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj, float Thickness, D3DXVECTOR4 Color, float Height)
 {
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
@@ -123,6 +129,9 @@ void CToon::SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRI
     pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
     pEffect->SetMatrix(GetHandle("g_View"), &View);
     pEffect->SetMatrix(GetHandle("g_Proj"), &Proj);
+    pEffect->SetFloat(GetHandle("g_Height"), Height);
+    pEffect->SetFloat(GetHandle("g_Thickness"), Thickness);
+    pEffect->SetVector(GetHandle("g_OutLineColor"), &Color);
 
     // GPUに変更を適応
     pEffect->CommitChanges();

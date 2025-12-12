@@ -28,7 +28,7 @@ public:
 	void SetUseShadowMapParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj, D3DXVECTOR4 Col = { 1.0f,1.0f,1.0f,1.0f },
 		LPDIRECT3DTEXTURE9 ShadowMap = NULL, LPDIRECT3DTEXTURE9 ModelTex = NULL, D3DXMATRIX LightView = {}, D3DXMATRIX LightProj = {}); // ライトやマテリアルなどの設定
 
-	void SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj); // ライトやマテリアルなどの設定
+	void SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRIX Proj, float Thickness = 6.0f, D3DXVECTOR4 Color = { 1.0f, 0.3f, 0.5f, 1.0f }, float Height = 0.0f);
 
 	// ゲッター
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }

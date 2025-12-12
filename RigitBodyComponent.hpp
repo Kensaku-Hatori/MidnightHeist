@@ -44,7 +44,7 @@ struct RigitBodyComp {
 		btVector3 sweepStart = RayOrigin + btVector3(0, -CastShape.getHalfHeight(), 0);
 
 		// スイープの終了位置（少し下へ伸ばす）
-		btVector3 sweepEnd = sweepStart + btVector3(0, -FLT_MIN, 0);
+		btVector3 sweepEnd = sweepStart + btVector3(0, btScalar(-0.1), 0);
 
 		// 判定用の形状
 		btSphereShape sphereShape(CastShape.getRadius());
@@ -54,6 +54,7 @@ struct RigitBodyComp {
 		CManager::GetDynamicsWorld()->convexSweepTest(&sphereShape, btTransform(btQuaternion(0, 0, 0, 1), sweepStart), btTransform(btQuaternion(0, 0, 0, 1), sweepEnd), callback);
 		return callback.hasHit();
 	}
+	// 地面のオブジェクト取得
 	const btCollisionObject* GetGroundCollisionObject(btCapsuleShape& CastShape) {
 		// プレイヤーの現在の中心座標
 		btVector3 RayOrigin = RigitBody->getWorldTransform().getOrigin();
@@ -78,4 +79,6 @@ struct RigitBodyComp {
 	}
 	// リジットボディー
 	std::unique_ptr<btRigidBody> RigitBody;
+	// ジャンプフラグ
+	bool IsJump;
 };

@@ -177,6 +177,7 @@
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
     <ClCompile Include="UpdateEnemySearch.cpp" />
+    <ClCompile Include="UpdateItemSystem.cpp" />
     <ClCompile Include="UpdateMeshLaserSystem.cpp" />
     <ClCompile Include="UpdateEnemySystem.cpp" />
     <ClCompile Include="Update2DSystem.cpp" />
@@ -224,6 +225,7 @@
     <ClCompile Include="UpdateXSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CapsuleComponent.hpp" />
     <ClInclude Include="defaultcubemap.h" />
     <ClInclude Include="distortion.h" />
     <ClInclude Include="EnemyAIAStarComponent.hpp" />
@@ -238,6 +240,7 @@
     <ClInclude Include="Menu2DComponent.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="MeshInfoComponent.hpp" />
+    <ClInclude Include="OutLineComp.hpp" />
     <ClInclude Include="ParentComponent.hpp" />
     <ClInclude Include="PauseUI.hpp" />
     <ClInclude Include="RayComponent.hpp" />
@@ -259,6 +262,7 @@
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
     <ClInclude Include="UpdateEnemySearch.h" />
+    <ClInclude Include="UpdateItemSystem.h" />
     <ClInclude Include="UpdateMeshLaserSystem.h" />
     <ClInclude Include="UpdateEnemySystem.h" />
     <ClInclude Include="Update2DSystem.h" />

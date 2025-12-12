@@ -78,13 +78,8 @@ float4 PS_main(VS_OUTPUT input) : COLOR
         // ノイズを走らせる
         input.tex.x += rndY;
     }
-    //// ノイズより少し長く判定
-    //if ((float)(g_nCnt / 15.0f) < 15.0f)
-    //{
-        // ゆがませる
-        input.tex.x += sin(SineMacro * ((g_nCnt - (Distance * Ripple)) * Speed)) * 0.0001f;
-        //input.tex.y += cos(SineMacro * ((g_nCnt - (Distance * Ripple)) * Speed)) * 0.0001f;
-    //}
+    // ゆがませる
+    input.tex.x += sin(SineMacro * ((g_nCnt - (Distance * Ripple)) * Speed)) * 0.0001f;
     // 最終的な色を出力
     return tex2D(SceneSampler, float2(input.tex.x, input.tex.y));
 }

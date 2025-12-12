@@ -36,6 +36,7 @@
 #include "UpdatePauseManager.h"
 #include "UpdatePauseMenu.h"
 #include "UpdateEnemySearch.h"
+#include "UpdateItemSystem.h"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
@@ -112,6 +113,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);
 	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
+	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
 	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 

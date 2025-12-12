@@ -52,7 +52,7 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 	static int test;
 	test++;
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(100.0f * test, 0.0f, 0.0f));
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(100.0f * test, 0.0f, 0.0f));
 	Reg.emplace<Object3DComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
@@ -99,16 +99,51 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 //*********************************************
 entt::entity Factories::makePlayer(entt::registry& Reg)
 {
-	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity).Pos = { 800.0f,0.0f,400.0f };
+	entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(900.0f, 300.0f, 400.0f));
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<RenderingOutLine>(myEntity);
+	Reg.emplace<OutLineComp>(myEntity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 
+	InitPlayer(Reg, myEntity);
+
 	return myEntity;
+}
+
+//*********************************************
+// プレイヤーの初期化
+//*********************************************
+void Factories::InitPlayer(entt::registry& Reg, entt::entity& Entity)
+{
+	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+	auto& ColliderCmp = Reg.get<SingleCollisionShapeComp>(Entity);
+	auto& TransformCmp = Reg.get<Transform3D>(Entity);
+	auto& CapsuleCmp = Reg.get<CapsuleComp>(Entity);
+
+	ColliderCmp.CollisionShape = std::make_unique<btCapsuleShape>(btScalar(CapsuleCmp.Radius), btScalar(CapsuleCmp.AllHeight));
+
+	btScalar mass = 1.0f; // 質量を1以上にすることで動的剛体になる
+	btVector3 inertia(0, 0, 0);
+	ColliderCmp.CollisionShape->calculateLocalInertia(mass, inertia);
+
+	btTransform transform;
+	transform.setIdentity();
+	transform.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y + CapsuleCmp.ToCenterOffset, TransformCmp.Pos.z));
+
+	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
+	btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, ColliderCmp.CollisionShape.get());
+
+	RBCmp.RigitBody = std::make_unique<btRigidBody>(info);
+	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
+
+	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
+
+	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 }
 
 //*********************************************
@@ -117,7 +152,7 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vector<EnemyState::PatrolMap>& PointList)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity).Pos = Pos;
+	Reg.emplace<Transform3D>(myEntity, 0.01f, Pos);
 	auto& Trans = Reg.get<Transform3D>(myEntity);
 	D3DXMATRIX Basis = Trans.GetBasis();
 	D3DXVECTOR3 FrontVec = { Basis._31,Basis._32,Basis._33 };
@@ -141,18 +176,35 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 //*********************************************
 entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale)
 {
-	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, Pos, Quat, Scale);
+	entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, 1.0f, Pos, Scale, Quat);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<CastShapeShadow>(myEntity);
 	Reg.emplace<MapObjectComponent>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<Size3DComp>(myEntity, Path);
-	if (Path.find("item01.x") != std::string::npos)Reg.emplace<RenderingOutLine>(myEntity);
 	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
 	Reg.emplace<XRenderingComp>(myEntity, Path);
+
+	// コンポーネントをマッピング
+	MappingModelPathToComponent(Reg, myEntity, Path);
+
 	return myEntity;
+}
+
+//*********************************************
+// パスをもとにコンポーネントをマッピング
+//*********************************************
+void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path)
+{
+	// アイテムなら
+	if (Path.find("item01.x") != std::string::npos)
+	{
+		Reg.emplace<RenderingOutLine>(Entity);
+		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
+		Reg.emplace<ItemComponent>(Entity);
+	}
 }
 
 //*********************************************
@@ -271,7 +323,6 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 		&VtxCmp.pVertex,
 		NULL);
 
-
 	//インデックスへのポインタ
 	WORD* pIdx = NULL;
 
@@ -357,7 +408,7 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
 	Reg.emplace<LaserComponent>(myEntity);
 	Reg.emplace<SingleParentComp>(myEntity, Parent);
 	Reg.emplace <LaserCollisionInfoComp>(myEntity);
@@ -401,7 +452,6 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 		D3DPOOL_MANAGED,
 		&VtxCmp.pVertex,
 		NULL);
-
 
 	//インデックスへのポインタ
 	WORD* pIdx = NULL;

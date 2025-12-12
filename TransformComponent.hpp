@@ -11,19 +11,24 @@
 // 3D変身コンポーネント情報
 struct Transform3D {
 	// イニシャライズコンストラクタ
-	Transform3D(D3DXVECTOR3 _Pos = VEC3_NULL, D3DXQUATERNION _Quat = QUAT_NULL, D3DXVECTOR3 _Scale = { 1.0f,1.0f,1.0f })
-		: Pos(_Pos), Quat(_Quat), Scale(_Scale) {};
+	Transform3D(const float _QuatSpeed = 1.0f, const D3DXVECTOR3 _Pos = VEC3_NULL, const D3DXVECTOR3 _Scale = { 1.0f,1.0f,1.0f }, const D3DXQUATERNION _Quat = QUAT_NULL)
+		: Pos(_Pos), Quat(_Quat), Scale(_Scale), QuatDest(_Quat), QuatSpeed(_QuatSpeed) {};
 	// 位置
 	D3DXVECTOR3 Pos;
 	// 向き
 	D3DXQUATERNION Quat;
+	// 目標のクォータニオン
+	D3DXQUATERNION QuatDest;
+	// クォータニオンの補完スピード
+	float QuatSpeed;
 	// 拡大率
 	D3DXVECTOR3 Scale;
 
 	// ワールドマトリックスを取得
-	D3DXMATRIX GetWorldMatrix(void) const {
+	D3DXMATRIX GetWorldMatrix(void) {
 		// 拡大率のマトリックス、回転行列、平行移動行列を計算
 		D3DXMATRIX mtxScale, mtxRotation, mtxTransform, mtxWorld;
+		D3DXQuaternionSlerp(&Quat, &Quat, &QuatDest, QuatSpeed);
 		D3DXMatrixIdentity(&mtxWorld);
 		D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);

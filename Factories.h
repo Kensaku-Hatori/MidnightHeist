@@ -18,8 +18,11 @@ namespace Factories {
 	entt::entity makeObjectX(entt::registry& Reg, const std::string& Path);
 
 	entt::entity makePlayer(entt::registry& Reg);
+	void InitPlayer(entt::registry& Reg, entt::entity& Entity);
+
 	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
+	void MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path);
 }
 
 // マネージャー系のファクトリ

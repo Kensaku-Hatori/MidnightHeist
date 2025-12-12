@@ -5,7 +5,10 @@ float4x4 g_Proj;		// プロェクションマトリックス
 float4x4 g_LightView;	// ライトビュー変換行列
 float4x4 g_LightProj;	// 射影変換行列
 float4 g_Deffuse;		// 色
-float4 g_vecLight; // ライトの向きベクトル
+float4 g_vecLight;      // ライトの向きベクトル
+float g_Thickness;      // アウトラインの太さ
+float g_Height;         // アウトラインを描画する高さ
+float4 g_OutLineColor;  // アウトラインの色
 
 // 頂点シェーダ出力構造体
 struct VS_OUTPUT
@@ -14,8 +17,9 @@ struct VS_OUTPUT
 	float3 nor : NORMAL;			// 法線
 	float4 col : COLOR0;			// 色
 	float4 colModel : COLOR1;		// 色
+    float2 tex : TEXCOORD;          // テクスチャ座標
     float4 LightPos : TEXCOORD1;	// ライト空間の位置
-	float2 tex : TEXCOORD;			// テクスチャ座標
+    float4 PosPS : TEXCOORD2;       // ライト空間の位置
 };
 
 // シャドウマップ(テクスチャ)
@@ -210,27 +214,29 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 // 頂点シェーダプログラムブロック
 //**********************************************************************************
-float4 VS_Outline(float4 pos : POSITION, float3 normal : NORMAL) : POSITION
+VS_OUTPUT VS_Outline(VS_OUTPUT Input)
 {
     // モデル空間に置ける拡大方向を求める
-    float4 expanded = mul(float4(normal.xyz, 0.0f), g_mtxWorld);
+    float4 expanded = mul(float4(Input.nor.xyz, 0.0f), g_mtxWorld);
     // スケールを取り除いた方向を求める
     expanded = normalize(expanded);
     // 押し出す
-    expanded *= 6.0f;
+    expanded *= g_Thickness;
 	
 	// 出力用の位置
-	float4 Out;
-	
+    VS_OUTPUT Out;
+    Out = Input;
+    
 	// ワールド座標に変換
-    Out = mul(pos, g_mtxWorld);
+    Out.pos = mul(Input.pos, g_mtxWorld);
     // 押し出す
-    Out += expanded;
+    Out.pos += expanded;
+    Out.PosPS = Out.pos;
 	
 	// カメラ空間に変換
-	Out = mul(Out, g_View);
-	Out = mul(Out, g_Proj);
-	
+	Out.pos = mul(Out.pos, g_View);
+	Out.pos = mul(Out.pos, g_Proj);
+        
 	// 出力
 	return Out;
 }
@@ -238,9 +244,12 @@ float4 VS_Outline(float4 pos : POSITION, float3 normal : NORMAL) : POSITION
 //**********************************************************************************
 // 頂点シェーダプログラムブロック
 //**********************************************************************************
-float4 PS_Outline() : COLOR
+float4 PS_Outline(VS_OUTPUT Input) : COLOR
 {
-	return float4(1, 0.3, 0.5, 1);
+    if (Input.PosPS.y > g_Height)
+        return g_OutLineColor;
+    else
+        return float4(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 //**********************************************************************************

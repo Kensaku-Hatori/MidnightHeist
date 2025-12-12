@@ -7,6 +7,7 @@
 
 // インクルード
 #include "RenderingOutLineSystem.h"
+#include "OutLineComp.hpp"
 #include "TagComp.hpp"
 #include "TransformComponent.hpp"
 #include "XRenderingComponent.hpp"
@@ -36,21 +37,22 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 
 	for (auto Entity : view)
 	{
-		auto& TransformComp = reg.get<Transform3D>(Entity);
-		auto& RenderingComp = reg.get<XRenderingComp>(Entity);
+		auto& TransformCmp = reg.get<Transform3D>(Entity);
+		auto& RenderingCmp = reg.get<XRenderingComp>(Entity);
+		auto& OutLineCmp = reg.get<OutLineComp>(Entity);
 
 		// モデルへのインデックスが-1だったら終わる
-		if (RenderingComp.FilePath.empty() == true) return;
+		if (RenderingCmp.FilePath.empty() == true) return;
 
 		D3DXMATRIX mtxWorld, mtxRot, mtxTransform,mtxScale;	// 計算用マトリックス
 		D3DMATERIAL9 matDef;								// 現在のマテリアルの保存用
 		D3DXMATERIAL* pMat;									// マテリアルへのポインタ
 
 		// モデルmanagerからインデックスを指定して取得
-		CModelManager::MapObject modelinfo = RenderingComp.Info;
+		CModelManager::MapObject modelinfo = RenderingCmp.Info;
 
 		// ワールドマトリックスを取得
-		mtxWorld = TransformComp.GetWorldMatrix();
+		mtxWorld = TransformCmp.GetWorldMatrix();
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
@@ -60,7 +62,7 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 		{
-			CToon::Instance()->SetUseOutLineParameters(mtxWorld, View, Proj);
+			CToon::Instance()->SetUseOutLineParameters(mtxWorld, View, Proj, OutLineCmp.Thickness, OutLineCmp.Color, OutLineCmp.Height);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pSmoothMesh->DrawSubset(nCntMat);

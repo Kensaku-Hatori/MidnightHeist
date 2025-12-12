@@ -16,6 +16,10 @@
 #include "EnemyAIComponent.hpp"
 #include "distortion.h"
 
+// 静的メンバ変数宣言
+bool CGame::m_IsFinishedFirstNoise = false;
+bool CGame::m_IsOlfFinishedFirstNoise = false;
+
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
 using namespace std;
@@ -39,6 +43,8 @@ CGame::~CGame()
 //***************************************
 HRESULT CGame::Init(void)
 {
+	// フラグを初期化
+	m_IsFinishedFirstNoise = false;
 	// ステージ読み込み
 	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
 	// プレイヤー生成
@@ -52,6 +58,7 @@ HRESULT CGame::Init(void)
 	// テスト
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1150.0f,125.0f }, { 50.0f,50.0f });
+	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/lockon.png", { 175.0f,590.0f }, { 50.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/CameraWork.png", { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f }, { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f });
 	// ノイズスタート
 	CDistortion::Instance()->StartNoise();
@@ -73,6 +80,9 @@ void CGame::Update(void)
 {
 	// マップマネージャーの更新
 	CMapManager::Instance()->Update();
+
+	m_IsOlfFinishedFirstNoise = m_IsFinishedFirstNoise;
+	if (m_IsFinishedFirstNoise == false && CDistortion::Instance()->IsNoised() == false) m_IsFinishedFirstNoise = true;
 
 	if (rand() % 100 + 0 < 1 && CDistortion::Instance()->IsNoised() == false)
 	{
