@@ -21,7 +21,13 @@ public:
 	void Uninit(void)override;
 private:
 	struct Config {
-		static const D3DXVECTOR3 PosV;
-		static const D3DXVECTOR3 PosR;
+		struct Default {
+			static const D3DXVECTOR3 PosV;
+			static const D3DXVECTOR3 PosR;
+		};
+		struct Zoom {
+			static const D3DXVECTOR3 PosV;
+			static const D3DXVECTOR3 PosR;
+		};
 	};
 };
