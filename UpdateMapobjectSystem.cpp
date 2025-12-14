@@ -38,9 +38,6 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 
 		if (FilePath.FilePath.find("item01.x") != std::string::npos)
 		{
-			UpdateItem(reg, entity);
-			// 無効だったらコンテニュー
-			if (reg.valid(entity) == false)	continue;
 			nNumIte++;
 		}
 
@@ -134,26 +131,4 @@ void UpdateMapobjectSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& R
 
 	// 物理世界にリジットボディーを追加
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
-}
-
-//*********************************************
-// アイテムの更新
-//*********************************************
-void UpdateMapobjectSystem::UpdateItem(entt::registry& Reg, entt::entity Entity)
-{
-	auto& TransformCmp = Reg.get<Transform3D>(Entity);
-
-	auto PlayerView = Reg.view<PlayerComponent>();
-
-	// プレイヤーが存在したら
-	if (!PlayerView.empty())
-	{
-		// Entityを取得
-		auto playerEntity = *PlayerView.begin();
-		// コンポーネントを取得
-		auto& PlayerTransCmp = Reg.get<Transform3D>(playerEntity);
-		D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
-		// アイテムを削除
-		if (D3DXVec3Length(&ToPlayer) < 50.0f) Reg.destroy(Entity);
-	}
 }

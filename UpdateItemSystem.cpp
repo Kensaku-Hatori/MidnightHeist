@@ -33,6 +33,24 @@ void UpdateItemSystem::Update(entt::registry& reg)
 	// アクセス
 	for (auto entity : view)
 	{
+		auto& TransformCmp = reg.get<Transform3D>(entity);
+
+		auto PlayerView = reg.view<PlayerComponent>();
+
+		// プレイヤーが存在したら
+		if (!PlayerView.empty())
+		{
+			// Entityを取得
+			auto playerEntity = *PlayerView.begin();
+			// コンポーネントを取得
+			auto& PlayerTransCmp = reg.get<Transform3D>(playerEntity);
+			D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
+			// アイテムを削除
+			if (D3DXVec3Length(&ToPlayer) < 50.0f) reg.destroy(entity);
+		}
+
+		// 自身が無効なら
+		if (reg.valid(entity) == false) continue;
 		// 最初のノイズが終わったら
 		if (CGame::IsFinishedFirstNoise() == false) break;
 
