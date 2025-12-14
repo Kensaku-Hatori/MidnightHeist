@@ -31,21 +31,19 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	static float Angle = D3DX_PI * 0.5f;
-	Angle += D3DXToRadian(1.0f / 60.0f);
-
 	for (auto Entity : view)
 	{
 		auto& VertexCmp = reg.get<VertexComp>(Entity);
 		auto& IdxBuffCmp = reg.get<IndexBufferComp>(Entity);
 		auto& SkyBoxCmp = reg.get<SkyBoxComp>(Entity);
+		SkyBoxCmp.Angle += D3DXToRadian(1.0f / 60.0f);
 
 		D3DXMATRIX mtxWorld, mtxTrans,mtxRot;
 		D3DXMatrixIdentity(&mtxWorld);
 
 		D3DXVECTOR3 CamPos = CManager::GetCamera()->GetPosV();
 
-		D3DXMatrixRotationY(&mtxRot, Angle);
+		D3DXMatrixRotationY(&mtxRot, SkyBoxCmp.Angle);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 		D3DXMatrixTranslation(&mtxTrans, CamPos.x, CamPos.y, CamPos.z);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTrans);

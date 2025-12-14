@@ -109,6 +109,7 @@ struct SkyBoxComp {
 			pCubeTex = nullptr;
 		}
 	}
-	std::string Faces[6];
+	float Angle = D3DX_PI * 0.5f;		// 角度
+	std::string Faces[6];				// 6面分のパス
 	LPDIRECT3DCUBETEXTURE9 pCubeTex;	// テクスチャ
 };
