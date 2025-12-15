@@ -130,6 +130,24 @@
     <Filter Include="ヘッダー ファイル\Camera">
       <UniqueIdentifier>{46e849a9-bb62-4453-a5ab-c3bea20d7c35}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\SoundVolume">
+      <UniqueIdentifier>{c3839259-8c94-4ff3-9cbb-a2777014b076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Item">
+      <UniqueIdentifier>{9a2c4b86-8e16-450d-a864-9dc207c527f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\State">
+      <UniqueIdentifier>{cc94b343-a8fe-4112-a3a9-245758f163da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\UICircle">
+      <UniqueIdentifier>{5b302285-01aa-4f46-b0fc-36a86796412a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\UICircle">
+      <UniqueIdentifier>{34ebdfeb-e56a-4fa3-9413-4d5240169a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\UICircle">
+      <UniqueIdentifier>{50dc3490-e70e-43d8-ad65-ac26b872c29d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
@@ -317,6 +335,15 @@
     </ClCompile>
     <ClCompile Include="GameCamera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="UICircle.cpp">
+      <Filter>Shader\UICircle</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateUICircleSystem.cpp">
+      <Filter>System\Update\UICircle</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingUICircle.cpp">
+      <Filter>System\Rendering\UICircle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -638,6 +665,24 @@
     <ClInclude Include="GameCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerSoundVolumeComp.h">
+      <Filter>Component\SoundVolume</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemComp.h">
+      <Filter>Component\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerStateComp.hpp">
+      <Filter>Component\State</Filter>
+    </ClInclude>
+    <ClInclude Include="UICircle.h">
+      <Filter>Shader\UICircle</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateUICircleSystem.hpp">
+      <Filter>System\Update\UICircle</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingUICircle.h">
+      <Filter>System\Rendering\UICircle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
@@ -660,6 +705,9 @@
     </FxCompile>
     <FxCompile Include="data\SHADER\Distortion.hlsl">
       <Filter>Shader\Distortion</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\UICircle.hlsl">
+      <Filter>Shader\UICircle</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

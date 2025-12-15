@@ -175,8 +175,10 @@
     <ClCompile Include="RenderingSkyBoxSystem.cpp" />
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
+    <ClCompile Include="RenderingUICircle.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
+    <ClCompile Include="UICircle.cpp" />
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
     <ClCompile Include="UpdateEnemySearch.cpp" />
@@ -225,6 +227,7 @@
     <ClCompile Include="UpdatePauseManager.cpp" />
     <ClCompile Include="UpdatePauseMenu.cpp" />
     <ClCompile Include="UpdateTitleManager.cpp" />
+    <ClCompile Include="UpdateUICircleSystem.cpp" />
     <ClCompile Include="UpdateXSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +244,7 @@
     <ClInclude Include="FanInfoComponent.hpp" />
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="IndexBufferComponent.hpp" />
+    <ClInclude Include="ItemComp.h" />
     <ClInclude Include="LaserCollisionFragComp.hpp" />
     <ClInclude Include="LockOnUIAnim.hpp" />
     <ClInclude Include="Menu2DComponent.hpp" />
@@ -250,6 +254,7 @@
     <ClInclude Include="ParentComponent.hpp" />
     <ClInclude Include="PauseUI.hpp" />
     <ClInclude Include="PlayerAnimetionComponent.hpp" />
+    <ClInclude Include="PlayerSoundVolumeComp.h" />
     <ClInclude Include="RayComponent.hpp" />
     <ClInclude Include="RenderingEnemySystem.h" />
     <ClInclude Include="RenderingMapobjectSystem.h" />
@@ -261,12 +266,15 @@
     <ClInclude Include="RenderingSkyBoxSystem.h" />
     <ClInclude Include="RenderingToShadowmap.h" />
     <ClInclude Include="RenderingToShapeShadow.h" />
+    <ClInclude Include="RenderingUICircle.h" />
     <ClInclude Include="Select2DComponent.hpp" />
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyBoxComponent.hpp" />
+    <ClInclude Include="PlayerStateComp.hpp" />
     <ClInclude Include="title.h" />
     <ClInclude Include="TitleCamera.h" />
     <ClInclude Include="TitleUI.hpp" />
+    <ClInclude Include="UICircle.h" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
     <ClInclude Include="UpdateEnemySearch.h" />
@@ -328,6 +336,7 @@
     <ClInclude Include="UpdatePauseManager.h" />
     <ClInclude Include="UpdatePauseMenu.h" />
     <ClInclude Include="UpdateTitleManager.h" />
+    <ClInclude Include="UpdateUICircleSystem.hpp" />
     <ClInclude Include="UVComponent.hpp" />
     <ClInclude Include="Velocity.hpp" />
     <ClInclude Include="VertexRenderingComponent.hpp" />
@@ -375,6 +384,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\Toon.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\UICircle.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>

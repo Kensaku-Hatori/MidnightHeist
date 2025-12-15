@@ -21,6 +21,7 @@
 #include "SystemManager.h"
 #include "defaultcubemap.h"
 #include "distortion.h"
+#include "UICircle.h"
 
 #include "playerUpdateSystem.h"
 #include "Update2DSystem.h"
@@ -37,6 +38,7 @@
 #include "UpdatePauseMenu.h"
 #include "UpdateEnemySearch.h"
 #include "UpdateItemSystem.h"
+#include "UpdateUICircleSystem.hpp"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
@@ -51,6 +53,7 @@
 #include "RenderingOutLineSystem.h"
 #include "RenderingPauseMenu.h"
 #include "RenderingSkyBoxSystem.h"
+#include "RenderingUICircle.h"
 
 // –¼‘O‹óŠÔ
 using namespace std;
@@ -104,6 +107,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
+	CSystemManager::AddUpdateSystem(new UpdateUICircleSystem);
 	CSystemManager::AddUpdateSystem(new Update2DSystem);
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
 	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
@@ -122,6 +126,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShapeShadowSystem);
 	CSystemManager::AddRenderingSystem(new RenderingOutLineSystem);
+	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
 	CSystemManager::AddRenderingSystem(new Render3DSystem);
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
@@ -190,6 +195,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CToon::Instance()->Init();
 	CDefaultCubemap::Instance()->Init();
 	CDistortion::Instance()->Init();
+	CDistortion::Instance()->Init();
+	CUICircle::Instance()->Init();
 
 	return S_OK;
 }

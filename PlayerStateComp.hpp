@@ -1,0 +1,30 @@
+//****************************************************************
+//
+// プレイヤーの状態のコンポーネント[PlayerStateComp.hpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// 二重インクルード防止
+#pragma once
+
+// 念のため
+namespace PlayerState {
+	// プレイヤーの状態
+	enum class State {
+		SILENT = 0,	// スニーク
+		NORMAL,		// 通常
+		DUSH,		// ダッシュ
+		PICKING,	// 解錠
+		MAX
+	};
+}
+// アイテムの情報
+struct PlayerStateComp {
+	// コンストラクタ
+	PlayerStateComp() :
+		NowState(PlayerState::State::NORMAL), OldState(PlayerState::State::NORMAL) {};
+	// プレイヤーの状態
+	PlayerState::State OldState;
+	PlayerState::State NowState;
+};

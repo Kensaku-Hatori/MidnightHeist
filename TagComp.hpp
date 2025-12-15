@@ -45,4 +45,6 @@ namespace Tag {
 	struct PatrolPointManager {};
 	// スカイボックス情報
 	struct SkyBoxComponent {};
+	// 円形UI
+	struct UICircleComponent {};
 }

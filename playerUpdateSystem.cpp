@@ -21,6 +21,8 @@
 #include "ColorComponent.hpp"
 #include "SystemManager.h"
 #include "game.h"
+#include "ItemComp.h"
+#include "PlayerStateComp.hpp"
 #include "math.h"
 
 // 名前空間
@@ -38,10 +40,14 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
-		auto& ColliderCmp = reg.get<SingleCollisionShapeComp>(entity);
 		auto& OutLineCmp = reg.get<OutLineComp>(entity);
 		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
 		auto& PlayerAnimCmp = reg.get<PlayerAnimComp>(entity);
+		auto& PlayerStateCmp = reg.get<PlayerStateComp>(entity);
+
+		// 状態の初期化
+		PlayerStateCmp.OldState = PlayerStateCmp.NowState;
+		PlayerStateCmp.NowState = PlayerState::State::NORMAL;
 
 		// カウンタインクリメント
 		if (PlayerAnimCmp.FirstDelayFrame > PlayerAnimCmp.FirstDelayCounter)PlayerAnimCmp.FirstDelayCounter++;
@@ -81,8 +87,10 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 			// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
 			if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsJump == false)
 			{
-				UpdateRB(TransformCmp, RBCmp, ColliderCmp, CapsuleCmp);
-				UpdateMovement(TransformCmp, RBCmp);
+				UpdateRB(reg,entity);
+				UpdateMovement(reg, entity);
+				UpdateUnLock(reg, entity);
+				UpdateState(reg, entity);
 			}
 			// ベルトコンベアの上に乗っていたら
 			if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter)
@@ -113,8 +121,14 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 //*********************************************
 // 剛体の更新
 //*********************************************
-void PlayerUpdateSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp, CapsuleComp& CapsuleCmp)
+void PlayerUpdateSystem::UpdateRB(entt::registry& reg, entt::entity Player)
 {
+	// コンポーネント取得
+	auto& RBCmp = reg.get<RigitBodyComp>(Player);
+	auto& ColliderCmp = reg.get<SingleCollisionShapeComp>(Player);
+	auto& CapsuleCmp = reg.get<CapsuleComp>(Player);
+	auto& TransformCmp = reg.get<Transform3D>(Player);
+
 	if (RBCmp.RigitBody != nullptr) return;
 
 	ColliderCmp.CollisionShape = std::make_unique<btCapsuleShape>(btScalar(CapsuleCmp.Radius), btScalar(CapsuleCmp.AllHeight));
@@ -142,8 +156,13 @@ void PlayerUpdateSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCm
 //*********************************************
 // 移動の更新
 //*********************************************
-void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp& RBCmp)
+void PlayerUpdateSystem::UpdateMovement(entt::registry& reg, entt::entity Player)
 {
+	// コンポーネント取得
+	auto& RBCmp = reg.get<RigitBodyComp>(Player);
+	auto& TransformCmp = reg.get<Transform3D>(Player);
+	auto& PlayerStateCmp = reg.get<PlayerStateComp>(Player);
+
 	// 早期リターン
 	if (RBCmp.RigitBody == nullptr) return;
 	if (RBCmp.RigitBody->getMotionState() == nullptr) return;
@@ -166,8 +185,16 @@ void PlayerUpdateSystem::UpdateMovement(Transform3D& TransformCmp, RigitBodyComp
 	float Speed = 12.5f;
 
 	// 素早さ
-	if (CManager::GetInputKeyboard()->GetPress(DIK_LCONTROL) == true)Speed = 7.5f;
-	else if (CManager::GetInputKeyboard()->GetPress(DIK_LSHIFT) == true)Speed = 17.5f;
+	if (CManager::GetInputKeyboard()->GetPress(DIK_LCONTROL) == true)
+	{
+		Speed = 7.5f;
+		PlayerStateCmp.NowState = PlayerState::State::SILENT;
+	}
+	else if (CManager::GetInputKeyboard()->GetPress(DIK_LSHIFT) == true) 
+	{
+		Speed = 17.5f;
+		PlayerStateCmp.NowState = PlayerState::State::DUSH;
+	}
 
 	// キーボード検知
 	if (CManager::GetInputKeyboard()->GetPress(DIK_W))  moveDir += btVector3(V.x, V.y, V.z);
@@ -208,10 +235,10 @@ void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 	// ゲーム以外なら早期リターン
 	if (CManager::GetScene()->GetMode() != CScene::MODE_GAME) return;
 	// ロックオンが無効だったら
-	if (reg.valid(reg.get<SingleParentComp>(Player).Parent) == false) return;
+	if (reg.valid(reg.get<MulParentComp>(Player).Parents[0]) == false) return;
 
 	// ロックオンエンティティを取得
-	entt::entity LockOnEntity = reg.get<SingleParentComp>(Player).Parent;
+	entt::entity LockOnEntity = reg.get<MulParentComp>(Player).Parents[0];
 
 	// ロックオンエンティティのコンポーネントを取得
 	auto& LockAnimCmp = reg.get<LockOnAnimComp>(LockOnEntity);
@@ -297,4 +324,58 @@ void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 	// 情報を設定
 	LockOnSize.Size = Size;
 	LockOnColor.Col = Color;
+}
+
+//*********************************************
+// アイテムの解錠
+//*********************************************
+void PlayerUpdateSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
+{
+	// アイテムのビュー
+	auto ItemView = Reg.view<ItemComponent>();
+
+	// アクセス
+	for (auto entity : ItemView)
+	{
+		// 自分自身のコンポーネントを取得
+		auto& TransformCmp = Reg.get<Transform3D>(entity);
+		auto& ItemCmp = Reg.get<ItemComp>(entity);
+		auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
+
+		// コンポーネントを取得
+		auto& PlayerTransCmp = Reg.get<Transform3D>(Player);
+		D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
+		// アイテムを削除
+		if (D3DXVec3Length(&ToPlayer) > ItemCmp.InteractSize)continue;
+		if (CManager::GetInputKeyboard()->GetPress(DIK_F))  PlayerStateCmp.NowState = PlayerState::State::PICKING;
+	}
+}
+
+//*********************************************
+// 状態ごとの更新
+//*********************************************
+void PlayerUpdateSystem::UpdateState(entt::registry& Reg, entt::entity Player)
+{
+	// 状態コンポーネントを取得
+	auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
+	auto& PlayerTransform = Reg.get<Transform3D>(Player);
+	D3DXVECTOR3 CirlcePos = PlayerTransform.Pos;
+	CirlcePos.y += 100.0f;
+	auto& CircleEntity = Reg.get<MulParentComp>(Player);
+	auto& CircleTransform = Reg.get<Transform3D>(CircleEntity.Parents[1]);
+
+	switch (PlayerStateCmp.NowState)
+	{
+	case PlayerState::State::SILENT:
+		break;
+	case PlayerState::State::NORMAL:
+		break;
+	case PlayerState::State::DUSH:
+		break;
+	case PlayerState::State::PICKING:
+		CircleTransform.Pos = CirlcePos;
+		break;
+	default:
+		break;
+	}
 }

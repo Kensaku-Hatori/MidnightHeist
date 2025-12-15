@@ -31,11 +31,15 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// アクセス
 	for (auto Entity : view)
 	{
+		// 情報を取得
 		auto& VertexCmp = reg.get<VertexComp>(Entity);
 		auto& IdxBuffCmp = reg.get<IndexBufferComp>(Entity);
 		auto& SkyBoxCmp = reg.get<SkyBoxComp>(Entity);
+
+		// 回転
 		SkyBoxCmp.Angle += D3DXToRadian(1.0f / 60.0f);
 
 		D3DXMATRIX mtxWorld, mtxTrans,mtxRot;

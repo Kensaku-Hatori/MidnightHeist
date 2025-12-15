@@ -17,6 +17,9 @@ namespace Factories {
 	entt::entity makeObject3D(entt::registry& Reg);
 	entt::entity makeObjectX(entt::registry& Reg, const std::string& Path);
 
+	entt::entity makeUICircle(entt::registry& Reg);
+	void InitUICircle(entt::registry& Reg, entt::entity& Entity);
+
 	entt::entity makePlayer(entt::registry& Reg);
 	void InitPlayer(entt::registry& Reg, entt::entity& Entity);
 

@@ -49,17 +49,15 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 //*********************************************
 entt::entity Factories::makeObject3D(entt::registry& Reg)
 {
-	static int test;
-	test++;
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(100.0f * test, 0.0f, 0.0f));
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
 	Reg.emplace<Object3DComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
 	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(100.0f, 100.0f));
 	Reg.emplace<ColorComp>(myEntity);
 	Reg.emplace<UVComp>(myEntity);
-	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 1.0f));
+	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 0.0f, -1.0f));
 	Reg.emplace<LayerComp>(myEntity, 3);
 
 	// デバイスを取得
@@ -86,12 +84,53 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity);
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
 	Reg.emplace<ObjectXComponent>(myEntity);
 	Reg.emplace<LayerComp>(myEntity,3);
 	Reg.emplace<XRenderingComp>(myEntity, Path);
 
 	return myEntity;
+}
+
+//*********************************************
+// 円形UIの生成
+//*********************************************
+entt::entity Factories::makeUICircle(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 100.0f, 0.0f));
+	Reg.emplace<UICircleComponent>(myEntity);
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<TexComp>(myEntity, "");
+	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(25.0f, 25.0f));
+	Reg.emplace<ColorComp>(myEntity);
+	Reg.emplace<UVComp>(myEntity);
+	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 0.0f, -1.0f));
+	Reg.emplace<LayerComp>(myEntity, 3);
+
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&myVtx.pVertex,
+		NULL);
+
+	return myEntity;
+}
+
+//*********************************************
+// 円形UIの初期化
+//*********************************************
+void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
+{
 }
 
 //*********************************************
@@ -107,13 +146,17 @@ entt::entity Factories::makePlayer(entt::registry& Reg)
 	Reg.emplace<OutLineComp>(myEntity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<PlayerStateComp>(myEntity);
 	Reg.emplace<PlayerAnimComp>(myEntity);
 	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 
 	InitPlayer(Reg, myEntity);
 
-	entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(myEntity, makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
+	std::vector<entt::entity> Parents;
+	Parents.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX)));
+	Parents.push_back(makeUICircle(Reg));
+	entt::entity LockOnEntity = Reg.emplace<MulParentComp>(myEntity, Parents).Parents[0];
 	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 
 	return myEntity;
@@ -206,6 +249,7 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 	if (Path.find("item01.x") != std::string::npos)
 	{
 		Reg.emplace<RenderingOutLine>(Entity);
+		Reg.emplace<ItemComp>(Entity, 100.0f);
 		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
 		Reg.emplace<ItemComponent>(Entity);
 		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(Entity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;

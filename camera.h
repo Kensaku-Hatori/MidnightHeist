@@ -81,6 +81,8 @@ public:
 	D3DXVECTOR3 GetRot(void) { return m_rot; }
 	D3DXVECTOR3 GetPosV(void) { return m_posV; }
 	D3DXVECTOR3 GetPosR(void) { return m_posR; }
+	D3DXVECTOR3 GetPosVDest(void) { return m_posVDest; }
+	D3DXVECTOR3 GetPosRDest(void) { return m_posRDest; }
 	float GetSpeedV(void) { return m_fSpeedV; }
 private:
 	// çXêV

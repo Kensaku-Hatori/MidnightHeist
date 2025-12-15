@@ -23,7 +23,9 @@ struct PlayerUpdateSystem : BaceSystem
 	~PlayerUpdateSystem() = default;
 	// •`‰æ
 	void Update(entt::registry& reg)override;
-	void UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp,SingleCollisionShapeComp& ColliderCmp,CapsuleComp& CapsuleCmp);
-	void UpdateMovement(Transform3D& TransformCmp,RigitBodyComp& RBCmp);
+	void UpdateRB(entt::registry& reg, entt::entity Player);
+	void UpdateMovement(entt::registry& reg, entt::entity Player);
 	void UpdateLockOn(entt::registry& reg, entt::entity Player);
+	void UpdateUnLock(entt::registry& Reg, entt::entity Player);
+	void UpdateState(entt::registry& Reg, entt::entity Player);
 };

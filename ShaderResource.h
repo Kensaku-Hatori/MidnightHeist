@@ -8,6 +8,7 @@
 #define HLSLID_TOON						204
 #define HLSLID_SKYBOX					205
 #define HLSLID_DISTORTION				206
+#define HLSLID_UICIRCLE					207
 #define ID_ACCELERATOR40001             40001
 
 // Next default values for new objects

@@ -12,6 +12,7 @@
 #include "TransformComponent.hpp"
 #include "PlayerAnimetionComponent.hpp"
 #include "RigitBodyComponent.hpp"
+#include "PlayerStateComp.hpp"
 #include "TagComp.hpp"
 
 // 名前空間
@@ -43,22 +44,42 @@ void CGameCamera::Update(void)
 	auto Playerview = CManager::GetScene()->GetReg().view<PlayerComponent>();
 	auto PlayerEneity = *Playerview.begin();
 	auto& PlayerAnimCmp = CManager::GetScene()->GetReg().get<PlayerAnimComp>(PlayerEneity);
+	auto& PlayerStateCmp = CManager::GetScene()->GetReg().get<PlayerStateComp>(PlayerEneity);
+	auto& PlayerTransform = CManager::GetScene()->GetReg().get<Transform3D>(PlayerEneity);
+
+	// デフォルトの視点からプレイヤーまでのベクトル
+	D3DXVECTOR3 VecPlayer = PlayerTransform.Pos - CGameCamera::Config::Default::PosV;
+	// ベクトルを正規化
+	D3DXVec3Normalize(&VecPlayer, &VecPlayer);
+	// 視点の位置
+	D3DXVECTOR3 SetPosV = m_pOwner->GetPosVDest();
+	// 注視点の位置
+	D3DXVECTOR3 SetPosR = m_pOwner->GetPosRDest();
 
 	// 画面に入っていてアニメーションが終わっていなかったら
 	if (PlayerAnimCmp.IsScreen == true && PlayerAnimCmp.IsFinishedAnim == false)
 	{
-		auto& PlayerTransform = CManager::GetScene()->GetReg().get<Transform3D>(PlayerEneity);
-		D3DXVECTOR3 PosV = CGameCamera::Config::Zoom::PosV;
-		PosV.x += PlayerTransform.Pos.x;
-		m_pOwner->SetPosVDest(PosV);
-		m_pOwner->SetPosRDest(PlayerTransform.Pos);
+		// 視点を近づける
+		SetPosV = CGameCamera::Config::Default::PosV + VecPlayer * 700.0f;
+		SetPosR = PlayerTransform.Pos;
 	}
 	// アニメーションが終わっていたら
-	if (PlayerAnimCmp.IsFinishedAnim == true)
+	if (PlayerAnimCmp.IsFinishedAnim == true && PlayerStateCmp.NowState != PlayerState::State::PICKING)
 	{
-		CManager::GetCamera()->SetPosVDest(CGameCamera::Config::Default::PosV);
-		CManager::GetCamera()->SetPosRDest(VEC3_NULL);
+		// 設定
+		SetPosV = CGameCamera::Config::Default::PosV;
+		SetPosR = VEC3_NULL;
 	}
+	// 開錠されていたら
+	else if(PlayerStateCmp.NowState == PlayerState::State::PICKING)
+	{
+		// 視点を近づける
+		SetPosV = CGameCamera::Config::Default::PosV + VecPlayer * 1000.0f;
+		SetPosR = PlayerTransform.Pos;
+	}
+	// 設定
+	m_pOwner->SetPosVDest(SetPosV);
+	m_pOwner->SetPosRDest(SetPosR);
 }
 
 //***************************************

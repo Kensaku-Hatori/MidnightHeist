@@ -42,3 +42,5 @@
 #include "CapsuleComponent.hpp"
 #include "PlayerAnimetionComponent.hpp"
 #include "LockOnUIAnim.hpp"
+#include "ItemComp.h"
+#include "PlayerStateComp.hpp"

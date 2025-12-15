@@ -15,3 +15,10 @@ struct SingleParentComp {
 	// 描画順
 	entt::entity Parent;
 };
+
+struct MulParentComp {
+	// イニシャライズコンストラクタ
+	MulParentComp(const std::vector<entt::entity>& ParentEntity) : Parents(ParentEntity) {}
+	// 描画順
+	std::vector<entt::entity> Parents;
+};
