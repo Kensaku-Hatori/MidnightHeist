@@ -267,79 +267,112 @@ float CMath::Heuristic(const D3DXVECTOR3& Start, const D3DXVECTOR3& Goal)
 //***************************************
 std::vector<int> CMath::AStar(std::vector<PatrolPoint::PatrolPointInfo>& Points, const int StartIdx, const int GoalIdx)
 {
+	// オープンリストとクローズリストを宣言
 	std::vector<PatrolPoint::PatrolPointInfoForAStar> OpenList;
 	std::vector<PatrolPoint::PatrolPointInfoForAStar> ClosedList;
+	// 開始地点を記録
 	PatrolPoint::PatrolPointInfoForAStar StartPoint;
+	// 情報を設定
 	StartPoint.Idx = StartIdx;
 	StartPoint.Parent = -1;
 	StartPoint.Heuristic = Heuristic(Points[StartIdx].Point, Points[GoalIdx].Point);
 	StartPoint.StartGoalCost = 0;
 	StartPoint.MyGoalCost = StartPoint.StartGoalCost + StartPoint.Heuristic;
+	// 走査対象に設定
 	OpenList.push_back(StartPoint);
+	// 走査対象が居なくなるまで
 	while (!OpenList.empty())
 	{
 		// ヒューリスティック関数のコストが一番低いノードを選択
 		auto CurrentIt = std::min_element(OpenList.begin(), OpenList.end(),
 			[](const PatrolPoint::PatrolPointInfoForAStar& a, const  PatrolPoint::PatrolPointInfoForAStar& b)
 			{
-				return a.Heuristic < b.Heuristic;
+				return a.MyGoalCost < b.MyGoalCost;
 			}
 		);
+		// 情報を代入
 		PatrolPoint::PatrolPointInfoForAStar Current = *CurrentIt;
+		// 走査対象からのぞく
 		OpenList.erase(CurrentIt);
+		// ゴール地点とIdxが同じだったら
 		if (Current.Idx == GoalIdx)
 		{
+			// 道筋記録用変数
 			std::vector<int> Path;
+			// 親が-1になるまで繰り返す
 			while (Current.Parent != -1)
 			{
+				// 連結
 				Path.push_back(Current.Idx);
+				// 走査済みのリストから親のIdxが一致する要素を見つける
 				auto It = std::find_if(ClosedList.begin(), ClosedList.end(),
 					[&](const PatrolPoint::PatrolPointInfoForAStar& N)
 					{
 						return N.Idx == Current.Parent;
 					}
 				);
+				// 走査済みリストの末尾だったら
 				if (It == ClosedList.end())break;
+				// 更新
 				Current = *It;
 			}
+			// スタート地点を連結
 			Path.push_back(StartIdx);
+			// 子->親を親->子に治す
 			std::reverse(Path.begin(), Path.end());
+			// 返す
 			return Path;
 		}
+		// 走査済みリストに連結
 		ClosedList.push_back(Current);
+		// 隣接ノード分繰り返す
 		for (int CanMoveIdx : Points[Current.Idx].CanMove)
 		{
+			// 走査済みリストにあるIdxと一致していたら切り上げ
 			if (std::any_of(ClosedList.begin(), ClosedList.end(), [&](const PatrolPoint::PatrolPointInfoForAStar& N)
 				{
 					return N.Idx == CanMoveIdx;
 				}
 			))continue;
+			// 走査中のノードから隣接ノードまでのコストを計算
 			float VirtualGoal = Current.StartGoalCost + Heuristic(Points[Current.Idx].Point, Points[CanMoveIdx].Point);
+			// 走査対象リストの中に一致する要素が合ったらその要素をもらう
 			auto It = std::find_if(OpenList.begin(), OpenList.end(),
 				[&](const PatrolPoint::PatrolPointInfoForAStar& N)
 				{
 					return N.Idx == CanMoveIdx;
 				}
 			);
+			// 要素が走査対象リストの末尾またはスタートからゴールまでのコストと隣接ノードまでのコストの合計よりスタートからゴールまでのコストのほうが高かったら
 			if (It == OpenList.end() || VirtualGoal < It->StartGoalCost)
 			{
+				// 隣接ノードの情報を詰め込むよう変数
 				PatrolPoint::PatrolPointInfoForAStar CanMoveNode;
+				// Idxを設定
 				CanMoveNode.Idx = CanMoveIdx;
+				// スタートからゴールまでのコストを設定
 				CanMoveNode.StartGoalCost = VirtualGoal;
+				// ヒューリスティック関数のコストを設定
 				CanMoveNode.Heuristic = Heuristic(Points[CanMoveIdx].Point, Points[GoalIdx].Point);
+				// その合計値を設定
 				CanMoveNode.MyGoalCost = CanMoveNode.StartGoalCost + CanMoveNode.Heuristic;
+				// 親を設定
 				CanMoveNode.Parent = Current.Idx;
+				// 要素が走査対象リストの末尾だったら
 				if (It == OpenList.end())
 				{
+					// そのノードを走査対象リストに連結
 					OpenList.push_back(CanMoveNode);
 				}
 				else
 				{
+					// 走査対象を更新
 					*It = CanMoveNode;
 				}
 			}
 		}
 	}
+	// 見つからなかったら
 	assert(true);
 	return {};
 }

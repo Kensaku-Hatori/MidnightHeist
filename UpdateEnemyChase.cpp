@@ -133,7 +133,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 					}
 				}
 			}
-			State.BackIdxList = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.NowIdx);
+			State.BackIdxList = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.HalfPatrolRoute[State.NowIdx].Idx);
 			// ステートを切り替えたので切り上げ
 			continue;
 		}

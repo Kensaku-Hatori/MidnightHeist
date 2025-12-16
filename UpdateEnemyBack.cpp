@@ -16,6 +16,7 @@
 #include "FanInfoComponent.hpp"
 #include "ParentComponent.hpp"
 #include "LaserCollisionFragComp.hpp"
+#include "Factories.h"
 #include "math.h"
 #include "math_T.h"
 
@@ -61,7 +62,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
 		{
 			// 追いかけモード
-			//State.State = EnemyState::ENEMYSTATE::CHASE;
+			State.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
 		}
 
@@ -72,9 +73,6 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;
-
-		// 目的地へのベクトルを引く
-		State.BackIdx = Clamp(State.BackIdx, 0, static_cast<int>(State.BackIdxList.size() - 1));
 
 		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.BackIdxList[State.BackIdx]].Point - TransformCmp.Pos;
 		// Y成分を消す
@@ -87,15 +85,15 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		// 目的地に着いたら
 		if (D3DXVec3Length(&ToDestPos) < PatrolPointCmp.PointRadius)
 		{
-			// 移動量を無くす
-			VelocityCmp = VEC3_NULL;
 			// 今の位置を目標の位置にする
 			State.BackIdx++;
 			// フラグを立てる
-			if (static_cast<int>(State.HalfPatrolRoute.capacity() - 1) <= State.NowIdx)
+			if (State.BackIdx > static_cast<int>(State.BackIdxList.size() - 1))
 			{
 				State.State = EnemyState::ENEMYSTATE::SEARCH;
+				State.CoolDownCnt = 0;
 				State.BackIdx = 0;
+				continue;
 			}
 		}
 		else
