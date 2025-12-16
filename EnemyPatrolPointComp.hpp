@@ -19,6 +19,7 @@ namespace PatrolPoint {
     {
         // ˆÊ’u
         D3DXVECTOR3 Point;
+		std::vector<int> CanMove;
     };
 }
 
@@ -66,6 +67,11 @@ struct PatrolPointComp {
 			LoadInfo.Point.y = Info["Point"]["Pos"]["y"];
 			LoadInfo.Point.z = Info["Point"]["Pos"]["z"];
 
+			for (int nCnt = 0;nCnt < static_cast<int>(Info["Point"]["CanMove"].size());nCnt++)
+			{
+				std::string Key = std::to_string(nCnt);
+				LoadInfo.CanMove.push_back(Info["Point"]["CanMove"][Key]);
+			}
 			//Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", LoadInfo.Point);
 			PatrolPoint.push_back(LoadInfo);
 		}

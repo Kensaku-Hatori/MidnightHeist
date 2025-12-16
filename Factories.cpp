@@ -106,6 +106,8 @@ entt::entity Factories::makeUICircle(entt::registry& Reg)
 	Reg.emplace<ColorComp>(myEntity);
 	Reg.emplace<UVComp>(myEntity);
 	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 0.0f, -1.0f));
+	Reg.emplace<UICircleComp>(myEntity, 25.0f);
+	Reg.emplace<RenderFragComp>(myEntity);
 	Reg.emplace<LayerComp>(myEntity, 3);
 
 	// デバイスを取得

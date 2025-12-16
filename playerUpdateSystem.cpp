@@ -23,6 +23,8 @@
 #include "game.h"
 #include "ItemComp.h"
 #include "PlayerStateComp.hpp"
+#include "RenderFragComp.hpp"
+#include "UICircleComp.hpp"
 #include "math.h"
 
 // 名前空間
@@ -44,6 +46,12 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
 		auto& PlayerAnimCmp = reg.get<PlayerAnimComp>(entity);
 		auto& PlayerStateCmp = reg.get<PlayerStateComp>(entity);
+
+		// 円形UIの情報を取得
+		auto& CircleEntity = reg.get<MulParentComp>(entity);
+		auto& CircleRenderFrag = reg.get<RenderFragComp>(CircleEntity.Parents[1]);
+		// 描画フラグを折る
+		CircleRenderFrag.IsRendering = false;
 
 		// 状態の初期化
 		PlayerStateCmp.OldState = PlayerStateCmp.NowState;
@@ -359,21 +367,38 @@ void PlayerUpdateSystem::UpdateState(entt::registry& Reg, entt::entity Player)
 	// 状態コンポーネントを取得
 	auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
 	auto& PlayerTransform = Reg.get<Transform3D>(Player);
+	// 円の中心点をプレイヤーの座標基準に設定
 	D3DXVECTOR3 CirlcePos = PlayerTransform.Pos;
+	// 少し上にあげる
 	CirlcePos.y += 100.0f;
+	// 円形UIの情報を取得
 	auto& CircleEntity = Reg.get<MulParentComp>(Player);
 	auto& CircleTransform = Reg.get<Transform3D>(CircleEntity.Parents[1]);
+	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Parents[1]);
+	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Parents[1]);
 
+	// ステートによって処理を分ける
 	switch (PlayerStateCmp.NowState)
 	{
 	case PlayerState::State::SILENT:
+		// 塗りつぶし量を進める
+		CircleCmp.FillAmount -= 0.01f;
 		break;
 	case PlayerState::State::NORMAL:
+		// 塗りつぶし量を進める
+		CircleCmp.FillAmount -= 0.01f;
 		break;
 	case PlayerState::State::DUSH:
+		// 塗りつぶし量を進める
+		CircleCmp.FillAmount -= 0.01f;
 		break;
 	case PlayerState::State::PICKING:
+		// 位置を更新
 		CircleTransform.Pos = CirlcePos;
+		// ピッキング中だけ描画フラグを立てる
+		CircleRenderFrag.IsRendering = true;
+		// 塗りつぶし量を進める
+		CircleCmp.FillAmount += 0.01f;
 		break;
 	default:
 		break;

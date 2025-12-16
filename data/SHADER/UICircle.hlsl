@@ -1,9 +1,11 @@
 // グローバル変数宣言ブロック
-float4x4 g_mtxWorld;
+float4x4 g_mtxWorld;    // ワールドマトリックス
 float4x4 g_mtxView;     // カメラビュー変換行列
 float4x4 g_mtxProj;     // 射影変換行列
-float4 g_Center;
-float g_FillAmount;
+float4 g_Center;        // 中心座標
+float g_FillAmount;     // 塗りつぶす量
+float g_Radius;         // 半径
+float g_MaxFillAmount;  // 塗りつぶす最大値(最大6.28)
 
 // 頂点シェーダ出力構造体
 struct VS_OUTPUT
@@ -41,29 +43,33 @@ float4 PS_main(VS_OUTPUT input) : COLOR
 
     // 半径判定
     float Length = length(ToPoint);
-    if (Length > 25.0f)
+    if (Length > g_Radius)
     {
         return float4(0, 0, 0, 0);   
     }
 
-    // 角度を求める (0～2π)
+    // 角度を求めるて修正
     float Angle = atan2(ToPoint.x, ToPoint.y);
+    // 負の数だったら
     if (Angle < 0)
     {
-        Angle += 6.2831853; // 負の角度を補正
+        // 修正
+        Angle += 6.2831853;
     }
 
-    // FillAmount に応じた閾値
-    float Limit = clamp(6.2831853 * g_FillAmount, 0.0f, 6.2831853);
+    // 塗りつぶし量
+    float FillAngle = clamp(g_MaxFillAmount * g_FillAmount, 0.0f, g_MaxFillAmount);
 
     // 塗りつぶし判定
-    if (Angle <= Limit)
+    if (Angle <= FillAngle)
     {
-        return input.col; // 塗りつぶし部分   
+        // 塗りつぶす
+        return input.col;   
     }
     else
     {
-        return float4(0, 0, 0, 0); // 未塗り部分   
+        // 透明にする
+        return float4(0, 0, 0, 0);
     }
 }
 

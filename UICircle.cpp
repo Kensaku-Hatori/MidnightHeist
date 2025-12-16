@@ -9,6 +9,7 @@
 #include "UICircle.h"
 #include "manager.h"
 #include "ShaderResource.h"
+#include "math_T.h"
 
 //***************************************
 // 初期化
@@ -30,6 +31,8 @@ HRESULT CUICircle::Init(void)
     GetHandle("g_mtxProj") = pEffect->GetParameterByName(NULL, "g_mtxProj");
     GetHandle("g_FillAmount") = pEffect->GetParameterByName(NULL, "g_FillAmount");
     GetHandle("g_Center") = pEffect->GetParameterByName(NULL, "g_Center");
+    GetHandle("g_Radius") = pEffect->GetParameterByName(NULL, "g_Radius");
+    GetHandle("g_MaxFillAmount") = pEffect->GetParameterByName(NULL, "g_MaxFillAmount");
 
     return S_OK;
 }
@@ -37,7 +40,7 @@ HRESULT CUICircle::Init(void)
 //***************************************
 // パラメータ設定
 //***************************************
-void CUICircle::SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginWorld, const float FillAmount)
+void CUICircle::SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginWorld, const float FillAmount, const float Radius, const float MaxFillAngle)
 {
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
@@ -76,6 +79,14 @@ void CUICircle::SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginW
         Set.z = Convert.z;
 
         pEffect->SetVector(GetHandle("g_Center"),&Set);
+    }
+    if (GetHandle("g_Radius") != nullptr)
+    {
+        pEffect->SetFloat(GetHandle("g_Radius"), Radius);
+    }
+    if (GetHandle("g_MaxFillAmount") != nullptr)
+    {
+        pEffect->SetFloat(GetHandle("g_MaxFillAmount"), MaxFillAngle);
     }
 
     // GPUに変更を適応

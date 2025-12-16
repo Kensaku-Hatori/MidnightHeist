@@ -187,8 +187,6 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 		// 位置を取得
 		newPos = trans.getOrigin();
 
-		D3DXVECTOR3 Axis = VelocityCmp.Velocity;
-		D3DXVECTOR3 VecFront = { 0.0f,0.0f,-1.0f };
 		D3DXVECTOR3 VecUp = VEC_UP;
 		// 移動値を方向ベクトルに変換
 		D3DXVec3Normalize(&VelocityCmp.Velocity, &VelocityCmp.Velocity);
@@ -197,7 +195,8 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 		float angle = atan2f(VelocityCmp.Velocity.x, VelocityCmp.Velocity.z);
 		angle += D3DX_PI;
 
-		D3DXQuaternionRotationAxis(&TransformCmp.Quat, &VecUp, angle);
+		// 目標のクォータニオンとして設定
+		D3DXQuaternionRotationAxis(&TransformCmp.QuatDest, &VecUp, angle);
 
 		// 位置を計算、設定
 		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));

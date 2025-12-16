@@ -256,6 +256,7 @@
     <ClInclude Include="PlayerAnimetionComponent.hpp" />
     <ClInclude Include="PlayerSoundVolumeComp.h" />
     <ClInclude Include="RayComponent.hpp" />
+    <ClInclude Include="RenderFragComp.hpp" />
     <ClInclude Include="RenderingEnemySystem.h" />
     <ClInclude Include="RenderingMapobjectSystem.h" />
     <ClInclude Include="RenderingMeshLaserSystem.h" />
@@ -275,6 +276,7 @@
     <ClInclude Include="TitleCamera.h" />
     <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UICircle.h" />
+    <ClInclude Include="UICircleComp.hpp" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
     <ClInclude Include="UpdateEnemySearch.h" />

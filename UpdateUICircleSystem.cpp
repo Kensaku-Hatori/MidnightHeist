@@ -13,6 +13,8 @@
 #include "ColorComponent.hpp"
 #include "NormalComponent.hpp"
 #include "UVComponent.hpp"
+#include "UICircleComp.hpp"
+#include "math_T.h"
 
 // 名前空間
 using namespace Tag;
@@ -34,6 +36,10 @@ void UpdateUICircleSystem::Update(entt::registry& reg)
 		auto& ColorCmp = reg.get<ColorComp>(entity);
 		auto& NorCmp = reg.get<NorComp>(entity);
 		auto& UVCmp = reg.get<UVComp>(entity);
+		auto& UICircleCmp = reg.get<UICircleComp>(entity);
+
+		// 塗りつぶし量をクランプ
+		UICircleCmp.FillAmount = Clamp(UICircleCmp.FillAmount, 0.0f, 1.0f);
 
 		// 頂点バッファを編集する用変数
 		VERTEX_3D* pVtx = NULL;

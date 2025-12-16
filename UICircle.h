@@ -22,7 +22,7 @@ public:
 	HRESULT Init(void);
 
 	// セッター
-	void SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginWorld, const float FillAmount); // ライトやマテリアルなどの設定
+	void SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginWorld, const float FillAmount,const float Radius,const float MaxFillAngle); // ライトやマテリアルなどの設定
 
 	// ゲッター
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }

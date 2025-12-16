@@ -683,6 +683,12 @@
     <ClInclude Include="RenderingUICircle.h">
       <Filter>System\Rendering\UICircle</Filter>
     </ClInclude>
+    <ClInclude Include="UICircleComp.hpp">
+      <Filter>Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderFragComp.hpp">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />

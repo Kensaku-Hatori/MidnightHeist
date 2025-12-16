@@ -126,13 +126,13 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShapeShadowSystem);
 	CSystemManager::AddRenderingSystem(new RenderingOutLineSystem);
-	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
 	CSystemManager::AddRenderingSystem(new Render3DSystem);
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
 	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
+	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
 	CSystemManager::AddRenderingSystem(new Render2DSystem);
 	CSystemManager::AddRenderingSystem(new RenderingPauseMenuSystem);
 

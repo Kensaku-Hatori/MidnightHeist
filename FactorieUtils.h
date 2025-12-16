@@ -44,3 +44,5 @@
 #include "LockOnUIAnim.hpp"
 #include "ItemComp.h"
 #include "PlayerStateComp.hpp"
+#include "UICircleComp.hpp"
+#include "RenderFragComp.hpp"
