@@ -252,6 +252,99 @@ D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
 }
 
 //***************************************
+// ヒューリスティック関数
+//***************************************
+float CMath::Heuristic(const D3DXVECTOR3& Start, const D3DXVECTOR3& Goal)
+{
+	// ベクトルを引く
+	D3DXVECTOR3 Vec = Start - Goal;
+	// そのベクトルの距離
+	return D3DXVec3Length(&Vec);
+}
+
+//***************************************
+// エースターアルゴリズム
+//***************************************
+std::vector<int> CMath::AStar(std::vector<PatrolPoint::PatrolPointInfo>& Points, const int StartIdx, const int GoalIdx)
+{
+	std::vector<PatrolPoint::PatrolPointInfoForAStar> OpenList;
+	std::vector<PatrolPoint::PatrolPointInfoForAStar> ClosedList;
+	PatrolPoint::PatrolPointInfoForAStar StartPoint;
+	StartPoint.Idx = StartIdx;
+	StartPoint.Parent = -1;
+	StartPoint.Heuristic = Heuristic(Points[StartIdx].Point, Points[GoalIdx].Point);
+	StartPoint.StartGoalCost = 0;
+	StartPoint.MyGoalCost = StartPoint.StartGoalCost + StartPoint.Heuristic;
+	OpenList.push_back(StartPoint);
+	while (!OpenList.empty())
+	{
+		// ヒューリスティック関数のコストが一番低いノードを選択
+		auto CurrentIt = std::min_element(OpenList.begin(), OpenList.end(),
+			[](const PatrolPoint::PatrolPointInfoForAStar& a, const  PatrolPoint::PatrolPointInfoForAStar& b)
+			{
+				return a.Heuristic < b.Heuristic;
+			}
+		);
+		PatrolPoint::PatrolPointInfoForAStar Current = *CurrentIt;
+		OpenList.erase(CurrentIt);
+		if (Current.Idx == GoalIdx)
+		{
+			std::vector<int> Path;
+			while (Current.Parent != -1)
+			{
+				Path.push_back(Current.Idx);
+				auto It = std::find_if(ClosedList.begin(), ClosedList.end(),
+					[&](const PatrolPoint::PatrolPointInfoForAStar& N)
+					{
+						return N.Idx == Current.Parent;
+					}
+				);
+				if (It == ClosedList.end())break;
+				Current = *It;
+			}
+			Path.push_back(StartIdx);
+			std::reverse(Path.begin(), Path.end());
+			return Path;
+		}
+		ClosedList.push_back(Current);
+		for (int CanMoveIdx : Points[Current.Idx].CanMove)
+		{
+			if (std::any_of(ClosedList.begin(), ClosedList.end(), [&](const PatrolPoint::PatrolPointInfoForAStar& N)
+				{
+					return N.Idx == CanMoveIdx;
+				}
+			))continue;
+			float VirtualGoal = Current.StartGoalCost + Heuristic(Points[Current.Idx].Point, Points[CanMoveIdx].Point);
+			auto It = std::find_if(OpenList.begin(), OpenList.end(),
+				[&](const PatrolPoint::PatrolPointInfoForAStar& N)
+				{
+					return N.Idx == CanMoveIdx;
+				}
+			);
+			if (It == OpenList.end() || VirtualGoal < It->StartGoalCost)
+			{
+				PatrolPoint::PatrolPointInfoForAStar CanMoveNode;
+				CanMoveNode.Idx = CanMoveIdx;
+				CanMoveNode.StartGoalCost = VirtualGoal;
+				CanMoveNode.Heuristic = Heuristic(Points[CanMoveIdx].Point, Points[GoalIdx].Point);
+				CanMoveNode.MyGoalCost = CanMoveNode.StartGoalCost + CanMoveNode.Heuristic;
+				CanMoveNode.Parent = Current.Idx;
+				if (It == OpenList.end())
+				{
+					OpenList.push_back(CanMoveNode);
+				}
+				else
+				{
+					*It = CanMoveNode;
+				}
+			}
+		}
+	}
+	assert(true);
+	return {};
+}
+
+//***************************************
 // 扇形の中に点が存在するかどうか
 //***************************************
 bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)

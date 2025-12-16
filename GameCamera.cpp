@@ -60,7 +60,12 @@ void CGameCamera::Update(void)
 	if (PlayerAnimCmp.IsScreen == true && PlayerAnimCmp.IsFinishedAnim == false)
 	{
 		// 視点を近づける
-		SetPosV = CGameCamera::Config::Default::PosV + VecPlayer * 700.0f;
+		SetPosV = PlayerTransform.Pos;
+		// デフォルトカメラの位置をベクトルとして扱う
+		D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
+		// 正規化
+		D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
+		SetPosV += DefaultPosV * 1000.0f;
 		SetPosR = PlayerTransform.Pos;
 	}
 	// アニメーションが終わっていたら
@@ -74,7 +79,12 @@ void CGameCamera::Update(void)
 	else if(PlayerStateCmp.NowState == PlayerState::State::PICKING)
 	{
 		// 視点を近づける
-		SetPosV = CGameCamera::Config::Default::PosV + VecPlayer * 1000.0f;
+		SetPosV = PlayerTransform.Pos;
+		// デフォルトカメラの位置をベクトルとして扱う
+		D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
+		// 正規化
+		D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
+		SetPosV += DefaultPosV * 700.0f;
 		SetPosR = PlayerTransform.Pos;
 	}
 	// 設定

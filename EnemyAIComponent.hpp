@@ -23,6 +23,7 @@ namespace EnemyState {
 		CHASE,
 		PREDICT,
 		SEARCH,
+		BACK,
 		MAX
 	};
 	// プレイヤーの位置のエラー値を設定
@@ -33,13 +34,17 @@ namespace EnemyState {
 struct EnemtAIComp {
 	// コンストラクタ
 	EnemtAIComp(EnemyState::ENEMYSTATE Default, std::vector<EnemyState::PatrolMap>& _PointList) :
-		State(Default), LastLookPlayerPosition(VEC3_NULL), HalfPatrolRoute(_PointList), NowIdx(-1), NextIdx(NowIdx + 1), IsFinish(false), CoolDownCnt(0) {};
+		State(Default), LastLookPlayerPosition(VEC3_NULL), HalfPatrolRoute(_PointList), NowIdx(-1), NextIdx(NowIdx + 1), IsFinish(false), CoolDownCnt(0), BackIdx(0) {};
 	// 管理者
 	EnemyState::ENEMYSTATE State;
 	// 最後に見たプレイヤーの位置
 	D3DXVECTOR3 LastLookPlayerPosition;
 	// 半周分の巡回ポイント
 	std::vector<EnemyState::PatrolMap> HalfPatrolRoute;
+	// 復帰用の巡回ポイントIdx記憶用
+	std::vector<int> BackIdxList;
+	// 復帰用の巡回ポイント用Ｉｄｘカウンタ
+	int BackIdx;
 	// 現在のポイントへのIdx
 	int NowIdx;
 	// 次のポイントへのIdx

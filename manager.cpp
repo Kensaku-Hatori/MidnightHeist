@@ -39,6 +39,7 @@
 #include "UpdateEnemySearch.h"
 #include "UpdateItemSystem.h"
 #include "UpdateUICircleSystem.hpp"
+#include "UpdateEnemyBack.h"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
@@ -107,6 +108,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemyBackSystem);
 	CSystemManager::AddUpdateSystem(new UpdateUICircleSystem);
 	CSystemManager::AddUpdateSystem(new Update2DSystem);
 	CSystemManager::AddUpdateSystem(new Update3DSystem);

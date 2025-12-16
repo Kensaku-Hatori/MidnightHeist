@@ -24,13 +24,16 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<RenderingOutLine>();
 
+	// シェーダー起動
 	CToon::Instance()->Begin();
 	CToon::Instance()->BeginPass(2);
 
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// ビューマトリックスとプロジェクションマトリックスを取得
 	D3DXMATRIX View, Proj;
 	pDevice->GetTransform(D3DTS_VIEW, &View);
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
@@ -62,14 +65,17 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
 		{
+			// アウトライン用のパラメータ設定
 			CToon::Instance()->SetUseOutLineParameters(mtxWorld, View, Proj, OutLineCmp.Thickness, OutLineCmp.Color, OutLineCmp.Height);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pSmoothMesh->DrawSubset(nCntMat);
 		}
 
+		// マテリアルを元に戻す
 		pDevice->SetMaterial(&matDef);
 	}
+	// シェーダー終了
 	CToon::Instance()->EndPass();
 	CToon::Instance()->End();
 }

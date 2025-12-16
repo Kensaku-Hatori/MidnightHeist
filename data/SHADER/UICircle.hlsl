@@ -80,6 +80,10 @@ technique StandardDraw
 {
 	pass P0
 	{
+        // ゼットバッファへの書き込みを無効化
+        ZEnable = FALSE;
+        ZWriteEnable = FALSE;
+
 		vertexShader = compile vs_3_0 VS_main();
         pixelShader = compile ps_3_0 PS_main();
     }

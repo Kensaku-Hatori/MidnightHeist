@@ -602,7 +602,7 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::string Path)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<PatrolPointComp>(myEntity, Path, 10.0f);
+	std::vector<int> test = CMath::AStar(Reg.emplace<PatrolPointComp>(myEntity, Path, 10.0f).PatrolPoint, 0, 6);
 
 	Reg.emplace<PatrolPointManager>(myEntity);
 

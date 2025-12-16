@@ -19,8 +19,23 @@ namespace PatrolPoint {
     {
         // 位置
         D3DXVECTOR3 Point;
+		// 移動できる隣接ノードへのIdx
 		std::vector<int> CanMove;
+		// 自分自身のIdx
+		int Idx;
     };
+	// エースター用の構造体
+	struct PatrolPointInfoForAStar
+	{
+		// 自分自身のIdx
+		int Idx;
+		// 自分自身のノードの親
+		int Parent;
+		// スタート地点からゴールまでのコスト
+		// 今の位置からゴールまでのコスト
+		// ヒューリスティック関数のコスト
+		float StartGoalCost, MyGoalCost, Heuristic;
+	};
 }
 
 // テクスチャ情報
@@ -72,9 +87,16 @@ struct PatrolPointComp {
 				std::string Key = std::to_string(nCnt);
 				LoadInfo.CanMove.push_back(Info["Point"]["CanMove"][Key]);
 			}
-			//Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", LoadInfo.Point);
+			// 今のベクターのサイズをIdxとして使用
+			LoadInfo.Idx = PatrolPoint.size();
+			// 連結
 			PatrolPoint.push_back(LoadInfo);
 		}
+		//int test = 7;
+		//for (int nCnt = 0; nCnt < static_cast<int>(PatrolPoint[test].CanMove.size()); nCnt++)
+		//{
+		//	Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", PatrolPoint[PatrolPoint[test].CanMove[nCnt]].Point);
+		//}
     };
 	// デストラクタ
 	~PatrolPointComp() {

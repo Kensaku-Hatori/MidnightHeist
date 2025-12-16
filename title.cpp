@@ -13,6 +13,7 @@
 #include "fade.h"
 #include "game.h"
 #include "TitleCamera.h"
+#include "math.h"
 
 // ‹K’è’l‚ğİ’è
 

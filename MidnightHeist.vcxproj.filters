@@ -345,6 +345,9 @@
     <ClCompile Include="RenderingUICircle.cpp">
       <Filter>System\Rendering\UICircle</Filter>
     </ClCompile>
+    <ClCompile Include="UpdateEnemyBack.cpp">
+      <Filter>System\Update\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debugproc.h">
@@ -688,6 +691,9 @@
     </ClInclude>
     <ClInclude Include="RenderFragComp.hpp">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemyBack.h">
+      <Filter>System\Update\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

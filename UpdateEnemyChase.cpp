@@ -61,7 +61,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 		if (CollisionInfo.IsRayCollision == true)
 		{
 			// 捜索ステートにする
-			State.State = EnemyState::ENEMYSTATE::SEARCH;
+			State.State = EnemyState::ENEMYSTATE::BACK;
 			// 最後に見たプレイヤーの位置を保存
 			State.LastLookPlayerPosition = PlayerTransCmp.Pos;
 			//SetUpPredict(reg, Entity, PatrolManagerEneity);
@@ -133,22 +133,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 					}
 				}
 			}
-			// 初期値から動いていたら
-			if (BestPoint != -1)
-			{
-				if (State.IsFinish == false)
-				{
-					// 目的地を設定
-					State.NowIdx = -1;
-					State.NextIdx = -1;
-				}
-				else
-				{
-					// 目的地を設定
-					State.NowIdx = State.HalfPatrolRoute.size();
-					State.NextIdx = State.HalfPatrolRoute.size();
-				}
-			}
+			State.BackIdxList = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.NowIdx);
 			// ステートを切り替えたので切り上げ
 			continue;
 		}

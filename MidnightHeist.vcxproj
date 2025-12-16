@@ -179,6 +179,7 @@
     <ClCompile Include="title.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="UICircle.cpp" />
+    <ClCompile Include="UpdateEnemyBack.cpp" />
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
     <ClCompile Include="UpdateEnemySearch.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UICircle.h" />
     <ClInclude Include="UICircleComp.hpp" />
+    <ClInclude Include="UpdateEnemyBack.h" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
     <ClInclude Include="UpdateEnemySearch.h" />
