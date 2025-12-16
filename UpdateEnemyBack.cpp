@@ -74,7 +74,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;
 
-		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.BackIdxList[State.BackIdx]].Point - TransformCmp.Pos;
+		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
@@ -88,7 +88,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 			// 今の位置を目標の位置にする
 			State.BackIdx++;
 			// フラグを立てる
-			if (State.BackIdx > static_cast<int>(State.BackIdxList.size() - 1))
+			if (State.BackIdx > static_cast<int>(State.AStarRoute.size() - 1))
 			{
 				State.State = EnemyState::ENEMYSTATE::SEARCH;
 				State.CoolDownCnt = 0;

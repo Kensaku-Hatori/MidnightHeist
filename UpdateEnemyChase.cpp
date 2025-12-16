@@ -17,6 +17,7 @@
 #include "EnemyPatrolPointComp.hpp"
 #include "RayComponent.hpp"
 #include "EnemyAIAStarComponent.hpp"
+#include "mapmanager.h"
 #include "math.h"
 
 // 名前空間
@@ -61,79 +62,20 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 		if (CollisionInfo.IsRayCollision == true)
 		{
 			// 捜索ステートにする
-			State.State = EnemyState::ENEMYSTATE::BACK;
+			State.State = EnemyState::ENEMYSTATE::PREDICT;
 			// 最後に見たプレイヤーの位置を保存
 			State.LastLookPlayerPosition = PlayerTransCmp.Pos;
 			//SetUpPredict(reg, Entity, PatrolManagerEneity);
-			// マップオブジェクトのビュー
-			auto MapObjectView = reg.view<MapObjectComponent>();
-
-			// ソートするための比較用変数
-			float CurrentDistance = 100000.0f;
-
 			// 一番近くの障害物をまたがないポイントへのIdx
-			int BestPoint = -1;
-
-			// パトロールポイントへアクセス
-			for (int nCnt = 0; nCnt < static_cast<int>(PatrolPointCmp.PatrolPoint.size()); nCnt++)
-			{
-				// ポイントへのレイ
-				RayComp ToPointRay;
-				// 例の向きを正規化するようの変数
-				D3DXVECTOR3 NormalizeToPointVec;
-				// ベクトルを引く
-				D3DXVECTOR3 ToPointVec = PatrolPointCmp.PatrolPoint[nCnt].Point - TransformCmp.Pos;
-				// Y成分を無くす
-				ToPointVec.y = 0.0f;
-				// 正規化した結果を代入
-				D3DXVec3Normalize(&NormalizeToPointVec, &ToPointVec);
-
-				// レイの位置と向きを設定
-				ToPointRay.Origin = TransformCmp.Pos;
-				ToPointRay.Dir = NormalizeToPointVec;
-
-				// 次に判定をとるオブジェクトへの距離
-				float NowDistance = 0.0f;
-
-				// 当たったかどうか
-				bool CantMove = false;
-
-				// マップオブジェクトへアクセス
-				for (auto MapObject : MapObjectView)
-				{
-					// 当たり判定に必要なコンポーネントを取得
-					auto& XRenderingCmp = reg.get<XRenderingComp>(MapObject);
-					auto& MapObjectTransCmp = reg.get<Transform3D>(MapObject);
-
-					// 当たったら
-					if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.GetWorldMatrix(), ToPointRay, &NowDistance) == true)
-					{
-						// 距離が現在位置からポイントへの距離より多かったら障害物があると判定
-						float dist = D3DXVec3Length(&ToPointVec);
-						if (dist > NowDistance)
-						{
-							// そのポイントへの移動は不可
-							CantMove = true;
-							// 切り上げ
-							break;
-						}
-					}
-				}
-				// 移動可能なポイントだったら
-				if (!CantMove)
-				{
-					// 距離を計算
-					float dist = D3DXVec3Length(&ToPointVec);
-					// ソート
-					if (dist < CurrentDistance)
-					{
-						CurrentDistance = dist;
-						// Idxを記録
-						BestPoint = nCnt;
-					}
-				}
-			}
-			State.BackIdxList = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.HalfPatrolRoute[State.NowIdx].Idx);
+			int BestPoint;
+			// Idxを取得
+			BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+			// 見失った位置のIdx
+			int MissPoint;
+			// Idxを取得
+			MissPoint = CMath::NearCanMovePoint(State.LastLookPlayerPosition, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+			// 帰るまでの道筋を取得
+			State.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, MissPoint);
 			// ステートを切り替えたので切り上げ
 			continue;
 		}

@@ -378,6 +378,79 @@ std::vector<int> CMath::AStar(std::vector<PatrolPoint::PatrolPointInfo>& Points,
 }
 
 //***************************************
+// 近くの障害物がないポイントを検索
+//***************************************
+int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolPointInfo>& Points, std::vector<entt::entity>& MapObjects)
+{
+	// ソートするための比較用変数
+	float CurrentDistance = 100000.0f;
+
+	// 一番近くの障害物をまたがないポイントへのIdx
+	int BestPoint = -1;
+
+	// パトロールポイントへアクセス
+	for (int nCnt = 0; nCnt < static_cast<int>(Points.size()); nCnt++)
+	{
+		// ポイントへのレイ
+		RayComp ToPointRay;
+		// 例の向きを正規化するようの変数
+		D3DXVECTOR3 NormalizeToPointVec;
+		// ベクトルを引く
+		D3DXVECTOR3 ToPointVec = Points[nCnt].Point - Origin;
+		// Y成分を無くす
+		ToPointVec.y = 0.0f;
+		// 正規化した結果を代入
+		D3DXVec3Normalize(&NormalizeToPointVec, &ToPointVec);
+
+		// レイの位置と向きを設定
+		ToPointRay.Origin = Origin;
+		ToPointRay.Dir = NormalizeToPointVec;
+
+		// 次に判定をとるオブジェクトへの距離
+		float NowDistance = 0.0f;
+
+		// 当たったかどうか
+		bool CantMove = false;
+
+		// マップオブジェクトへアクセス
+		for (auto MapObject : MapObjects)
+		{
+			// 当たり判定に必要なコンポーネントを取得
+			auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+			auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
+
+			// 当たったら
+			if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.GetWorldMatrix(), ToPointRay, &NowDistance) == true)
+			{
+				// 距離が現在位置からポイントへの距離より多かったら障害物があると判定
+				float dist = D3DXVec3Length(&ToPointVec);
+				if (dist > NowDistance)
+				{
+					// そのポイントへの移動は不可
+					CantMove = true;
+					// 切り上げ
+					break;
+				}
+			}
+		}
+		// 移動可能なポイントだったら
+		if (!CantMove)
+		{
+			// 距離を計算
+			float dist = D3DXVec3Length(&ToPointVec);
+			// ソート
+			if (dist < CurrentDistance)
+			{
+				CurrentDistance = dist;
+				// Idxを記録
+				BestPoint = nCnt;
+			}
+		}
+	}
+	return BestPoint;
+}
+
+//***************************************
 // 扇形の中に点が存在するかどうか
 //***************************************
 bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)

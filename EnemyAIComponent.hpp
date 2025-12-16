@@ -42,7 +42,7 @@ struct EnemtAIComp {
 	// 半周分の巡回ポイント
 	std::vector<EnemyState::PatrolMap> HalfPatrolRoute;
 	// 復帰用の巡回ポイントIdx記憶用
-	std::vector<int> BackIdxList;
+	std::vector<int> AStarRoute;
 	// 復帰用の巡回ポイント用Ｉｄｘカウンタ
 	int BackIdx;
 	// 現在のポイントへのIdx

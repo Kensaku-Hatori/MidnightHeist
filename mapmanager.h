@@ -28,6 +28,8 @@ public:
 	// 読み込み
 	void Load(std::string Path);
 
+	// ゲッター
+	std::vector<entt::entity>& GetvMapObject(void) { return m_vMapObject; }
 	// 静的メンバ関数
 	// シングルトン
 	static CMapManager* Instance(void) {
