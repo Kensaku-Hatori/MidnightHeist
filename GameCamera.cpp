@@ -21,8 +21,6 @@ using namespace Tag;
 // 静的定数メンバ変数の初期化
 const D3DXVECTOR3 CGameCamera::Config::Default::PosV = { 0.0f,1400.0f,800.0f };
 const D3DXVECTOR3 CGameCamera::Config::Default::PosR = { 0.0f,0.0f,0.0f };
-const D3DXVECTOR3 CGameCamera::Config::Zoom::PosV = { 0.0f,1000.0f,1000.0f };
-const D3DXVECTOR3 CGameCamera::Config::Zoom::PosR = { 0.0f,0.0f,0.0f };
 
 //***************************************
 // 初期化処理
@@ -65,7 +63,7 @@ void CGameCamera::Update(void)
 		D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
 		// 正規化
 		D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
-		SetPosV += DefaultPosV * 1000.0f;
+		SetPosV += DefaultPosV * CGameCamera::Config::FirstAnimation::Zoom;
 		SetPosR = PlayerTransform.Pos;
 	}
 	// アニメーションが終わっていたら
@@ -84,7 +82,7 @@ void CGameCamera::Update(void)
 		D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
 		// 正規化
 		D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
-		SetPosV += DefaultPosV * 700.0f;
+		SetPosV += DefaultPosV * CGameCamera::Config::PickingZoom::Zoom;
 		SetPosR = PlayerTransform.Pos;
 	}
 	// 設定

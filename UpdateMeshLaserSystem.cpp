@@ -64,7 +64,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			// 当たったら
 			if (CollisionEntity(Reg, entity, entityMapObject, CurrentDistance) == true)
 			{
-				if (ToPlayer >= CurrentDistance)CollisionInfo.IsRayCollision = true;
+				if (ToPlayer > CurrentDistance)CollisionInfo.IsRayCollision = true;
 				// 最新の距離と当たったオブジェクトとの距離を比較
 				if (CurrentDistance < Distance)
 				{

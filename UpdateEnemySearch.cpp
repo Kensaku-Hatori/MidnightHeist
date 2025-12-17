@@ -16,6 +16,7 @@
 #include "FanInfoComponent.hpp"
 #include "ParentComponent.hpp"
 #include "LaserCollisionFragComp.hpp"
+#include "mapmanager.h"
 #include "math.h"
 
 // 名前空間
@@ -51,23 +52,24 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		auto& PatrolPointCmp = reg.get<PatrolPointComp>(PatrolManagerEneity);
 		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
 
-		// 自分自身の親、子供コンポーネントを取得
-		auto& Laser = reg.get<SingleParentComp>(Entity);
-		// レーザーのコリジョン情報を取得
-		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parent);
-
-		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
-		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true && CollisionInfo.IsRayCollision == false)
-		{
-			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
-			continue;
-		}
+		//// 自分自身の親、子供コンポーネントを取得
+		//auto& Laser = reg.get<SingleParentComp>(Entity);
+		//// レーザーのコリジョン情報を取得
+		//auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parent);
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigitBodyComp>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
 		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
+
+		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
+		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
+			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)
+		{
+			// 追いかけモード
+			State.State = EnemyState::ENEMYSTATE::CHASE;
+			continue;
+		}
 
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;

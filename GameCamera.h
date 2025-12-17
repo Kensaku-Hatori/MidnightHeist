@@ -25,9 +25,11 @@ private:
 			static const D3DXVECTOR3 PosV;
 			static const D3DXVECTOR3 PosR;
 		};
-		struct Zoom {
-			static const D3DXVECTOR3 PosV;
-			static const D3DXVECTOR3 PosR;
+		struct FirstAnimation {
+			static constexpr float Zoom = 1400.0f;
+		};
+		struct PickingZoom {
+			static constexpr float Zoom = 1200.0f;
 		};
 	};
 };

@@ -65,7 +65,6 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			State.State = EnemyState::ENEMYSTATE::PREDICT;
 			// 最後に見たプレイヤーの位置を保存
 			State.LastLookPlayerPosition = PlayerTransCmp.Pos;
-			//SetUpPredict(reg, Entity, PatrolManagerEneity);
 			// 一番近くの障害物をまたがないポイントへのIdx
 			int BestPoint;
 			// Idxを取得

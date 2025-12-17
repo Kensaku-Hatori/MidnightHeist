@@ -451,6 +451,53 @@ int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolP
 }
 
 //***************************************
+// プレイヤーまで障害物がないかどうか
+//***************************************
+bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, std::vector<entt::entity>& MapObjects)
+{
+	// 目標値までの距離
+	D3DXVECTOR3 VecDest = DestPos - Origin;
+	VecDest.y = 0.0f;
+	float DestDistance = D3DXVec3Length(&VecDest);
+
+	// ポイントへのレイ
+	RayComp ToPointRay;
+	// 例の向きを正規化するようの変数
+	D3DXVECTOR3 NormalizeToDestPoint;
+	// 正規化した結果を代入
+	D3DXVec3Normalize(&NormalizeToDestPoint, &VecDest);
+
+	// レイの位置と向きを設定
+	ToPointRay.Origin = Origin;
+	ToPointRay.Dir = NormalizeToDestPoint;
+
+	// 次に判定をとるオブジェクトへの距離
+	float NowDistance = 0.0f;
+
+	// リターン用のフラグ
+	bool IsCanSight = true;
+
+	// マップオブジェクトへアクセス
+	for (auto MapObject : MapObjects)
+	{
+		// 当たり判定に必要なコンポーネントを取得
+		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
+
+		// 当たったら
+		if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.GetWorldMatrix(), ToPointRay, &NowDistance) == true)
+		{
+			if (DestDistance > NowDistance)
+			{
+				IsCanSight = false;
+				break;
+			}
+		}
+	}
+	return IsCanSight;
+}
+
+//***************************************
 // 扇形の中に点が存在するかどうか
 //***************************************
 bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)
