@@ -118,3 +118,15 @@ void CMapManager::Load(string Path)
 		m_vMapObject.push_back(Factories::makeMapobject(CManager::GetScene()->GetReg(), LocalPath, Pos, Quad,Scale));
 	}
 }
+
+//***************************************
+// —v‘f‚ğíœ
+//***************************************
+void CMapManager::Erase(entt::entity Erase)
+{
+	// íœ
+	m_vMapObject.erase(
+		std::remove(m_vMapObject.begin(), m_vMapObject.end(), Erase),
+		m_vMapObject.end()
+	);
+}

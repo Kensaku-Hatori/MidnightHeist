@@ -118,6 +118,7 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 		{
 			// ホールドステートに変更
 			LockAnimCmp.NowState = LockOnAnimState::State::LOCKEDIN;
+			ItemManagerCmp.NowAnimIdx++;
 		}
 		break;
 	// ホールド
@@ -128,7 +129,6 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 		{
 			// 解除状態
 			LockAnimCmp.NowState = LockOnAnimState::State::RELEASELOCK;
-			ItemManagerCmp.NowAnimIdx++;
 		}
 		break;
 	// 解除

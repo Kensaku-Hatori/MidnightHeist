@@ -43,6 +43,10 @@ struct EnemtAIComp {
 	std::vector<EnemyState::PatrolMap> HalfPatrolRoute;
 	// 復帰用の巡回ポイントIdx記憶用
 	std::vector<int> AStarRoute;
+	// AStarが終わったかどうか
+	bool IsFinishedAStar;
+	// 目標の位置
+	D3DXVECTOR3 DestPos;
 	// 復帰用の巡回ポイント用Ｉｄｘカウンタ
 	int BackIdx;
 	// 現在のポイントへのIdx

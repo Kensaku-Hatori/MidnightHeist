@@ -89,6 +89,7 @@ struct PatrolPointComp {
 			}
 			// 今のベクターのサイズをIdxとして使用
 			LoadInfo.Idx = PatrolPoint.size();
+			Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", { LoadInfo.Point.x,LoadInfo.Point.y + 100.0f,LoadInfo.Point.z });
 			// 連結
 			PatrolPoint.push_back(LoadInfo);
 		}

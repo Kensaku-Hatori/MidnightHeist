@@ -28,6 +28,8 @@ public:
 	// 読み込み
 	void Load(std::string Path);
 
+	// ベクター用
+	void Erase(entt::entity Erase);
 	// ゲッター
 	std::vector<entt::entity>& GetvMapObject(void) { return m_vMapObject; }
 	// 静的メンバ関数

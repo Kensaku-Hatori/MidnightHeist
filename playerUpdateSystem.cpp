@@ -26,6 +26,8 @@
 #include "RenderFragComp.hpp"
 #include "UICircleComp.hpp"
 #include "ItemManagerComp.hpp"
+#include "mapmanager.h"
+#include "math_T.h"
 #include "math.h"
 
 // 名前空間
@@ -347,6 +349,10 @@ void PlayerUpdateSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
 	// アイテムのビュー
 	auto ItemView = Reg.view<ItemComponent>();
 
+	// 円形UIの情報を取得
+	auto& CircleEntity = Reg.get<MulParentComp>(Player);
+	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Parents[1]);
+
 	// アクセス
 	for (auto entity : ItemView)
 	{
@@ -358,9 +364,29 @@ void PlayerUpdateSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
 		// コンポーネントを取得
 		auto& PlayerTransCmp = Reg.get<Transform3D>(Player);
 		D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
+
 		// アイテムを削除
-		if (D3DXVec3Length(&ToPlayer) > ItemCmp.InteractSize)continue;
-		if (CManager::GetInputKeyboard()->GetPress(DIK_F))  PlayerStateCmp.NowState = PlayerState::State::PICKING;
+		if (D3DXVec3Length(&ToPlayer) > ItemCmp.InteractSize)
+		{
+			ItemCmp.nCntPicking--;
+			continue;
+		}
+		if (CManager::GetInputKeyboard()->GetPress(DIK_F))
+		{
+			PlayerStateCmp.NowState = PlayerState::State::PICKING;
+			ItemCmp.nCntPicking++;
+			// 塗りつぶし量を進める
+			CircleCmp.FillAmount = ItemConfig::Ratio * ItemCmp.nCntPicking;
+			// 最大数以上だったら
+			if (ItemCmp.nCntPicking >= ItemConfig::nFramePicking)
+			{
+				// 要素を削除
+				Reg.destroy(entity);
+				CMapManager::Instance()->Erase(entity);
+			}
+		}
+		// クランプ
+		ItemCmp.nCntPicking = Clamp(ItemCmp.nCntPicking, 0, ItemConfig::nFramePicking);
 	}
 }
 
@@ -402,8 +428,6 @@ void PlayerUpdateSystem::UpdateState(entt::registry& Reg, entt::entity Player)
 		CircleTransform.Pos = CirlcePos;
 		// ピッキング中だけ描画フラグを立てる
 		CircleRenderFrag.IsRendering = true;
-		// 塗りつぶし量を進める
-		CircleCmp.FillAmount += 0.01f;
 		break;
 	default:
 		break;

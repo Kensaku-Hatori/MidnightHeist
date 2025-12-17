@@ -71,7 +71,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;
 
-		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point - TransformCmp.Pos;
+		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
@@ -91,6 +91,11 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 				State.CoolDownCnt = 0;
 				State.BackIdx = 0;
 				continue;
+			}
+			else
+			{
+				// 目標の位置を設定
+				State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
 			}
 		}
 		else

@@ -71,7 +71,10 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;
 
-		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point - TransformCmp.Pos;
+		// 経路が見つかっていなかったら
+		if (State.AStarRoute.empty() == true) State.State = EnemyState::ENEMYSTATE::SEARCH;
+
+		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
@@ -85,7 +88,13 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 			// 今の位置を目標の位置にする
 			State.BackIdx++;
 			// フラグを立てる
-			if (State.BackIdx >= static_cast<int>(State.AStarRoute.size() - 1))
+			if (State.BackIdx >= static_cast<int>(State.AStarRoute.size() - 1) && State.IsFinishedAStar == false)
+			{
+				State.IsFinishedAStar = true;
+				// 目標の位置を設定
+				State.DestPos = State.LastLookPlayerPosition;
+			}
+			else if (State.IsFinishedAStar == true)
 			{
 				State.State = EnemyState::ENEMYSTATE::BACK;
 				State.CoolDownCnt = 0;
@@ -96,7 +105,15 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 				BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
 				// 帰るまでの道筋を取得
 				State.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.HalfPatrolRoute[State.NowIdx].Idx);
+				// 目標の位置を設定
+				State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
+				State.IsFinishedAStar = false;
 				continue;
+			}
+			else
+			{
+				// 目標の位置を設定
+				State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
 			}
 		}
 		else
