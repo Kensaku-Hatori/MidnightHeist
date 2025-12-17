@@ -25,6 +25,7 @@
 #include "PlayerStateComp.hpp"
 #include "RenderFragComp.hpp"
 #include "UICircleComp.hpp"
+#include "ItemManagerComp.hpp"
 #include "math.h"
 
 // 名前空間
@@ -100,8 +101,12 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 				UpdateUnLock(reg, entity);
 				UpdateState(reg, entity);
 			}
+			auto ItemMangerView = reg.view<ItemManagerComp>();
+			entt::entity ItemManagerEntity = *ItemMangerView.begin();
+			auto& ItemManagerCmp = reg.get<ItemManagerComp>(ItemManagerEntity);
+
 			// ベルトコンベアの上に乗っていたら
-			if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter)
+			if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter && ItemManagerCmp.IsFinished == true)
 			{
 				// ベルトコンベアの移動量を設定
 				RBCmp.RigitBody->setLinearVelocity(btVector3(-15.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));

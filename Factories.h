@@ -37,6 +37,8 @@ namespace ManagerFactories {
 	void InitPauseManager(entt::registry& Reg, entt::entity Parent);
 
 	entt::entity makeEnemyManager(entt::registry& Reg);
+
+	entt::entity makeItemManager(entt::registry& Reg);
 }
 // メッシュ系のファクトリー
 namespace MeshFactories {

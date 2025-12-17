@@ -53,10 +53,13 @@ void CGameCamera::Update(void)
 	D3DXVECTOR3 SetPosV = m_pOwner->GetPosVDest();
 	// 注視点の位置
 	D3DXVECTOR3 SetPosR = m_pOwner->GetPosRDest();
+	// カメラの追いつく速さ
+	float Speed = CCamera::Config::Defoult::SpeedV;
 
 	// 画面に入っていてアニメーションが終わっていなかったら
 	if (PlayerAnimCmp.IsScreen == true && PlayerAnimCmp.IsFinishedAnim == false)
 	{
+		Speed = 0.1f;
 		// 視点を近づける
 		SetPosV = PlayerTransform.Pos;
 		// デフォルトカメラの位置をベクトルとして扱う
@@ -86,6 +89,7 @@ void CGameCamera::Update(void)
 		SetPosR = PlayerTransform.Pos;
 	}
 	// 設定
+	m_pOwner->SetSpeedV(Speed);
 	m_pOwner->SetPosVDest(SetPosV);
 	m_pOwner->SetPosRDest(SetPosR);
 }

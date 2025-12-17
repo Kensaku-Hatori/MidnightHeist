@@ -701,6 +701,9 @@
     <None Include="ShapeShadow.cso" />
     <None Include="Toon.cso" />
     <None Include="Default.cso" />
+    <None Include="ItemManagerComp.hpp">
+      <Filter>Component\Item</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="data\SHADER\ShadowMap.hlsl">

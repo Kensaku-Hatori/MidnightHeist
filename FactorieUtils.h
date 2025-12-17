@@ -46,3 +46,4 @@
 #include "PlayerStateComp.hpp"
 #include "UICircleComp.hpp"
 #include "RenderFragComp.hpp"
+#include "ItemManagerComp.hpp"

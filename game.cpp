@@ -56,6 +56,9 @@ HRESULT CGame::Init(void)
 	ManagerFactories::makeEnemyManager(GetReg());
 	// ポーズマネージャー生成
 	ManagerFactories::makePauseManager(GetReg());
+	// アイテムマネージャー
+	ManagerFactories::makeItemManager(GetReg());
+
 	// テスト
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1150.0f,125.0f }, { 50.0f,50.0f });

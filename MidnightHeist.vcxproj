@@ -350,6 +350,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Default.cso" />
+    <None Include="ItemManagerComp.hpp" />
     <None Include="ShadowMap.cso" />
     <None Include="ShapeShadow.cso" />
     <None Include="Toon.cso" />

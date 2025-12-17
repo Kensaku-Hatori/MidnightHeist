@@ -18,6 +18,7 @@
 #include "LockOnUIAnim.hpp"
 #include "SystemManager.h"
 #include "ItemComp.h"
+#include "ItemManagerComp.hpp"
 #include "game.h"
 
 // 名前空間
@@ -56,16 +57,23 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	// ロックオンが無効だったら
 	if (Reg.valid(Reg.get<SingleParentComp>(Entity).Parent) == false) return;
 
+	auto ItemMangerView = Reg.view<ItemManagerComp>();
+	entt::entity ItemManagerEntity = *ItemMangerView.begin();
+	auto& ItemManagerCmp = Reg.get<ItemManagerComp>(ItemManagerEntity);
 	// ロックオンのエンティティを取得
 	entt::entity LockOnEntity = Reg.get<SingleParentComp>(Entity).Parent;
-
 	// ロックオンのコンポーネントを取得
 	auto& LockAnimCmp = Reg.get<LockOnAnimComp>(LockOnEntity);
 	auto& LockOnSize = Reg.get<SizeComp>(LockOnEntity);
 	auto& LockOnColor = Reg.get<ColorComp>(LockOnEntity);
 	auto& TransformLockOn = Reg.get<Transform2D>(LockOnEntity);
+
+	if (ItemManagerCmp.ItemLiset[ItemManagerCmp.NowAnimIdx] != Entity && LockAnimCmp.IsBoot == false) return;
+
 	// ロックオンの位置を決めるためにコンポーネントを取得
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+
+	if (LockAnimCmp.IsBoot == false) LockAnimCmp.IsBoot = true;
 
 	// トランスフォームを取得
 	btTransform trans;
@@ -120,6 +128,7 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 		{
 			// 解除状態
 			LockAnimCmp.NowState = LockOnAnimState::State::RELEASELOCK;
+			ItemManagerCmp.NowAnimIdx++;
 		}
 		break;
 	// 解除
@@ -136,6 +145,7 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	case LockOnAnimState::State::MAX:
 		// 削除リストに追加
 		CSystemManager::AddDestroyList(LockOnEntity);
+		if (ItemManagerCmp.NowAnimIdx > static_cast<int>(ItemManagerCmp.ItemLiset.size() - 1)) ItemManagerCmp.IsFinished = true;
 		break;
 	default:
 		break;

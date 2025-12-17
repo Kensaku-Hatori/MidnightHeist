@@ -141,7 +141,7 @@ void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
 entt::entity Factories::makePlayer(entt::registry& Reg)
 {
 	entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(1200.0f, 300.0f, 375.0f));
+	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(1000.0f, 300.0f, 375.0f));
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<RenderingOutLine>(myEntity);
@@ -255,7 +255,7 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
 		Reg.emplace<ItemComponent>(Entity);
 		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(Entity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
-		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 60, 60);
+		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 30, 60, 60);
 	}
 }
 
@@ -322,6 +322,22 @@ entt::entity ManagerFactories::makeEnemyManager(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<EnemyManagerComp>(myEntity, "data/TEXT/EnemyManager.json");
+	return myEntity;
+}
+
+//*********************************************
+// アイテムマネージャの生成
+//*********************************************
+entt::entity ManagerFactories::makeItemManager(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	std::vector<entt::entity> ItemList;
+	auto ItemView = Reg.view<ItemComponent>();
+	for (auto Entity : ItemView)
+	{
+		ItemList.push_back(Entity);
+	}
+	Reg.emplace<ItemManagerComp>(myEntity, ItemList);
 	return myEntity;
 }
 

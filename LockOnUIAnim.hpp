@@ -25,7 +25,7 @@ struct LockOnAnimComp {
 	LockOnAnimComp(const D3DXVECTOR2 Reference = VEC2_NULL, const int _ToLockFrame = NULL, const int _LockedFrame = NULL, const int _ReleaseFrame = NULL) :
 		ToLockonCounter(0), ToLockonFrame(_ToLockFrame), LockedInCounter(0), LockedInFrame(_LockedFrame), ReleaseLockCounter(0), ReleaseLockFrame(_ReleaseFrame),
 		NowState(LockOnAnimState::State::TOLOCK), Reference(Reference), ApperSize({ 1280.0f,720.0f }), DestSize({ 50.0f,50.0f }), ApperColor(WHITE),
-		DestColor({ 0.0f,0.0f,0.0f,0.0f }) {};
+		DestColor({ 0.0f,0.0f,0.0f,0.0f }), IsBoot(false) {};
 	// ロックオンアニメーション情報
 	int ToLockonCounter;
 	int ToLockonFrame;
@@ -33,6 +33,7 @@ struct LockOnAnimComp {
 	int LockedInFrame;
 	int ReleaseLockCounter;
 	int ReleaseLockFrame;
+	bool IsBoot;
 	LockOnAnimState::State NowState;
 	D3DXVECTOR2 Reference;
 	// イージング系
