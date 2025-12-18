@@ -23,7 +23,8 @@
 #include "distortion.h"
 #include "UICircle.h"
 
-#include "playerUpdateSystem.h"
+#include "UpdateGamePlayerSystem.h"
+#include "UpdateTitlePlayerSystem.h"
 #include "Update2DSystem.h"
 #include "Update3DSystem.h"
 #include "UpdateXSystem.h"
@@ -44,7 +45,8 @@
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
 #include "RenderingXSystem.h"
-#include "RenderingPlayerSystem.h"
+#include "RenderingGamePlayerSystem.h"
+#include "RenderingTitlePlayerSystem.h"
 #include "RenderingMeshFieldSystem.h"
 #include "RenderingMapobjectSystem.h"
 #include "RenderingMeshLaserSystem.h"
@@ -112,7 +114,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateUICircleSystem);
 	CSystemManager::AddUpdateSystem(new Update2DSystem);
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
-	CSystemManager::AddUpdateSystem(new PlayerUpdateSystem);
+	CSystemManager::AddUpdateSystem(new UpdateTitlePlayerSystem);
+	CSystemManager::AddUpdateSystem(new UpdateGamePlayerSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
@@ -131,7 +134,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new Render3DSystem);
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
-	CSystemManager::AddRenderingSystem(new PlayerRenderingSystem);
+	CSystemManager::AddRenderingSystem(new RenderingTitlePlayerSystem);
+	CSystemManager::AddRenderingSystem(new RenderingGameSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
 	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
@@ -349,7 +353,12 @@ void CManager::Draw()
 //***************************************
 void CManager::SetScene(CScene* Scene)
 {
-	if (m_pScene != NULL)
+	if (m_pScene == Scene)
+	{
+		delete Scene;
+		return;
+	}
+	else if (m_pScene != NULL)
 	{
 		m_pSound->Stop();
 		m_pScene->Uninit();

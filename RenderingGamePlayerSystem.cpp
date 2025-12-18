@@ -5,7 +5,7 @@
 //
 //****************************************************************
 
-#include "RenderingPlayerSystem.h"
+#include "RenderingGamePlayerSystem.h"
 #include "XRenderingComponent.hpp"
 #include "TagComp.hpp"
 #include "shapeshadow.h"
@@ -13,11 +13,12 @@
 #include "shadowmap.h"
 
 using namespace Tag;
+using namespace SequenceTag;
 
 //*********************************************
 // 描画
 //*********************************************
-void PlayerRenderingSystem::Rendering(entt::registry& reg)
+void RenderingGameSystem::Rendering(entt::registry& reg)
 {
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
@@ -28,7 +29,7 @@ void PlayerRenderingSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<PlayerComponent>();
+	auto view = reg.view<PlayerComponent,InGameComp>();
 
 	// 物陰マップに書き込む
 	CShapeShadow::Instance()->Begin();
@@ -100,7 +101,7 @@ void PlayerRenderingSystem::Rendering(entt::registry& reg)
 //*********************************************
 // プレイヤーのシルエット描画
 //*********************************************
-void PlayerRenderingSystem::RenderingShape(entt::registry& Reg, entt::entity Entity)
+void RenderingGameSystem::RenderingShape(entt::registry& Reg, entt::entity Entity)
 {
 	auto& TransformComp = Reg.get<Transform3D>(Entity);
 	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);

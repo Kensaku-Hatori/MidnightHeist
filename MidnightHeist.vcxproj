@@ -171,8 +171,9 @@
     <ClCompile Include="RenderingMeshFieldSystem.cpp" />
     <ClCompile Include="RenderingOutLineSystem.cpp" />
     <ClCompile Include="RenderingPauseMenu.cpp" />
-    <ClCompile Include="RenderingPlayerSystem.cpp" />
+    <ClCompile Include="RenderingGamePlayerSystem.cpp" />
     <ClCompile Include="RenderingSkyBoxSystem.cpp" />
+    <ClCompile Include="RenderingTitlePlayerSystem.cpp" />
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
     <ClCompile Include="RenderingUICircle.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
     <ClCompile Include="UpdateEnemySearch.cpp" />
+    <ClCompile Include="UpdateTitlePlayerSystem.cpp" />
     <ClCompile Include="UpdateItemSystem.cpp" />
     <ClCompile Include="UpdateMeshLaserSystem.cpp" />
     <ClCompile Include="UpdateEnemySystem.cpp" />
@@ -210,7 +212,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="playerUpdateSystem.cpp" />
+    <ClCompile Include="UpdateGamePlayerSystem.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="Rendering2Dbace.cpp" />
     <ClCompile Include="Rendering3DBace.cpp" />
@@ -264,8 +266,9 @@
     <ClInclude Include="RenderingMeshFieldSystem.h" />
     <ClInclude Include="RenderingOutLineSystem.h" />
     <ClInclude Include="RenderingPauseMenu.h" />
-    <ClInclude Include="RenderingPlayerSystem.h" />
+    <ClInclude Include="RenderingGamePlayerSystem.h" />
     <ClInclude Include="RenderingSkyBoxSystem.h" />
+    <ClInclude Include="RenderingTitlePlayerSystem.h" />
     <ClInclude Include="RenderingToShadowmap.h" />
     <ClInclude Include="RenderingToShapeShadow.h" />
     <ClInclude Include="RenderingUICircle.h" />
@@ -316,7 +319,7 @@
     <ClInclude Include="Factories.h" />
     <ClInclude Include="particle3d.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="playerUpdateSystem.h" />
+    <ClInclude Include="UpdateGamePlayerSystem.h" />
     <ClInclude Include="RigitBodyComponent.hpp" />
     <ClInclude Include="SingleCollisionShapeComponent.hpp" />
     <ClInclude Include="SizeComponent.hpp" />
@@ -340,6 +343,7 @@
     <ClInclude Include="UpdatePauseManager.h" />
     <ClInclude Include="UpdatePauseMenu.h" />
     <ClInclude Include="UpdateTitleManager.h" />
+    <ClInclude Include="UpdateTitlePlayerSystem.h" />
     <ClInclude Include="UpdateUICircleSystem.hpp" />
     <ClInclude Include="UVComponent.hpp" />
     <ClInclude Include="Velocity.hpp" />

@@ -48,3 +48,7 @@ namespace Tag {
 	// ‰~Œ`UI
 	struct UICircleComponent {};
 }
+namespace SequenceTag {
+	struct InTitleComp {};
+	struct InGameComp {};
+}

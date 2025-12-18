@@ -44,8 +44,7 @@ public:
 	void Uninit(void)	override;
 	void Draw(void)		override;
 private:
-	// 静的メンバ変数
-	static CPlayerTitle* m_pPlayer;				// プレイヤーのポインタ
-	static CTitleManager* m_pTitleManager;		// ポーズマネージャーへのポインタ
+	std::unique_ptr<btBoxShape> m_GroundShape;
+	std::unique_ptr<btRigidBody> m_GroundRB;
 };
 #endif // !_TITLE_H_

@@ -14,11 +14,11 @@
 #include "RigitBodyComponent.hpp"
 
 // プレイヤーのアップデート
-struct PlayerRenderingSystem : BaceRenderingSystem
+struct RenderingGameSystem : BaceRenderingSystem
 {
 	// コンストラクタ・デストラクタ
-	PlayerRenderingSystem() = default;
-	~PlayerRenderingSystem() = default;
+	RenderingGameSystem() = default;
+	~RenderingGameSystem() = default;
 	// 描画
 	void Rendering(entt::registry& reg)override;
 	void RenderingShape(entt::registry& Reg, entt::entity Entity);

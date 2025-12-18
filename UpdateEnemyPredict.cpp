@@ -72,7 +72,11 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		if (RBCmp.RigitBody == nullptr) continue;
 
 		// Œo˜H‚ªŒ©‚Â‚©‚Á‚Ä‚¢‚È‚©‚Á‚½‚ç
-		if (State.AStarRoute.empty() == true) State.State = EnemyState::ENEMYSTATE::SEARCH;
+		if (State.AStarRoute.empty() == true)
+		{
+			State.DestPos = PatrolPointCmp.PatrolPoint[State.HalfPatrolRoute[State.NextIdx].Idx].Point;
+			State.State = EnemyState::ENEMYSTATE::SEARCH;
+		}
 
 		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
 		// Y¬•ª‚ğÁ‚·

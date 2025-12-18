@@ -10,6 +10,7 @@
 
 // 名前空間
 using namespace Tag;
+using namespace SequenceTag;
 
 //*********************************************
 // オブジェクト2Dの生成
@@ -138,36 +139,25 @@ void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 // オブジェクトPlayerの生成
 //*********************************************
-entt::entity Factories::makePlayer(entt::registry& Reg)
+entt::entity Factories::makeBacePlayer(entt::registry& Reg)
 {
 	entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(1000.0f, 300.0f, 375.0f));
 	Reg.emplace<PlayerComponent>(myEntity);
-	Reg.emplace<CastShadow>(myEntity);
-	Reg.emplace<RenderingOutLine>(myEntity);
-	Reg.emplace<OutLineComp>(myEntity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
-	Reg.emplace<PlayerStateComp>(myEntity);
-	Reg.emplace<PlayerAnimComp>(myEntity);
 	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 
-	InitPlayer(Reg, myEntity);
-
-	std::vector<entt::entity> Parents;
-	Parents.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX)));
-	Parents.push_back(makeUICircle(Reg));
-	entt::entity LockOnEntity = Reg.emplace<MulParentComp>(myEntity, Parents).Parents[0];
-	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
+	InitBacePlayer(Reg, myEntity);
 
 	return myEntity;
 }
 
 //*********************************************
-// プレイヤーの初期化
+// オブジェクトPlayerの初期化
 //*********************************************
-void Factories::InitPlayer(entt::registry& Reg, entt::entity& Entity)
+void Factories::InitBacePlayer(entt::registry& Reg, entt::entity& Entity)
 {
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
 	auto& ColliderCmp = Reg.get<SingleCollisionShapeComp>(Entity);
@@ -193,6 +183,33 @@ void Factories::InitPlayer(entt::registry& Reg, entt::entity& Entity)
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
 
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
+}
+
+//*********************************************
+// ゲームプレイヤーの初期化
+//*********************************************
+void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
+{
+	Reg.emplace<InGameComp>(Entity);
+	Reg.emplace<CastShadow>(Entity);
+	Reg.emplace<PlayerSoundVolumeComp>(Entity);
+	Reg.emplace<RenderingOutLine>(Entity);
+	Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
+	Reg.emplace<PlayerStateComp>(Entity);
+	Reg.emplace<PlayerAnimComp>(Entity);
+	std::vector<entt::entity> Parents;
+	Parents.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX)));
+	Parents.push_back(makeUICircle(Reg));
+	entt::entity LockOnEntity = Reg.emplace<MulParentComp>(Entity, Parents).Parents[0];
+	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
+}
+
+//*********************************************
+// タイトルプレイヤーの初期化
+//*********************************************
+void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
+{
+	Reg.emplace<InTitleComp>(Entity);
 }
 
 //*********************************************

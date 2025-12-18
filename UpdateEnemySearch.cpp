@@ -16,11 +16,13 @@
 #include "FanInfoComponent.hpp"
 #include "ParentComponent.hpp"
 #include "LaserCollisionFragComp.hpp"
+#include "PlayerSoundVolumeComp.h"
 #include "mapmanager.h"
 #include "math.h"
 
 // 名前空間
 using namespace Tag;
+using namespace SequenceTag;
 
 //*********************************************
 // 更新
@@ -38,10 +40,10 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 
 		// パトロールポイントとプレイヤーのビュー
 		auto PatrolManagerview = reg.view<PatrolPointManager>();
-		auto Playerview = reg.view<PlayerComponent>();
+		auto Playerview = reg.view<PlayerComponent,InGameComp>();
 
 		// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
-		if (PatrolManagerview.empty() || Playerview.empty()) continue;
+		if (PatrolManagerview.empty()) continue;
 
 		// 扇情報を取得
 		auto& FanInfoCmp = reg.get<FanComp>(Entity);
@@ -51,17 +53,22 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// コンポーネントを取得
 		auto& PatrolPointCmp = reg.get<PatrolPointComp>(PatrolManagerEneity);
 		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
-
-		//// 自分自身の親、子供コンポーネントを取得
-		//auto& Laser = reg.get<SingleParentComp>(Entity);
-		//// レーザーのコリジョン情報を取得
-		//auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parent);
+		auto& PlayerSoundVolumeCmp = reg.get<PlayerSoundVolumeComp>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigitBodyComp>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
 		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
 
+		D3DXVECTOR3 ToPlayer = PlayerTransformCmp.Pos - TransformCmp.Pos;
+		float Distance = D3DXVec3Length(&ToPlayer);
+
+		if (Distance < PlayerSoundVolumeCmp.SoundVolume)
+		{
+			// 追いかけモード
+			State.State = EnemyState::ENEMYSTATE::CHASE;
+			continue;
+		}
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
 			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)

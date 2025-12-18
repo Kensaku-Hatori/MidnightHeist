@@ -148,6 +148,15 @@
     <Filter Include="ソース ファイル\Manager">
       <UniqueIdentifier>{76a963a2-7b2a-4ec9-b4c1-566b5f9e332e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Sequance">
+      <UniqueIdentifier>{5b61fde2-19b6-4028-b3aa-3be7eaa3dcbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Player">
+      <UniqueIdentifier>{65921197-71ab-432d-ad44-d9ce01ecd5ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Rendering\Player">
+      <UniqueIdentifier>{362eb8e8-64a1-41ce-a117-b548e0744584}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
@@ -249,12 +258,6 @@
     <ClCompile Include="SystemManager.cpp">
       <Filter>System\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="playerUpdateSystem.cpp">
-      <Filter>System\Update</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderingPlayerSystem.cpp">
-      <Filter>System\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="RenderingMapobjectSystem.cpp">
       <Filter>System\Rendering</Filter>
     </ClCompile>
@@ -347,6 +350,18 @@
     </ClCompile>
     <ClCompile Include="UpdateEnemyBack.cpp">
       <Filter>System\Update\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateTitlePlayerSystem.cpp">
+      <Filter>System\Update\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateGamePlayerSystem.cpp">
+      <Filter>System\Update\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingGamePlayerSystem.cpp">
+      <Filter>System\Rendering\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingTitlePlayerSystem.cpp">
+      <Filter>System\Rendering\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -508,12 +523,6 @@
     </ClInclude>
     <ClInclude Include="XRenderingComponent.hpp">
       <Filter>Component\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="playerUpdateSystem.h">
-      <Filter>System\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingPlayerSystem.h">
-      <Filter>System\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="RenderingMapobjectSystem.h">
       <Filter>System\Rendering</Filter>
@@ -694,6 +703,18 @@
     </ClInclude>
     <ClInclude Include="UpdateEnemyBack.h">
       <Filter>System\Update\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateTitlePlayerSystem.h">
+      <Filter>System\Update\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateGamePlayerSystem.h">
+      <Filter>System\Update\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingGamePlayerSystem.h">
+      <Filter>System\Rendering\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingTitlePlayerSystem.h">
+      <Filter>System\Rendering\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

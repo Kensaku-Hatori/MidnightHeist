@@ -13,15 +13,13 @@
 #include "fade.h"
 #include "game.h"
 #include "TitleCamera.h"
+#include "RigitBodyComponent.hpp"
 #include "math.h"
 
 // 規定値を設定
 
 // プレイヤー
 const D3DXVECTOR3 CTitle::Config::Player::Pos = { -340.0f,0.0f,-1045.0f };
-
-// 静的メンバ変数
-CTitleManager* CTitle::m_pTitleManager = NULL;
 
 //***************************************
 // コンストラクタ
@@ -47,11 +45,39 @@ HRESULT CTitle::Init(void)
 
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/Title/MidNightHeist.png", { 340.0f,160.0f }, { 200.0f,100.0f });
 	Factories::makeObject3D(GetReg());
-	Factories::makePlayer(GetReg());
+
+	entt::entity Player = Factories::makeBacePlayer(GetReg());
+	Factories::InitTitlePlayer(GetReg(), Player);
+
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");
 	ManagerFactories::makeTitleManager(GetReg());
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
 	MeshFactories::makeSkyBox(GetReg());
+
+	{
+		m_GroundShape = std::make_unique<btBoxShape>(btVector3(btScalar(2000.0f), btScalar(10), btScalar(1000.0f)));
+
+		btTransform groundTransform;
+		groundTransform.setIdentity();
+		groundTransform.setOrigin(btVector3(0, -5, 0));
+
+		btScalar mass(0);
+
+		//rigidbody is dynamic if and only if mass is non zero, otherwise static
+		bool isDynamic = (mass != 0.f);
+
+		btVector3 localInertia(0, 0, 0);
+		if (isDynamic)
+			m_GroundShape->calculateLocalInertia(mass, localInertia);
+
+		//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+		btDefaultMotionState* motionState = new btDefaultMotionState(groundTransform);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, m_GroundShape.get(), localInertia);
+		m_GroundRB = std::make_unique<btRigidBody>(rbInfo);
+
+		//add the body to the dynamics world
+		CManager::GetDynamicsWorld()->addRigidBody(m_GroundRB.get(), CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
+	}
 
 	CManager::GetCamera()->AddSystem(new CTitleCamera);
 	return S_OK;
@@ -73,6 +99,18 @@ void CTitle::Update(void)
 //***************************************
 void CTitle::Uninit(void)
 {
+	// 剛体の削除
+	if (m_GroundRB)
+	{
+		CManager::GetDynamicsWorld()->removeRigidBody(m_GroundRB.get());
+		if (m_GroundRB->getMotionState())
+		{
+			delete m_GroundRB->getMotionState();
+		}
+		m_GroundRB.reset();
+	}
+	m_GroundShape.reset();
+
 	CManager::GetCamera()->EndSystems();
 	GetReg().clear();
 	delete this;

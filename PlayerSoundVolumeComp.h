@@ -8,10 +8,19 @@
 // 二重インクルード防止
 #pragma once
 
+// インクルード
+#include "PlayerStateComp.hpp"
+
+namespace PlayerSoundVolumeConfig {
+	static constexpr float Bace = 100.0f;
+	static constexpr float Scale[static_cast<int>(PlayerState::State::MAX)] = {
+		0.5f,1.0f,1.5f,1.5f
+	};
+}
 // 情報
 struct PlayerSoundVolumeComp {
 	// コンスタント
-	PlayerSoundVolumeComp(const D3DXVECTOR3 _Origin = VEC3_NULL, const D3DXVECTOR3 _Dir = VEC_UP) : Origin(_Origin), Dir(_Dir) {}
+	PlayerSoundVolumeComp(const float _Default = NULL) : SoundVolume(_Default) {}
 	// 光線情報
-	D3DXVECTOR3 Origin, Dir;
+	float SoundVolume;
 };

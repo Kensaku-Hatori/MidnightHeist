@@ -6,7 +6,7 @@
 //****************************************************************
 
 // インクルード
-#include "playerUpdateSystem.h"
+#include "UpdateGamePlayerSystem.h"
 #include "TransformComponent.hpp"
 #include "RigitBodyComponent.hpp"
 #include "SingleCollisionShapeComponent.hpp"
@@ -26,19 +26,21 @@
 #include "RenderFragComp.hpp"
 #include "UICircleComp.hpp"
 #include "ItemManagerComp.hpp"
+#include "PlayerSoundVolumeComp.h"
 #include "mapmanager.h"
 #include "math_T.h"
 #include "math.h"
 
 // 名前空間
 using namespace Tag;
+using namespace SequenceTag;
 
 //*********************************************
 // 更新
 //*********************************************
-void PlayerUpdateSystem::Update(entt::registry& reg)
+void UpdateGamePlayerSystem::Update(entt::registry& reg)
 {
-	auto view = reg.view<PlayerComponent>();
+	auto view = reg.view<PlayerComponent,InGameComp>();
 
 	for (auto entity : view)
 	{
@@ -47,8 +49,12 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& OutLineCmp = reg.get<OutLineComp>(entity);
 		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
-		auto& PlayerAnimCmp = reg.get<PlayerAnimComp>(entity);
-		auto& PlayerStateCmp = reg.get<PlayerStateComp>(entity);
+		auto& AnimCmp = reg.get<PlayerAnimComp>(entity);
+		auto& StateCmp = reg.get<PlayerStateComp>(entity);
+		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
+
+		// プレイヤーが発する音
+		SoundCmp.SoundVolume = PlayerSoundVolumeConfig::Bace * PlayerSoundVolumeConfig::Scale[static_cast<int>(StateCmp.NowState)];
 
 		// 円形UIの情報を取得
 		auto& CircleEntity = reg.get<MulParentComp>(entity);
@@ -57,13 +63,13 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		CircleRenderFrag.IsRendering = false;
 
 		// 状態の初期化
-		PlayerStateCmp.OldState = PlayerStateCmp.NowState;
-		PlayerStateCmp.NowState = PlayerState::State::NORMAL;
+		StateCmp.OldState = StateCmp.NowState;
+		StateCmp.NowState = PlayerState::State::NORMAL;
 
 		// カウンタインクリメント
-		if (PlayerAnimCmp.FirstDelayFrame > PlayerAnimCmp.FirstDelayCounter)PlayerAnimCmp.FirstDelayCounter++;
+		if (AnimCmp.FirstDelayFrame > AnimCmp.FirstDelayCounter)AnimCmp.FirstDelayCounter++;
 		// 昔のフラグを保存
-		PlayerAnimCmp.IsFinishedBeltOld = PlayerAnimCmp.IsFinishedBelt;
+		AnimCmp.IsFinishedBeltOld = AnimCmp.IsFinishedBelt;
 
 		OutLineCmp.Height -= 1.0f;
 
@@ -89,46 +95,43 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 		// 着地判定
 		RBCmp.IsJump = !RBCmp.IsGround(myCapsule);
 
-		if (CManager::GetScene()->GetMode() == CScene::MODE_GAME)
+		// 画面にっ入ったら
+		if (TransformCmp.Pos.x < 900.0f)AnimCmp.IsScreen = true;
+		// ベルトコンベアアニメーションが終わっていて地面に着いてアニメーションが終了していなかったら
+		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsGround(myCapsule) == true && AnimCmp.IsFinishedAnim == false)AnimCmp.IsFinishedAnim = true;
+		// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
+		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsJump == false)
 		{
-			// 画面にっ入ったら
-			if (TransformCmp.Pos.x < 900.0f)PlayerAnimCmp.IsScreen = true;
-			// ベルトコンベアアニメーションが終わっていて地面に着いてアニメーションが終了していなかったら
-			if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsGround(myCapsule) == true && PlayerAnimCmp.IsFinishedAnim == false)PlayerAnimCmp.IsFinishedAnim = true;
-			// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
-			if (PlayerAnimCmp.IsFinishedBelt == true && RBCmp.IsJump == false)
-			{
-				UpdateRB(reg,entity);
-				UpdateMovement(reg, entity);
-				UpdateUnLock(reg, entity);
-				UpdateState(reg, entity);
-			}
-			auto ItemMangerView = reg.view<ItemManagerComp>();
-			entt::entity ItemManagerEntity = *ItemMangerView.begin();
-			auto& ItemManagerCmp = reg.get<ItemManagerComp>(ItemManagerEntity);
+			UpdateRB(reg,entity);
+			UpdateMovement(reg, entity);
+			UpdateUnLock(reg, entity);
+			UpdateState(reg, entity);
+		}
+		auto ItemMangerView = reg.view<ItemManagerComp>();
+		entt::entity ItemManagerEntity = *ItemMangerView.begin();
+		auto& ItemManagerCmp = reg.get<ItemManagerComp>(ItemManagerEntity);
 
-			// ベルトコンベアの上に乗っていたら
-			if (PlayerAnimCmp.IsFinishedBelt == false && PlayerAnimCmp.FirstDelayFrame <= PlayerAnimCmp.FirstDelayCounter && ItemManagerCmp.IsFinished == true)
-			{
-				// ベルトコンベアの移動量を設定
-				RBCmp.RigitBody->setLinearVelocity(btVector3(-15.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
-			}
-			// ベルトコンベアの端のほうに着いたら
-			if (D3DXVec3Length(&VecDest) < 10.0f)
-			{
-				// ベルトコンベアの上に載っていない判定
-				PlayerAnimCmp.IsFinishedBelt = true;
-			}
-			// ベルトコンベアの上に乗っているフラグが切り替わった瞬間
-			if (PlayerAnimCmp.IsFinishedBeltOld == false && PlayerAnimCmp.IsFinishedBelt == true)
-			{
-				// ジャンプする
-				RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
-			}
-			if (PlayerAnimCmp.IsScreen == true)
-			{
-				UpdateLockOn(reg, entity);
-			}
+		// ベルトコンベアの上に乗っていたら
+		if (AnimCmp.IsFinishedBelt == false && AnimCmp.FirstDelayFrame <= AnimCmp.FirstDelayCounter && ItemManagerCmp.IsFinished == true)
+		{
+			// ベルトコンベアの移動量を設定
+			RBCmp.RigitBody->setLinearVelocity(btVector3(-15.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
+		}
+		// ベルトコンベアの端のほうに着いたら
+		if (D3DXVec3Length(&VecDest) < 10.0f)
+		{
+			// ベルトコンベアの上に載っていない判定
+			AnimCmp.IsFinishedBelt = true;
+		}
+		// ベルトコンベアの上に乗っているフラグが切り替わった瞬間
+		if (AnimCmp.IsFinishedBeltOld == false && AnimCmp.IsFinishedBelt == true)
+		{
+			// ジャンプする
+			RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
+		}
+		if (AnimCmp.IsScreen == true)
+		{
+			UpdateLockOn(reg, entity);
 		}
 	}
 }
@@ -136,7 +139,7 @@ void PlayerUpdateSystem::Update(entt::registry& reg)
 //*********************************************
 // 剛体の更新
 //*********************************************
-void PlayerUpdateSystem::UpdateRB(entt::registry& reg, entt::entity Player)
+void UpdateGamePlayerSystem::UpdateRB(entt::registry& reg, entt::entity Player)
 {
 	// コンポーネント取得
 	auto& RBCmp = reg.get<RigitBodyComp>(Player);
@@ -171,7 +174,7 @@ void PlayerUpdateSystem::UpdateRB(entt::registry& reg, entt::entity Player)
 //*********************************************
 // 移動の更新
 //*********************************************
-void PlayerUpdateSystem::UpdateMovement(entt::registry& reg, entt::entity Player)
+void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Player)
 {
 	// コンポーネント取得
 	auto& RBCmp = reg.get<RigitBodyComp>(Player);
@@ -245,10 +248,8 @@ void PlayerUpdateSystem::UpdateMovement(entt::registry& reg, entt::entity Player
 //*********************************************
 // ロックオンの更新
 //*********************************************
-void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
+void UpdateGamePlayerSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 {
-	// ゲーム以外なら早期リターン
-	if (CManager::GetScene()->GetMode() != CScene::MODE_GAME) return;
 	// ロックオンが無効だったら
 	if (reg.valid(reg.get<MulParentComp>(Player).Parents[0]) == false) return;
 
@@ -344,7 +345,7 @@ void PlayerUpdateSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 //*********************************************
 // アイテムの解錠
 //*********************************************
-void PlayerUpdateSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
+void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
 {
 	// アイテムのビュー
 	auto ItemView = Reg.view<ItemComponent>();
@@ -393,7 +394,7 @@ void PlayerUpdateSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
 //*********************************************
 // 状態ごとの更新
 //*********************************************
-void PlayerUpdateSystem::UpdateState(entt::registry& Reg, entt::entity Player)
+void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Player)
 {
 	// 状態コンポーネントを取得
 	auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);

@@ -49,7 +49,8 @@ HRESULT CGame::Init(void)
 	// ステージ読み込み
 	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
 	// プレイヤー生成
-	Factories::makePlayer(GetReg());
+	entt::entity Player = Factories::makeBacePlayer(GetReg());
+	Factories::InitGamePlayer(GetReg(), Player);
 	// 巡回ポイント読み込み
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
 	// 敵管理エンティティを生成

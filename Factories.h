@@ -20,8 +20,10 @@ namespace Factories {
 	entt::entity makeUICircle(entt::registry& Reg);
 	void InitUICircle(entt::registry& Reg, entt::entity& Entity);
 
-	entt::entity makePlayer(entt::registry& Reg);
-	void InitPlayer(entt::registry& Reg, entt::entity& Entity);
+	entt::entity makeBacePlayer(entt::registry& Reg);
+	void InitBacePlayer(entt::registry& Reg, entt::entity& Entity);
+	void InitGamePlayer(entt::registry& Reg, entt::entity& Entity);
+	void InitTitlePlayer(entt::registry& Reg, entt::entity& Entity);
 
 	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });

@@ -17,6 +17,8 @@
 #include "VertexRenderingComponent.hpp"
 #include "DivisionComponent.hpp"
 #include "LaserCollisionFragComp.hpp"
+#include "fade.h"
+#include "title.h"
 
 // 名前空間
 using namespace Tag;
@@ -51,12 +53,15 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 
 		auto PlayerView = Reg.view<PlayerComponent>();
 		// プレイヤーが存在したら
-		if (!PlayerView.empty())
+		if (!PlayerView.empty() && CManager::GetScene()->GetMode() == CScene::MODE_GAME)
 		{
 			// Entityを取得
 			auto playerEntity = *PlayerView.begin();
 			// 当たったら
-			CollisionEntity(Reg, entity, playerEntity, ToPlayer);
+			if (CollisionEntity(Reg, entity, playerEntity, ToPlayer) == true && ToPlayer < Distance)
+			{
+				CFade::SetFade(new CTitle);
+			}
 		}
 
 		for (auto entityMapObject : viewMapObject)

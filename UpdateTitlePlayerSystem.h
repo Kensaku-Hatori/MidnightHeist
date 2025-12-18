@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// プレイヤー更新システムの処理[playerUpdateSystem.h]
+// タイトルプレイヤー更新システムの処理[UpdateTitlePlayerSystem.h]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -16,16 +16,12 @@
 #include "CapsuleComponent.hpp"
 
 // プレイヤーのアップデート
-struct PlayerUpdateSystem : BaceSystem
+struct UpdateTitlePlayerSystem : BaceSystem
 {
 	// コンストラクタ・デストラクタ
-	PlayerUpdateSystem() = default;
-	~PlayerUpdateSystem() = default;
+	UpdateTitlePlayerSystem() = default;
+	~UpdateTitlePlayerSystem() = default;
 	// 描画
 	void Update(entt::registry& reg)override;
 	void UpdateRB(entt::registry& reg, entt::entity Player);
-	void UpdateMovement(entt::registry& reg, entt::entity Player);
-	void UpdateLockOn(entt::registry& reg, entt::entity Player);
-	void UpdateUnLock(entt::registry& Reg, entt::entity Player);
-	void UpdateState(entt::registry& Reg, entt::entity Player);
 };
