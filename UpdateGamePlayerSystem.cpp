@@ -26,7 +26,7 @@
 #include "RenderFragComp.hpp"
 #include "UICircleComp.hpp"
 #include "ItemManagerComp.hpp"
-#include "PlayerSoundVolumeComp.h"
+#include "PlayerSoundVolumeComp.hpp"
 #include "mapmanager.h"
 #include "math_T.h"
 #include "math.h"
@@ -112,7 +112,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& ItemManagerCmp = reg.get<ItemManagerComp>(ItemManagerEntity);
 
 		// ベルトコンベアの上に乗っていたら
-		if (AnimCmp.IsFinishedBelt == false && AnimCmp.FirstDelayFrame <= AnimCmp.FirstDelayCounter && ItemManagerCmp.IsFinished == true)
+		if (AnimCmp.IsFinishedBelt == false && ItemManagerCmp.IsFinished == true)
 		{
 			// ベルトコンベアの移動量を設定
 			RBCmp.RigitBody->setLinearVelocity(btVector3(-15.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
@@ -236,6 +236,13 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 		TransformCmp.QuatDest = SetQuat;
 		// スピードを掛ける
 		moveDir *= Speed;
+	}
+	else
+	{
+		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(Player);
+
+		// プレイヤーが発する音
+		SoundCmp.SoundVolume = 0.0f;
 	}
 
 	// Yの移動量を取得(重力)

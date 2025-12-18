@@ -94,6 +94,94 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 }
 
 //*********************************************
+// 3Dの視界を生成
+//*********************************************
+entt::entity Factories::make3DSightFan(entt::registry& Reg)
+{
+	entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
+	Reg.emplace<SightFanComponent>(myEntity);
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\EnemySight.png");
+	Reg.emplace<FanComp>(myEntity, VEC3_NULL, VEC3_NULL, 90.0f, 200.0f);
+	Reg.emplace<ColorComp>(myEntity,RED);
+	Reg.emplace<UVComp>(myEntity);
+	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 3,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&myVtx.pVertex,
+		NULL);
+
+	InitSightFan(Reg, myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// 3D視界を初期化
+//*********************************************
+void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
+{
+	auto& VtxCmp = Reg.get<VertexComp>(Entity);
+
+	auto& FanInfoCmp = Reg.get<FanComp>(Entity);
+	auto& ColCmp = Reg.get<ColorComp>(Entity);
+	auto& UVCmp = Reg.get<UVComp>(Entity);
+	auto& NorCmp = Reg.get<NorComp>(Entity);
+
+	//頂点情報へのポインタ
+	VERTEX_3D* pVtx = NULL;
+
+	//頂点バッファをロックし、頂点情報へのポインタを取得
+	VtxCmp.pVertex->Lock(0, 0, (void**)&pVtx, 0);
+
+	//頂点座標の設定
+	pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	//法線ベクトルの設定
+	pVtx[0].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	//頂点カラーの設定
+	pVtx[0].col = ColCmp.Col;
+	//テクスチャ座標の設定
+	pVtx[0].tex = D3DXVECTOR2(0.5f, 0.0f);
+
+	//頂点座標の設定
+	pVtx[1].pos = D3DXVECTOR3(sinf(D3DXToRadian(FanInfoCmp.RangeDegree / 2.0f)) * FanInfoCmp.Length,
+		0.0f, 
+		-cosf(D3DXToRadian(FanInfoCmp.RangeDegree / 2.0f)) * FanInfoCmp.Length);
+	//法線ベクトルの設定
+	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	//頂点カラーの設定
+	pVtx[1].col = ColCmp.Col;
+	//テクスチャ座標の設定
+	pVtx[1].tex = D3DXVECTOR2(0.0f, 1.0f);
+
+	//頂点座標の設定
+	pVtx[2].pos = D3DXVECTOR3(-sinf(D3DXToRadian(FanInfoCmp.RangeDegree / 2.0f)) * FanInfoCmp.Length, 
+		0.0f, 
+		-cosf(D3DXToRadian(FanInfoCmp.RangeDegree / 2.0f)) * FanInfoCmp.Length);
+	//法線ベクトルの設定
+	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	//頂点カラーの設定
+	pVtx[2].col = ColCmp.Col;
+	//テクスチャ座標の設定
+	pVtx[2].tex = D3DXVECTOR2(1.0f, 1.0f);
+
+	//頂点バッファをアンロック　
+	VtxCmp.pVertex->Unlock();
+}
+
+//*********************************************
 // 円形UIの生成
 //*********************************************
 entt::entity Factories::makeUICircle(entt::registry& Reg)
@@ -231,8 +319,12 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
-	Reg.emplace<SingleParentComp>(myEntity, MeshFactories::makeLaser(Reg, myEntity));
 	Reg.emplace<EnemtAIAstarComp>(myEntity);
+
+	std::vector<entt::entity> Parents;
+	Parents.push_back(MeshFactories::makeLaser(Reg, myEntity));
+	Parents.push_back(make3DSightFan(Reg));
+	Reg.emplace<MulParentComp>(myEntity, Parents);
 
 	return myEntity;
 }

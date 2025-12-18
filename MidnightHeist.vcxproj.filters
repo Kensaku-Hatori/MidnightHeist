@@ -157,6 +157,9 @@
     <Filter Include="System\Rendering\Player">
       <UniqueIdentifier>{362eb8e8-64a1-41ce-a117-b548e0744584}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Rendering\Fan">
+      <UniqueIdentifier>{2864a36d-5037-413b-90ca-acdfa203ccf5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
@@ -362,6 +365,9 @@
     </ClCompile>
     <ClCompile Include="RenderingTitlePlayerSystem.cpp">
       <Filter>System\Rendering\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingEnemySightSystem.cpp">
+      <Filter>System\Rendering\Fan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -677,7 +683,7 @@
     <ClInclude Include="GameCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSoundVolumeComp.h">
+    <ClInclude Include="PlayerSoundVolumeComp.hpp">
       <Filter>Component\SoundVolume</Filter>
     </ClInclude>
     <ClInclude Include="ItemComp.h">
@@ -715,6 +721,12 @@
     </ClInclude>
     <ClInclude Include="RenderingTitlePlayerSystem.h">
       <Filter>System\Rendering\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySoundListener.hpp">
+      <Filter>Component\SoundVolume</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingEnemySightSystem.h">
+      <Filter>System\Rendering\Fan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

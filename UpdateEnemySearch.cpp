@@ -16,7 +16,7 @@
 #include "FanInfoComponent.hpp"
 #include "ParentComponent.hpp"
 #include "LaserCollisionFragComp.hpp"
-#include "PlayerSoundVolumeComp.h"
+#include "PlayerSoundVolumeComp.hpp"
 #include "mapmanager.h"
 #include "math.h"
 

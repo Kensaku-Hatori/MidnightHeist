@@ -55,10 +55,10 @@ void RenderXSystem::Rendering(entt::registry& reg)
 			// マテリアルの設定
 			pDevice->SetMaterial(&pCol.MatD3D);
 
-			if (RenderingComp.Info.modelinfo.TexPath[nCntMat] != "")
+			if (RenderingComp.Info.modelinfo.Tex[nCntMat] != nullptr)
 			{
 				// テクスチャの設定
-				pDevice->SetTexture(0, CLoadTexture::GetTex(RenderingComp.Info.modelinfo.TexPath[nCntMat]));
+				pDevice->SetTexture(0, RenderingComp.Info.modelinfo.Tex[nCntMat]);
 			}
 			else
 			{

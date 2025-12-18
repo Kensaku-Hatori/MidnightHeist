@@ -100,12 +100,15 @@
       <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)build\lib\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -165,6 +168,7 @@
     <ClCompile Include="defaultcubemap.cpp" />
     <ClCompile Include="distortion.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="RenderingEnemySightSystem.cpp" />
     <ClCompile Include="RenderingEnemySystem.cpp" />
     <ClCompile Include="RenderingMapobjectSystem.cpp" />
     <ClCompile Include="RenderingMeshLaserSystem.cpp" />
@@ -243,6 +247,7 @@
     <ClInclude Include="DivisionComponent.hpp" />
     <ClInclude Include="EnemyManagerComp.hpp" />
     <ClInclude Include="EnemyPatrolPointComp.hpp" />
+    <ClInclude Include="EnemySoundListener.hpp" />
     <ClInclude Include="FactorieUtils.h" />
     <ClInclude Include="FanInfoComponent.hpp" />
     <ClInclude Include="GameCamera.h" />
@@ -257,9 +262,10 @@
     <ClInclude Include="ParentComponent.hpp" />
     <ClInclude Include="PauseUI.hpp" />
     <ClInclude Include="PlayerAnimetionComponent.hpp" />
-    <ClInclude Include="PlayerSoundVolumeComp.h" />
+    <ClInclude Include="PlayerSoundVolumeComp.hpp" />
     <ClInclude Include="RayComponent.hpp" />
     <ClInclude Include="RenderFragComp.hpp" />
+    <ClInclude Include="RenderingEnemySightSystem.h" />
     <ClInclude Include="RenderingEnemySystem.h" />
     <ClInclude Include="RenderingMapobjectSystem.h" />
     <ClInclude Include="RenderingMeshLaserSystem.h" />

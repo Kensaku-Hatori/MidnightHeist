@@ -377,7 +377,8 @@ void CRenderer::Draw()
 
 		// 歪みシェーダ起動
 		CDistortion::Instance()->Begin();
-		CDistortion::Instance()->BeginPass();
+		if (CDistortion::Instance()->GetNoiseCnt() <= 0)CDistortion::Instance()->BeginPass(1);
+		else CDistortion::Instance()->BeginPass(0);
 
 		// パラメータ設定
 		CDistortion::Instance()->SetParameters(m_SceneTex);

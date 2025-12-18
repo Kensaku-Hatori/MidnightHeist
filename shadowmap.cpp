@@ -45,9 +45,9 @@ HRESULT CShadowMap::Init(void)
     pSuf->GetDesc(&SufDesc);
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
-    GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_LightViewHandle = GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
+    m_LightProjHandle = GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
 
     // シャドウマップのパラメータを設定
     m_LightVec = { 0.5f, 1.0f, 0.5f };
@@ -233,9 +233,9 @@ void CShadowMap::ReStart(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
-    GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_LightViewHandle = GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
+    m_LightProjHandle = GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
 }
 
 //***************************************
@@ -258,17 +258,17 @@ void CShadowMap::SetParameters(D3DXMATRIX World)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // パラメータ(グローバル変数の設定)
-    if (GetHandle("g_mtxWorld") != nullptr)
+    if (m_mtxWorldHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
+        pEffect->SetMatrix(m_mtxWorldHandle, &World);
     }
-    if (GetHandle("g_LightView") != nullptr)
+    if (m_LightViewHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_LightView"), &m_LightView);
+        pEffect->SetMatrix(m_LightViewHandle, &m_LightView);
     }
-    if (GetHandle("g_LightProj") != nullptr)
+    if (m_LightProjHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_LightProj"), &m_LightProj);
+        pEffect->SetMatrix(m_LightProjHandle, &m_LightProj);
     }
 
     // GPUに変更を適応

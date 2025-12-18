@@ -63,6 +63,9 @@ private:
 	D3DXMATRIX m_LightView;							// ライトのビュー行列
 	D3DXMATRIX m_LightProj;							// ライトのプロジェクション行列
 	D3DXVECTOR3 m_LightVec;							// ライトの方向ベクトル
+	D3DXHANDLE m_mtxWorldHandle;					// ワールドマトリックスのハンドル
+	D3DXHANDLE m_LightViewHandle;					// ライトビューマトリックスのハンドル
+	D3DXHANDLE m_LightProjHandle;					// ライトプロジェクションマトリックスのハンドル
 	float m_ZRange;									// シャドウマップの描画範囲
 	float m_MapRange;								// シャドウマップの大きさ
 	float m_LightDistance;							// ライトの距離

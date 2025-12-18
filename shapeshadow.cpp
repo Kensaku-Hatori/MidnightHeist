@@ -32,11 +32,10 @@ HRESULT CShapeShadow::Init(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
-    GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_ObjectTexture") = pEffect->GetParameterByName(NULL, "g_ObjectTexture");
-    GetHandle("g_TargetTexture") = pEffect->GetParameterByName(NULL, "g_TargetTexture");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle = GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
+    m_ProjHandle = GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
+    m_ObjectTexHandle = GetHandle("g_ObjectTexture") = pEffect->GetParameterByName(NULL, "g_ObjectTexture");
 
     // 深度バッファの幅と高さを取得
     UINT uiWidth;
@@ -378,10 +377,10 @@ void CShapeShadow::ReStart(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
-    GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_ObjectTexture") = pEffect->GetParameterByName(NULL, "g_ObjectTexture");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle = GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
+    m_ProjHandle = GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
+    m_ObjectTexHandle = GetHandle("g_ObjectTexture") = pEffect->GetParameterByName(NULL, "g_ObjectTexture");
 }
 
 //***************************************
@@ -400,21 +399,21 @@ void CShapeShadow::SetParameters(D3DXMATRIX World)
     pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
     // パラメータ(グローバル変数の設定)
-    if (GetHandle("g_mtxWorld") != nullptr)
+    if (m_mtxWorldHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
+        pEffect->SetMatrix(m_mtxWorldHandle, &World);
     }
-    if (GetHandle("g_View") != nullptr)
+    if (m_ViewHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_View"), &View);
+        pEffect->SetMatrix(m_ViewHandle, &View);
     }
-    if (GetHandle("g_Proj") != nullptr)
+    if (m_ProjHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_Proj"), &Proj);
+        pEffect->SetMatrix(m_ProjHandle, &Proj);
     }
-    if (GetHandle("g_ObjectTexture") != nullptr)
+    if (m_ObjectTexHandle != nullptr)
     {
-        pEffect->SetTexture(GetHandle("g_ObjectTexture"), m_ObjectTex);
+        pEffect->SetTexture(m_ObjectTexHandle, m_ObjectTex);
     }
 
     // GPUに変更を適応

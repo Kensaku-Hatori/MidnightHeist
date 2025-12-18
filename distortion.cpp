@@ -31,11 +31,11 @@ HRESULT CDistortion::Init(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
-    GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
-    GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
-    GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
-    GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
+    m_SceneTexHandle = GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
+    m_CounterHandle = GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
+    m_SpeedHandle = GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
+    m_MinRangeHandle = GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
+    m_MaxRangeHandle = GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
 
     return S_OK;
 }
@@ -58,11 +58,11 @@ void CDistortion::ReStart(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
-    GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
-    GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
-    GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
-    GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
+    m_SceneTexHandle = GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
+    m_CounterHandle = GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
+    m_SpeedHandle = GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
+    m_MinRangeHandle = GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
+    m_MaxRangeHandle = GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
 }
 
 //***************************************
@@ -98,9 +98,9 @@ void CDistortion::SetParameters(LPDIRECT3DTEXTURE9 Scene)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // パラメータ(グローバル変数の設定)
-    pEffect->SetTexture(GetHandle("g_SceneTexture"), Scene);
-    pEffect->SetInt(GetHandle("g_nCnt"), m_NoiseCount);
-    pEffect->SetFloat(GetHandle("g_NoiseSpeed"), m_NoiseSpeed);
-    pEffect->SetFloat(GetHandle("g_NoiseMinRange"), m_NoiseMinRange);
-    pEffect->SetFloat(GetHandle("g_NoiseMaxRange"), m_NoiseMaxRange);
+    pEffect->SetTexture(m_SceneTexHandle, Scene);
+    pEffect->SetInt(m_CounterHandle, m_NoiseCount);
+    pEffect->SetFloat(m_SpeedHandle, m_NoiseSpeed);
+    pEffect->SetFloat(m_MinRangeHandle, m_NoiseMinRange);
+    pEffect->SetFloat(m_MaxRangeHandle, m_NoiseMaxRange);
 }

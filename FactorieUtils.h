@@ -47,4 +47,4 @@
 #include "UICircleComp.hpp"
 #include "RenderFragComp.hpp"
 #include "ItemManagerComp.hpp"
-#include "PlayerSoundVolumeComp.h"
+#include "PlayerSoundVolumeComp.hpp"

@@ -44,7 +44,7 @@ void Render2DSystem::Rendering(entt::registry& reg)
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_2D));
 
 		// テクスチャの設定
-		pDevice->SetTexture(0, CLoadTexture::GetTex(TextureComp.FilePath));
+		pDevice->SetTexture(0, TextureComp.Tex);
 
 		// 描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);

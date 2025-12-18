@@ -54,9 +54,9 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 
 		// 自分のコンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& Laser = reg.get<SingleParentComp>(Entity);
+		auto& Laser = reg.get<MulParentComp>(Entity);
 		// レーザーのコリジョンフラグを取得
-		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parent);
+		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parents[0]);
 
 		// プレイヤーとの間にオブジェクトがあったら
 		if (CollisionInfo.IsRayCollision == true)

@@ -63,7 +63,7 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
-		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
+		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 		{
 			// アウトライン用のパラメータ設定
 			CToon::Instance()->SetUseOutLineParameters(mtxWorld, View, Proj, OutLineCmp.Thickness, OutLineCmp.Color, OutLineCmp.Height);

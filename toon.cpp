@@ -37,20 +37,19 @@ HRESULT CToon::Init(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
-    GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_Deffuse") = pEffect->GetParameterByName(NULL, "g_Deffuse");
-    GetHandle("g_mtxLightMtx") = pEffect->GetParameterByName(NULL, "g_mtxLightMtx");
-    GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
-    GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
-    GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
-    GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
-    GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
-    GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
-    GetHandle("g_Height") = pEffect->GetParameterByName(NULL, "g_Height");
-    GetHandle("g_Thickness") = pEffect->GetParameterByName(NULL, "g_Thickness");
-    GetHandle("g_OutLineColor") = pEffect->GetParameterByName(NULL, "g_OutLineColor");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle =GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
+    m_ProjHandle = GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
+    m_DeffuseHandle = GetHandle("g_Deffuse") = pEffect->GetParameterByName(NULL, "g_Deffuse");
+    m_ShadowMapHandle = GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
+    m_LightViewHandle = GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
+    m_LightProjHandle = GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
+    m_VecLightHandle = GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
+    m_ModelTexHandle = GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
+    m_ToonMapHandle = GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
+    m_OutLineHeightHandle = GetHandle("g_Height") = pEffect->GetParameterByName(NULL, "g_Height");
+    m_OutLineThicknessHandle = GetHandle("g_Thickness") = pEffect->GetParameterByName(NULL, "g_Thickness");
+    m_OutLineColorHandle = GetHandle("g_OutLineColor") = pEffect->GetParameterByName(NULL, "g_OutLineColor");
 
     m_ToonMap = CLoadTexture::GetTex("data/TEXTURE/toon.jpg");
 
@@ -76,20 +75,19 @@ void CToon::ReStart(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
-    GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_Deffuse") = pEffect->GetParameterByName(NULL, "g_Deffuse");
-    GetHandle("g_mtxLightMtx") = pEffect->GetParameterByName(NULL, "g_mtxLightMtx");
-    GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
-    GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
-    GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
-    GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
-    GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
-    GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
-    GetHandle("g_Height") = pEffect->GetParameterByName(NULL, "g_Height");
-    GetHandle("g_Thickness") = pEffect->GetParameterByName(NULL, "g_Thickness");
-    GetHandle("g_OutLineColor") = pEffect->GetParameterByName(NULL, "g_OutLineColor");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle = GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
+    m_ProjHandle = GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
+    m_DeffuseHandle = GetHandle("g_Deffuse") = pEffect->GetParameterByName(NULL, "g_Deffuse");
+    m_ShadowMapHandle = GetHandle("g_ShadowTexture") = pEffect->GetParameterByName(NULL, "g_ShadowTexture");
+    m_LightViewHandle = GetHandle("g_LightView") = pEffect->GetParameterByName(NULL, "g_LightView");
+    m_LightProjHandle = GetHandle("g_LightProj") = pEffect->GetParameterByName(NULL, "g_LightProj");
+    m_VecLightHandle = GetHandle("g_vecLight") = pEffect->GetParameterByName(NULL, "g_vecLight");
+    m_ModelTexHandle = GetHandle("g_ModelTexture") = pEffect->GetParameterByName(NULL, "g_ModelTexture");
+    m_ToonMapHandle = GetHandle("g_ToonMap") = pEffect->GetParameterByName(NULL, "g_ToonMap");
+    m_OutLineHeightHandle = GetHandle("g_Height") = pEffect->GetParameterByName(NULL, "g_Height");
+    m_OutLineThicknessHandle = GetHandle("g_Thickness") = pEffect->GetParameterByName(NULL, "g_Thickness");
+    m_OutLineColorHandle = GetHandle("g_OutLineColor") = pEffect->GetParameterByName(NULL, "g_OutLineColor");
 }
 
 //***************************************
@@ -101,17 +99,17 @@ void CToon::SetUseShadowMapParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMAT
     LPD3DXEFFECT pEffect = GetEffect();
 
     // パラメータ(グローバル変数の設定)
-    pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
-    pEffect->SetMatrix(GetHandle("g_View"), &View);
-    pEffect->SetMatrix(GetHandle("g_Proj"), &Proj);
-    pEffect->SetVector(GetHandle("g_Deffuse"), &Col);
-    pEffect->SetTexture(GetHandle("g_ShadowTexture"), ShadowMap);
-    pEffect->SetMatrix(GetHandle("g_LightView"), &LightView);
-    pEffect->SetMatrix(GetHandle("g_LightProj"), &LightProj);
+    pEffect->SetMatrix(m_mtxWorldHandle, &World);
+    pEffect->SetMatrix(m_ViewHandle, &View);
+    pEffect->SetMatrix(m_ProjHandle, &Proj);
+    pEffect->SetVector(m_DeffuseHandle, &Col);
+    pEffect->SetTexture(m_ShadowMapHandle, ShadowMap);
+    pEffect->SetMatrix(m_LightViewHandle, &LightView);
+    pEffect->SetMatrix(m_LightProjHandle, &LightProj);
     D3DXVECTOR4 LightVec = { 0.5f, 1.0f, 0.5f ,1.0f };
-    pEffect->SetVector(GetHandle("g_vecLight"), &LightVec);
-    pEffect->SetTexture(GetHandle("g_ModelTexture"), ModelTex);
-    pEffect->SetTexture(GetHandle("g_ToonMap"), m_ToonMap);
+    pEffect->SetVector(m_VecLightHandle, &LightVec);
+    pEffect->SetTexture(m_ModelTexHandle, ModelTex);
+    pEffect->SetTexture(m_ToonMapHandle, m_ToonMap);
 
     // GPUに変更を適応
     pEffect->CommitChanges();
@@ -126,12 +124,12 @@ void CToon::SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRI
     LPD3DXEFFECT pEffect = GetEffect();
 
     // パラメータ(グローバル変数の設定)
-    pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
-    pEffect->SetMatrix(GetHandle("g_View"), &View);
-    pEffect->SetMatrix(GetHandle("g_Proj"), &Proj);
-    pEffect->SetFloat(GetHandle("g_Height"), Height);
-    pEffect->SetFloat(GetHandle("g_Thickness"), Thickness);
-    pEffect->SetVector(GetHandle("g_OutLineColor"), &Color);
+    pEffect->SetMatrix(m_mtxWorldHandle, &World);
+    pEffect->SetMatrix(m_ViewHandle, &View);
+    pEffect->SetMatrix(m_ProjHandle, &Proj);
+    pEffect->SetFloat(m_OutLineHeightHandle, Height);
+    pEffect->SetFloat(m_OutLineThicknessHandle, Thickness);
+    pEffect->SetVector(m_OutLineColorHandle, &Color);
 
     // GPUに変更を適応
     pEffect->CommitChanges();

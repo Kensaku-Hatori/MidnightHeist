@@ -47,6 +47,8 @@ namespace Tag {
 	struct SkyBoxComponent {};
 	// ‰~Œ`UI
 	struct UICircleComponent {};
+	// îŒ`‹ŠE
+	struct SightFanComponent {};
 }
 namespace SequenceTag {
 	struct InTitleComp {};

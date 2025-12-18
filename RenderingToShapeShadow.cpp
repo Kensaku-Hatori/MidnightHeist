@@ -54,7 +54,7 @@ void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
-		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
+		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 		{
 			CShapeShadow::Instance()->SetParameters(mtxWorld);
 

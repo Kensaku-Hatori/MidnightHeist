@@ -77,7 +77,7 @@ void RenderingGameSystem::Rendering(entt::registry& reg)
 			pDevice->SetMaterial(&pCol.MatD3D);
 			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
 
-			CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), CLoadTexture::GetTex(RenderingComp.Info.modelinfo.TexPath[nCntMat]), CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+			CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 			// テクスチャパスがあるかどうか
 			if (pCol.pTextureFilename == NULL)
@@ -128,7 +128,7 @@ void RenderingGameSystem::RenderingShape(entt::registry& Reg, entt::entity Entit
 	// マテリアルデータへのポインタ
 	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
-	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.TexPath.size(); nCntMat++)
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 	{
 		CShapeShadow::Instance()->SetParameters(mtxWorld);
 

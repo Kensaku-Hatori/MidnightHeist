@@ -29,6 +29,7 @@ public:
 	void SetParameters(LPDIRECT3DTEXTURE9 Scene);
 
 	// ゲッター
+	int GetNoiseCnt(void) { return m_NoiseCount; }
 	bool IsNoised(void) { return m_NoiseFrag; }
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
@@ -48,4 +49,10 @@ private:
 	float m_NoiseSpeed;
 	// ノイズの範囲
 	float m_NoiseMinRange, m_NoiseMaxRange;
+	// ハンドル
+	D3DXHANDLE m_SceneTexHandle;// シーンテクスチャのハンドル
+	D3DXHANDLE m_CounterHandle;	// カウンタハンドル
+	D3DXHANDLE m_SpeedHandle;	// 速さハンドル
+	D3DXHANDLE m_MaxRangeHandle;// 最大レンジハンドル
+	D3DXHANDLE m_MinRangeHandle;// 最小レンジハンドル
 };

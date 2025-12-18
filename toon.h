@@ -40,6 +40,19 @@ private:
 	CToon() {};
 	// トゥーンマップ
 	LPDIRECT3DTEXTURE9 m_ToonMap;
+	D3DXHANDLE m_mtxWorldHandle;	// 速さハンドル
+	D3DXHANDLE m_ViewHandle;	// 速さハンドル
+	D3DXHANDLE m_ProjHandle;	// 速さハンドル
+	D3DXHANDLE m_DeffuseHandle;	// 速さハンドル
+	D3DXHANDLE m_LightViewHandle;	// 速さハンドル
+	D3DXHANDLE m_LightProjHandle;	// 速さハンドル
+	D3DXHANDLE m_ShadowMapHandle;	// 速さハンドル
+	D3DXHANDLE m_VecLightHandle;	// 速さハンドル
+	D3DXHANDLE m_ModelTexHandle;	// 速さハンドル
+	D3DXHANDLE m_ToonMapHandle;	// 速さハンドル
+	D3DXHANDLE m_OutLineHeightHandle;	// 速さハンドル
+	D3DXHANDLE m_OutLineThicknessHandle;	// 速さハンドル
+	D3DXHANDLE m_OutLineColorHandle;	// 速さハンドル
 	// 静的メンバ変数
 	static std::unique_ptr<CToon> m_Instance;
 };

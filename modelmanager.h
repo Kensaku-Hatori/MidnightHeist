@@ -24,7 +24,7 @@ public:
 		LPD3DXMESH pSmoothMesh;				// なめらかメッシュへのポインタ
 		LPD3DXBUFFER pBuffMat;				// マテリアルへのポインタ
 		DWORD dwNumMat;						// マテリアルの数
-		std::vector<std::string> TexPath;	// テクスチャパス
+		std::vector<LPDIRECT3DTEXTURE9> Tex;	// テクスチャパス
 	};
 
 	// マップに出すオブジェクトの基礎情報

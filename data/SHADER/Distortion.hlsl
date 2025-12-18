@@ -59,6 +59,14 @@ VS_OUTPUT VS_main(VS_OUTPUT input)
 //**********************************************************************************
 // ピクセルシェーダプログラムブロック
 //**********************************************************************************
+float4 PS_Default(VS_OUTPUT input) : COLOR
+{
+    return float4(tex2D(SceneSampler, input.tex));
+}
+
+//**********************************************************************************
+// ピクセルシェーダプログラムブロック
+//**********************************************************************************
 float4 PS_main(VS_OUTPUT input) : COLOR
 { 
     // カウンタが進んでなかったら
@@ -93,5 +101,10 @@ technique StandardDraw
 	{
 		vertexShader = compile vs_3_0 VS_main();
         pixelShader = compile ps_3_0 PS_main();
+    }
+    pass P1
+    {
+        vertexShader = compile vs_3_0 VS_main();
+        pixelShader = compile ps_3_0 PS_Default();
     }
 }

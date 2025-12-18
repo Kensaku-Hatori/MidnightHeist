@@ -58,5 +58,11 @@ private:
 
 	LPDIRECT3DSURFACE9 m_OldRT;						// 既存のレンダータゲット
 	LPDIRECT3DSURFACE9 m_OldDepthSurface;			// 既存の震度バッファ
+
+	// ハンドル
+	D3DXHANDLE m_mtxWorldHandle;					// ワールドマトリックスのハンドル
+	D3DXHANDLE m_ViewHandle;						// ライトビューマトリックスのハンドル
+	D3DXHANDLE m_ProjHandle;						// ライトプロジェクションマトリックスのハンドル
+	D3DXHANDLE m_ObjectTexHandle;					// オブジェクトテクスチャのハンドル
 };
 #endif // !_SHAPESHADOW_H_

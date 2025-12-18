@@ -8,6 +8,7 @@
 // インクルード
 #include "modelmanager.h"
 #include "manager.h"
+#include "texmanager.h"
 
 // 名前空間
 using namespace std;
@@ -57,7 +58,7 @@ CModelManager::MapObject& CModelManager::FailedLoadMesh(void)
 	pMat = (D3DXMATERIAL*)LocalInfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	// マテリアル分パスを確保
-	LocalInfo.modelinfo.TexPath.resize(LocalInfo.modelinfo.dwNumMat);
+	LocalInfo.modelinfo.Tex.resize(LocalInfo.modelinfo.dwNumMat);
 
 	// マテリアルの数分回す
 	for (int nCntMat = 0; nCntMat < (int)LocalInfo.modelinfo.dwNumMat; nCntMat++)
@@ -66,7 +67,7 @@ CModelManager::MapObject& CModelManager::FailedLoadMesh(void)
 		if (pMat[nCntMat].pTextureFilename != NULL)
 		{
 			// 代入
-			LocalInfo.modelinfo.TexPath[nCntMat] = pMat[nCntMat].pTextureFilename;
+			LocalInfo.modelinfo.Tex[nCntMat] = CLoadTexture::GetTex(pMat[nCntMat].pTextureFilename);
 		}
 	}
 
@@ -194,7 +195,7 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 	pMat = (D3DXMATERIAL*)LocalInfo.modelinfo.pBuffMat->GetBufferPointer();
 
 	// マテリアル分パスを確保
-	LocalInfo.modelinfo.TexPath.resize(LocalInfo.modelinfo.dwNumMat);
+	LocalInfo.modelinfo.Tex.resize(LocalInfo.modelinfo.dwNumMat);
 
 	// マテリアルの数分回す
 	for (int nCntMat = 0; nCntMat < (int)LocalInfo.modelinfo.dwNumMat; nCntMat++)
@@ -203,7 +204,7 @@ CModelManager::MapObject& CModelManager::GetModelInfo(string Path)
 		if (pMat[nCntMat].pTextureFilename != NULL)
 		{
 			// 代入
-			LocalInfo.modelinfo.TexPath[nCntMat] = pMat[nCntMat].pTextureFilename;
+			LocalInfo.modelinfo.Tex[nCntMat] = CLoadTexture::GetTex(pMat[nCntMat].pTextureFilename);
 		}
 	}
 	// マップにVlueとして設定

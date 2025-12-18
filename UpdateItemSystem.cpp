@@ -19,6 +19,7 @@
 #include "SystemManager.h"
 #include "ItemComp.h"
 #include "ItemManagerComp.hpp"
+#include "math_T.h"
 #include "game.h"
 
 // 名前空間
@@ -64,11 +65,12 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	entt::entity LockOnEntity = Reg.get<SingleParentComp>(Entity).Parent;
 	// ロックオンのコンポーネントを取得
 	auto& LockAnimCmp = Reg.get<LockOnAnimComp>(LockOnEntity);
+
+	if (ItemManagerCmp.ItemLiset[ItemManagerCmp.NowAnimIdx] != Entity && LockAnimCmp.IsBoot == false) return;
+
 	auto& LockOnSize = Reg.get<SizeComp>(LockOnEntity);
 	auto& LockOnColor = Reg.get<ColorComp>(LockOnEntity);
 	auto& TransformLockOn = Reg.get<Transform2D>(LockOnEntity);
-
-	if (ItemManagerCmp.ItemLiset[ItemManagerCmp.NowAnimIdx] != Entity && LockAnimCmp.IsBoot == false) return;
 
 	// ロックオンの位置を決めるためにコンポーネントを取得
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
@@ -118,7 +120,7 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 		{
 			// ホールドステートに変更
 			LockAnimCmp.NowState = LockOnAnimState::State::LOCKEDIN;
-			ItemManagerCmp.NowAnimIdx++;
+			ItemManagerCmp.NowAnimIdx = Clamp(ItemManagerCmp.NowAnimIdx + 1, 0, static_cast<int>(ItemManagerCmp.ItemLiset.size() - 1));
 		}
 		break;
 	// ホールド
@@ -145,7 +147,7 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	case LockOnAnimState::State::MAX:
 		// 削除リストに追加
 		CSystemManager::AddDestroyList(LockOnEntity);
-		if (ItemManagerCmp.NowAnimIdx > static_cast<int>(ItemManagerCmp.ItemLiset.size() - 1)) ItemManagerCmp.IsFinished = true;
+		if (ItemManagerCmp.NowAnimIdx >= static_cast<int>(ItemManagerCmp.ItemLiset.size() - 1)) ItemManagerCmp.IsFinished = true;
 		break;
 	default:
 		break;

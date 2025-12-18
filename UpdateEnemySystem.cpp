@@ -13,6 +13,7 @@
 #include "SingleCollisionShapeComponent.hpp"
 #include "SizeComponent.hpp"
 #include "Velocity.hpp"
+#include "ParentComponent.hpp"
 #include "FanInfoComponent.hpp"
 
 // 名前空間
@@ -32,11 +33,26 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		// 情報を取得
 		auto& Transform = reg.get<Transform3D>(entity);
 		auto& FanInfoCmp = reg.get<FanComp>(entity);
+		auto& ParentCmp = reg.get<MulParentComp>(entity);
 		// マトリックスを取得
 		D3DXMATRIX myMatrix = Transform.GetWorldMatrix();
 		// 扇の位置と向きを設定
 		FanInfoCmp.Origin = { myMatrix._41,myMatrix._42,myMatrix._43 };
 		FanInfoCmp.Dir = { -myMatrix._31,-myMatrix._32,-myMatrix._33 };
+		D3DXVECTOR3 VecUp = VEC_UP;
+		D3DXVECTOR3 Dir;
+		D3DXQUATERNION SetQuat;
+		// 移動値を方向ベクトルに変換
+		D3DXVec3Normalize(&Dir, &FanInfoCmp.Dir);
+
+		// 方向ベクトルのZX平面上での角度を求める
+		float angle = atan2f(Dir.x, Dir.z);
+		angle += D3DX_PI;
+
+		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
+		auto& SightInfo = reg.get<Transform3D>(ParentCmp.Parents[1]);
+		SightInfo.Pos = FanInfoCmp.Origin;
+		SightInfo.QuatDest = SetQuat;
 		// 剛体の更新
 		UpdateRB(reg, entity);
 	}
