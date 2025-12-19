@@ -30,7 +30,7 @@ using namespace SequenceTag;
 void UpdateEnemySearchSystem::Update(entt::registry& reg)
 {
 	// 敵のビュー
-	auto view = reg.view<EnemyComponent, EnemtAIComp>();
+	auto view = reg.view<EnemyComponent, EnemyAIComp>();
 
 	// コンテナにアクセス
 	for (auto [Entity, State] : view.each())
@@ -63,20 +63,20 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		D3DXVECTOR3 ToPlayer = PlayerTransformCmp.Pos - TransformCmp.Pos;
 		float Distance = D3DXVec3Length(&ToPlayer);
 
-		if (Distance < PlayerSoundVolumeCmp.SoundVolume)
-		{
-			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
-			continue;
-		}
-		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
-		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)
-		{
-			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
-			continue;
-		}
+		//if (Distance < PlayerSoundVolumeCmp.SoundVolume)
+		//{
+		//	// 追いかけモード
+		//	State.State = EnemyState::ENEMYSTATE::CHASE;
+		//	continue;
+		//}
+		//// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
+		//if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
+		//	CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)
+		//{
+		//	// 追いかけモード
+		//	State.State = EnemyState::ENEMYSTATE::CHASE;
+		//	continue;
+		//}
 
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;

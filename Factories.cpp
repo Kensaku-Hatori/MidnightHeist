@@ -314,7 +314,9 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<VelocityComp>(myEntity);
 	Reg.emplace<FanComp>(myEntity, Trans.Pos, FrontVec, 90.0f, 200.0f);
 	Reg.emplace<EnemyComponent>(myEntity);
-	Reg.emplace<EnemtAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, PointList);
+	Reg.emplace<EnemyAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, PointList).Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE);
+	auto& AI = Reg.get<EnemyAIComp>(myEntity);
+	AI.Emitter->Play();
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);

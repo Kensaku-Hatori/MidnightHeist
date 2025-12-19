@@ -16,6 +16,7 @@
 #include "EnemyAIComponent.hpp"
 #include "distortion.h"
 #include "GameCamera.h"
+#include "Sound2D.h"
 
 // 静的メンバ変数宣言
 bool CGame::m_IsFinishedFirstNoise = false;
@@ -59,6 +60,8 @@ HRESULT CGame::Init(void)
 	ManagerFactories::makePauseManager(GetReg());
 	// アイテムマネージャー
 	ManagerFactories::makeItemManager(GetReg());
+
+	CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEBGM);
 
 	// テスト
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
@@ -104,6 +107,7 @@ void CGame::Update(void)
 void CGame::Uninit(void)
 {
 	// ノイズ終了
+	CSound2D::Instance()->Stop(SoundDevice::LABEL_GAMEBGM);
 	CDistortion::Instance()->EndNoise();
 	CSystemManager::SetPause(false);
 	CManager::GetCamera()->EndSystems();

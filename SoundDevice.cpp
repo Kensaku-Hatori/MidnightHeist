@@ -12,6 +12,7 @@ namespace SoundDevice {
     const SOUNDINFO aSoundInfo[LABEL_MAX] =
     {
         {"data/SOUND/BGM/BGM.wav", XAUDIO2_LOOP_INFINITE},
+        {"data/SOUND/BGM/GAMEBGM.wav", XAUDIO2_LOOP_INFINITE},
         {"data/SOUND/SE/ArrowShot.wav", 0},
         {"data/SOUND/SE/StuckArrow.wav", 0},
         {"data/SOUND/SE/WaterFall.wav", XAUDIO2_LOOP_INFINITE},
@@ -20,6 +21,7 @@ namespace SoundDevice {
         {"data/SOUND/SE/On_Grass.wav", 0},
         {"data/SOUND/SE/On_Water.wav", 0},
         {"data/SOUND/SE/Enter.wav", 0},
+        {"data/SOUND/SE/test.wav", XAUDIO2_LOOP_INFINITE},
     };
 }
 

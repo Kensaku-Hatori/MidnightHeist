@@ -28,8 +28,15 @@ public:
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
+
+	// セッター
+	void SetPos(const D3DXVECTOR3 Pos) { m_emitter.Position = Pos; }
+	void SetFront(const D3DXVECTOR3 Front) { m_emitter.OrientFront = Front; }
+	// 再生
 	void Play(void);
-    [[nodiscard]] static CEmitter* Create(SoundDevice::LABEL Label);
+
+	// 生成
+	[[nodiscard]] static CEmitter* Create(SoundDevice::LABEL Label, D3DXVECTOR3 Pos = VEC3_NULL);
 private:
     // XAudio2
 	SoundDevice::LABEL m_Label;
@@ -57,6 +64,8 @@ public:
 
 	HRESULT Init(void);
 	void Update(void);
+	void SetPos(const D3DXVECTOR3 Pos) { m_listener.Position = Pos; }
+	void SetFront(const D3DXVECTOR3 Front) { m_listener.OrientFront = Front; }
 	X3DAUDIO_LISTENER GetListener(void) { return m_listener; }
 	static CListener* Instance(void) {
 		static std::unique_ptr<CListener> Instance = std::make_unique<CListener>();

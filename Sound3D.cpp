@@ -74,7 +74,6 @@ HRESULT CEmitter::Init(void)
 	m_emitter.pCone->InnerReverb = 0.0f;
 	m_emitter.pCone->OuterReverb = 1.0f;
 
-	m_emitter.Position = { 0.0f,0.0f,0.0f };
 	m_emitter.OrientFront = D3DXVECTOR3(0, 0, 1);
 	m_emitter.OrientTop = D3DXVECTOR3(0, 1, 0);
 	m_emitter.ChannelCount = SoundDevice::InputChannels;
@@ -218,10 +217,11 @@ void CEmitter::Play(void)
 //*********************************************
 // ¶¬
 //*********************************************
-CEmitter* CEmitter::Create(SoundDevice::LABEL Label)
+CEmitter* CEmitter::Create(SoundDevice::LABEL Label, D3DXVECTOR3 Pos)
 {
 	CEmitter* Instance = new CEmitter;
 	Instance->m_Label = Label;
+	Instance->m_emitter.Position = Pos;
 	Instance->Init();
 	return Instance;
 }

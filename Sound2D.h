@@ -31,6 +31,7 @@ public:
 	HRESULT Init(void);
 	void Uninit(void);
 	void Play(SoundDevice::LABEL Label);
+	void Stop(SoundDevice::LABEL Label);
 	static CSound2D* Instance(void) {
 		static std::unique_ptr<CSound2D> Instance = std::make_unique<CSound2D>();
 		return Instance.get();

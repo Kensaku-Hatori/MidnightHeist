@@ -8,6 +8,9 @@
 // 二重インクルード防止
 #pragma once
 
+// インクルード
+#include "Sound3D.h"
+
 // 念のため
 namespace EnemyState {
 	struct PatrolMap {
@@ -31,10 +34,13 @@ namespace EnemyState {
 }
 
 // 敵のステートコンポーネント
-struct EnemtAIComp {
+struct EnemyAIComp {
 	// コンストラクタ
-	EnemtAIComp(EnemyState::ENEMYSTATE Default, std::vector<EnemyState::PatrolMap>& _PointList) :
+	EnemyAIComp(EnemyState::ENEMYSTATE Default, std::vector<EnemyState::PatrolMap>& _PointList) :
 		State(Default), LastLookPlayerPosition(VEC3_NULL), HalfPatrolRoute(_PointList), NowIdx(-1), NextIdx(NowIdx + 1), IsFinish(false), CoolDownCnt(0), BackIdx(0) {};
+	~EnemyAIComp() {
+		if (Emitter != nullptr) Emitter->Uninit();
+	}
 	// 管理者
 	EnemyState::ENEMYSTATE State;
 	// 最後に見たプレイヤーの位置
@@ -45,6 +51,8 @@ struct EnemtAIComp {
 	std::vector<int> AStarRoute;
 	// AStarが終わったかどうか
 	bool IsFinishedAStar;
+	// エミッター
+	CEmitter* Emitter;
 	// 目標の位置
 	D3DXVECTOR3 DestPos;
 	// 復帰用の巡回ポイント用Ｉｄｘカウンタ

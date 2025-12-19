@@ -29,6 +29,7 @@
 #include "PlayerSoundVolumeComp.hpp"
 #include "mapmanager.h"
 #include "math_T.h"
+#include "Sound3D.h"
 #include "math.h"
 
 // 名前空間
@@ -52,6 +53,11 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& AnimCmp = reg.get<PlayerAnimComp>(entity);
 		auto& StateCmp = reg.get<PlayerStateComp>(entity);
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
+
+		D3DXMATRIX mtxWorld = TransformCmp.GetWorldMatrix();
+		D3DXVECTOR3 Front = { -mtxWorld._31,-mtxWorld._32,-mtxWorld._33 };
+		CListener::Instance()->SetPos(TransformCmp.Pos);
+		CListener::Instance()->SetFront(Front);
 
 		// プレイヤーが発する音
 		SoundCmp.SoundVolume = PlayerSoundVolumeConfig::Bace * PlayerSoundVolumeConfig::Scale[static_cast<int>(StateCmp.NowState)];

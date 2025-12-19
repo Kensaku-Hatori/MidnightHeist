@@ -57,10 +57,8 @@ HRESULT CTitle::Init(void)
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
 	MeshFactories::makeSkyBox(GetReg());
 
-	CSound2D::Instance()->Play(SoundDevice::LABEL_WATERFALL);
+	CSound2D::Instance()->Play(SoundDevice::LABEL_BGM);
 
-	m_test = CEmitter::Create(SoundDevice::LABEL_WATERFALL);
-	m_test->Play();
 	CListener::Instance()->Init();
 
 	{
@@ -101,7 +99,6 @@ void CTitle::Update(void)
 	{
 		Factories::makeObject3D(GetReg());
 	}
-	m_test->Update();
 }
 
 //***************************************
@@ -121,7 +118,7 @@ void CTitle::Uninit(void)
 	}
 	m_GroundShape.reset();
 
-	m_test->Uninit();
+	CSound2D::Instance()->Stop(SoundDevice::LABEL_BGM);
 
 	CManager::GetCamera()->EndSystems();
 	GetReg().clear();

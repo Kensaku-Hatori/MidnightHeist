@@ -91,3 +91,18 @@ void CSound2D::Play(SoundDevice::LABEL Label)
 	// Ä¶
 	m_pSourceVoice[Label]->Start(0);
 }
+
+//*********************************************
+// ’âŽ~
+//*********************************************
+void CSound2D::Stop(SoundDevice::LABEL Label)
+{
+	XAUDIO2_VOICE_STATE xa2state;
+	// ó‘ÔŽæ“¾
+	m_pSourceVoice[Label]->GetState(&xa2state);
+	if (xa2state.BuffersQueued != 0)
+	{// Ä¶’†
+		// ˆêŽž’âŽ~
+		m_pSourceVoice[Label]->Stop(0);
+	}
+}

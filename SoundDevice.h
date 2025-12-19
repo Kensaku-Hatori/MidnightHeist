@@ -29,6 +29,7 @@ namespace SoundDevice {
 	typedef enum
 	{
 		LABEL_BGM = 0,		// BGM
+		LABEL_GAMEBGM,		// ƒQ[ƒ€BGM
 		LABEL_SHOT,			// •ú‚Â‰¹
 		LABEL_STUCK,		// Žh‚³‚é‰¹
 		LABEL_WATERFALL,	// ‘ê
@@ -37,6 +38,7 @@ namespace SoundDevice {
 		LABEL_MOVEGRASS,	// ‘p‚ðˆÚ“®‚µ‚½‚Æ‚«
 		LABEL_MOVEWATER,	// …‚Ìã‚ðˆÚ“®‚µ‚½‚Æ‚«
 		LABEL_ENTER,		// Œˆ’è‰¹
+		LABEL_ENEMYMOVE,	// “G‚ÌˆÚ“®‰¹
 		LABEL_MAX			// Å‘å’l
 	}LABEL;
 

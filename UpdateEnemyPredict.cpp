@@ -30,7 +30,7 @@ using namespace Tag;
 void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 {
 	// 敵のビュー
-	auto view = reg.view<EnemyComponent, EnemtAIComp>();
+	auto view = reg.view<EnemyComponent, EnemyAIComp>();
 
 	// コンテナにアクセス
 	for (auto [Entity, State] : view.each())

@@ -46,7 +46,6 @@ public:
 	void Uninit(void)	override;
 	void Draw(void)		override;
 private:
-	CEmitter* m_test;
 	std::unique_ptr <CSound2D> m_BGM;
 	std::unique_ptr<btBoxShape> m_GroundShape;
 	std::unique_ptr<btRigidBody> m_GroundRB;

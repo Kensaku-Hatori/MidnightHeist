@@ -29,7 +29,7 @@ using namespace Tag;
 void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 {
 	// 敵のビュー
-	auto view = reg.view<EnemyComponent, EnemtAIComp>();
+	auto view = reg.view<EnemyComponent, EnemyAIComp>();
 
 	// プレイヤーのビューを取得
 	auto PlayerView = reg.view<PlayerComponent>();

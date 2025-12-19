@@ -34,11 +34,18 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		auto& Transform = reg.get<Transform3D>(entity);
 		auto& FanInfoCmp = reg.get<FanComp>(entity);
 		auto& ParentCmp = reg.get<MulParentComp>(entity);
+		auto& EnemyAiCmp = reg.get<EnemyAIComp>(entity);
+
 		// マトリックスを取得
 		D3DXMATRIX myMatrix = Transform.GetWorldMatrix();
 		// 扇の位置と向きを設定
 		FanInfoCmp.Origin = { myMatrix._41,myMatrix._42,myMatrix._43 };
 		FanInfoCmp.Dir = { -myMatrix._31,-myMatrix._32,-myMatrix._33 };
+
+		EnemyAiCmp.Emitter->SetPos(Transform.Pos);
+		EnemyAiCmp.Emitter->SetFront({ -myMatrix._31,-myMatrix._32,-myMatrix._33 });
+		EnemyAiCmp.Emitter->Update();
+
 		D3DXVECTOR3 VecUp = VEC_UP;
 		D3DXVECTOR3 Dir;
 		D3DXQUATERNION SetQuat;
