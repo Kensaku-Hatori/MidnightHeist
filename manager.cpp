@@ -138,9 +138,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new RenderingGameSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
-	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySightSystem);
 	CSystemManager::AddRenderingSystem(new Render2DSystem);
+	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
 	CSystemManager::AddRenderingSystem(new RenderingPauseMenuSystem);
 
 	// 物理世界に必要なポインタを生成
