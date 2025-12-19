@@ -160,6 +160,12 @@
     <Filter Include="System\Rendering\Fan">
       <UniqueIdentifier>{2864a36d-5037-413b-90ca-acdfa203ccf5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ヘッダー ファイル\Sound">
+      <UniqueIdentifier>{c4aa4651-93db-4ae0-9b3f-679393764d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sound">
+      <UniqueIdentifier>{db8caf04-ca68-4817-a188-edc92ac72410}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
@@ -205,9 +211,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="renderer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="sound.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="texmanager.cpp">
@@ -369,6 +372,15 @@
     <ClCompile Include="RenderingEnemySightSystem.cpp">
       <Filter>System\Rendering\Fan</Filter>
     </ClCompile>
+    <ClCompile Include="Sound3D.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound2D.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundDevice.cpp">
+      <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debugproc.h">
@@ -423,9 +435,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="sound.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="texmanager.h">
@@ -727,6 +736,15 @@
     </ClInclude>
     <ClInclude Include="RenderingEnemySightSystem.h">
       <Filter>System\Rendering\Fan</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound2D.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound3D.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundDevice.h">
+      <Filter>ヘッダー ファイル\Sound</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

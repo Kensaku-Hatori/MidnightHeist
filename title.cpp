@@ -14,6 +14,8 @@
 #include "game.h"
 #include "TitleCamera.h"
 #include "RigitBodyComponent.hpp"
+#include "Sound2D.h"
+#include "Sound3D.h"
 #include "math.h"
 
 // ‹K’è’l‚ðÝ’è
@@ -55,6 +57,12 @@ HRESULT CTitle::Init(void)
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
 	MeshFactories::makeSkyBox(GetReg());
 
+	CSound2D::Instance()->Play(SoundDevice::LABEL_WATERFALL);
+
+	m_test = CEmitter::Create(SoundDevice::LABEL_WATERFALL);
+	m_test->Play();
+	CListener::Instance()->Init();
+
 	{
 		m_GroundShape = std::make_unique<btBoxShape>(btVector3(btScalar(2000.0f), btScalar(10), btScalar(1000.0f)));
 
@@ -93,6 +101,7 @@ void CTitle::Update(void)
 	{
 		Factories::makeObject3D(GetReg());
 	}
+	m_test->Update();
 }
 
 //***************************************
@@ -111,6 +120,8 @@ void CTitle::Uninit(void)
 		m_GroundRB.reset();
 	}
 	m_GroundShape.reset();
+
+	m_test->Uninit();
 
 	CManager::GetCamera()->EndSystems();
 	GetReg().clear();

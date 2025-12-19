@@ -22,6 +22,7 @@
 #include "defaultcubemap.h"
 #include "distortion.h"
 #include "UICircle.h"
+#include "Sound2D.h"
 
 #include "UpdateGamePlayerSystem.h"
 #include "UpdateTitlePlayerSystem.h"
@@ -67,7 +68,6 @@ CRenderer* CManager::m_Renderer = NULL;
 CInputKeyboard* CManager::m_pInputKeyboard = NULL;
 CInputJoypad* CManager::m_pInputJoypad = NULL;
 CInputMouse* CManager::m_pInputMouse = NULL;
-CSound* CManager::m_pSound = NULL;
 CCamera* CManager::m_pCamera = NULL;
 CLight* CManager::m_pLight = NULL;
 CPlayer* CManager::m_pPlayer = NULL;
@@ -104,7 +104,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pInputKeyboard = new CInputKeyboard;
 	m_pInputJoypad = new CInputJoypad;
 	m_pInputMouse = new CInputMouse;
-	m_pSound = new CSound;
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
 
@@ -181,16 +180,12 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 		// 初期化処理
 		hr = m_pInputMouse->Init(hInstance, hWnd);
 	}
-	// メモリ確保できたら
-	if (m_pSound != NULL)
-	{
-		// 初期化処理
-		hr = m_pSound->Init(hWnd);
-	}
 
 	// ３Dに必要なものを初期化
 	m_pCamera->Init();
 	m_pLight->Init();
+
+	CSound2D::Instance()->Init();
 
 	// 暗転係を生成
 	m_pFade = CFade::CreateSingle();
@@ -259,14 +254,6 @@ void CManager::Uninit()
 		m_pInputMouse = NULL;
 	}
 
-	// サウンドクラスが使われていたら
-	if (m_pSound != NULL)
-	{
-		m_pSound->Uninit();
-		delete m_pSound;
-		m_pSound = NULL;
-	}
-
 	// ライトが使われていたら
 	if (m_pLight != NULL)
 	{
@@ -286,6 +273,7 @@ void CManager::Uninit()
 	CShapeShadow::Instance()->ReSet();
 	CLoadTexture::UnRegistTex();
 	CModelManager::UnRegistModel();
+	CSound2D::Instance()->Uninit();
 }
 
 //***************************************
@@ -362,7 +350,6 @@ void CManager::SetScene(CScene* Scene)
 	}
 	else if (m_pScene != NULL)
 	{
-		m_pSound->Stop();
 		m_pScene->Uninit();
 		m_pScene = NULL;
 		CObject::ReleaseAll();

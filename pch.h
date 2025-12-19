@@ -25,7 +25,8 @@
 #include "dinput.h"
 #include "Xinput.h"
 #include "xaudio2.h"
-#include <x3daudio.h>
+#include "xaudio2fx.h"
+#include "x3daudio.h"
 #include "json.hpp"
 #include "entt.hpp"
 

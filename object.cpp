@@ -8,7 +8,6 @@
 // インクルード
 #include "Object.h"
 #include "manager.h"
-#include "sound.h"
 #include "scene.h"
 
 // 静的メンバ変数宣言

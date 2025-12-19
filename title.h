@@ -15,6 +15,8 @@
 class CPlayerTitle;
 class CMapEditer;
 class CTitleManager;
+class CSound2D;
+class CEmitter;
 
 // タイトルクラスを定義
 class CTitle : public CScene
@@ -44,6 +46,8 @@ public:
 	void Uninit(void)	override;
 	void Draw(void)		override;
 private:
+	CEmitter* m_test;
+	std::unique_ptr <CSound2D> m_BGM;
 	std::unique_ptr<btBoxShape> m_GroundShape;
 	std::unique_ptr<btRigidBody> m_GroundRB;
 };

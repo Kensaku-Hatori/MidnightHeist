@@ -181,6 +181,9 @@
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
     <ClCompile Include="RenderingUICircle.cpp" />
+    <ClCompile Include="Sound2D.cpp" />
+    <ClCompile Include="Sound3D.cpp" />
+    <ClCompile Include="SoundDevice.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="UICircle.cpp" />
@@ -224,7 +227,6 @@
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="shadowmap.cpp" />
     <ClCompile Include="shapeshadow.cpp" />
-    <ClCompile Include="sound.cpp" />
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="texmanager.cpp" />
     <ClCompile Include="toon.cpp" />
@@ -282,6 +284,9 @@
     <ClInclude Include="ShaderResource.h" />
     <ClInclude Include="SkyBoxComponent.hpp" />
     <ClInclude Include="PlayerStateComp.hpp" />
+    <ClInclude Include="Sound2D.h" />
+    <ClInclude Include="Sound3D.h" />
+    <ClInclude Include="SoundDevice.h" />
     <ClInclude Include="title.h" />
     <ClInclude Include="TitleCamera.h" />
     <ClInclude Include="TitleUI.hpp" />
@@ -337,7 +342,6 @@
     <ClInclude Include="shader.h" />
     <ClInclude Include="shadowmap.h" />
     <ClInclude Include="shapeshadow.h" />
-    <ClInclude Include="sound.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="TagComp.hpp" />
     <ClInclude Include="texmanager.h" />

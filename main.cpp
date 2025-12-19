@@ -9,6 +9,7 @@
 #include "renderer.h"
 #include "manager.h"
 #include "debugproc.h"
+#include "SoundDevice.h"
 #include "resource.h"
 #include <crtdbg.h>
 
@@ -69,6 +70,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 
 	DWORD dwCurrentTime;
 	DWORD dwExecLastTime;
+
+	if (FAILED(CSoundDevice::Instance()->Init()))
+	{
+		return -1;
+	}
 
 	CManager* pManager = NULL;
 	pManager = new CManager;
@@ -151,6 +157,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 		pManager = NULL;
 	}
 
+	if (CSoundDevice::Instance() != nullptr)
+	{
+		CSoundDevice::Instance()->Uninit();
+	}
 	//
 	timeEndPeriod(1);
 

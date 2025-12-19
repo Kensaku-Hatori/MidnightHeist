@@ -12,7 +12,6 @@
 // インクルード
 #include "main.h"
 #include "input.h"
-#include "sound.h"
 #include "camera.h"
 #include "light.h"
 #include "object.h"
@@ -61,7 +60,6 @@ public:
 	static CInputKeyboard* GetInputKeyboard(void) { return m_pInputKeyboard; };
 	static CInputJoypad* GetInputJoypad(void) { return m_pInputJoypad; };
 	static CInputMouse* GetInputMouse(void) { return m_pInputMouse; };
-	static CSound* GetSound(void) { return m_pSound; };
 	static CCamera* GetCamera(void) { return m_pCamera; };
 	static bool GetIsClear(void) { return m_isClear; };
 	static CShaderFade* GetShaderFade(void) { return m_pFadeShader; };
@@ -82,7 +80,6 @@ private:
 	static CInputKeyboard* m_pInputKeyboard;	// キーボードのインスタンス
 	static CInputJoypad* m_pInputJoypad;		// ゲームパッドのインスタンス
 	static CInputMouse* m_pInputMouse;			// マウスのインスタンス
-	static CSound* m_pSound;					// 音のインスタンス
 	static CCamera* m_pCamera;					// カメラのインスタンス
 	static CLight* m_pLight;					// ライトのインスタンス
 	static CShaderFade* m_pFadeShader;			// シェーダフェード
