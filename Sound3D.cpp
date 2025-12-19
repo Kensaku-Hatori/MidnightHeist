@@ -103,7 +103,7 @@ HRESULT CEmitter::Init(void)
 	};
 
 	m_emitter.pReverbCurve = (X3DAUDIO_DISTANCE_CURVE*)&reverbCurve;
-	m_emitter.CurveDistanceScaler = 500.0f;
+	m_emitter.CurveDistanceScaler = 200.0f;
 	m_emitter.DopplerScaler = 1.0f;
 
 	m_dspSettings.SrcChannelCount = SoundDevice::InputChannels;

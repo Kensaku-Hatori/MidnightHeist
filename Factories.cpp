@@ -162,7 +162,7 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 	//法線ベクトルの設定
 	pVtx[1].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	//頂点カラーの設定
-	pVtx[1].col = ColCmp.Col;
+	pVtx[1].col = D3DXCOLOR(ColCmp.Col.r, ColCmp.Col.g, ColCmp.Col.b, 0.0f);
 	//テクスチャ座標の設定
 	pVtx[1].tex = D3DXVECTOR2(0.0f, 1.0f);
 
@@ -173,7 +173,7 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 	//法線ベクトルの設定
 	pVtx[2].nor = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	//頂点カラーの設定
-	pVtx[2].col = ColCmp.Col;
+	pVtx[2].col = D3DXCOLOR(ColCmp.Col.r, ColCmp.Col.g, ColCmp.Col.b, 0.0f);
 	//テクスチャ座標の設定
 	pVtx[2].tex = D3DXVECTOR2(1.0f, 1.0f);
 

@@ -34,7 +34,7 @@ public:
 			static constexpr float RDist = -10.0f;
 			static constexpr float Fov = 45.0f;
 			static constexpr float Near = 10.0f;
-			static constexpr float Far = 10000.0f;
+			static constexpr float Far = 3000.0f;
 			static constexpr float SpeedV = 0.3f;
 		};
 		struct Title {

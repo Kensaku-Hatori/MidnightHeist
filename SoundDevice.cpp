@@ -21,7 +21,7 @@ namespace SoundDevice {
         {"data/SOUND/SE/On_Grass.wav", 0},
         {"data/SOUND/SE/On_Water.wav", 0},
         {"data/SOUND/SE/Enter.wav", 0},
-        {"data/SOUND/SE/test.wav", XAUDIO2_LOOP_INFINITE},
+        {"data/SOUND/SE/EnemyMove.wav", XAUDIO2_LOOP_INFINITE},
     };
 }
 
