@@ -11,6 +11,8 @@ float g_SineMicro;
 float g_SineRipple;
 // 波の速さ
 float g_SineSpeed;
+// 波の大きさ
+float g_SineRadius;
 
 // 頂点シェーダ出力構造体
 struct VS_OUTPUT
@@ -44,7 +46,14 @@ float4 PS_main(VS_OUTPUT input) : COLOR
     float3 VecCenter = input.Pos.xyz - g_Center;
     float Distance = length(VecCenter);
     
-    return input.col * saturate(sin(g_SineMicro * ((g_SineCount - (Distance * g_SineRipple)) * g_SineSpeed)) * 1.0f);
+    if(Distance < g_SineRadius)
+    {
+        return input.col * saturate(sin(g_SineMicro * ((g_SineCount - (Distance * g_SineRipple)) * g_SineSpeed)) * 1.0f);
+    }
+    else
+    {
+        return float4(0.0f, 0.0f, 0.0f, 0.0f);
+    }
 }
 
 //**********************************************************************************

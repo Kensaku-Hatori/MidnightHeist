@@ -19,7 +19,7 @@ public:
 	HRESULT Init(void);
 
 	// パラメータ設定
-	void SetParameters(D3DXMATRIX mtxWorld, const int Counter, const float Speed, const float Ripple, const float Micro);
+	void SetParameters(D3DXMATRIX mtxWorld, const int Counter, const float Speed, const float Ripple, const float Micro, const float Radius);
 
 	// ゲッター
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
@@ -37,6 +37,7 @@ private:
 	D3DXHANDLE m_ViewHandle;	// ビューマトリックスのハンドル
 	D3DXHANDLE m_ProjHandle;	// プロジェクションマトリックスのハンドル
 	D3DXHANDLE m_CenterPos;		// 中心位置
+	D3DXHANDLE m_Radius;		// 半径
 	D3DXHANDLE m_SineCount;		// カウンタ
 	D3DXHANDLE m_SineSpeed;		// 速さ
 	D3DXHANDLE m_SineRipple;	// 普及率

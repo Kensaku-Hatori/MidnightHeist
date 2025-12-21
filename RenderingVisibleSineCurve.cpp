@@ -42,7 +42,7 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 
 		mtxWorld = TransformComp.GetWorldMatrix();
 
-		CVisibleSineCurve::Instance()->SetParameters(mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro);
+		CVisibleSineCurve::Instance()->SetParameters(mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro, SineCurveCmp.Radius);
 
 		// 頂点バッファをデバイスからデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));

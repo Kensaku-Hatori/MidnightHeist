@@ -11,7 +11,7 @@
 // テクスチャ情報
 struct VisibleSineCurveComp {
     // 引数アリのコンストラクタ
-	VisibleSineCurveComp(const float _SineMacro = 0.01f, const float _Speed = 5.0f, const float _Ripple = 0.1f, const float _Radius = 100.0f) :
+	VisibleSineCurveComp(const float _SineMacro = 0.05f, const float _Speed = 5.0f, const float _Ripple = 1.0f, const float _Radius = 100.0f) :
 		SineMacro(_SineMacro), Speed(_Speed), Ripple(_Ripple), Radius(_Radius), nCntSineCurve(0) {};
     // 波の細かさ
 	float SineMacro;

@@ -30,6 +30,7 @@ HRESULT CVisibleSineCurve::Init(void)
     m_SineRipple = GetHandle("g_SineRipple") = pEffect->GetParameterByName(NULL, "g_SineRipple");
     m_SineSpeed = GetHandle("g_SineSpeed") = pEffect->GetParameterByName(NULL, "g_SineSpeed");
     m_CenterPos = GetHandle("g_Center") = pEffect->GetParameterByName(NULL, "g_Center");
+    m_Radius = GetHandle("g_SineRadius") = pEffect->GetParameterByName(NULL, "g_SineRadius");
     m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
     m_ProjHandle = GetHandle("g_mtxProj") = pEffect->GetParameterByName(NULL, "g_mtxProj");
     m_ViewHandle = GetHandle("g_mtxView") = pEffect->GetParameterByName(NULL, "g_mtxView");
@@ -40,7 +41,7 @@ HRESULT CVisibleSineCurve::Init(void)
 //***************************************
 // パラメータ設定
 //***************************************
-void CVisibleSineCurve::SetParameters(D3DXMATRIX mtxWorld,const int Counter, const float Speed, const float Ripple, const float Micro)
+void CVisibleSineCurve::SetParameters(D3DXMATRIX mtxWorld,const int Counter, const float Speed, const float Ripple, const float Micro, const float Radius)
 {
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
@@ -50,6 +51,7 @@ void CVisibleSineCurve::SetParameters(D3DXMATRIX mtxWorld,const int Counter, con
     pEffect->SetFloat(m_SineMicro, Micro);
     pEffect->SetFloat(m_SineRipple, Ripple);
     pEffect->SetFloat(m_SineSpeed, Speed);
+    pEffect->SetFloat(m_Radius, Radius);
 
     // デバイス取得
     LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
