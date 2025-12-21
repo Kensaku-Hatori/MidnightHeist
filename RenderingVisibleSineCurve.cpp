@@ -45,7 +45,9 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));
 		// 頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
-
+		// バイアス設定
+		float bias = 0.000005f + (0.0000001f * static_cast<int>(entity));
+		pDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&bias);
 		CVisibleSineCurve::Instance()->SetParameters(mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro, SineCurveCmp.Radius);
 		CVisibleSineCurve::Instance()->BeginPass();
 		// ポリゴンの描画
