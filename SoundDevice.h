@@ -10,7 +10,7 @@
 
 // 念のため
 namespace SoundDevice {
-	static constexpr int InputChannels = 2;
+	static constexpr int InputChannels = 1;
 	static constexpr int OutPutChannels = 8;
 	// リバーブのプリセットの数
 	static constexpr int NumPreset = 1;

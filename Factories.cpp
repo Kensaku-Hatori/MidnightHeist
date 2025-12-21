@@ -187,7 +187,7 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 entt::entity Factories::makeEmitterVolume(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 10.0f, 800.0f));
+	Reg.emplace<Transform3D>(myEntity, 1.0f);
 	Reg.emplace<VisibleSound>(myEntity);
 	Reg.emplace<VisibleSineCurveComp>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
@@ -320,6 +320,7 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 	std::vector<entt::entity> Parents;
 	Parents.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX)));
 	Parents.push_back(makeUICircle(Reg));
+	Parents.push_back(makeEmitterVolume(Reg));
 	entt::entity LockOnEntity = Reg.emplace<MulParentComp>(Entity, Parents).Parents[0];
 	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 }
@@ -346,7 +347,8 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<VelocityComp>(myEntity);
 	Reg.emplace<FanComp>(myEntity, Trans.Pos, FrontVec, 90.0f, 200.0f);
 	Reg.emplace<EnemyComponent>(myEntity);
-	Reg.emplace<EnemyAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, PointList).Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE);
+	Reg.emplace<EnemyListenerComp>(myEntity);
+	Reg.emplace<EnemyAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, PointList).Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE, Pos);
 	auto& AI = Reg.get<EnemyAIComp>(myEntity);
 	AI.Emitter->Play();
 	Reg.emplace<CastShadow>(myEntity);
@@ -358,6 +360,8 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	std::vector<entt::entity> Parents;
 	Parents.push_back(MeshFactories::makeLaser(Reg, myEntity));
 	Parents.push_back(make3DSightFan(Reg));
+	Parents.push_back(makeEmitterVolume(Reg));
+
 	Reg.emplace<MulParentComp>(myEntity, Parents);
 
 	return myEntity;

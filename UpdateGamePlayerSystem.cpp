@@ -27,6 +27,7 @@
 #include "UICircleComp.hpp"
 #include "ItemManagerComp.hpp"
 #include "PlayerSoundVolumeComp.hpp"
+#include "VisibleSineCurveComp.hpp"
 #include "mapmanager.h"
 #include "math_T.h"
 #include "Sound3D.h"
@@ -55,6 +56,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
 
 		D3DXMATRIX mtxWorld = TransformCmp.GetWorldMatrix();
+
 		D3DXVECTOR3 Front = { -mtxWorld._31,-mtxWorld._32,-mtxWorld._33 };
 		CListener::Instance()->SetPos(TransformCmp.Pos);
 		CListener::Instance()->SetFront(Front);
@@ -63,8 +65,14 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		SoundCmp.SoundVolume = PlayerSoundVolumeConfig::Bace * PlayerSoundVolumeConfig::Scale[static_cast<int>(StateCmp.NowState)];
 
 		// ‰~Œ`UI‚Ìî•ñ‚ğæ“¾
-		auto& CircleEntity = reg.get<MulParentComp>(entity);
-		auto& CircleRenderFrag = reg.get<RenderFragComp>(CircleEntity.Parents[1]);
+		auto& Parents = reg.get<MulParentComp>(entity);
+		auto& CircleRenderFrag = reg.get<RenderFragComp>(Parents.Parents[1]);
+		auto& TransSineCurveCmp = reg.get<Transform3D>(Parents.Parents[2]);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(Parents.Parents[2]);
+
+		SineCurveCmp.Radius = SoundCmp.SoundVolume;
+		TransSineCurveCmp.Pos = { mtxWorld._41,mtxWorld._42,mtxWorld._43 };
+
 		// •`‰æƒtƒ‰ƒO‚ğÜ‚é
 		CircleRenderFrag.IsRendering = false;
 

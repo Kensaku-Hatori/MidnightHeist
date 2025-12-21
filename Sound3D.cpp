@@ -162,15 +162,14 @@ void CEmitter::Update(void)
 		m_pSourceVoice->SetOutputMatrix(MasteringVoice, SoundDevice::InputChannels, CSoundDevice::Instance()->GetChannels(),
 			m_matrixCoefficients);
 
-		float reverb[2] =
+		float reverb[1] =
 		{
-			m_dspSettings.ReverbLevel,
 			m_dspSettings.ReverbLevel
 		};
 
 		m_pSourceVoice->SetOutputMatrix(
 			SubMixVoice,
-			2,
+			1,
 			1,
 			reverb
 		);
@@ -223,6 +222,7 @@ CEmitter* CEmitter::Create(SoundDevice::LABEL Label, D3DXVECTOR3 Pos)
 	Instance->m_Label = Label;
 	Instance->m_emitter.Position = Pos;
 	Instance->Init();
+	Instance->Update();
 	return Instance;
 }
 

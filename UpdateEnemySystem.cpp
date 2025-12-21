@@ -15,6 +15,8 @@
 #include "Velocity.hpp"
 #include "ParentComponent.hpp"
 #include "FanInfoComponent.hpp"
+#include "EnemySoundListener.hpp"
+#include "VisibleSineCurveComp.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -35,6 +37,11 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		auto& FanInfoCmp = reg.get<FanComp>(entity);
 		auto& ParentCmp = reg.get<MulParentComp>(entity);
 		auto& EnemyAiCmp = reg.get<EnemyAIComp>(entity);
+		auto& SoundCmp = reg.get<EnemyListenerComp>(entity);
+		auto& StateCmp = reg.get<EnemyAIComp>(entity);
+		
+		// プレイヤーが発する音
+		SoundCmp.ListenerVolume = EnemyListenerConfig::Bace * EnemyListenerConfig::Scale[static_cast<int>(StateCmp.State)];
 
 		// マトリックスを取得
 		D3DXMATRIX myMatrix = Transform.GetWorldMatrix();
@@ -58,6 +65,13 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 
 		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
 		auto& SightInfo = reg.get<Transform3D>(ParentCmp.Parents[1]);
+
+		auto& TransSineCurveCmp = reg.get<Transform3D>(ParentCmp.Parents[2]);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(ParentCmp.Parents[2]);
+
+		TransSineCurveCmp.Pos = Transform.Pos;
+		SineCurveCmp.Radius = SoundCmp.ListenerVolume;
+
 		SightInfo.Pos = FanInfoCmp.Origin;
 		SightInfo.QuatDest = SetQuat;
 		// 剛体の更新

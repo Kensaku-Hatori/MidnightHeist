@@ -32,7 +32,6 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 	D3DXMATRIX mtxWorld;
 
 	CVisibleSineCurve::Instance()->Begin();
-	CVisibleSineCurve::Instance()->BeginPass();
 
 	for (auto entity : view)
 	{
@@ -42,16 +41,16 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 
 		mtxWorld = TransformComp.GetWorldMatrix();
 
-		CVisibleSineCurve::Instance()->SetParameters(mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro, SineCurveCmp.Radius);
-
 		// 頂点バッファをデバイスからデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));
 		// 頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
+		CVisibleSineCurve::Instance()->SetParameters(mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro, SineCurveCmp.Radius);
+		CVisibleSineCurve::Instance()->BeginPass();
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+		CVisibleSineCurve::Instance()->EndPass();
 	}
 	CVisibleSineCurve::Instance()->End();
-	CVisibleSineCurve::Instance()->EndPass();
 }

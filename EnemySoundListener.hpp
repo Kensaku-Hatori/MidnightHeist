@@ -12,7 +12,7 @@
 #include "EnemyAIComponent.hpp"
 
 namespace EnemyListenerConfig {
-	static constexpr float Bace = 100.0f;
+	static constexpr float Bace = 50.0f;
 	static constexpr float Scale[static_cast<int>(EnemyState::ENEMYSTATE::MAX)] = {
 		1.0f,1.0f,1.0f,1.0f,1.0f
 	};
@@ -21,6 +21,6 @@ namespace EnemyListenerConfig {
 struct EnemyListenerComp {
 	// コンスタント
 	EnemyListenerComp(const float _Default = NULL) : ListenerVolume(_Default) {}
-	// 光線情報
+	// 情報
 	float ListenerVolume;
 };

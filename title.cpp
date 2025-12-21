@@ -52,7 +52,6 @@ HRESULT CTitle::Init(void)
 	Factories::InitTitlePlayer(GetReg(), Player);
 
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");
-	Factories::makeEmitterVolume(GetReg());
 
 	ManagerFactories::makeTitleManager(GetReg());
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });

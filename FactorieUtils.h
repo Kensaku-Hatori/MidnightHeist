@@ -50,3 +50,4 @@
 #include "PlayerSoundVolumeComp.hpp"
 #include "Sound3D.h"
 #include "VisibleSineCurveComp.hpp"
+#include "EnemySoundListener.hpp"
