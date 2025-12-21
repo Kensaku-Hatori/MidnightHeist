@@ -49,3 +49,4 @@
 #include "ItemManagerComp.hpp"
 #include "PlayerSoundVolumeComp.hpp"
 #include "Sound3D.h"
+#include "VisibleSineCurveComp.hpp"

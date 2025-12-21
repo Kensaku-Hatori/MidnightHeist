@@ -182,6 +182,38 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 }
 
 //*********************************************
+// 音の大きさを可視化オブジェクトを生成
+//*********************************************
+entt::entity Factories::makeEmitterVolume(entt::registry& Reg)
+{
+	const entt::entity myEntity = Reg.create();
+	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 10.0f, 800.0f));
+	Reg.emplace<VisibleSound>(myEntity);
+	Reg.emplace<VisibleSineCurveComp>(myEntity);
+	Reg.emplace<VertexComp>(myEntity);
+	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
+	Reg.emplace<ColorComp>(myEntity);
+	Reg.emplace<UVComp>(myEntity);
+
+	// デバイスを取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
+
+	//頂点バッファの生成
+	pDevice->CreateVertexBuffer(sizeof(VERTEX_3D) * 4,
+		D3DUSAGE_WRITEONLY,
+		FVF_VERTEX_3D,
+		D3DPOOL_MANAGED,
+		&myVtx.pVertex,
+		NULL);
+
+	return myEntity;
+}
+
+//*********************************************
 // 円形UIの生成
 //*********************************************
 entt::entity Factories::makeUICircle(entt::registry& Reg)

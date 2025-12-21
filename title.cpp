@@ -52,12 +52,13 @@ HRESULT CTitle::Init(void)
 	Factories::InitTitlePlayer(GetReg(), Player);
 
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");
+	Factories::makeEmitterVolume(GetReg());
 
 	ManagerFactories::makeTitleManager(GetReg());
 	MeshFactories::makeMeshField(GetReg(), 100, 100, { 100.0f,100.0f });
 	MeshFactories::makeSkyBox(GetReg());
 
-	CSound2D::Instance()->Play(SoundDevice::LABEL_BGM);
+	CSound2D::Instance()->Play(SoundDevice::LABEL_TITLEBGM);
 
 	CListener::Instance()->Init();
 
@@ -118,7 +119,7 @@ void CTitle::Uninit(void)
 	}
 	m_GroundShape.reset();
 
-	CSound2D::Instance()->Stop(SoundDevice::LABEL_BGM);
+	CSound2D::Instance()->Stop(SoundDevice::LABEL_TITLEBGM);
 
 	CManager::GetCamera()->EndSystems();
 	GetReg().clear();

@@ -168,6 +168,7 @@
     <ClCompile Include="defaultcubemap.cpp" />
     <ClCompile Include="distortion.cpp" />
     <ClCompile Include="GameCamera.cpp" />
+    <ClCompile Include="RenderingVisibleSineCurve.cpp" />
     <ClCompile Include="RenderingEnemySightSystem.cpp" />
     <ClCompile Include="RenderingEnemySystem.cpp" />
     <ClCompile Include="RenderingMapobjectSystem.cpp" />
@@ -187,6 +188,7 @@
     <ClCompile Include="title.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="UICircle.cpp" />
+    <ClCompile Include="UpdateVisibleSineCurve.cpp" />
     <ClCompile Include="UpdateEnemyBack.cpp" />
     <ClCompile Include="UpdateEnemyChase.cpp" />
     <ClCompile Include="UpdateEnemyPredict.cpp" />
@@ -238,12 +240,15 @@
     <ClCompile Include="UpdateTitleManager.cpp" />
     <ClCompile Include="UpdateUICircleSystem.cpp" />
     <ClCompile Include="UpdateXSystem.cpp" />
+    <ClCompile Include="VisibleSineCurve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaceCameraSystem.h" />
     <ClInclude Include="CapsuleComponent.hpp" />
     <ClInclude Include="defaultcubemap.h" />
     <ClInclude Include="distortion.h" />
+    <ClInclude Include="VisibleSineCurve.h" />
+    <ClInclude Include="VisibleSineCurveComp.hpp" />
     <ClInclude Include="EnemyAIAStarComponent.hpp" />
     <ClInclude Include="EnemyAIComponent.hpp" />
     <ClInclude Include="DivisionComponent.hpp" />
@@ -267,6 +272,7 @@
     <ClInclude Include="PlayerSoundVolumeComp.hpp" />
     <ClInclude Include="RayComponent.hpp" />
     <ClInclude Include="RenderFragComp.hpp" />
+    <ClInclude Include="RenderingVisibleSineCurve.h" />
     <ClInclude Include="RenderingEnemySightSystem.h" />
     <ClInclude Include="RenderingEnemySystem.h" />
     <ClInclude Include="RenderingMapobjectSystem.h" />
@@ -292,6 +298,7 @@
     <ClInclude Include="TitleUI.hpp" />
     <ClInclude Include="UICircle.h" />
     <ClInclude Include="UICircleComp.hpp" />
+    <ClInclude Include="UpdateVisibleSineCurve.h" />
     <ClInclude Include="UpdateEnemyBack.h" />
     <ClInclude Include="UpdateEnemyChase.h" />
     <ClInclude Include="UpdateEnemyPredict.h" />
@@ -411,6 +418,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\UICircle.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\VisibleSineCurve.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>

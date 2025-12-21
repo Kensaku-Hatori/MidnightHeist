@@ -23,6 +23,7 @@
 #include "distortion.h"
 #include "UICircle.h"
 #include "Sound2D.h"
+#include "VisibleSineCurve.h"
 
 #include "UpdateGamePlayerSystem.h"
 #include "UpdateTitlePlayerSystem.h"
@@ -42,6 +43,7 @@
 #include "UpdateItemSystem.h"
 #include "UpdateUICircleSystem.hpp"
 #include "UpdateEnemyBack.h"
+#include "UpdateVisibleSineCurve.h"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
@@ -59,6 +61,7 @@
 #include "RenderingSkyBoxSystem.h"
 #include "RenderingUICircle.h"
 #include "RenderingEnemySightSystem.h"
+#include "RenderingVisibleSineCurve.h"
 
 // 名前空間
 using namespace std;
@@ -123,6 +126,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
 	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
+	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
@@ -141,6 +145,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new RenderingEnemySightSystem);
 	CSystemManager::AddRenderingSystem(new Render2DSystem);
 	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
+	CSystemManager::AddRenderingSystem(new RenderingVisibleSineCurveSystem);
 	CSystemManager::AddRenderingSystem(new RenderingPauseMenuSystem);
 
 	// 物理世界に必要なポインタを生成
@@ -200,6 +205,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CDistortion::Instance()->Init();
 	CDistortion::Instance()->Init();
 	CUICircle::Instance()->Init();
+	CVisibleSineCurve::Instance()->Init();
 
 	return S_OK;
 }

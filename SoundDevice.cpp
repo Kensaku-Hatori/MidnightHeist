@@ -11,7 +11,7 @@
 namespace SoundDevice {
     const SOUNDINFO aSoundInfo[LABEL_MAX] =
     {
-        {"data/SOUND/BGM/BGM.wav", XAUDIO2_LOOP_INFINITE},
+        {"data/SOUND/BGM/TITLEBGM.wav", XAUDIO2_LOOP_INFINITE},
         {"data/SOUND/BGM/GAMEBGM.wav", XAUDIO2_LOOP_INFINITE},
         {"data/SOUND/SE/ArrowShot.wav", 0},
         {"data/SOUND/SE/StuckArrow.wav", 0},

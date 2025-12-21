@@ -28,7 +28,7 @@ namespace SoundDevice {
 	// サウンドの列挙型
 	typedef enum
 	{
-		LABEL_BGM = 0,		// BGM
+		LABEL_TITLEBGM = 0,	// BGM
 		LABEL_GAMEBGM,		// ゲームBGM
 		LABEL_SHOT,			// 放つ音
 		LABEL_STUCK,		// 刺さる音

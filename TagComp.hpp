@@ -49,7 +49,11 @@ namespace Tag {
 	struct UICircleComponent {};
 	// 扇形視界
 	struct SightFanComponent {};
+	// 音の大きさ
+	struct VisibleSound {};
 }
+
+// 画面遷移用のタグ
 namespace SequenceTag {
 	struct InTitleComp {};
 	struct InGameComp {};

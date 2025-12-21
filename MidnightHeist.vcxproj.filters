@@ -166,6 +166,15 @@
     <Filter Include="ソース ファイル\Sound">
       <UniqueIdentifier>{db8caf04-ca68-4817-a188-edc92ac72410}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Rendering\EmitterVolumeVisual">
+      <UniqueIdentifier>{d4fbaaba-65c6-4cb6-bf47-486ba5ca185f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\EmitterVolumeVisual">
+      <UniqueIdentifier>{7c4224d5-8ad7-4d7f-ba51-203ee2cb860d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader\VisibleSineCurve">
+      <UniqueIdentifier>{372a6d45-34ce-4448-bd1d-c1b06392d7fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
@@ -380,6 +389,15 @@
     </ClCompile>
     <ClCompile Include="SoundDevice.cpp">
       <Filter>ソース ファイル\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingVisibleSineCurve.cpp">
+      <Filter>System\Rendering\EmitterVolumeVisual</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateVisibleSineCurve.cpp">
+      <Filter>System\Update\EmitterVolumeVisual</Filter>
+    </ClCompile>
+    <ClCompile Include="VisibleSineCurve.cpp">
+      <Filter>Shader\VisibleSineCurve</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -746,6 +764,18 @@
     <ClInclude Include="SoundDevice.h">
       <Filter>ヘッダー ファイル\Sound</Filter>
     </ClInclude>
+    <ClInclude Include="VisibleSineCurveComp.hpp">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingVisibleSineCurve.h">
+      <Filter>System\Rendering\EmitterVolumeVisual</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateVisibleSineCurve.h">
+      <Filter>System\Update\EmitterVolumeVisual</Filter>
+    </ClInclude>
+    <ClInclude Include="VisibleSineCurve.h">
+      <Filter>Shader\VisibleSineCurve</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
@@ -774,6 +804,9 @@
     </FxCompile>
     <FxCompile Include="data\SHADER\UICircle.hlsl">
       <Filter>Shader\UICircle</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\VisibleSineCurve.hlsl">
+      <Filter>Shader\VisibleSineCurve</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
