@@ -53,6 +53,7 @@ private:
 
     FLOAT32 m_emitterAzimuths[SoundDevice::InputChannels];
 	FLOAT32 m_matrixCoefficients[SoundDevice::InputChannels * SoundDevice::OutPutChannels];
+	UINT32 m_SourceChannels;
 };
 
 // ƒNƒ‰ƒX‚ð’è‹`

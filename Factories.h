@@ -20,7 +20,7 @@ namespace Factories {
 	entt::entity make3DSightFan(entt::registry& Reg);
 	void InitSightFan(entt::registry& Reg, entt::entity& Entity);
 
-	entt::entity makeEmitterVolume(entt::registry& Reg);
+	entt::entity makeEmitterVolume(entt::registry& Reg,const D3DXCOLOR Col);
 
 	entt::entity makeUICircle(entt::registry& Reg);
 	void InitUICircle(entt::registry& Reg, entt::entity& Entity);

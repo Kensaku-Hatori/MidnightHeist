@@ -184,7 +184,7 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 // 音の大きさを可視化オブジェクトを生成
 //*********************************************
-entt::entity Factories::makeEmitterVolume(entt::registry& Reg)
+entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR Col)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform3D>(myEntity, 1.0f);
@@ -192,7 +192,7 @@ entt::entity Factories::makeEmitterVolume(entt::registry& Reg)
 	Reg.emplace<VisibleSineCurveComp>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
-	Reg.emplace<ColorComp>(myEntity);
+	Reg.emplace<ColorComp>(myEntity, Col);
 	Reg.emplace<UVComp>(myEntity);
 
 	// デバイスを取得
@@ -320,7 +320,7 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 	std::vector<entt::entity> Parents;
 	Parents.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX)));
 	Parents.push_back(makeUICircle(Reg));
-	Parents.push_back(makeEmitterVolume(Reg));
+	Parents.push_back(makeEmitterVolume(Reg,WHITE));
 	entt::entity LockOnEntity = Reg.emplace<MulParentComp>(Entity, Parents).Parents[0];
 	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 }
@@ -360,7 +360,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	std::vector<entt::entity> Parents;
 	Parents.push_back(MeshFactories::makeLaser(Reg, myEntity));
 	Parents.push_back(make3DSightFan(Reg));
-	Parents.push_back(makeEmitterVolume(Reg));
+	Parents.push_back(makeEmitterVolume(Reg,RED));
 
 	Reg.emplace<MulParentComp>(myEntity, Parents);
 

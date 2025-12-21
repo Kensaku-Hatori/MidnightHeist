@@ -30,6 +30,7 @@ HRESULT CEmitter::Init(void)
 	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance()->GetSubMixVoice(SoundDevice::BUS_DEFAULT);
 	// フォーマット取得
 	WAVEFORMATEXTENSIBLE SetFmt = CSoundDevice::Instance()->GetAudioFMT(m_Label);
+	m_SourceChannels = SetFmt.Format.nChannels;
 
 	XAUDIO2_SEND_DESCRIPTOR sendDesc[2] = {
 		{ XAUDIO2_SEND_USEFILTER, MasteringVoice },
@@ -76,7 +77,7 @@ HRESULT CEmitter::Init(void)
 
 	m_emitter.OrientFront = D3DXVECTOR3(0, 0, 1);
 	m_emitter.OrientTop = D3DXVECTOR3(0, 1, 0);
-	m_emitter.ChannelCount = SoundDevice::InputChannels;
+	m_emitter.ChannelCount = m_SourceChannels;
 	m_emitter.ChannelRadius = 1.0f;
 	m_emitter.pChannelAzimuths = m_emitterAzimuths;
 
@@ -106,7 +107,7 @@ HRESULT CEmitter::Init(void)
 	m_emitter.CurveDistanceScaler = 200.0f;
 	m_emitter.DopplerScaler = 1.0f;
 
-	m_dspSettings.SrcChannelCount = SoundDevice::InputChannels;
+	m_dspSettings.SrcChannelCount = m_SourceChannels;
 	m_dspSettings.DstChannelCount = CSoundDevice::Instance()->GetChannels();
 	m_dspSettings.pMatrixCoefficients = m_matrixCoefficients;
 	m_dspSettings.DopplerFactor = 1.0f;
@@ -159,19 +160,14 @@ void CEmitter::Update(void)
 	{
 		// Apply X3DAudio generated DSP settings to XAudio2
 		m_pSourceVoice->SetFrequencyRatio(m_dspSettings.DopplerFactor);
-		m_pSourceVoice->SetOutputMatrix(MasteringVoice, SoundDevice::InputChannels, CSoundDevice::Instance()->GetChannels(),
+		m_pSourceVoice->SetOutputMatrix(MasteringVoice, m_SourceChannels, CSoundDevice::Instance()->GetChannels(),
 			m_matrixCoefficients);
-
-		float reverb[1] =
-		{
-			m_dspSettings.ReverbLevel
-		};
 
 		m_pSourceVoice->SetOutputMatrix(
 			SubMixVoice,
+			m_SourceChannels,
 			1,
-			1,
-			reverb
+			&m_dspSettings.ReverbLevel
 		);
 		XAUDIO2_FILTER_PARAMETERS FilterParametersDirect = { LowPassFilter, 2.0f * sinf(X3DAUDIO_PI / 6.0f * m_dspSettings.LPFDirectCoefficient), 1.0f }; // see XAudio2CutoffFrequencyToRadians() in XAudio2.h for more information on the formula used here
 		m_pSourceVoice->SetOutputFilterParameters(MasteringVoice, &FilterParametersDirect);
