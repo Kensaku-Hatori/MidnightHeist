@@ -50,7 +50,7 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 
 		// トランスフォームを取得
 		btTransform trans;
-		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+		trans = RBCmp.RigitBody->getWorldTransform();
 
 		// 描画モデルの位置
 		btVector3 newPos;

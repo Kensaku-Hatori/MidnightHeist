@@ -39,7 +39,7 @@ void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 
 		// テクスチャを設定
 		pDevice->SetTexture(0, TextureComp.Tex);
-		float bias = 0.000005f + (0.000001f * static_cast<int>(entity));
+		float bias = 0.000005f + (0.0000001f * static_cast<int>(entity));
 		pDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&bias);
 		// 頂点バッファをデバイスからデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));

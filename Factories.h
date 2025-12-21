@@ -25,7 +25,7 @@ namespace Factories {
 	entt::entity makeUICircle(entt::registry& Reg);
 	void InitUICircle(entt::registry& Reg, entt::entity& Entity);
 
-	entt::entity makeBacePlayer(entt::registry& Reg);
+	entt::entity makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos);
 	void InitBacePlayer(entt::registry& Reg, entt::entity& Entity);
 	void InitGamePlayer(entt::registry& Reg, entt::entity& Entity);
 	void InitTitlePlayer(entt::registry& Reg, entt::entity& Entity);

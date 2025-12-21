@@ -139,7 +139,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddRenderingSystem(new RenderXSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
 	CSystemManager::AddRenderingSystem(new RenderingTitlePlayerSystem);
-	CSystemManager::AddRenderingSystem(new RenderingGameSystem);
+	CSystemManager::AddRenderingSystem(new RenderingGamePlayerSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
 	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
 	CSystemManager::AddRenderingSystem(new RenderingEnemySightSystem);

@@ -18,7 +18,7 @@ using namespace SequenceTag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingGameSystem::Rendering(entt::registry& reg)
+void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 {
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
@@ -101,7 +101,7 @@ void RenderingGameSystem::Rendering(entt::registry& reg)
 //*********************************************
 // プレイヤーのシルエット描画
 //*********************************************
-void RenderingGameSystem::RenderingShape(entt::registry& Reg, entt::entity Entity)
+void RenderingGamePlayerSystem::RenderingShape(entt::registry& Reg, entt::entity Entity)
 {
 	auto& TransformComp = Reg.get<Transform3D>(Entity);
 	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);

@@ -42,9 +42,6 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& reg)
 		// マトリックスを取得
 		mtxWorld = TransformComp.GetWorldMatrix();
 
-		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
-
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
 

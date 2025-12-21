@@ -259,10 +259,10 @@ void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 // オブジェクトPlayerの生成
 //*********************************************
-entt::entity Factories::makeBacePlayer(entt::registry& Reg)
+entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos)
 {
 	entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 0.1f, D3DXVECTOR3(1000.0f, 300.0f, 375.0f));
+	Reg.emplace<Transform3D>(myEntity, 0.1f, Pos);
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
@@ -301,6 +301,7 @@ void Factories::InitBacePlayer(entt::registry& Reg, entt::entity& Entity)
 	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
 
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
+	RBCmp.RigitBody->setWorldTransform(transform);
 
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 }
@@ -331,6 +332,11 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
 {
 	Reg.emplace<InTitleComp>(Entity);
+	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+	btTransform transform;
+	transform = RBCmp.RigitBody->getWorldTransform();
+	btVector3 test = transform.getOrigin();
+	int i;
 }
 
 //*********************************************

@@ -50,7 +50,7 @@ HRESULT CGame::Init(void)
 	// ステージ読み込み
 	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
 	// プレイヤー生成
-	entt::entity Player = Factories::makeBacePlayer(GetReg());
+	entt::entity Player = Factories::makeBacePlayer(GetReg(), D3DXVECTOR3(1000.0f, 500.0f, 375.0f));
 	Factories::InitGamePlayer(GetReg(), Player);
 	// 巡回ポイント読み込み
 	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
