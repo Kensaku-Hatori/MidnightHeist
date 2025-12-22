@@ -422,7 +422,7 @@ void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Playe
 	auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
 	auto& PlayerTransform = Reg.get<Transform3D>(Player);
 	// 円の中心点をプレイヤーの座標基準に設定
-	D3DXVECTOR3 CirlcePos = PlayerTransform.Pos;
+	D3DXVECTOR3 CirlcePos = VEC3_NULL;
 	// 少し上にあげる
 	CirlcePos.y += 100.0f;
 	// 円形UIの情報を取得
