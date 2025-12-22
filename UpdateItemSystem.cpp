@@ -20,6 +20,8 @@
 #include "ItemComp.h"
 #include "ItemManagerComp.hpp"
 #include "math_T.h"
+#include "TransformComponent.hpp"
+#include "ChildComp.hpp"
 #include "game.h"
 
 // 名前空間
@@ -56,13 +58,13 @@ void UpdateItemSystem::Update(entt::registry& reg)
 void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 {
 	// ロックオンが無効だったら
-	if (Reg.valid(Reg.get<SingleParentComp>(Entity).Parent) == false) return;
+	if (Reg.valid(Reg.get<ChildrenComp>(Entity).Children[0]) == false) return;
 
 	auto ItemMangerView = Reg.view<ItemManagerComp>();
 	entt::entity ItemManagerEntity = *ItemMangerView.begin();
 	auto& ItemManagerCmp = Reg.get<ItemManagerComp>(ItemManagerEntity);
 	// ロックオンのエンティティを取得
-	entt::entity LockOnEntity = Reg.get<SingleParentComp>(Entity).Parent;
+	entt::entity LockOnEntity = Reg.get<ChildrenComp>(Entity).Children[0];
 	// ロックオンのコンポーネントを取得
 	auto& LockAnimCmp = Reg.get<LockOnAnimComp>(LockOnEntity);
 

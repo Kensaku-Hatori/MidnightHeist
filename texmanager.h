@@ -11,7 +11,6 @@
 
 // インクルード
 #include "main.h"
-#include "object.h"
 #include <unordered_map>
 
 // テクスチャを外部ファイルから読み込むクラス

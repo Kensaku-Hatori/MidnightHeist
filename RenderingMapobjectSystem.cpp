@@ -47,14 +47,11 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	D3DXMATRIX mtxWorld;						// 計算用マトリックス
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
 	CModelManager::MapObject modelinfo = RenderingComp.Info;
-
-	mtxWorld = TransformComp.GetWorldMatrix();
 
 	// 現在のマテリアルの取得
 	pDevice->GetMaterial(&matDef);
@@ -74,8 +71,6 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 
 		D3DXVECTOR4 SettCol = { col.MatD3D.Diffuse.r,col.MatD3D.Diffuse.g,col.MatD3D.Diffuse.b,col.MatD3D.Diffuse.a };
 
-		CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), modelinfo.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
-
 		if (col.pTextureFilename == NULL)
 		{
 			CToon::Instance()->BeginPass(0);
@@ -84,6 +79,8 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 		{
 			CToon::Instance()->BeginPass(1);
 		}
+
+		CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), modelinfo.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 		// モデル(パーツ)の描画
 		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);

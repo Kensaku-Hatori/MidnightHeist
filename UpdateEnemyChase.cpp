@@ -19,6 +19,8 @@
 #include "EnemyAIAStarComponent.hpp"
 #include "mapmanager.h"
 #include "math.h"
+#include "ChildComp.hpp"
+#include "CharactorComp.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -54,9 +56,9 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 
 		// 自分のコンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& Laser = reg.get<MulParentComp>(Entity);
+		auto& Laser = reg.get<ChildrenComp>(Entity);
 		// レーザーのコリジョンフラグを取得
-		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Parents[0]);
+		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Children[0]);
 
 		// プレイヤーとの間にオブジェクトがあったら
 		if (CollisionInfo.IsRayCollision == true)
@@ -100,6 +102,7 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
+	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
 	// プレイヤーのコンポーネントを取得
 	auto& PlayerTransCmp = Reg.get<Transform3D>(PlayerEntity);
 
@@ -131,7 +134,7 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 		angle += D3DX_PI;
 
 		// 目標のクォータニオンとして設定
-		D3DXQuaternionRotationAxis(&TransformCmp.QuatDest, &VecUp, angle);
+		D3DXQuaternionRotationAxis(&CharactorCmp.QuatDest, &VecUp, angle);
 
 		// 位置を計算、設定
 		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));

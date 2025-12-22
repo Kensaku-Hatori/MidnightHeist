@@ -12,6 +12,7 @@
 #include "VertexRenderingComponent.hpp"
 #include "manager.h"
 #include "ParentComponent.hpp"
+#include "TransformComponent.hpp"
 
 using namespace Tag;
 
@@ -31,18 +32,14 @@ void RenderMehLaerSystem::Rendering(entt::registry& reg)
 
 	for (auto entity : view)
 	{
+		// 自分自身の情報を取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& ParentCmp = reg.get<SingleParentComp>(entity);
-
 		auto& MeshInfo = reg.get<MeshInfoComp>(entity);
-
 		auto& VtxCmp = reg.get<VertexComp>(entity);
 		auto& IdxBuffCmp = reg.get<IndexBufferComp>(entity);
 
-		D3DXMATRIX mtxWorld = TransformCmp.GetMultiplyWorldMatrix(reg.get<Transform3D>(ParentCmp.Parent).GetWorldMatrix());
-
 		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+		pDevice->SetTransform(D3DTS_WORLD, &TransformCmp.mtxWorld);
 
 		//頂点バッファをデータストリームに設定
 		pDevice->SetStreamSource(0, VtxCmp.pVertex, 0, sizeof(VERTEX_3D));

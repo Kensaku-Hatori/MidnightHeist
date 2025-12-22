@@ -10,7 +10,6 @@
 #define _SCENE_H_
 
 // インクルード
-#include "object.h"
 
 // シーンクラスを定義
 class CScene

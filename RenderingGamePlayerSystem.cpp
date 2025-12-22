@@ -24,7 +24,6 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	D3DXMATRIX mtxWorld;	// 計算用マトリックス
 	D3DMATERIAL9 matDef;	// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
@@ -51,12 +50,6 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(entity);
 
-		// マトリックスを取得
-		mtxWorld = TransformComp.GetWorldMatrix();
-
-		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
-
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
 
@@ -77,7 +70,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 			pDevice->SetMaterial(&pCol.MatD3D);
 			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
 
-			CToon::Instance()->SetUseShadowMapParameters(mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+			CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 			// テクスチャパスがあるかどうか
 			if (pCol.pTextureFilename == NULL)
@@ -113,14 +106,11 @@ void RenderingGamePlayerSystem::RenderingShape(entt::registry& Reg, entt::entity
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	D3DXMATRIX mtxWorld;						// 計算用マトリックス
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 	// モデルmanagerからインデックスを指定して取得
 	CModelManager::MapObject modelinfo = RenderingComp.Info;
-
-	mtxWorld = TransformComp.GetWorldMatrix();
 
 	// 現在のマテリアルの取得
 	pDevice->GetMaterial(&matDef);
@@ -130,7 +120,7 @@ void RenderingGamePlayerSystem::RenderingShape(entt::registry& Reg, entt::entity
 
 	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 	{
-		CShapeShadow::Instance()->SetParameters(mtxWorld);
+		CShapeShadow::Instance()->SetParameters(TransformComp.mtxWorld);
 
 		CShapeShadow::Instance()->BeginPass(1);
 

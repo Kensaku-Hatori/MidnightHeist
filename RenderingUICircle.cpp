@@ -15,6 +15,7 @@
 #include "UICircleComp.hpp"
 #include "UICircle.h"
 #include "RenderFragComp.hpp"
+#include "TransformComponent.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -31,9 +32,6 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 
 	// エンテティのリストを取得
 	auto view = reg.view<UICircleComponent>();
-
-	// ワールドマトリックス
-	D3DXMATRIX mtxWorld;
 
 	// シェーダ起動
 	CUICircle::Instance()->Begin();
@@ -52,23 +50,22 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 		// 描画フラグが立っていなかったら
 		if (RenderFragCmp.IsRendering == false) continue;
 
-		// ワールドマトリックスを取得
-		mtxWorld = TransformCmp.GetWorldMatrix();
-
 		// ビューマトリックス取得
 		D3DXMATRIX mtxView;
 		pDevice->GetTransform(D3DTS_VIEW, &mtxView);
 
+		D3DXMATRIX mtxInv;
+		mtxInv = TransformCmp.mtxWorld;
 		// カメラの逆行列を設定
-		mtxWorld._11 = mtxView._11;
-		mtxWorld._12 = mtxView._21;
-		mtxWorld._13 = mtxView._31;
-		mtxWorld._21 = mtxView._12;
-		mtxWorld._22 = mtxView._22;
-		mtxWorld._23 = mtxView._32;
-		mtxWorld._31 = mtxView._13;
-		mtxWorld._32 = mtxView._23;
-		mtxWorld._33 = mtxView._33;
+		mtxInv._11 = mtxView._11;
+		mtxInv._12 = mtxView._21;
+		mtxInv._13 = mtxView._31;
+		mtxInv._21 = mtxView._12;
+		mtxInv._22 = mtxView._22;
+		mtxInv._23 = mtxView._32;
+		mtxInv._31 = mtxView._13;
+		mtxInv._32 = mtxView._23;
+		mtxInv._33 = mtxView._33;
 
 		// テクスチャを設定
 		pDevice->SetTexture(0, TextureCmp.Tex);
@@ -77,8 +74,8 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 		// 頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 		// パラメータ設定
-		D3DXMATRIX Origin = TransformCmp.GetWorldMatrix();
-		CUICircle::Instance()->SetParameters(mtxWorld, Origin, UICircleCmp.FillAmount, UICircleCmp.Radius, UICircleCmp.MaxFillAngle);
+		D3DXMATRIX Origin = TransformCmp.mtxWorld;
+		CUICircle::Instance()->SetParameters(mtxInv, Origin, UICircleCmp.FillAmount, UICircleCmp.Radius, UICircleCmp.MaxFillAngle);
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 	}

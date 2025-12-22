@@ -33,7 +33,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 
 	for (auto entity : view)
 	{
-		if (Reg.get<SingleParentComp>(entity).Parent == entt::null) continue;
+		if (Reg.get<ParentComp>(entity).Parent == entt::null) continue;
 		auto& SizeCmp = Reg.get<SizeComp>(entity);
 		auto& CollisionInfo = Reg.get<LaserCollisionInfoComp>(entity);
 
@@ -156,13 +156,14 @@ bool UpdateMeshLaserSystem::CollisionEntity(entt::registry& Reg, entt::entity En
 
 	// 自分自身のコンポーネントを取得
 	auto& LaserTrans = Reg.get<Transform3D>(Entity);
-	auto& Parent = Reg.get<SingleParentComp>(Entity);
+	auto& Parent = Reg.get<ParentComp>(Entity);
+	auto& EnemyTranf = Reg.get<Transform3D>(Parent.Parent);
 
 	// 親のワールドマトリックスとかけ合わせたマトリックス
-	D3DXMATRIX Mulmtx = LaserTrans.GetMultiplyWorldMatrix(Reg.get<Transform3D>(Parent.Parent).GetWorldMatrix());
+	D3DXMATRIX Mulmtx = CMath::CalcMultiplyMtxWorld(LaserTrans.Pos, LaserTrans.Scale, LaserTrans.Quat, EnemyTranf.mtxWorld);
 
 	// モデルのマトリックスの逆行列
-	D3DXMATRIX invWorld = TransformCmp.GetWorldMatrixInv();
+	D3DXMATRIX invWorld = CMath::CalcInverseMtxWorld(TransformCmp.Pos, TransformCmp.Scale, TransformCmp.Quat);
 
 	// レイの始点と向きのローカル変数
 	D3DXVECTOR3 localRayOrigin, localRayDir;

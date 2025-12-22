@@ -50,18 +50,19 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 
 		// トランスフォームを取得
 		btTransform trans;
-		trans = RBCmp.RigitBody->getWorldTransform();
-
-		// 描画モデルの位置
-		btVector3 newPos;
+		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
 
 		// 位置を取得
-		newPos = trans.getOrigin();
+		if (CMath::IsNanVector(trans.getOrigin()) == true)
+		{
+			// 描画モデルの位置
+			btVector3 newPos;
 
-		// 位置を計算、設定
-		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
-
-		UpdateRB(reg, entity);
+			newPos = trans.getOrigin();
+			// 位置を計算、設定
+			TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
+			UpdateRB(reg, entity);
+		}
 	}
 }
 

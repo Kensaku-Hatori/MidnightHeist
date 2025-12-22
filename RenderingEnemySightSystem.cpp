@@ -11,6 +11,7 @@
 #include "TransformComponent.hpp"
 #include "VertexRenderingComponent.hpp"
 #include "TextureRenderingComponent.h"
+#include "manager.h"
 
 // 名前空間
 using namespace Tag;
@@ -27,15 +28,11 @@ void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<SightFanComponent>();
 
-	D3DXMATRIX mtxWorld;
-
 	for (auto entity : view)
 	{
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& VtxComp = reg.get<VertexComp>(entity);
 		auto& TextureComp = reg.get<TexComp>(entity);
-
-		mtxWorld = TransformComp.GetWorldMatrix();
 
 		// テクスチャを設定
 		pDevice->SetTexture(0, TextureComp.Tex);
@@ -46,7 +43,7 @@ void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 		// 頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);
 
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 1);

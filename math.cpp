@@ -9,6 +9,7 @@
 #include "math.h"
 #include "math_T.h"
 #include "modelmanager.h"
+#include "TransformComponent.hpp"
 
 //***************************************
 // 浮動小数点のランダム
@@ -420,7 +421,7 @@ int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolP
 			auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 			// 当たったら
-			if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.GetWorldMatrix(), ToPointRay, &NowDistance) == true)
+			if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, ToPointRay, &NowDistance) == true)
 			{
 				// 距離が現在位置からポイントへの距離より多かったら障害物があると判定
 				float dist = D3DXVec3Length(&ToPointVec);
@@ -485,7 +486,7 @@ bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, st
 		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 		// 当たったら
-		if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.GetWorldMatrix(), ToPointRay, &NowDistance) == true)
+		if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, ToPointRay, &NowDistance) == true)
 		{
 			if (DestDistance > NowDistance)
 			{
@@ -572,6 +573,151 @@ bool CMath::IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, cons
 
 	// 当たったかどうかを返す
 	return hit;
+}
+
+/// <summary>
+/// ベクターの要素がすべて有効かどうか
+/// </summary>
+/// <param name="Condition">"確かめたいベクトル変数"</param>
+/// <returns>"true = 有効","false = 無効s"</returns>
+bool CMath::IsNanVector(const D3DXVECTOR3& Condition)
+{
+	return !std::isnan(Condition.x) && !std::isnan(Condition.y), !std::isnan(Condition.z);
+}
+
+/// <summary>
+/// ベクターの要素がすべて有効かどうか
+/// </summary>
+/// <param name="Condition">"確かめたいベクトル変数"</param>
+/// <returns>"true = 有効","false = 無効s"</returns>
+bool CMath::IsNanVector(const btVector3& Condition)
+{
+	return !std::isnan(Condition.x()) && !std::isnan(Condition.y()), !std::isnan(Condition.z());
+}
+
+/// <summary>
+/// ワールドマトリックスの計算
+/// </summary>
+/// <param name="Out">"出力用マトリックス(初期化済み)"</param>
+/// <param name="Pos">"位置"</param>
+/// <param name="Scale">"拡大率"</param>
+/// <param name="Quat">"向き"</param>
+/// <returns>"計算結果"</returns>
+D3DXMATRIX CMath::CalcMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
+{
+	// 拡大率のマトリックス、回転行列、平行移動行列を計算
+	D3DXMATRIX mtxScale, mtxRotation, mtxTransform;
+	D3DXMatrixIdentity(Out);
+	D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+	D3DXMatrixMultiply(Out, Out, &mtxScale);
+	D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+	D3DXMatrixMultiply(Out, Out, &mtxRotation);
+	D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+	D3DXMatrixMultiply(Out, Out, &mtxTransform);
+
+	// かけ合わせたものを返す
+	return *Out;
+}
+
+/// <summary>
+/// マトリックス同士をかけ合わせる
+/// </summary>
+/// <param name="Out">"出力用マトリックス(初期化済み)"</param>
+/// <param name="Pos">"位置"</param>
+/// <param name="Scale">"大きさ"</param>
+/// <param name="Quat">"向き"</param>
+/// <param name="Parent">"かけ合わせるマトリックス"</param>
+/// <returns>"計算結果"</returns>
+D3DXMATRIX CMath::CalcMultiplyMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat, D3DXMATRIX Parent)
+{
+	// 拡大率のマトリックス、回転行列、平行移動行列を計算
+	D3DXMATRIX mtxScale, mtxRotation, mtxTransform;
+	D3DXMatrixIdentity(Out);
+	D3DXMatrixMultiply(Out, Out, &Parent);
+	D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+	D3DXMatrixMultiply(Out, Out, &mtxScale);
+	D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+	D3DXMatrixMultiply(Out, Out, &mtxRotation);
+	D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+	D3DXMatrixMultiply(Out, Out, &mtxTransform);
+
+	// かけ合わせたものを返す
+	return *Out;
+}
+
+/// <summary>
+/// 逆行列を計算
+/// </summary>
+/// <param name="Out">"出力用マトリックス(初期化済み)"</param>
+/// <param name="Pos">"位置"</param>
+/// <param name="Scale">"大きさ"</param>
+/// <param name="Quat">"向き"</param>
+/// <returns>"計算結果"</returns>
+D3DXMATRIX CMath::CalcInverseMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
+{
+	// 拡大率のマトリックス、回転行列、平行移動行列を計算
+	D3DXMATRIX mtxScale, mtxRotation, mtxTransform;
+	D3DXMatrixIdentity(Out);
+	D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+	D3DXMatrixMultiply(Out, Out, &mtxScale);
+	D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+	D3DXMatrixMultiply(Out, Out, &mtxRotation);
+	D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+	D3DXMatrixMultiply(Out, Out, &mtxTransform);
+	D3DXMatrixInverse(Out, NULL, Out);
+
+	// かけ合わせたものを返す
+	return *Out;
+}
+
+D3DXMATRIX CMath::CalcMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
+{
+	// 拡大率のマトリックス、回転行列、平行移動行列を計算
+	D3DXMATRIX mtxScale, mtxRotation, mtxTransform,mtxWorld;
+	D3DXMatrixIdentity(&mtxWorld);
+	D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
+	D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRotation);
+	D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTransform);
+
+	// かけ合わせたものを返す
+	return mtxWorld;
+}
+
+D3DXMATRIX CMath::CalcMultiplyMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat, D3DXMATRIX Parent)
+{
+	// 拡大率のマトリックス、回転行列、平行移動行列を計算
+	D3DXMATRIX mtxScale, mtxRotation, mtxTransform,mtxWorld;
+	D3DXMatrixIdentity(&mtxWorld);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &Parent);
+	D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
+	D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRotation);
+	D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTransform);
+
+	// かけ合わせたものを返す
+	return mtxWorld;
+}
+
+D3DXMATRIX CMath::CalcInverseMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
+{
+	// 拡大率のマトリックス、回転行列、平行移動行列を計算
+	D3DXMATRIX mtxScale, mtxRotation, mtxTransform,mtxWorld;
+	D3DXMatrixIdentity(&mtxWorld);
+	D3DXMatrixScaling(&mtxScale, Scale.x, Scale.y, Scale.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxScale);
+	D3DXMatrixRotationQuaternion(&mtxRotation, &Quat);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRotation);
+	D3DXMatrixTranslation(&mtxTransform, Pos.x, Pos.y, Pos.z);
+	D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxTransform);
+	D3DXMatrixInverse(&mtxWorld, NULL, &mtxWorld);
+
+	// かけ合わせたものを返す
+	return mtxWorld;
 }
 
 ////***************************************

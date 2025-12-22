@@ -19,6 +19,7 @@
 #include "PlayerSoundVolumeComp.hpp"
 #include "mapmanager.h"
 #include "EnemySoundListener.hpp"
+#include "CharactorComp.hpp"
 #include "math.h"
 
 // –¼‘O‹óŠÔ
@@ -149,6 +150,7 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
+	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
 
 	// Ý’è
 	RBCmp.RigitBody->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
@@ -178,5 +180,5 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	angle += D3DX_PI;
 
 	D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
-	TransformCmp.QuatDest = SetQuat;
+	CharactorCmp.QuatDest = SetQuat;
 }

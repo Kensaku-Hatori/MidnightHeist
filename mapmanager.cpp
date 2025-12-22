@@ -10,6 +10,7 @@
 #include "shadowmap.h"
 #include "game.h"
 #include "Factories.h"
+#include "manager.h"
 
 // ネームスペース
 using namespace nlohmann;

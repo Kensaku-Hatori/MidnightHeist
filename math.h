@@ -39,6 +39,14 @@ public:
 	static bool IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, std::vector<entt::entity>& MapObjects);
 	static bool IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point);
 	static bool IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance = nullptr);
+	static bool IsNanVector(const D3DXVECTOR3& Condition);
+	static bool IsNanVector(const btVector3& Condition);
+	static D3DXMATRIX CalcMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat);
+	static D3DXMATRIX CalcMultiplyMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat, D3DXMATRIX Parent);
+	static D3DXMATRIX CalcInverseMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat);
+	static D3DXMATRIX CalcMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat);
+	static D3DXMATRIX CalcMultiplyMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat, D3DXMATRIX Parent);
+	static D3DXMATRIX CalcInverseMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat);
 	//static float CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 	//static float CalcCapCapDist(CCollision::Capsule Cap1, CCollision::Capsule Cap2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 private:

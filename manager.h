@@ -14,7 +14,6 @@
 #include "input.h"
 #include "camera.h"
 #include "light.h"
-#include "object.h"
 #include "line.h"
 
 // ‘O•ûéŒ¾

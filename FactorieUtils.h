@@ -51,3 +51,5 @@
 #include "Sound3D.h"
 #include "VisibleSineCurveComp.hpp"
 #include "EnemySoundListener.hpp"
+#include "ChildComp.hpp"
+#include "CharactorComp.hpp"

@@ -26,7 +26,6 @@ void RenderXSystem::Rendering(entt::registry& reg)
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-	D3DXMATRIX mtxWorld;	// 計算用マトリックス
 	D3DMATERIAL9 matDef;	// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
@@ -38,10 +37,8 @@ void RenderXSystem::Rendering(entt::registry& reg)
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(entity);
 
-		mtxWorld = TransformComp.GetWorldMatrix();
-
 		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);

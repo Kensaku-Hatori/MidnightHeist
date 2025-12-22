@@ -19,6 +19,7 @@
 #include "Factories.h"
 #include "math.h"
 #include "mapmanager.h"
+#include "CharactorComp.hpp"
 #include "math_T.h"
 
 // –¼‘O‹óŠÔ
@@ -143,6 +144,7 @@ void UpdateEnemyPredictSystem::UpdateMove(entt::registry& Reg, entt::entity& Ent
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
+	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
 
 	// Ý’è
 	RBCmp.RigitBody->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
@@ -172,5 +174,5 @@ void UpdateEnemyPredictSystem::UpdateMove(entt::registry& Reg, entt::entity& Ent
 	angle += D3DX_PI;
 
 	D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
-	TransformCmp.QuatDest = SetQuat;
+	CharactorCmp.QuatDest = SetQuat;
 }

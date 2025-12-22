@@ -15,7 +15,7 @@ using namespace SequenceTag;
 //*********************************************
 // オブジェクト2Dの生成
 //*********************************************
-entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path, D3DXVECTOR2 Pos, D3DXVECTOR2 Size)
+entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path, D3DXVECTOR2 Pos, D3DXVECTOR2 Size, entt::entity Parent)
 {
 	const entt::entity myEntity = Reg.create();
 	Reg.emplace<Transform2D>(myEntity, Pos);
@@ -26,6 +26,7 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 	Reg.emplace<ColorComp>(myEntity);
 	Reg.emplace<UVComp>(myEntity);
 	Reg.emplace<LayerComp>(myEntity, Layer);
+	Reg.emplace<ParentComp>(myEntity, Parent);
 
 	// デバイスを取得
 	CRenderer* pRenderer;
@@ -51,7 +52,7 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 entt::entity Factories::makeObject3D(entt::registry& Reg)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
 	Reg.emplace<Object3DComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
@@ -85,7 +86,7 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
 	Reg.emplace<ObjectXComponent>(myEntity);
 	Reg.emplace<LayerComp>(myEntity,3);
 	Reg.emplace<XRenderingComp>(myEntity, Path);
@@ -96,10 +97,10 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 //*********************************************
 // 3Dの視界を生成
 //*********************************************
-entt::entity Factories::make3DSightFan(entt::registry& Reg)
+entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 {
 	entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Reg.emplace<SightFanComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\EnemySight.png");
@@ -107,6 +108,7 @@ entt::entity Factories::make3DSightFan(entt::registry& Reg)
 	Reg.emplace<ColorComp>(myEntity,RED);
 	Reg.emplace<UVComp>(myEntity);
 	Reg.emplace<NorComp>(myEntity, D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	Reg.emplace<ParentComp>(myEntity, Parent);
 
 	// デバイスを取得
 	CRenderer* pRenderer;
@@ -184,16 +186,17 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 // 音の大きさを可視化オブジェクトを生成
 //*********************************************
-entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR Col)
+entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR Col, entt::entity Parent)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f);
+	Reg.emplace<Transform3D>(myEntity);
 	Reg.emplace<VisibleSound>(myEntity);
 	Reg.emplace<VisibleSineCurveComp>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\floor.jpg");
 	Reg.emplace<ColorComp>(myEntity, Col);
 	Reg.emplace<UVComp>(myEntity);
+	Reg.emplace<ParentComp>(myEntity, Parent);
 
 	// デバイスを取得
 	CRenderer* pRenderer;
@@ -216,10 +219,10 @@ entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR C
 //*********************************************
 // 円形UIの生成
 //*********************************************
-entt::entity Factories::makeUICircle(entt::registry& Reg)
+entt::entity Factories::makeUICircle(entt::registry& Reg, entt::entity Parent)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 100.0f, 0.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 100.0f, 0.0f));
 	Reg.emplace<UICircleComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "");
@@ -230,6 +233,7 @@ entt::entity Factories::makeUICircle(entt::registry& Reg)
 	Reg.emplace<UICircleComp>(myEntity, 25.0f);
 	Reg.emplace<RenderFragComp>(myEntity);
 	Reg.emplace<LayerComp>(myEntity, 3);
+	Reg.emplace<ParentComp>(myEntity, Parent);
 
 	// デバイスを取得
 	CRenderer* pRenderer;
@@ -262,12 +266,13 @@ void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
 entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos)
 {
 	entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 0.1f, Pos);
+	Reg.emplace<Transform3D>(myEntity, Pos);
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
+	Reg.emplace<CharactorComp>(myEntity, 0.1f);
 
 	InitBacePlayer(Reg, myEntity);
 
@@ -301,7 +306,6 @@ void Factories::InitBacePlayer(entt::registry& Reg, entt::entity& Entity)
 	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
 
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
-	RBCmp.RigitBody->setWorldTransform(transform);
 
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 }
@@ -318,11 +322,11 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 	Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<PlayerStateComp>(Entity);
 	Reg.emplace<PlayerAnimComp>(Entity);
-	std::vector<entt::entity> Parents;
-	Parents.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX)));
-	Parents.push_back(makeUICircle(Reg));
-	Parents.push_back(makeEmitterVolume(Reg,WHITE));
-	entt::entity LockOnEntity = Reg.emplace<MulParentComp>(Entity, Parents).Parents[0];
+	std::vector<entt::entity> Children;
+	Children.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX), D3DXVECTOR2(100.0f, 100.0f), Entity));
+	Children.push_back(makeUICircle(Reg, Entity));
+	Children.push_back(makeEmitterVolume(Reg, WHITE, Entity));
+	entt::entity LockOnEntity = Reg.emplace<ChildrenComp>(Entity, Children).Children[0];
 	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 }
 
@@ -332,11 +336,6 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
 {
 	Reg.emplace<InTitleComp>(Entity);
-	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
-	btTransform transform;
-	transform = RBCmp.RigitBody->getWorldTransform();
-	btVector3 test = transform.getOrigin();
-	int i;
 }
 
 //*********************************************
@@ -345,9 +344,9 @@ void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
 entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vector<EnemyState::PatrolMap>& PointList)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 0.01f, Pos);
+	Reg.emplace<Transform3D>(myEntity, Pos);
 	auto& Trans = Reg.get<Transform3D>(myEntity);
-	D3DXMATRIX Basis = Trans.GetBasis();
+	D3DXMATRIX Basis = Trans.mtxBasis;
 	D3DXVECTOR3 FrontVec = { Basis._31,Basis._32,Basis._33 };
 	D3DXQuaternionRotationYawPitchRoll(&Trans.Quat, D3DX_PI, 0.0f, 0.0f);
 	Reg.emplace<VelocityComp>(myEntity);
@@ -355,6 +354,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<EnemyComponent>(myEntity);
 	Reg.emplace<EnemyListenerComp>(myEntity);
 	Reg.emplace<EnemyAIComp>(myEntity, EnemyState::ENEMYSTATE::SEARCH, PointList).Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE, Pos);
+	Reg.emplace<CharactorComp>(myEntity,0.1f);
 	auto& AI = Reg.get<EnemyAIComp>(myEntity);
 	AI.Emitter->Play();
 	Reg.emplace<CastShadow>(myEntity);
@@ -363,12 +363,12 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
 	Reg.emplace<EnemtAIAstarComp>(myEntity);
 
-	std::vector<entt::entity> Parents;
-	Parents.push_back(MeshFactories::makeLaser(Reg, myEntity));
-	Parents.push_back(make3DSightFan(Reg));
-	Parents.push_back(makeEmitterVolume(Reg,RED));
+	std::vector<entt::entity> Children;
+	Children.push_back(MeshFactories::makeLaser(Reg, myEntity));
+	Children.push_back(make3DSightFan(Reg, myEntity));
+	Children.push_back(makeEmitterVolume(Reg,RED, myEntity));
 
-	Reg.emplace<MulParentComp>(myEntity, Parents);
+	Reg.emplace<ChildrenComp>(myEntity, Children);
 
 	return myEntity;
 }
@@ -379,7 +379,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale)
 {
 	entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, Pos, Scale, Quat);
+	Reg.emplace<Transform3D>(myEntity, Pos, Scale, Quat);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<CastShapeShadow>(myEntity);
 	Reg.emplace<MapObjectComponent>(myEntity);
@@ -407,7 +407,9 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 		Reg.emplace<ItemComp>(Entity, 100.0f);
 		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
 		Reg.emplace<ItemComponent>(Entity);
-		entt::entity LockOnEntity = Reg.emplace<SingleParentComp>(Entity, makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX))).Parent;
+		std::vector<entt::entity> Children;
+		Children.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX), D3DXVECTOR2(100.0f, 100.0f), Entity));
+		entt::entity LockOnEntity = Reg.emplace<ChildrenComp>(Entity, Children).Children[0];
 		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 30, 60, 60);
 	}
 }
@@ -460,10 +462,9 @@ void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent
 {
 	for (int nCnt = 0; nCnt < static_cast<unsigned int>(PauseMenu::MENUTYPE::MAX); nCnt++)
 	{
-		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, PauseMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
+		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, PauseMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f }, Parent);
 		Reg.remove<Object2DComponent>(menuEntity);
 		Reg.emplace<PauseMenuComponent>(menuEntity);
-		Reg.emplace<SingleParentComp>(menuEntity, Parent);
 		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
 	}
 }
@@ -629,9 +630,9 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, 1.0f, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
 	Reg.emplace<LaserComponent>(myEntity);
-	Reg.emplace<SingleParentComp>(myEntity, Parent);
+	Reg.emplace<ParentComp>(myEntity, Parent);
 	Reg.emplace <LaserCollisionInfoComp>(myEntity);
 
 	Reg.emplace<DivisionComp>(myEntity, 2, 8);

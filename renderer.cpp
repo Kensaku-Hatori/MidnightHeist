@@ -7,7 +7,6 @@
 
 // インクルード
 #include "renderer.h"
-#include "Object.h"
 #include "debugproc.h"
 #include "manager.h"
 #include "line.h"
@@ -248,9 +247,6 @@ void CRenderer::Uninit()
 	//----------------------------
 	//各種オブジェクトの終了処理
 	//----------------------------
-
-	CObject::ReleaseAll();
-
 	CSystemManager::EndSystem();
 
 	m_pDebugProc->Uninit();
@@ -289,7 +285,6 @@ void CRenderer::Uninit()
 //************************************
 void CRenderer::Update()
 {
-	CObject::UpdateAll();
 	if (CSystemManager::GetUpdateSystemSize != NULL)CSystemManager::UpdateAll(CManager::GetScene()->GetReg());
 
 	static bool isFullScrean = false;
@@ -355,8 +350,8 @@ void CRenderer::Draw()
 		// ラインの描画
 		//m_pLine->Draw();
 
-		// オブジェクトの描画
-		CObject::DrawAll();
+		CCamera* pCamera = CManager::GetCamera();
+		pCamera->SetCamera();
 
 		// 描画システムの描画
 		if (CSystemManager::GetRenderingSystemSize != NULL)CSystemManager::RenderingAll(CManager::GetScene()->GetReg());

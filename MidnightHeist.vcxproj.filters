@@ -175,15 +175,18 @@
     <Filter Include="Shader\VisibleSineCurve">
       <UniqueIdentifier>{372a6d45-34ce-4448-bd1d-c1b06392d7fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Charactor">
+      <UniqueIdentifier>{a435c973-db72-4f77-b6e0-3308136605af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Calc">
+      <UniqueIdentifier>{cbc68277-6479-4676-ac56-8d0014cbc10b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="default.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="effect3d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="input.cpp">
@@ -205,15 +208,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="modelmanager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="object.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="objectbillboard.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="particle3d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
@@ -399,15 +393,15 @@
     <ClCompile Include="VisibleSineCurve.cpp">
       <Filter>Shader\VisibleSineCurve</Filter>
     </ClCompile>
+    <ClCompile Include="UpdateMtxSystem.cpp">
+      <Filter>System\Update\Calc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debugproc.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="default.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="effect3d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="input.h">
@@ -435,12 +429,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="modelmanager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="objectbillboard.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="particle3d.h">
@@ -775,6 +763,15 @@
     </ClInclude>
     <ClInclude Include="VisibleSineCurve.h">
       <Filter>Shader\VisibleSineCurve</Filter>
+    </ClInclude>
+    <ClInclude Include="ChildComp.hpp">
+      <Filter>Component\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CharactorComp.hpp">
+      <Filter>Component\Charactor</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateMtxSystem.h">
+      <Filter>System\Update\Calc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

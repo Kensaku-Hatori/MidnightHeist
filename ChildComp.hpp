@@ -9,15 +9,9 @@
 #pragma once
 
 // シンプルな親子関係コンポーネントを宣言
-struct ParentComp {
+struct ChildrenComp {
 	// イニシャライズコンストラクタ
-	ParentComp(const entt::entity ParentEntity = entt::null) : Parent(ParentEntity) {
-		static int Idx = 0;
-		nIdx = Idx;
-		Idx++;
-	}
-	// 生成準
-	int nIdx;
-	// 親のエンティティ
-	entt::entity Parent;
+	ChildrenComp(const std::vector<entt::entity> Children = {}) : Children(Children) {}
+	// 子供のリスト
+	std::vector<entt::entity> Children;
 };

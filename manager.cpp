@@ -44,6 +44,7 @@
 #include "UpdateUICircleSystem.hpp"
 #include "UpdateEnemyBack.h"
 #include "UpdateVisibleSineCurve.h"
+#include "UpdateMtxSystem.h"
 
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
@@ -127,6 +128,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
 	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
 	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
 	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
@@ -358,7 +360,6 @@ void CManager::SetScene(CScene* Scene)
 	{
 		m_pScene->Uninit();
 		m_pScene = NULL;
-		CObject::ReleaseAll();
 	}
 	m_pScene = Scene;
 	m_pScene->Init();

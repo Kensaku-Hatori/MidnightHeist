@@ -66,8 +66,8 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 
 		// キューブマップ用のシェーダーを設定
 		CDefaultCubemap::Instance()->Begin();
-		CDefaultCubemap::Instance()->SetParameters(mtxWorld, SkyBoxCmp.pCubeTex);
 		CDefaultCubemap::Instance()->BeginPass(0);
+		CDefaultCubemap::Instance()->SetParameters(mtxWorld, SkyBoxCmp.pCubeTex);
 
 		//メッシュキューブを描画
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);

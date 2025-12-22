@@ -15,6 +15,7 @@
 #include "ColorComponent.hpp"
 #include "NormalComponent.hpp"
 #include "UVComponent.hpp"
+#include "TransformComponent.hpp"
 
 using namespace Tag;
 
@@ -27,6 +28,7 @@ void Update3DSystem::Update(entt::registry& reg)
 
 	for (auto entity : view)
 	{
+		auto& Trans = reg.get<Transform3D>(entity);
 		auto& VtxCmp = reg.get<VertexComp>(entity);
 		auto& SizeCmp = reg.get<SizeComp>(entity);
 		auto& ColorCmp = reg.get<ColorComp>(entity);
@@ -65,6 +67,6 @@ void Update3DSystem::Update(entt::registry& reg)
 		}
 		// 頂点バッファをアンロック
 		VtxCmp.pVertex->Unlock();
-
+		CMath::CalcMtxWorld(&Trans.mtxWorld, Trans.Pos, Trans.Scale, Trans.Quat);
 	}
 }

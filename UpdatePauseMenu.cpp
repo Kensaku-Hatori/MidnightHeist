@@ -15,6 +15,7 @@
 #include "SizeComponent.hpp"
 #include "UVComponent.hpp"
 #include "math_T.h"
+#include "TransformComponent.hpp"
 
 // –¼‘O‹óŠÔ
 using namespace Tag;

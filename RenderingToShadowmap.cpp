@@ -11,6 +11,7 @@
 #include "TransformComponent.hpp"
 #include "XRenderingComponent.hpp"
 #include "shadowmap.h"
+#include "manager.h"
 
 // 名前空間
 using namespace Tag;
@@ -44,14 +45,11 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingComp.FilePath.empty() == true) return;
 
-		D3DXMATRIX mtxWorld;						// 計算用マトリックス
 		D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 		D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
 		// モデルmanagerからインデックスを指定して取得
 		CModelManager::MapObject modelinfo = RenderingComp.Info;
-
-		mtxWorld = TransformComp.GetWorldMatrix();
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
@@ -61,7 +59,7 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 		{
-			CShadowMap::Instance()->SetParameters(mtxWorld);
+			CShadowMap::Instance()->SetParameters(TransformComp.mtxWorld);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);

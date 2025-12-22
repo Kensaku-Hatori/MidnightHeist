@@ -31,6 +31,8 @@
 #include "mapmanager.h"
 #include "math_T.h"
 #include "Sound3D.h"
+#include "ChildComp.hpp"
+#include "CharactorComp.hpp"
 #include "math.h"
 
 // 名前空間
@@ -55,9 +57,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& StateCmp = reg.get<PlayerStateComp>(entity);
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
 
-		D3DXMATRIX mtxWorld = TransformCmp.GetWorldMatrix();
-
-		D3DXVECTOR3 Front = { -mtxWorld._31,-mtxWorld._32,-mtxWorld._33 };
+		D3DXVECTOR3 Front = { -TransformCmp.mtxWorld._31,-TransformCmp.mtxWorld._32,-TransformCmp.mtxWorld._33 };
 		CListener::Instance()->SetPos(TransformCmp.Pos);
 		CListener::Instance()->SetFront(Front);
 
@@ -65,13 +65,11 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		SoundCmp.SoundVolume = PlayerSoundVolumeConfig::Bace * PlayerSoundVolumeConfig::Scale[static_cast<int>(StateCmp.NowState)];
 
 		// 円形UIの情報を取得
-		auto& Parents = reg.get<MulParentComp>(entity);
-		auto& CircleRenderFrag = reg.get<RenderFragComp>(Parents.Parents[1]);
-		auto& TransSineCurveCmp = reg.get<Transform3D>(Parents.Parents[2]);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(Parents.Parents[2]);
+		auto& Parents = reg.get<ChildrenComp>(entity);
+		auto& CircleRenderFrag = reg.get<RenderFragComp>(Parents.Children[1]);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(Parents.Children[2]);
 
 		SineCurveCmp.Radius = SoundCmp.SoundVolume;
-		TransSineCurveCmp.Pos = { mtxWorld._41,mtxWorld._42,mtxWorld._43 };
 
 		// 描画フラグを折る
 		CircleRenderFrag.IsRendering = false;
@@ -192,8 +190,9 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 {
 	// コンポーネント取得
 	auto& RBCmp = reg.get<RigitBodyComp>(Player);
-	auto& TransformCmp = reg.get<Transform3D>(Player);
+	auto& Trans = reg.get<Transform3D>(Player);
 	auto& PlayerStateCmp = reg.get<PlayerStateComp>(Player);
+	auto& CharactorCmp = reg.get<CharactorComp>(Player);
 
 	// 早期リターン
 	if (RBCmp.RigitBody == nullptr) return;
@@ -247,9 +246,11 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 		angle += D3DX_PI;
 
 		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
-		TransformCmp.QuatDest = SetQuat;
+		CharactorCmp.QuatDest = SetQuat;
 		// スピードを掛ける
 		moveDir *= Speed;
+		CharactorCmp.QuatDest = SetQuat;
+		D3DXQuaternionSlerp(&Trans.Quat, &Trans.Quat, &CharactorCmp.QuatDest, CharactorCmp.QuatSpeed);
 	}
 	else
 	{
@@ -272,10 +273,10 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 void UpdateGamePlayerSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 {
 	// ロックオンが無効だったら
-	if (reg.valid(reg.get<MulParentComp>(Player).Parents[0]) == false) return;
+	if (reg.valid(reg.get<ChildrenComp>(Player).Children[0]) == false) return;
 
 	// ロックオンエンティティを取得
-	entt::entity LockOnEntity = reg.get<MulParentComp>(Player).Parents[0];
+	entt::entity LockOnEntity = reg.get<ChildrenComp>(Player).Children[0];
 
 	// ロックオンエンティティのコンポーネントを取得
 	auto& LockAnimCmp = reg.get<LockOnAnimComp>(LockOnEntity);
@@ -372,8 +373,8 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 	auto ItemView = Reg.view<ItemComponent>();
 
 	// 円形UIの情報を取得
-	auto& CircleEntity = Reg.get<MulParentComp>(Player);
-	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Parents[1]);
+	auto& CircleEntity = Reg.get<ChildrenComp>(Player);
+	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Children[1]);
 
 	// アクセス
 	for (auto entity : ItemView)
@@ -425,10 +426,10 @@ void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Playe
 	// 少し上にあげる
 	CirlcePos.y += 100.0f;
 	// 円形UIの情報を取得
-	auto& CircleEntity = Reg.get<MulParentComp>(Player);
-	auto& CircleTransform = Reg.get<Transform3D>(CircleEntity.Parents[1]);
-	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Parents[1]);
-	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Parents[1]);
+	auto& CircleEntity = Reg.get<ChildrenComp>(Player);
+	auto& CircleTransform = Reg.get<Transform3D>(CircleEntity.Children[1]);
+	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Children[1]);
+	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Children[1]);
 
 	// ステートによって処理を分ける
 	switch (PlayerStateCmp.NowState)

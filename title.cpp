@@ -48,7 +48,7 @@ HRESULT CTitle::Init(void)
 	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/Title/MidNightHeist.png", { 340.0f,160.0f }, { 200.0f,100.0f });
 	Factories::makeObject3D(GetReg());
 
-	entt::entity Player = Factories::makeBacePlayer(GetReg(), D3DXVECTOR3(0.0f, 50.0f, 700.0f));
+	entt::entity Player = Factories::makeBacePlayer(GetReg(), D3DXVECTOR3(0.0f, 10.0f, 700.0f));
 	Factories::InitTitlePlayer(GetReg(), Player);
 
 	Factories::makeMapobject(GetReg(), "data\\MODEL\\Museum.x");

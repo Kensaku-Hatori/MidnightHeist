@@ -11,6 +11,7 @@
 #include "TagComp.hpp"
 #include "VertexRenderingComponent.hpp"
 #include "TextureRenderingComponent.h"
+#include "TransformComponent.hpp"
 #include "manager.h"
 
 using namespace Tag;
@@ -36,10 +37,8 @@ void RenderMehFieldSystem::Rendering(entt::registry& reg)
 		pRenderer = CManager::GetRenderer();
 		LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
-		D3DXMATRIX mtxWorld = TransformCmp.GetWorldMatrix();
-
 		// ワールドマトリックスの設定
-		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld);
+		pDevice->SetTransform(D3DTS_WORLD, &TransformCmp.mtxWorld);
 
 		//頂点バッファをデータストリームに設定
 		pDevice->SetStreamSource(0, VtxCmp.pVertex, 0, sizeof(VERTEX_3D));
