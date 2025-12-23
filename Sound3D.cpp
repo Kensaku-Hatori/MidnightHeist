@@ -8,24 +8,29 @@
 // インクルード
 #include "Sound3D.h"
 
+// 定数
+// 
 //*********************************************
 // 初期化
 //*********************************************
 HRESULT CEmitter::Init(void)
 {
-	m_Emitter_LFE_CurvePoints[0] = { 0.0f, 1.0f };
-	m_Emitter_LFE_CurvePoints[1] = { 0.25f, 0.0f };
-	m_Emitter_LFE_CurvePoints[2] = { 1.0f, 0.0f };
-
-	m_Emitter_Reverb_CurvePoints[0] = { 0.0f, 0.5f };
-	m_Emitter_Reverb_CurvePoints[1] = { 0.75f, 1.0f };
-	m_Emitter_Reverb_CurvePoints[2] = { 1.0f, 0.0f };
-
-	m_Emitter_LFE_Curve = { (X3DAUDIO_DISTANCE_CURVE_POINT*)&m_Emitter_LFE_CurvePoints[0], 3 };
-
 	HRESULT hr;
 
+	// LFEカーブ
+	m_Emitter_LFE_CurvePoints[0] = { 0.0f,1.0f };
+	m_Emitter_LFE_CurvePoints[1] = { 0.25f,0.0f };
+	m_Emitter_LFE_CurvePoints[2] = { 1.0f,0.0f };
+	m_Emitter_LFE_Curve = { (X3DAUDIO_DISTANCE_CURVE_POINT*)&m_Emitter_LFE_CurvePoints[0], 3 };
+
+	// REVERBカーブ
+	m_Emitter_Reverb_CurvePoints[0] = { 0.0f,1.0f };
+	m_Emitter_Reverb_CurvePoints[1] = { 1.0f,0.0f };
+	m_Emitter_Reverb_Curve = { m_Emitter_Reverb_CurvePoints, 2 };
+
+	// リスナー取得
 	X3DAUDIO_LISTENER Listener = CListener::Instance()->GetListener();
+	// マスターボイス・サブミックスボイスを取得
 	IXAudio2MasteringVoice* MasteringVoice = CSoundDevice::Instance()->GetMasteringVoice();
 	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance()->GetSubMixVoice(SoundDevice::BUS_DEFAULT);
 	// フォーマット取得
@@ -45,6 +50,16 @@ HRESULT CEmitter::Init(void)
 	{
 		return S_FALSE;
 	}
+
+	// 出力フォーマットを取得
+	XAUDIO2_VOICE_DETAILS details;
+	MasteringVoice->GetVoiceDetails(&details);
+
+	int AzimuthNum = SetFmt.Format.nChannels;
+	int CoefficientNum = SetFmt.Format.nChannels * details.InputChannels;
+
+	m_emitterAzimuths.reserve(AzimuthNum);
+	m_matrixCoefficients.reserve(CoefficientNum);
 
 	XAUDIO2_BUFFER buffer;
 
@@ -79,7 +94,7 @@ HRESULT CEmitter::Init(void)
 	m_emitter.OrientTop = D3DXVECTOR3(0, 1, 0);
 	m_emitter.ChannelCount = m_SourceChannels;
 	m_emitter.ChannelRadius = 1.0f;
-	m_emitter.pChannelAzimuths = m_emitterAzimuths;
+	m_emitter.pChannelAzimuths = m_emitterAzimuths.data();
 
 	// Use of Inner radius allows for smoother transitions as
 	// a sound travels directly through, above, or below the listener.
@@ -91,25 +106,14 @@ HRESULT CEmitter::Init(void)
 	m_emitter.pLFECurve = (X3DAUDIO_DISTANCE_CURVE*)&m_Emitter_LFE_Curve;
 	m_emitter.pLPFDirectCurve = NULL; // use default curve
 	m_emitter.pLPFReverbCurve = NULL; // use default curve
-	static X3DAUDIO_DISTANCE_CURVE_POINT reverbPoints[2] =
-	{
-		{ 0.0f, 1.0f },
-		{ 1.0f, 0.0f }
-	};
 
-	static X3DAUDIO_DISTANCE_CURVE reverbCurve =
-	{
-		reverbPoints,
-		2
-	};
-
-	m_emitter.pReverbCurve = (X3DAUDIO_DISTANCE_CURVE*)&reverbCurve;
-	m_emitter.CurveDistanceScaler = 200.0f;
+	m_emitter.pReverbCurve = (X3DAUDIO_DISTANCE_CURVE*)&m_Emitter_Reverb_Curve;
+	m_emitter.CurveDistanceScaler = 300.0f;
 	m_emitter.DopplerScaler = 1.0f;
 
 	m_dspSettings.SrcChannelCount = m_SourceChannels;
 	m_dspSettings.DstChannelCount = CSoundDevice::Instance()->GetChannels();
-	m_dspSettings.pMatrixCoefficients = m_matrixCoefficients;
+	m_dspSettings.pMatrixCoefficients = m_matrixCoefficients.data();
 	m_dspSettings.DopplerFactor = 1.0f;
 	m_dspSettings.ReverbLevel = 1.0f;
 
@@ -126,8 +130,12 @@ void CEmitter::Uninit(void)
 		m_pSourceVoice->Stop();
 		m_pSourceVoice->FlushSourceBuffers();
 		m_pSourceVoice->DestroyVoice();
+		// 別スレッドで完全に破棄されるまで待つ
+		Sleep(100);
 		m_pSourceVoice = nullptr;
 	}
+	m_matrixCoefficients.clear();
+	m_emitterAzimuths.clear();
 	delete this;
 }
 
@@ -161,7 +169,7 @@ void CEmitter::Update(void)
 		// Apply X3DAudio generated DSP settings to XAudio2
 		m_pSourceVoice->SetFrequencyRatio(m_dspSettings.DopplerFactor);
 		m_pSourceVoice->SetOutputMatrix(MasteringVoice, m_SourceChannels, CSoundDevice::Instance()->GetChannels(),
-			m_matrixCoefficients);
+			m_matrixCoefficients.data());
 
 		m_pSourceVoice->SetOutputMatrix(
 			SubMixVoice,
@@ -222,6 +230,9 @@ CEmitter* CEmitter::Create(SoundDevice::LABEL Label, D3DXVECTOR3 Pos)
 	return Instance;
 }
 
+//*********************************************
+// 初期化処理
+//*********************************************
 HRESULT CListener::Init(void)
 {
 	m_Listener_DirectionalCone = { X3DAUDIO_PI * 3.0f, X3DAUDIO_PI, 1.0f, 0.8f, 0.0f, 0.2f, 0.0f, 1.0f };

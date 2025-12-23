@@ -22,6 +22,8 @@
 #include "math_T.h"
 #include "TransformComponent.hpp"
 #include "ChildComp.hpp"
+#include "fade.h"
+#include "title.h"
 #include "game.h"
 
 // 名前空間
@@ -34,6 +36,8 @@ void UpdateItemSystem::Update(entt::registry& reg)
 {
 	// ビューを取得
 	auto view = reg.view<ItemComponent>();
+
+	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME) CManager::GetFade()->SetFade(new CTitle);
 
 	// アクセス
 	for (auto entity : view)

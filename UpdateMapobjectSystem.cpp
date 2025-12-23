@@ -24,10 +24,6 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 {
 	auto view = reg.view<MapObjectComponent>();
 
-	// ファイルパスにitem01が含まれているモデルの数
-	int nNumIte = -1;
-	if (CManager::GetScene()->GetMode() != CScene::MODE_GAME)nNumIte = 1;
-
 	for (auto entity : view)
 	{
 		auto& TransformCmp = reg.get<Transform3D>(entity);
@@ -35,11 +31,6 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		auto& ColliderCmp = reg.get <SingleCollisionShapeComp>(entity);
 		auto& SizeCmp = reg.get <Size3DComp>(entity);
 		auto& FilePath = reg.get<XRenderingComp>(entity);
-
-		if (FilePath.FilePath.find("item01.x") != std::string::npos)
-		{
-			nNumIte++;
-		}
 
 		// リジットボディーの更新
 		UpdateRB(TransformCmp, RBCmp, ColliderCmp, SizeCmp);
@@ -60,7 +51,6 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		// 位置に代入
 		TransformCmp.Pos = { pos.x(), pos.y(), pos.z() };
 	}
-	if (nNumIte == -1) CFade::SetFade(new CTitle);
 }
 
 //*********************************************

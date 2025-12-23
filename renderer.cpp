@@ -350,6 +350,7 @@ void CRenderer::Draw()
 		// ƒ‰ƒCƒ“‚Ì•`‰æ
 		//m_pLine->Draw();
 
+		// ƒJƒƒ‰‚ÌÝ’è
 		CCamera* pCamera = CManager::GetCamera();
 		pCamera->SetCamera();
 

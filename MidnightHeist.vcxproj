@@ -332,7 +332,6 @@
     <ClInclude Include="NormalComponent.hpp" />
     <ClInclude Include="ObjectBaceComponent.hpp" />
     <ClInclude Include="Factories.h" />
-    <ClInclude Include="particle3d.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="UpdateGamePlayerSystem.h" />
     <ClInclude Include="RigitBodyComponent.hpp" />

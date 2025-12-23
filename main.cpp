@@ -183,8 +183,6 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED) return 0;
-		// ‚‚³‚ð HIWORD ‚Å“n‚·iŠÔˆá‚¢C³j
-		pRenderer->SetSize(LOWORD(lParam), HIWORD(lParam));
 	return 0;
 	case WM_SYSCOMMAND:
 		// Disable ALT application menu

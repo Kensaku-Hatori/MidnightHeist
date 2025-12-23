@@ -15,6 +15,8 @@
 HRESULT CSound2D::Init(void)
 {
 	HRESULT hr;
+
+	// 最大数分繰り返す
 	for (int nCnt = 0; nCnt < SoundDevice::LABEL_MAX; nCnt++)
 	{
 		// フォーマット取得
@@ -26,6 +28,7 @@ HRESULT CSound2D::Init(void)
 			return S_FALSE;
 		}
 
+		// サブミックスボイス登録用のバッファ
 		XAUDIO2_BUFFER buffer;
 
 		// バッファの値設定
@@ -47,16 +50,21 @@ HRESULT CSound2D::Init(void)
 //*********************************************
 void CSound2D::Uninit(void)
 {
+	// 最大数分繰り返す
 	for (int nCnt = 0; nCnt < SoundDevice::LABEL_MAX; nCnt++)
 	{
+		// 作られていたら
 		if (m_pSourceVoice[nCnt] != nullptr)
 		{
+			// 破棄
 			m_pSourceVoice[nCnt]->Stop();
 			m_pSourceVoice[nCnt]->FlushSourceBuffers();
 			m_pSourceVoice[nCnt]->DestroyVoice();
 			m_pSourceVoice[nCnt] = nullptr;
 		}
 	}
+	// 別スレッドで完全に破棄されるまで待つ
+	Sleep(100 * SoundDevice::LABEL_MAX);
 }
 
 //*********************************************
@@ -64,7 +72,9 @@ void CSound2D::Uninit(void)
 //*********************************************
 void CSound2D::Play(SoundDevice::LABEL Label)
 {
+	// ソースボイスのステート取得用変数
 	XAUDIO2_VOICE_STATE xa2state;
+	// サブミックスボイス登録用バッファ
 	XAUDIO2_BUFFER buffer;
 
 	// バッファの値設定
@@ -97,6 +107,7 @@ void CSound2D::Play(SoundDevice::LABEL Label)
 //*********************************************
 void CSound2D::Stop(SoundDevice::LABEL Label)
 {
+	// ソースボイスのステート取得用変数
 	XAUDIO2_VOICE_STATE xa2state;
 	// 状態取得
 	m_pSourceVoice[Label]->GetState(&xa2state);

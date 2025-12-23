@@ -61,6 +61,13 @@ HRESULT CToon::Init(void)
 //***************************************
 void CToon::ReSet(void)
 {
+    // テクスチャの破棄
+    if (m_ToonMap != nullptr)
+    {
+        m_ToonMap->Release();
+        m_ToonMap = nullptr;
+    }
+    // シェーダーの破棄
     Reset();
 }
 

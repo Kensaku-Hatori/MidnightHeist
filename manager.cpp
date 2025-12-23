@@ -25,6 +25,7 @@
 #include "Sound2D.h"
 #include "VisibleSineCurve.h"
 
+// 更新システム
 #include "UpdateGamePlayerSystem.h"
 #include "UpdateTitlePlayerSystem.h"
 #include "Update2DSystem.h"
@@ -46,6 +47,7 @@
 #include "UpdateVisibleSineCurve.h"
 #include "UpdateMtxSystem.h"
 
+// 描画システム
 #include "Rendering2Dbace.h"
 #include "Rendering3DBace.h"
 #include "RenderingXSystem.h"
@@ -74,7 +76,6 @@ CInputJoypad* CManager::m_pInputJoypad = NULL;
 CInputMouse* CManager::m_pInputMouse = NULL;
 CCamera* CManager::m_pCamera = NULL;
 CLight* CManager::m_pLight = NULL;
-CPlayer* CManager::m_pPlayer = NULL;
 CScene* CManager::m_pScene = NULL;
 CFade* CManager::m_pFade = NULL;
 unique_ptr<btDiscreteDynamicsWorld> CManager::m_pDynamicsWorld = NULL;
@@ -111,6 +112,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
 
+	// 更新システムを追加
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
@@ -129,9 +131,8 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
-	//CSystemManager::AddUpdateSystem(new UpdateMeshFieldSystem);
-	//CBaceSystem::AddSystem(new CXUpdateSystem);
 
+	// 描画システムを追加
 	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);
 	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
 	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
@@ -192,6 +193,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pCamera->Init();
 	m_pLight->Init();
 
+	// 2Dサウンドを初期化
 	CSound2D::Instance()->Init();
 
 	// 暗転係を生成
@@ -200,11 +202,11 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	// タイトル画面に設定
 	SetScene(new CTitle);
 
+	// シェーダー初期化
 	CShapeShadow::Instance()->Init();
 	CShadowMap::Instance()->Init();
 	CToon::Instance()->Init();
 	CDefaultCubemap::Instance()->Init();
-	CDistortion::Instance()->Init();
 	CDistortion::Instance()->Init();
 	CUICircle::Instance()->Init();
 	CVisibleSineCurve::Instance()->Init();
@@ -277,10 +279,18 @@ void CManager::Uninit()
 		m_pFade = NULL;
 	}
 
-	CShadowMap::Instance()->ReSet();
+	// シェーダー終了
 	CShapeShadow::Instance()->ReSet();
+	CShadowMap::Instance()->ReSet();
+	CToon::Instance()->ReSet();
+	CDefaultCubemap::Instance()->ReSet();
+	CDistortion::Instance()->ReSet();
+	CUICircle::Instance()->Reset();
+	CVisibleSineCurve::Instance()->Reset();
+	// リソースマネージャーの解放
 	CLoadTexture::UnRegistTex();
 	CModelManager::UnRegistModel();
+	// ２D音源の破棄
 	CSound2D::Instance()->Uninit();
 }
 

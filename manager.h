@@ -65,7 +65,6 @@ public:
 	static CLight* GetLight(void) { return m_pLight; };
 	static CScene* GetScene(void) { return m_pScene; };
 	static CFade* GetFade(void) { return m_pFade; };
-	static CPlayer* GetPlayer(void) { return m_pPlayer; }
 	static btDiscreteDynamicsWorld* GetDynamicsWorld(void) { return m_pDynamicsWorld.get(); }
 
 	// プレイヤーをリスポーンさせる
@@ -82,7 +81,6 @@ private:
 	static CCamera* m_pCamera;					// カメラのインスタンス
 	static CLight* m_pLight;					// ライトのインスタンス
 	static CShaderFade* m_pFadeShader;			// シェーダフェード
-	static CPlayer* m_pPlayer;
 	static CScene* m_pScene;					// シーンのインスタンス
 	static CFade* m_pFade;						// 画面遷移用のフェードのインスタンス
 	static std::unique_ptr<btDiscreteDynamicsWorld> m_pDynamicsWorld;				// 物理世界

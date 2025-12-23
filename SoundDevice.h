@@ -10,8 +10,7 @@
 
 // 念のため
 namespace SoundDevice {
-	static constexpr int InputChannels = 1;
-	static constexpr int OutPutChannels = 8;
+	// 定数
 	// リバーブのプリセットの数
 	static constexpr int NumPreset = 1;
 	// リバーブのプリセット
@@ -60,11 +59,13 @@ public:
 	CSoundDevice() = default;
 	~CSoundDevice() = default;
 
+	// メンバ関数
 	HRESULT Init(void);
 	void Uninit(void);
 	HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD* pChunkSize, DWORD* pChunkDataPosition);
 	HRESULT ReadChunkData(HANDLE hFile, void* pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
 
+	// ゲッター
 	IXAudio2* GetAudio2Device(void) { return m_pXAudio2; }
 	X3DAUDIO_HANDLE* GetAudio3Handle(void) { return &m_x3DInstance; }
 	IXAudio2SubmixVoice* GetSubMixVoice(SoundDevice::BUS Bus) { return m_pSubmixVoices[Bus]; }
@@ -75,17 +76,24 @@ public:
 	DWORD GetChannelMask(void) { return m_dwChannelMask; }
 	UINT32 GetChannels(void) { return m_nChannels; }
 	WAVEFORMATEXTENSIBLE GetAudioFMT(SoundDevice::LABEL Label) { return m_aWaveFMT[Label]; }
+
+	//　静的メンバ関数
 	static CSoundDevice* Instance(void) {
 		static std::unique_ptr<CSoundDevice> Instance = std::make_unique<CSoundDevice>();
 		return Instance.get();
 	}
 private:
     // XAudio2
+	// インスタンス
     IXAudio2* m_pXAudio2;
+	// マスターボイス
     IXAudio2MasteringVoice* m_pMasteringVoice;
+	// サブミックスボイス
 	IXAudio2SubmixVoice* m_pSubmixVoices[SoundDevice::BUS_MAX];
+	// リバーブ
 	IUnknown* m_pReverbEffect;
     // 3D
+	// インスタンス
     X3DAUDIO_HANDLE m_x3DInstance;
 	// チャンネル系
     DWORD m_dwChannelMask;

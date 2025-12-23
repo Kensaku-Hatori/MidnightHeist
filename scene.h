@@ -39,8 +39,10 @@ public:
 	entt::registry& GetReg(void) { return m_Registry; }
 	MODE GetMode(void) { return m_Mode; };
 private:
-	entt::registry m_Registry;	// エンティティの集まり
 	// メンバ変数
-	MODE m_Mode;				// 今のモード
+	// シーンのレジストリー
+	entt::registry m_Registry;
+	// 今のモード
+	MODE m_Mode;
 };
 #endif // !_SCENE_H_

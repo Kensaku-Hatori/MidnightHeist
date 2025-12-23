@@ -11,5 +11,6 @@
 
 // FPSをゲット
 int GetFPS(void);
+// デルタタイムを計算
 float GetDeltaTime(void);
 #endif

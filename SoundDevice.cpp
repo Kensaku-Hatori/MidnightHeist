@@ -53,7 +53,7 @@ HRESULT CSoundDevice::Init(void)
         return hr;
     }
 
-    if (details.OutputFormat.Format.nChannels > SoundDevice::OutPutChannels)
+    if (details.OutputFormat.Format.nChannels > XAUDIO2_MAX_AUDIO_CHANNELS)
     {
         return E_FAIL;
     }
@@ -155,7 +155,7 @@ HRESULT CSoundDevice::Init(void)
         // ファイルをクローズ
         CloseHandle(hFile);
     }
-
+    // 初期化フラグを立てる
      m_IsInitialized = true;
 
     return S_OK;
@@ -168,17 +168,6 @@ void CSoundDevice::Uninit(void)
 {
     if (!m_IsInitialized)
         return;
-
-    // 一時停止
-    for (int nCntSound = 0; nCntSound < SoundDevice::LABEL_MAX; nCntSound++)
-    {
-        if (m_apDataAudio[nCntSound] != NULL)
-        {
-            // オーディオデータの開放
-            free(m_apDataAudio[nCntSound]);
-            m_apDataAudio[nCntSound] = NULL;
-        }
-    }
 
     for (int nCnt = 0; nCnt < SoundDevice::BUS_MAX; nCnt++)
     {
@@ -205,17 +194,19 @@ void CSoundDevice::Uninit(void)
         m_pReverbEffect->Release();
         m_pReverbEffect = nullptr;
     }
+    // 一時停止
     for (int nCntSound = 0; nCntSound < SoundDevice::LABEL_MAX; nCntSound++)
     {
-        if (m_apDataAudio[nCntSound] != nullptr)
+        if (m_apDataAudio[nCntSound] != NULL)
         {
-            delete m_apDataAudio[nCntSound];
-            m_apDataAudio[nCntSound] = nullptr;
+            // オーディオデータの開放
+            free(m_apDataAudio[nCntSound]);
+            m_apDataAudio[nCntSound] = NULL;
         }
     }
     // COMライブラリの終了処理
     CoUninitialize();
-
+    // 初期化フラグを元に戻す
     m_IsInitialized = false;
 }
 

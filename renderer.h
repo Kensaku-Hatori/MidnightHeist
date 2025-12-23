@@ -38,28 +38,26 @@ public:
 	void offFog();
 	void ToggleFullscreen(HWND hWnd, bool* isFullScrean);
 	void SetupVertexFog(DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density);
-	void SetSize(UINT W, UINT H) { m_Width = W, m_Height = H; }
 
 	// ゲッター
 	LPDIRECT3DDEVICE9 GetDevice(void) { return m_pD3DDevice; }
 	// ウィンドウのサイズを取得
 	RECT GetWindowsRect(void) { return m_RectWindow; }
-	UINT GetWindoWidth(void) { return m_Width; }
-	UINT GetWindoHeight(void) { return m_Height; }
 // プライベート
 private:
 	// 静的メンバ変数
-	static CDebugProc* m_pDebugProc;	// デバッグ表示用
+	static CDebugProc* m_pDebugProc;// デバッグ表示用
+	// メンバ変数
+	// DirectX用
 	LPDIRECT3D9 m_pD3D;				// デバイス
 	LPDIRECT3DDEVICE9 m_pD3DDevice;	// デバイス
 	RECT m_RectWindow;				// ウィンドウの大きさ
 	D3DPRESENT_PARAMETERS m_d3dpp;	// プレゼンテーションパラメータ
-	UINT m_Width;					// Imgui用のWindowの大きさ(W)
-	UINT m_Height;					// Imgui用のWindowの大きさ(H)
-	// 頂点バッファ
-	LPDIRECT3DVERTEXBUFFER9 m_pVertex;
-	LPDIRECT3DTEXTURE9 m_SceneTex;
-	LPDIRECT3DSURFACE9 m_SceneSurface;
+	// ポストプロセス用
+	LPDIRECT3DVERTEXBUFFER9 m_pVertex;	// ポストプロセス用の頂点バッファ
+	LPDIRECT3DTEXTURE9 m_SceneTex;		// ポストプロセス用のテクスチャ
+	LPDIRECT3DSURFACE9 m_SceneSurface;	// ポストプロセス用のテクスチャサーフェイス
+	// デバッグ用
 	std::unique_ptr<CLine> m_pLine;	// 線の可変長配列
 	D3DXCOLOR m_BackBufferCol;		// バックバッファの色
 };

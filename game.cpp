@@ -26,6 +26,19 @@ bool CGame::m_IsOlfFinishedFirstNoise = false;
 using ordered_json = nlohmann::ordered_json;
 using namespace std;
 
+// 規定値を設定
+// プレイヤー
+const D3DXVECTOR3 CGame::Config::Player::Pos = { 1000.0f, 50.0f, 375.0f };
+// 2Dポリゴン
+const D3DXVECTOR2 CGame::Config::XDay::Pos = { 175.0f,125.0f };
+const D3DXVECTOR2 CGame::Config::XDay::Size = { 100.0f,50.0f };
+
+const D3DXVECTOR2 CGame::Config::Rec::Pos = { 1150.0f,125.0f };
+const D3DXVECTOR2 CGame::Config::Rec::Size = { 50.0f,50.0f };
+
+const D3DXVECTOR2 CGame::Config::CameraWork::Pos = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f };
+const D3DXVECTOR2 CGame::Config::CameraWork::Size = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f };
+
 //***************************************
 // コンストラクタ
 //***************************************
@@ -48,25 +61,25 @@ HRESULT CGame::Init(void)
 	// フラグを初期化
 	m_IsFinishedFirstNoise = false;
 	// ステージ読み込み
-	CMapManager::Instance()->Load("data\\TEXT\\StageInfo.json");
+	CMapManager::Instance()->Load(Config::MapObjects::Path);
 	// プレイヤー生成
-	entt::entity Player = Factories::makeBacePlayer(GetReg(), D3DXVECTOR3(1000.0f, 500.0f, 375.0f));
+	entt::entity Player = Factories::makeBacePlayer(GetReg(), Config::Player::Pos);
 	Factories::InitGamePlayer(GetReg(), Player);
 	// 巡回ポイント読み込み
-	MeshFactories::makePatrolPointFromFile(GetReg(), "data\\TEXT\\Patrol.json");
+	MeshFactories::makePatrolPointFromFile(GetReg(), Config::PatrolPoints::Path);
 	// 敵管理エンティティを生成
 	ManagerFactories::makeEnemyManager(GetReg());
 	// ポーズマネージャー生成
 	ManagerFactories::makePauseManager(GetReg());
 	// アイテムマネージャー
 	ManagerFactories::makeItemManager(GetReg());
-
+	// ゲームBGMの再生
 	CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEBGM);
 
-	// テスト
-	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/XDay.png", { 175.0f,125.0f }, { 100.0f,50.0f });
-	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/images.png", { 1150.0f,125.0f }, { 50.0f,50.0f });
-	Factories::makeObject2D(GetReg(), 3, "data/TEXTURE/CameraWork.png", { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f }, { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f });
+	// モニター用の2Dポリゴン生成
+	Factories::makeObject2D(GetReg(), 3, Config::XDay::Path, Config::XDay::Pos, Config::XDay::Size);
+	Factories::makeObject2D(GetReg(), 3, Config::Rec::Path, Config::Rec::Pos, Config::Rec::Size);
+	Factories::makeObject2D(GetReg(), 3, Config::CameraWork::Path, Config::CameraWork::Pos, Config::CameraWork::Size);
 	// ノイズスタート
 	CDistortion::Instance()->StartNoise();
 

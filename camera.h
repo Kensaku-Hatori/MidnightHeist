@@ -59,10 +59,6 @@ public:
 	void Uninit(void);
 	void EndSystems(void);
 	void SetCamera(void);
-	void UpdateCameraPositionV(void);
-	void UpdateCameraPositionR(void);
-
-	void NormalizeCameraRot(void);
 
 	// セッター
 	void SetDistance(float Distance) { m_fDistance = Distance; }
@@ -86,6 +82,12 @@ public:
 	float GetSpeedV(void) { return m_fSpeedV; }
 private:
 	// 更新
+	// 角度の近道化
+	void NormalizeCameraRot(void);
+	// 目標の位置に近づける
+	void UpdateCameraPositionV(void);
+	void UpdateCameraPositionR(void);
+	// デバイスでのカメラ移動
 	void UpdateMouseMove(void);
 	void UpdateJoyPadMove(void);
 	// 条件式の関数
