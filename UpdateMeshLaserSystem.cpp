@@ -18,7 +18,7 @@
 #include "DivisionComponent.hpp"
 #include "LaserCollisionFragComp.hpp"
 #include "fade.h"
-#include "title.h"
+#include "Result.h"
 
 // –¼‘O‹óŠÔ
 using namespace Tag;
@@ -60,7 +60,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			// “–‚½‚Á‚½‚ç
 			if (CollisionEntity(Reg, entity, playerEntity, ToPlayer) == true && ToPlayer < Distance)
 			{
-				CFade::SetFade(new CTitle);
+				CFade::SetFade(new CResult);
 			}
 		}
 

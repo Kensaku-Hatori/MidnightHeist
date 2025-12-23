@@ -86,7 +86,7 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path)
 {
 	const entt::entity myEntity = Reg.create();
-	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Reg.emplace<ObjectXComponent>(myEntity);
 	Reg.emplace<LayerComp>(myEntity,3);
 	Reg.emplace<XRenderingComp>(myEntity, Path);

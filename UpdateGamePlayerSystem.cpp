@@ -227,11 +227,31 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 		PlayerStateCmp.NowState = PlayerState::State::DUSH;
 	}
 
-	// キーボード検知
-	if (CManager::GetInputKeyboard()->GetPress(DIK_W))  moveDir += btVector3(V.x, V.y, V.z);
-	if (CManager::GetInputKeyboard()->GetPress(DIK_S)) moveDir += btVector3(-V.x, -V.y, -V.z);
-	if (CManager::GetInputKeyboard()->GetPress(DIK_A)) moveDir += btVector3(H.x, H.y, H.z);
-	if (CManager::GetInputKeyboard()->GetPress(DIK_D)) moveDir += btVector3(-H.x, -H.y, -H.z);
+	XINPUT_STATE* State = CManager::GetInputJoypad()->GetJoyStickAngle();
+
+	const bool IsMoveStick = CManager::GetInputJoypad()->GetJoyStickL();
+
+	// スティックが動いてなかったら
+	if (IsMoveStick == false)
+	{
+		// キーボード検知
+		if (CManager::GetInputKeyboard()->GetPress(DIK_W))  moveDir += btVector3(V.x, V.y, V.z);
+		if (CManager::GetInputKeyboard()->GetPress(DIK_S)) moveDir += btVector3(-V.x, -V.y, -V.z);
+		if (CManager::GetInputKeyboard()->GetPress(DIK_A)) moveDir += btVector3(H.x, H.y, H.z);
+		if (CManager::GetInputKeyboard()->GetPress(DIK_D)) moveDir += btVector3(-H.x, -H.y, -H.z);
+	}
+	// スティックが動いていたら
+	else if(IsMoveStick == true)
+	{
+		// スティックの角度を正規化
+		float fx = static_cast<float>(State->Gamepad.sThumbLX) / 32767.0f;
+		float fy = static_cast<float>(State->Gamepad.sThumbLY) / 32767.0f;
+
+		// 移動方向を計算
+		moveDir = btVector3(H.x * -fx + V.x * -fy,
+			H.y * fx + V.y * fy,
+			H.z * fx + V.z * fy);
+	}
 
 	// 移動していたら
 	if (moveDir.length2() > 0.0f)

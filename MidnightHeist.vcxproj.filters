@@ -148,9 +148,6 @@
     <Filter Include="ソース ファイル\Manager">
       <UniqueIdentifier>{76a963a2-7b2a-4ec9-b4c1-566b5f9e332e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Sequance">
-      <UniqueIdentifier>{5b61fde2-19b6-4028-b3aa-3be7eaa3dcbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Update\Player">
       <UniqueIdentifier>{65921197-71ab-432d-ad44-d9ce01ecd5ab}</UniqueIdentifier>
     </Filter>
@@ -180,6 +177,15 @@
     </Filter>
     <Filter Include="System\Update\Calc">
       <UniqueIdentifier>{cbc68277-6479-4676-ac56-8d0014cbc10b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Sequence">
+      <UniqueIdentifier>{b855b6df-41e1-4282-855e-210fe988711a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Sequence">
+      <UniqueIdentifier>{5b61fde2-19b6-4028-b3aa-3be7eaa3dcbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Sequence">
+      <UniqueIdentifier>{2933df85-0963-4ced-835d-a7a3bee8130d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -395,6 +401,12 @@
     </ClCompile>
     <ClCompile Include="UpdateMtxSystem.cpp">
       <Filter>System\Update\Calc</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ResultCameraSystem.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -769,6 +781,12 @@
     </ClInclude>
     <ClInclude Include="UpdateMtxSystem.h">
       <Filter>System\Update\Calc</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ResultCameraSystem.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

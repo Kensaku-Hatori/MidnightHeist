@@ -182,6 +182,8 @@
     <ClCompile Include="RenderingToShadowmap.cpp" />
     <ClCompile Include="RenderingToShapeShadow.cpp" />
     <ClCompile Include="RenderingUICircle.cpp" />
+    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="ResultCameraSystem.cpp" />
     <ClCompile Include="Sound2D.cpp" />
     <ClCompile Include="Sound3D.cpp" />
     <ClCompile Include="SoundDevice.cpp" />
@@ -246,6 +248,8 @@
     <ClInclude Include="ChildComp.hpp" />
     <ClInclude Include="defaultcubemap.h" />
     <ClInclude Include="distortion.h" />
+    <ClInclude Include="Result.h" />
+    <ClInclude Include="ResultCameraSystem.h" />
     <ClInclude Include="UpdateMtxSystem.h" />
     <ClInclude Include="VisibleSineCurve.h" />
     <ClInclude Include="VisibleSineCurveComp.hpp" />
