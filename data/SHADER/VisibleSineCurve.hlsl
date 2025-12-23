@@ -48,7 +48,10 @@ float4 PS_main(VS_OUTPUT input) : COLOR
     
     if(Distance < g_SineRadius)
     {
-        return input.col * saturate(sin(g_SineMicro * ((g_SineCount - (Distance * g_SineRipple)) * g_SineSpeed)) * 1.0f);
+        float4 Col = input.col * saturate(sin(g_SineMicro * ((g_SineCount - (Distance * g_SineRipple)) * g_SineSpeed)) * 1.0f);
+        Col.a -= 1.0f * Distance / g_SineRadius;
+        return Col;
+
     }
     else
     {
