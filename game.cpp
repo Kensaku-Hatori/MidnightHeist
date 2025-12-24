@@ -17,6 +17,7 @@
 #include "distortion.h"
 #include "GameCamera.h"
 #include "Sound2D.h"
+#include "RigitBodyComponent.hpp"
 
 // 静的メンバ変数宣言
 bool CGame::m_IsFinishedFirstNoise = false;
@@ -41,6 +42,9 @@ const D3DXVECTOR2 CGame::Config::Rec::Size = { 50.0f,50.0f };
 
 const D3DXVECTOR2 CGame::Config::CameraWork::Pos = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f };
 const D3DXVECTOR2 CGame::Config::CameraWork::Size = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f };
+
+const btVector3 CGame::Config::NearWall::Size = btVector3(1000.0f, 1000.0f, 0.0f);
+const btVector3 CGame::Config::NearWall::Origin = btVector3(0.0f, 0.0f, 500.0f);
 
 //***************************************
 // コンストラクタ
@@ -103,6 +107,32 @@ HRESULT CGame::Init(void)
 	CManager::GetCamera()->SetPosR(CCamera::Config::Game::PosR);
 	CManager::GetCamera()->SetPosRDest(CCamera::Config::Game::PosR);
 
+	// 手前の壁の当たり判定を生成
+	{
+		m_NearWallShape = std::make_unique<btBoxShape>(Config::NearWall::Size);
+
+		btTransform groundTransform;
+		groundTransform.setIdentity();
+		groundTransform.setOrigin(Config::NearWall::Origin);
+
+		btScalar mass(0);
+
+		//rigidbody is dynamic if and only if mass is non zero, otherwise static
+		bool isDynamic = (mass != 0.f);
+
+		btVector3 localInertia(0, 0, 0);
+		if (isDynamic)
+			m_NearWallShape->calculateLocalInertia(mass, localInertia);
+
+		//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+		btDefaultMotionState* motionState = new btDefaultMotionState(groundTransform);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, m_NearWallShape.get(), localInertia);
+		m_NearWallRB = std::make_unique<btRigidBody>(rbInfo);
+
+		//add the body to the dynamics world
+		CManager::GetDynamicsWorld()->addRigidBody(m_NearWallRB.get(), CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
+	}
+
 	return S_OK;
 }
 
@@ -139,6 +169,18 @@ void CGame::Update(void)
 //***************************************
 void CGame::Uninit(void)
 {
+	// 剛体の削除
+	if (m_NearWallRB)
+	{
+		CManager::GetDynamicsWorld()->removeRigidBody(m_NearWallRB.get());
+		if (m_NearWallRB->getMotionState())
+		{
+			delete m_NearWallRB->getMotionState();
+		}
+		m_NearWallRB.reset();
+	}
+	m_NearWallShape.reset();
+
 	// ノイズ終了
 	CSound2D::Instance()->Stop(SoundDevice::LABEL_GAMEBGM);
 	CDistortion::Instance()->EndNoise();

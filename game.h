@@ -86,6 +86,11 @@ private:
 			// パス
 			static constexpr const char* Path = "data\\TEXT\\Patrol.json";
 		};
+		// 手前の壁
+		struct NearWall {
+			static const btVector3 Size;
+			static const btVector3 Origin;
+		};
 	};
 	// 静的メンバ変数宣言
 	// ノイズ用のフラグ
@@ -95,5 +100,8 @@ private:
 	static int m_EnCount;
 	static int m_Steal;
 	int m_Frame;
+	// 手前の壁の当たり判定用変数
+	std::unique_ptr<btBoxShape> m_NearWallShape;
+	std::unique_ptr<btRigidBody> m_NearWallRB;
 };
 #endif // !_GAME_H_

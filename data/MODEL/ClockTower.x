@@ -256,7 +256,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\Student\\Downloads\\clock のコピー.jpg";
+    "data\\TEXTURE\\clock.jpg";
    }
   }
   Material {
@@ -265,7 +265,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\Student\\Downloads\\clock のコピー.jpg";
+    "data\\TEXTURE\\clock.jpg";
    }
   }
  }
