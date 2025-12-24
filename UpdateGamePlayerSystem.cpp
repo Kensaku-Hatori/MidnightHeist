@@ -34,6 +34,7 @@
 #include "ChildComp.hpp"
 #include "CharactorComp.hpp"
 #include "fade.h"
+#include "Sound2D.h"
 #include "math.h"
 
 // –¼‘O‹óŠÔ
@@ -439,6 +440,7 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 			// Å‘å”ˆÈã‚¾‚Á‚½‚ç
 			if (ItemCmp.nCntPicking >= ItemConfig::nFramePicking)
 			{
+				CSound2D::Instance()->Play(SoundDevice::LABEL_PICKING);
 				CGame::AddSteal();
 				// —v‘f‚ğíœ
 				Reg.destroy(entity);

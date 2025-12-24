@@ -31,13 +31,8 @@ namespace SoundDevice {
 		LABEL_GAMEBGM,		// ゲームBGM
 		LABEL_GAMECLEARBGM,	// ゲームBGM
 		LABEL_GAMEOVERBGM,	// ゲームBGM
-		LABEL_SHOT,			// 放つ音
-		LABEL_STUCK,		// 刺さる音
-		LABEL_WATERFALL,	// 滝
+		LABEL_PICKING,		// ピッキング
 		LABEL_MOVESELECT,	// 選択肢を移動させたとき
-		LABEL_MOVEGROUND,	// 地面上を移動したとき
-		LABEL_MOVEGRASS,	// 叢を移動したとき
-		LABEL_MOVEWATER,	// 水の上を移動したとき
 		LABEL_ENTER,		// 決定音
 		LABEL_ENEMYMOVE,	// 敵の移動音
 		LABEL_MAX			// 最大値
