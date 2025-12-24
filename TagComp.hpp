@@ -51,6 +51,10 @@ namespace Tag {
 	struct SightFanComponent {};
 	// 音の大きさ
 	struct VisibleSound {};
+	// スタッツマネージャー
+	struct StutsManagerComponent {};
+	// タイマー
+	struct TimerComponent {};
 }
 
 // 画面遷移用のタグ

@@ -22,10 +22,13 @@ using namespace Tag;
 //*********************************************
 void UpdateMapobjectSystem::Update(entt::registry& reg)
 {
+	// ビューを生成
 	auto view = reg.view<MapObjectComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// コンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& ColliderCmp = reg.get <SingleCollisionShapeComp>(entity);

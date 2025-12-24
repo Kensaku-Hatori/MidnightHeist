@@ -53,3 +53,5 @@
 #include "EnemySoundListener.hpp"
 #include "ChildComp.hpp"
 #include "CharactorComp.hpp"
+#include "StutsComp.h"
+#include "TimerComp.hpp"

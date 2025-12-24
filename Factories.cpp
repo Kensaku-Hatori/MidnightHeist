@@ -9,6 +9,8 @@
 #include "FactorieUtils.h"
 
 // 名前空間
+using ordered_json = nlohmann::ordered_json;
+using namespace std;
 using namespace Tag;
 using namespace SequenceTag;
 
@@ -17,7 +19,9 @@ using namespace SequenceTag;
 //*********************************************
 entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path, D3DXVECTOR2 Pos, D3DXVECTOR2 Size, entt::entity Parent)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform2D>(myEntity, Pos);
 	Reg.emplace<Object2DComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
@@ -33,6 +37,7 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// コンポーネントを取得
 	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
 
 	//頂点バッファの生成
@@ -51,7 +56,9 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 //*********************************************
 entt::entity Factories::makeObject3D(entt::registry& Reg)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 800.0f));
 	Reg.emplace<Object3DComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
@@ -67,6 +74,7 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// コンポーネントを取得
 	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
 
 	//頂点バッファの生成
@@ -85,7 +93,9 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 //*********************************************
 entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Reg.emplace<ObjectXComponent>(myEntity);
 	Reg.emplace<LayerComp>(myEntity,3);
@@ -99,7 +109,9 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 //*********************************************
 entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 {
+	// エンティティを生成
 	entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 	Reg.emplace<SightFanComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
@@ -115,6 +127,7 @@ entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// コンポーネントを取得
 	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
 
 	//頂点バッファの生成
@@ -125,6 +138,7 @@ entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 		&myVtx.pVertex,
 		NULL);
 
+	// 扇形ポリゴン用の初期化
 	InitSightFan(Reg, myEntity);
 
 	return myEntity;
@@ -135,8 +149,8 @@ entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 //*********************************************
 void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 {
+	// コンポーネントを取得
 	auto& VtxCmp = Reg.get<VertexComp>(Entity);
-
 	auto& FanInfoCmp = Reg.get<FanComp>(Entity);
 	auto& ColCmp = Reg.get<ColorComp>(Entity);
 	auto& UVCmp = Reg.get<UVComp>(Entity);
@@ -188,7 +202,9 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR Col, entt::entity Parent)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity);
 	Reg.emplace<VisibleSound>(myEntity);
 	Reg.emplace<VisibleSineCurveComp>(myEntity);
@@ -203,6 +219,7 @@ entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR C
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// コンポーネントを取得
 	VertexComp& myVtx = CManager::GetScene()->GetReg().get<VertexComp>(myEntity);
 
 	//頂点バッファの生成
@@ -221,7 +238,9 @@ entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR C
 //*********************************************
 entt::entity Factories::makeUICircle(entt::registry& Reg, entt::entity Parent)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 100.0f, 0.0f));
 	Reg.emplace<UICircleComponent>(myEntity);
 	Reg.emplace<VertexComp>(myEntity);
@@ -265,15 +284,19 @@ void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos)
 {
+	// エンティティを生成
 	entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, Pos);
 	Reg.emplace<PlayerComponent>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
+	// モデルの大きさを基準に当たり判定を作成
 	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 	Reg.emplace<CharactorComp>(myEntity, 0.1f);
 
+	// 基礎プレイヤー用の初期化処理
 	InitBacePlayer(Reg, myEntity);
 
 	return myEntity;
@@ -284,6 +307,7 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 //*********************************************
 void Factories::InitBacePlayer(entt::registry& Reg, entt::entity& Entity)
 {
+	// コンポーネントを取得
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
 	auto& ColliderCmp = Reg.get<SingleCollisionShapeComp>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
@@ -315,18 +339,24 @@ void Factories::InitBacePlayer(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 {
+	// コンポーネントを追加
 	Reg.emplace<InGameComp>(Entity);
 	Reg.emplace<CastShadow>(Entity);
 	Reg.emplace<PlayerSoundVolumeComp>(Entity);
 	Reg.emplace<RenderingOutLine>(Entity);
+	// アウトライン用の情報を設定
 	Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<PlayerStateComp>(Entity);
 	Reg.emplace<PlayerAnimComp>(Entity);
+	// 子供エンティティリスト用の変数
 	std::vector<entt::entity> Children;
+	// 子供エンティティを生成
 	Children.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon01.png", D3DXVECTOR2(FLT_MAX, FLT_MAX), D3DXVECTOR2(100.0f, 100.0f), Entity));
 	Children.push_back(makeUICircle(Reg, Entity));
 	Children.push_back(makeEmitterVolume(Reg, WHITE, Entity));
+	// ロックオンエンティティを取得、子供コンポーネントを追加
 	entt::entity LockOnEntity = Reg.emplace<ChildrenComp>(Entity, Children).Children[0];
+	// ロックオンエンティティにロックオンアニメーションコンポーネントを追加
 	Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 }
 
@@ -335,7 +365,34 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
 {
+	// プレイヤーにタグを追加する
 	Reg.emplace<InTitleComp>(Entity);
+}
+
+//*********************************************
+// 数字ポリゴンの生成
+//*********************************************
+entt::entity Factories::makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin, const int Value, const D3DXVECTOR2 DigitSize, const D3DXVECTOR2 DigitOffset)
+{
+	// エンティティを生成
+	entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
+	Reg.emplace<TimerComponent>(myEntity);
+	Reg.emplace<Transform2D>(myEntity, Origin);
+	Reg.emplace<TimerComp>(myEntity, Value, DigitSize, DigitOffset);
+	// 子供のリスト用変数
+	std::vector<entt::entity> ChildrenList;
+	// 親子関係コンポーネントを追加
+	Reg.emplace<ChildrenComp>(myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// 数字ポリゴンの初期化
+//*********************************************
+void Factories::InitNumber(entt::registry& Reg, entt::entity& Timer)
+{
 }
 
 //*********************************************
@@ -343,13 +400,18 @@ void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
 //*********************************************
 entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vector<EnemyState::PatrolMap>& PointList)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, Pos);
+	// トランスフォームコンポーネントを取得
 	auto& Trans = Reg.get<Transform3D>(myEntity);
+	// 敵の視界ポリゴン設定用の回転行列
 	D3DXMATRIX Basis = Trans.mtxBasis;
 	D3DXVECTOR3 FrontVec = { Basis._31,Basis._32,Basis._33 };
-	D3DXQuaternionRotationYawPitchRoll(&Trans.Quat, D3DX_PI, 0.0f, 0.0f);
+	// コンポーネントを追加
 	Reg.emplace<VelocityComp>(myEntity);
+	// 視界の情報を設定
 	Reg.emplace<FanComp>(myEntity, Trans.Pos, FrontVec, 90.0f, 200.0f);
 	Reg.emplace<EnemyComponent>(myEntity);
 	Reg.emplace<EnemyListenerComp>(myEntity);
@@ -360,15 +422,18 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<EnemtAIAstarComp>(myEntity);
+	// エミッタを生成再生
 	auto& AI = Reg.get<EnemyAIComp>(myEntity);
 	AI.Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE, Pos);
 	AI.Emitter->Play();
 
+	// 親子関係コンポーネント用のリスト
 	std::vector<entt::entity> Children;
+	// 子供を作成
 	Children.push_back(MeshFactories::makeLaser(Reg, myEntity));
 	Children.push_back(make3DSightFan(Reg, myEntity));
 	Children.push_back(makeEmitterVolume(Reg,RED, myEntity));
-
+	// 親子関係のコンポーネントを追加
 	Reg.emplace<ChildrenComp>(myEntity, Children);
 
 	return myEntity;
@@ -379,7 +444,9 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 //*********************************************
 entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale)
 {
+	// エンティティを生成
 	entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, Pos, Scale, Quat);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<CastShapeShadow>(myEntity);
@@ -404,12 +471,16 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 	// アイテムなら
 	if (Path.find("item01.x") != std::string::npos)
 	{
+		// コンポーネントを追加
 		Reg.emplace<RenderingOutLine>(Entity);
 		Reg.emplace<ItemComp>(Entity, 100.0f);
 		Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.7f, 0.5f, 1.0f), CMath::CalcModelSize(Path).y * 2.0f);
 		Reg.emplace<ItemComponent>(Entity);
+		// 親子関係コンポーネント用のリスト
 		std::vector<entt::entity> Children;
+		// 子供を生成
 		Children.push_back(makeObject2D(Reg, 3, "data/TEXTURE/lockon.png", D3DXVECTOR2(FLT_MAX, FLT_MAX), D3DXVECTOR2(100.0f, 100.0f), Entity));
+		// ロックオンエンティティを取得、子供コンポーネントを追加
 		entt::entity LockOnEntity = Reg.emplace<ChildrenComp>(Entity, Children).Children[0];
 		Reg.emplace<LockOnAnimComp>(LockOnEntity, VEC2_NULL, 30, 60, 60);
 	}
@@ -420,10 +491,13 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 //*********************************************
 entt::entity ManagerFactories::makeTitleManager(entt::registry& Reg)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<TitleManagerComponent>(myEntity);
 	Reg.emplace<Select2DComp>(myEntity, TitleMenu::MENUTYPE::START);
 
+	// 初期化
 	InitTitleManager(Reg);
 
 	return myEntity;
@@ -434,6 +508,7 @@ entt::entity ManagerFactories::makeTitleManager(entt::registry& Reg)
 //*********************************************
 void ManagerFactories::InitTitleManager(entt::registry& Reg)
 {
+	// タイトルメニュー用のポリゴンを作成
 	for (int nCnt = 0; nCnt < static_cast<unsigned int>(TitleMenu::MENUTYPE::MAX); nCnt++)
 	{
 		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, TitleMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f });
@@ -447,10 +522,13 @@ void ManagerFactories::InitTitleManager(entt::registry& Reg)
 //*********************************************
 entt::entity ManagerFactories::makePauseManager(entt::registry& Reg)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<PauseManagerComponent>(myEntity);
 	Reg.emplace<Select2DComp>(myEntity, PauseMenu::MENUTYPE::CONTINUE);
 
+	// 初期化処理
 	InitPauseManager(Reg, myEntity);
 
 	return myEntity;
@@ -461,6 +539,7 @@ entt::entity ManagerFactories::makePauseManager(entt::registry& Reg)
 //*********************************************
 void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent)
 {
+	// ポーズメニュー用のポリゴンを作成
 	for (int nCnt = 0; nCnt < static_cast<unsigned int>(PauseMenu::MENUTYPE::MAX); nCnt++)
 	{
 		const entt::entity menuEntity = Factories::makeObject2D(Reg, 1, PauseMenu::PathList[nCnt], { 300.0f,360.0f + (150.0f * nCnt) }, { 200.0f,50.0f }, Parent);
@@ -475,8 +554,11 @@ void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent
 //*********************************************
 entt::entity ManagerFactories::makeEnemyManager(entt::registry& Reg)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<EnemyManagerComp>(myEntity, "data/TEXT/EnemyManager.json");
+
 	return myEntity;
 }
 
@@ -485,14 +567,82 @@ entt::entity ManagerFactories::makeEnemyManager(entt::registry& Reg)
 //*********************************************
 entt::entity ManagerFactories::makeItemManager(entt::registry& Reg)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// アイテムリストコンポーネント用のリスト
 	std::vector<entt::entity> ItemList;
+	// アイテムタグコンポーネントを持っているエンテティのビュー
 	auto ItemView = Reg.view<ItemComponent>();
+	// アクセス
 	for (auto Entity : ItemView)
 	{
+		// 連結
 		ItemList.push_back(Entity);
 	}
+	// コンポーネントを追加
 	Reg.emplace<ItemManagerComp>(myEntity, ItemList);
+
+	return myEntity;
+}
+
+//*********************************************
+// スタッツマネージャーの生成
+//*********************************************
+entt::entity ManagerFactories::makeStutsManager(entt::registry& Reg)
+{
+	// エンティティを生成
+	const entt::entity myEntity = Reg.create();
+	// 子供のリスト用変数
+	std::vector<entt::entity> ChildrenList;
+
+	// 子供の数分繰り返す
+	for (UINT nCnt = 0; nCnt < StutsConfig::STUTSWORD::WORD_TYPE_MAX; nCnt++)
+	{
+		if (CManager::GetIsClear() == false && nCnt == 0)
+		{
+			// 連結
+			ChildrenList.push_back(Factories::makeObject2D(Reg, 4, "data/TEXTURE/Failed.png", StutsConfig::WordTable[nCnt].Pos, StutsConfig::WordTable[nCnt].Size));
+		}
+		else
+		{
+			// 連結
+			ChildrenList.push_back(Factories::makeObject2D(Reg, 4, StutsConfig::WordTable[nCnt].Path, StutsConfig::WordTable[nCnt].Pos, StutsConfig::WordTable[nCnt].Size));
+		}
+	}
+	// jsonファイルを開く
+	ifstream ifs("data/TEXT/Stuts.json");
+
+	if (!ifs)
+	{
+		MessageBox(NULL, "ファイルが読み込めませんでした", "終了メッセージ", MB_OK);
+		return {};
+	}
+	if (ifs.is_open() == false)
+	{
+		MessageBox(NULL, "ファイルが読み込めませんでした", "終了メッセージ", MB_OK);
+		return {};
+	}
+
+	// jsonデータを宣言
+	ordered_json jsonData;
+	// jsonを読み込む
+	ifs >> jsonData;
+
+	std::vector<int> Result;
+	const auto& obj = jsonData["PlayData"];
+	// NAMEタグのデータを取り出す
+	Result.push_back(obj["Time"]);
+	Result.push_back(obj["EnCount"]);
+	Result.push_back(obj["Step"]);
+
+	// 子供の数分繰り返す
+	for (UINT nCnt = 0; nCnt < StutsConfig::STUTSNUMBER::NUM_TYPE_MAX; nCnt++)
+	{
+		// 連結
+		ChildrenList.push_back(Factories::makeNumber(Reg, StutsConfig::NumberTable[nCnt].Origin, Result[nCnt], StutsConfig::NumberTable[nCnt].Size, StutsConfig::NumberTable[nCnt].Offset));
+	}
+	// コンポーネントを追加
+	Reg.emplace<ChildrenComp>(myEntity, ChildrenList);
 	return myEntity;
 }
 
@@ -501,19 +651,19 @@ entt::entity ManagerFactories::makeItemManager(entt::registry& Reg)
 //*********************************************
 entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity);
 	Reg.emplace<MeshFieldComponent>(myEntity);
-
 	Reg.emplace<DivisionComp>(myEntity,DivH,DivV);
-
 	Reg.emplace<MeshInfoComp>(myEntity, DivH, DivV);
-
 	Reg.emplace<SizeComp>(myEntity, Size);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<IndexBufferComp>(myEntity);
 	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\field.jpg");
 
+	// 初期化処理
 	InitMeshField(Reg, myEntity);
 
 	return myEntity;
@@ -529,13 +679,11 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// コンポーネントを取得
 	auto& MeshInfoCmp = Reg.get<MeshInfoComp>(Entity);
-
 	auto& VtxCmp = Reg.get<VertexComp>(Entity);
 	auto& IdxBuffCmp = Reg.get<IndexBufferComp>(Entity);
-
 	auto& SizeCmp = Reg.get<SizeComp>(Entity);
-
 	auto& DivCmp = Reg.get<DivisionComp>(Entity);
 
 	//頂点バッファの生成
@@ -630,20 +778,20 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 //*********************************************
 entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
 	Reg.emplace<LaserComponent>(myEntity);
 	Reg.emplace<ParentComp>(myEntity, Parent);
 	Reg.emplace <LaserCollisionInfoComp>(myEntity);
-
 	Reg.emplace<DivisionComp>(myEntity, 2, 8);
-
 	Reg.emplace<MeshInfoComp>(myEntity, 2, 8);
-
 	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(1.0f, 100000.0f));
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<IndexBufferComp>(myEntity);
 
+	// 初期化
 	InitLaserMesh(Reg, myEntity);
 
 	return myEntity;
@@ -659,13 +807,11 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// コンポーネントを取得
 	auto& MeshInfoCmp = Reg.get<MeshInfoComp>(Entity);
-
 	auto& VtxCmp = Reg.get<VertexComp>(Entity);
 	auto& IdxBuffCmp = Reg.get<IndexBufferComp>(Entity);
-
 	auto& SizeCmp = Reg.get<SizeComp>(Entity);
-
 	auto& DivCmp = Reg.get<DivisionComp>(Entity);
 
 	//頂点バッファの生成
@@ -772,9 +918,11 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 //*********************************************
 entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::string Path)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
-	std::vector<int> test = CMath::AStar(Reg.emplace<PatrolPointComp>(myEntity, Path, 10.0f).PatrolPoint, 0, 6);
-
+	// パトロールマネージャーコンポーネントを追加
+	Reg.emplace<PatrolPointComp>(myEntity, Path, 10.0f);
+	// タグコンポーネントを追加
 	Reg.emplace<PatrolPointManager>(myEntity);
 
 	return myEntity;
@@ -785,14 +933,17 @@ entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::st
 //*********************************************
 entt::entity MeshFactories::makeSkyBox(entt::registry& Reg)
 {
+	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
 	Reg.emplace<SkyBoxComponent>(myEntity);
-
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<IndexBufferComp>(myEntity);
 	Reg.emplace<SkyBoxComp>(myEntity, "data\\SKYBOX");
 
+	// 初期化処理
 	InitMeshCube(Reg, myEntity);
+
 	return myEntity;
 }
 
@@ -801,9 +952,11 @@ entt::entity MeshFactories::makeSkyBox(entt::registry& Reg)
 //*********************************************
 HRESULT MeshFactories::InitMeshCube(entt::registry& Reg, const entt::entity& Entity)
 {
+	// コンポーネントを取得
 	auto& VertexCmp = Reg.get<VertexComp>(Entity);
 	auto& IdxBuffCmp = Reg.get<IndexBufferComp>(Entity);
 
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -825,8 +978,10 @@ HRESULT MeshFactories::InitMeshCube(entt::registry& Reg, const entt::entity& Ent
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	VertexCmp.pVertex->Lock(0, 0, (void**)&pVtx, 0);
 
+	// 大きさ
 	float Size = 50;
 
+	// 各頂点を設定
 	pVtx[0].pos = D3DXVECTOR3(-Size, Size, -Size);
 	pVtx[0].col = WHITE;
 

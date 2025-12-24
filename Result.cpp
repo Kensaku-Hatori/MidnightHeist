@@ -11,31 +11,38 @@
 #include "Factories.h"
 #include "ResultCameraSystem.h"
 #include "ColorComponent.hpp"
+#include "fade.h"
+#include "title.h"
 
 //***************************************
 // 初期化処理
 //***************************************
 HRESULT CResult::Init(void)
 {
+	std::string Path;
+	const bool IsClear = CManager::GetIsClear();
+
+	if (IsClear == true)Path = "data/MODEL/ClockTower.x";
+	else Path = "data/MODEL/Prison.x";
+
 	// タイトル用のモデル生成
-	Factories::makeMapobject(GetReg(), "data/MODEL/Prison.x");
+	Factories::makeMapobject(GetReg(), Path);
 	// テスト用のプレイヤー生成
-	Factories::makeObjectX(GetReg(), "data/MODEL/testplayer.x");
+	Factories::makeMapobject(GetReg(), "data/MODEL/testplayer.x");
+	MeshFactories::makeSkyBox(GetReg());
 
 	// 黒い半透明ポリゴン
-	entt::entity BlackBoard = Factories::makeObject2D(GetReg(), 3, "", D3DXVECTOR2(SCREEN_WIDTH * 0.8f, SCREEN_HEIGHT * 0.5f), D3DXVECTOR2(SCREEN_WIDTH * 0.3f, SCREEN_WIDTH * 0.5f));
+	entt::entity BlackBoard = Factories::makeObject2D(GetReg(), 3, "", D3DXVECTOR2(SCREEN_WIDTH * 0.9f, SCREEN_HEIGHT * 0.5f), D3DXVECTOR2(SCREEN_WIDTH * 0.2f, SCREEN_WIDTH * 0.5f));
 	auto& ColorCmp = GetReg().get<ColorComp>(BlackBoard);
 	ColorCmp.Col = BLACK;
 	ColorCmp.Col.a = 0.5f;
 
 	// スタッツ情報
-	Factories::makeObject2D(GetReg(), 4, "data/TEXTURE/Success.png", D3DXVECTOR2(SCREEN_WIDTH * 0.75f, SCREEN_HEIGHT * 0.2f), D3DXVECTOR2(SCREEN_WIDTH * 0.1f, SCREEN_WIDTH * 0.1f));
-	Factories::makeObject2D(GetReg(), 4, "data/TEXTURE/Time.png", D3DXVECTOR2(SCREEN_WIDTH * 0.6f, SCREEN_HEIGHT * 0.4f), D3DXVECTOR2(SCREEN_WIDTH * 0.1f, SCREEN_WIDTH * 0.05f));
-	Factories::makeObject2D(GetReg(), 4, "data/TEXTURE/LockingTime.png", D3DXVECTOR2(SCREEN_WIDTH * 0.6f, SCREEN_HEIGHT * 0.55f), D3DXVECTOR2(SCREEN_WIDTH * 0.1f, SCREEN_WIDTH * 0.05f));
-	Factories::makeObject2D(GetReg(), 4, "data/TEXTURE/SmartPoint.png", D3DXVECTOR2(SCREEN_WIDTH * 0.6f, SCREEN_HEIGHT * 0.7f), D3DXVECTOR2(SCREEN_WIDTH * 0.1f, SCREEN_WIDTH * 0.05f));
+	ManagerFactories::makeStutsManager(GetReg());
 
 	// カメラにシステムを追加
-	CManager::GetCamera()->AddSystem(new CResultCamera);
+	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCamera);
+	else CManager::GetCamera()->AddSystem(new CFailedCamera);
 
     return E_NOTIMPL;
 }
@@ -57,6 +64,10 @@ void CResult::Uninit(void)
 //***************************************
 void CResult::Update(void)
 {
+	if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN))
+	{
+		CManager::GetFade()->SetFade(new CTitle);
+	}
 }
 
 //***************************************

@@ -23,7 +23,7 @@
 #include "TransformComponent.hpp"
 #include "ChildComp.hpp"
 #include "fade.h"
-#include "title.h"
+#include "Result.h"
 #include "game.h"
 
 // 名前空間
@@ -37,7 +37,14 @@ void UpdateItemSystem::Update(entt::registry& reg)
 	// ビューを取得
 	auto view = reg.view<ItemComponent>();
 
-	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME) CManager::GetFade()->SetFade(new CTitle);
+	// ゲームシーン中にアイテムがなくなったら
+	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME)
+	{
+		// フラグを立てる
+		CManager::SetClear(true);
+		// 遷移
+		CManager::GetFade()->SetFade(new CResult);
+	}
 
 	// アクセス
 	for (auto entity : view)
@@ -64,16 +71,21 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	// ロックオンが無効だったら
 	if (Reg.valid(Reg.get<ChildrenComp>(Entity).Children[0]) == false) return;
 
+	// アイテムマネージャーのビューを生成
 	auto ItemMangerView = Reg.view<ItemManagerComp>();
+	// アイテムマネージャーの先頭のエンティティを取得
 	entt::entity ItemManagerEntity = *ItemMangerView.begin();
+	// コンポーネントを取得
 	auto& ItemManagerCmp = Reg.get<ItemManagerComp>(ItemManagerEntity);
 	// ロックオンのエンティティを取得
 	entt::entity LockOnEntity = Reg.get<ChildrenComp>(Entity).Children[0];
 	// ロックオンのコンポーネントを取得
 	auto& LockAnimCmp = Reg.get<LockOnAnimComp>(LockOnEntity);
 
+	// 現在フォーカスされているアイテムが自分自身じゃなかったらかつ起動していなかったら
 	if (ItemManagerCmp.ItemLiset[ItemManagerCmp.NowAnimIdx] != Entity && LockAnimCmp.IsBoot == false) return;
 
+	// コンポーネントを取得
 	auto& LockOnSize = Reg.get<SizeComp>(LockOnEntity);
 	auto& LockOnColor = Reg.get<ColorComp>(LockOnEntity);
 	auto& TransformLockOn = Reg.get<Transform2D>(LockOnEntity);
@@ -81,6 +93,7 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	// ロックオンの位置を決めるためにコンポーネントを取得
 	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
 
+	// 起動状態にする
 	if (LockAnimCmp.IsBoot == false) LockAnimCmp.IsBoot = true;
 
 	// トランスフォームを取得

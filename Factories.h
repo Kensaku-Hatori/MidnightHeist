@@ -30,6 +30,9 @@ namespace Factories {
 	void InitGamePlayer(entt::registry& Reg, entt::entity& Entity);
 	void InitTitlePlayer(entt::registry& Reg, entt::entity& Entity);
 
+	entt::entity makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin, const int Value, const D3DXVECTOR2 DigitSize, const D3DXVECTOR2 DigitOffset);
+	void InitNumber(entt::registry& Reg, entt::entity& Timer);
+
 	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
 	void MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path);
@@ -46,6 +49,8 @@ namespace ManagerFactories {
 	entt::entity makeEnemyManager(entt::registry& Reg);
 
 	entt::entity makeItemManager(entt::registry& Reg);
+
+	entt::entity makeStutsManager(entt::registry& Reg);
 }
 // メッシュ系のファクトリー
 namespace MeshFactories {

@@ -187,6 +187,18 @@
     <Filter Include="ヘッダー ファイル\Sequence">
       <UniqueIdentifier>{2933df85-0963-4ced-835d-a7a3bee8130d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Stuts">
+      <UniqueIdentifier>{0213fc23-d4de-4fb8-92dd-f7bf4b18bf44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Stuts">
+      <UniqueIdentifier>{b6524c77-0d94-479c-971b-a62d9bec729d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Timer">
+      <UniqueIdentifier>{f8b81b18-af69-4487-9461-4821fd415858}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Timer">
+      <UniqueIdentifier>{96d521aa-bd11-40cd-bfe8-00aa35112c28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="debugproc.cpp">
@@ -407,6 +419,12 @@
     </ClCompile>
     <ClCompile Include="ResultCameraSystem.cpp">
       <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateStutsAnimSystem.cpp">
+      <Filter>System\Update\Stuts</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateTimerSystem.cpp">
+      <Filter>System\Update\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -787,6 +805,18 @@
     </ClInclude>
     <ClInclude Include="ResultCameraSystem.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="StutsComp.h">
+      <Filter>Component\Stuts</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateStutsAnimSystem.h">
+      <Filter>System\Update\Stuts</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateTimerSystem.h">
+      <Filter>System\Update\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="TimerComp.hpp">
+      <Filter>Component\Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

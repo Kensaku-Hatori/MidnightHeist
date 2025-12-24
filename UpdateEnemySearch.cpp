@@ -20,6 +20,7 @@
 #include "mapmanager.h"
 #include "EnemySoundListener.hpp"
 #include "CharactorComp.hpp"
+#include "game.h"
 #include "math.h"
 
 // 名前空間
@@ -68,6 +69,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 
 		if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume)
 		{
+			CGame::AddEnCount();
 			// 追いかけモード
 			State.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
@@ -76,6 +78,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
 			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)
 		{
+			CGame::AddEnCount();
 			// 追いかけモード
 			State.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;

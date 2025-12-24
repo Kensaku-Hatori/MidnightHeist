@@ -46,6 +46,7 @@
 #include "UpdateEnemyBack.h"
 #include "UpdateVisibleSineCurve.h"
 #include "UpdateMtxSystem.h"
+#include "UpdateTimerSystem.h"
 
 // •`‰æƒVƒXƒeƒ€
 #include "Rendering2Dbace.h"
@@ -119,6 +120,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdateEnemyBackSystem);
 	CSystemManager::AddUpdateSystem(new UpdateUICircleSystem);
 	CSystemManager::AddUpdateSystem(new Update2DSystem);
+	CSystemManager::AddUpdateSystem(new UpdateTimerSystem);
 	CSystemManager::AddUpdateSystem(new Update3DSystem);
 	CSystemManager::AddUpdateSystem(new UpdateTitlePlayerSystem);
 	CSystemManager::AddUpdateSystem(new UpdateGamePlayerSystem);

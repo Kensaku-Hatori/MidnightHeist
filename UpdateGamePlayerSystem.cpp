@@ -33,6 +33,7 @@
 #include "Sound3D.h"
 #include "ChildComp.hpp"
 #include "CharactorComp.hpp"
+#include "fade.h"
 #include "math.h"
 
 // 名前空間
@@ -57,7 +58,9 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& StateCmp = reg.get<PlayerStateComp>(entity);
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
 
+		// プレイヤーの前方向ベクトル
 		D3DXVECTOR3 Front = { -TransformCmp.mtxWorld._31,-TransformCmp.mtxWorld._32,-TransformCmp.mtxWorld._33 };
+		// リスナーの位置と向きを設定
 		CListener::Instance()->SetPos(TransformCmp.Pos);
 		CListener::Instance()->SetFront(Front);
 
@@ -69,6 +72,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& CircleRenderFrag = reg.get<RenderFragComp>(Parents.Children[1]);
 		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(Parents.Children[2]);
 
+		// 発している範囲を設定
 		SineCurveCmp.Radius = SoundCmp.SoundVolume;
 
 		// 描画フラグを折る
@@ -82,7 +86,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		if (AnimCmp.FirstDelayFrame > AnimCmp.FirstDelayCounter)AnimCmp.FirstDelayCounter++;
 		// 昔のフラグを保存
 		AnimCmp.IsFinishedBeltOld = AnimCmp.IsFinishedBelt;
-
+		// アウトラインを徐々に光らせる
 		OutLineCmp.Height -= 1.0f;
 
 		// トランスフォームを取得
@@ -119,8 +123,11 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 			UpdateUnLock(reg, entity);
 			UpdateState(reg, entity);
 		}
+		// アイテムマネージャーのビューを生成
 		auto ItemMangerView = reg.view<ItemManagerComp>();
+		// エンティティを取得
 		entt::entity ItemManagerEntity = *ItemMangerView.begin();
+		// コンポーネントを取得
 		auto& ItemManagerCmp = reg.get<ItemManagerComp>(ItemManagerEntity);
 
 		// ベルトコンベアの上に乗っていたら
@@ -141,8 +148,10 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 			// ジャンプする
 			RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
 		}
+		// プレイヤーが画面内に存在したら
 		if (AnimCmp.IsScreen == true)
 		{
+			// ロックオンアニメーションを更新
 			UpdateLockOn(reg, entity);
 		}
 	}
@@ -205,6 +214,7 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	D3DXVECTOR3 V = CManager::GetCamera()->GetPosR() - CManager::GetCamera()->GetPosV();
 	D3DXVECTOR3 H;
 	D3DXVECTOR3 VecU = VEC_UP;
+	// ベクトルの高さ成分をのぞく
 	V.y = 0.0f;
 
 	// 外積でX軸を計算
@@ -227,8 +237,9 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 		PlayerStateCmp.NowState = PlayerState::State::DUSH;
 	}
 
+	// スティックのステートを取得
 	XINPUT_STATE* State = CManager::GetInputJoypad()->GetJoyStickAngle();
-
+	// スティックが動いているかどうか
 	const bool IsMoveStick = CManager::GetInputJoypad()->GetJoyStickL();
 
 	// スティックが動いてなかったら
@@ -274,8 +285,8 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	}
 	else
 	{
+		// コンポーネントを取得
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(Player);
-
 		// プレイヤーが発する音
 		SoundCmp.SoundVolume = 0.0f;
 	}

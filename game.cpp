@@ -21,6 +21,9 @@
 // 静的メンバ変数宣言
 bool CGame::m_IsFinishedFirstNoise = false;
 bool CGame::m_IsOlfFinishedFirstNoise = false;
+int CGame::m_Time = 0;
+int CGame::m_EnCount = 0;
+int CGame::m_Step = 0;
 
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
@@ -58,6 +61,10 @@ CGame::~CGame()
 //***************************************
 HRESULT CGame::Init(void)
 {
+	m_Time = 0;
+	m_EnCount = 0;
+	m_Step = 0;
+
 	// フラグを初期化
 	m_IsFinishedFirstNoise = false;
 	// ステージ読み込み
@@ -101,6 +108,16 @@ HRESULT CGame::Init(void)
 //***************************************
 void CGame::Update(void)
 {
+	if (CManager::isPause() == false)
+	{
+		m_Frame++;
+		if (m_Frame > 60)
+		{
+			m_Frame = 0;
+			m_Time++;
+		}
+	}
+
 	// マップマネージャーの更新
 	CMapManager::Instance()->Update();
 
@@ -124,6 +141,7 @@ void CGame::Uninit(void)
 	CDistortion::Instance()->EndNoise();
 	CSystemManager::SetPause(false);
 	CManager::GetCamera()->EndSystems();
+	WriteStutsInfo();
 	GetReg().clear();
 	delete this;
 }
@@ -134,6 +152,32 @@ void CGame::Uninit(void)
 void CGame::Draw(void)
 {
 	CMapManager::Instance()->Draw();
+}
+
+//***************************************
+// スタッツを書き込む
+//***************************************
+void CGame::WriteStutsInfo(void)
+{
+	ordered_json j;
+
+	// OBJECT_SETの中身用の配列を準備
+	ordered_json objectArray;
+
+	// キーとバリューを設定
+	objectArray["Time"] = m_Time;
+	objectArray["EnCount"] = m_EnCount;
+	objectArray["Step"] = m_Step;
+
+	// "PlayData"タグの中にPlayDataの情報をだいにゅう
+	j["PlayData"] = objectArray;
+
+	ofstream writing_file("data/TEXT/Stuts.json");
+	if (writing_file.is_open() == true)
+	{
+		writing_file << setw(4) << j << endl;
+	}
+	writing_file.close();
 }
 
 //***************************************

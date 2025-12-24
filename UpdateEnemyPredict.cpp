@@ -20,6 +20,7 @@
 #include "math.h"
 #include "mapmanager.h"
 #include "CharactorComp.hpp"
+#include "game.h"
 #include "math_T.h"
 
 // ñºëOãÛä‘
@@ -64,6 +65,7 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
 			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)
 		{
+			CGame::AddEnCount();
 			// í«Ç¢Ç©ÇØÉÇÅ[Éh
 			State.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;

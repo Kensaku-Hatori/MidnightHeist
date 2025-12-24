@@ -60,7 +60,8 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 
 		//インデックスバッファをデータストリームに設定
 		pDevice->SetIndices(IdxBuffCmp.pIdx);
-
+		// テクスチャの設定
+		pDevice->SetTexture(0, nullptr);
 		//頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
 

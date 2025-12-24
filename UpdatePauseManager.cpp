@@ -28,12 +28,16 @@ using namespace PauseMenu;
 //*********************************************
 void UpdatePauseManagerSystem::Update(entt::registry& reg)
 {
+	// ビューを生成
 	auto view = reg.view<PauseManagerComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// 今選んでいるメニューの更新
 		auto& SelectMenuCmp = reg.get<Select2DComp>(entity);
 
+		// ポーズ中じゃなかったら早期リターン
 		if (CSystemManager::IsPause() == false) continue;
 
 		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true) {

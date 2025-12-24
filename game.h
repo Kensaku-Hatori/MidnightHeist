@@ -33,10 +33,13 @@ public:
 	void Update(void)	override;
 	void Uninit(void)	override;
 	void Draw(void)		override;
+	void WriteStutsInfo(void);
 
 	// 静的メンバ関数
 	// セッター
 	static void ResetPlayer(void);
+	static void AddEnCount(void) { m_EnCount++; }
+	static void AddStep(void) { m_Step++; }
 	// ゲッター
 	static bool IsFinishedFirstNoise(void) { return m_IsFinishedFirstNoise; }
 	static bool IsOlfFinishedFirstNoise(void) { return m_IsOlfFinishedFirstNoise; }
@@ -88,5 +91,9 @@ private:
 	// ノイズ用のフラグ
 	static bool m_IsFinishedFirstNoise;
 	static bool m_IsOlfFinishedFirstNoise;
+	static int m_Time;
+	static int m_EnCount;
+	static int m_Step;
+	int m_Frame;
 };
 #endif // !_GAME_H_

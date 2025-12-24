@@ -25,10 +25,13 @@ using namespace Tag;
 //*********************************************
 void UpdatePauseMenuSystem::Update(entt::registry& reg)
 {
+	// ビューを生成
 	auto view = reg.view<PauseMenuComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// コンポーネントを取得
 		auto& TransformCmp = reg.get<Transform2D>(entity);
 		auto& VtxCmp = reg.get<VertexComp>(entity);
 		auto& SizeCmp = reg.get<SizeComp>(entity);
