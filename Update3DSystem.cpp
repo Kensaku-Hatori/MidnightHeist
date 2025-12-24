@@ -24,10 +24,13 @@ using namespace Tag;
 //*********************************************
 void Update3DSystem::Update(entt::registry& reg)
 {
+	// ビューを生成
 	auto view = reg.view<Object3DComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// コンポーネントを取得
 		auto& Trans = reg.get<Transform3D>(entity);
 		auto& VtxCmp = reg.get<VertexComp>(entity);
 		auto& SizeCmp = reg.get<SizeComp>(entity);

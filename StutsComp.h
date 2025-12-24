@@ -46,7 +46,7 @@ namespace StutsConfig {
 		{"data/TEXTURE/Success.png",{SCREEN_WIDTH * 0.85f,SCREEN_HEIGHT * 0.2f},{100.0f,100.0f}},
 		{"data/TEXTURE/Time.png",{SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.4f},{50.0f,50.0f}},
 		{"data/TEXTURE/LockingTime.png",{SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.5f},{50.0f,50.0f}},
-		{"data/TEXTURE/Step.png",{SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.6f},{50.0f,50.0f}},
+		{"data/TEXTURE/StealNum.png",{SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.6f},{50.0f,50.0f}},
 	};
 	inline static const StutsNumberInfo NumberTable[STUTSNUMBER::NUM_TYPE_MAX] = {
 	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.4f},{25.0f,40.0f},{50.0f,0.0f}},

@@ -25,10 +25,10 @@ HRESULT CDefaultCubemap::Init(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
-    GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_CubeMap") = pEffect->GetParameterByName(NULL, "g_CubeMap");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle = GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
+    m_ProjHandle = GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
+    m_CubeMapHandle = GetHandle("g_CubeMap") = pEffect->GetParameterByName(NULL, "g_CubeMap");
 
     return S_OK;
 }
@@ -52,10 +52,10 @@ void CDefaultCubemap::ReStart(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
-    GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
-    GetHandle("g_CubeMap") = pEffect->GetParameterByName(NULL, "g_CubeMap");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle = GetHandle("g_View") = pEffect->GetParameterByName(NULL, "g_View");
+    m_ProjHandle = GetHandle("g_Proj") = pEffect->GetParameterByName(NULL, "g_Proj");
+    m_CubeMapHandle = GetHandle("g_CubeMap") = pEffect->GetParameterByName(NULL, "g_CubeMap");
 }
 
 //***************************************
@@ -75,10 +75,10 @@ void CDefaultCubemap::SetParameters(const D3DXMATRIX& World, const LPDIRECT3DCUB
     pDevice->GetTransform(D3DTS_PROJECTION, &proj);
 
     // パラメータ(グローバル変数の設定)
-    pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
-    pEffect->SetMatrix(GetHandle("g_View"), &view);
-    pEffect->SetMatrix(GetHandle("g_Proj"), &proj);
-    pEffect->SetTexture(GetHandle("g_CubeMap"), Tex);
+    pEffect->SetMatrix(m_mtxWorldHandle, &World);
+    pEffect->SetMatrix(m_ViewHandle, &view);
+    pEffect->SetMatrix(m_ProjHandle, &proj);
+    pEffect->SetTexture(m_CubeMapHandle, Tex);
 
     // GPUに変更を適応
     pEffect->CommitChanges();

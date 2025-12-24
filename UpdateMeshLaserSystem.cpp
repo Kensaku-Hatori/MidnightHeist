@@ -28,17 +28,24 @@ using namespace Tag;
 //*********************************************
 void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 {
+	// レーザのビューを生成
 	auto view = Reg.view<LaserComponent>();
+	// マップオブジェクトのビューを生成
 	auto viewMapObject = Reg.view<MapObjectComponent>();
 
+	// レーザーにアクセス
 	for (auto entity : view)
 	{
+		// 親がいなかったら
 		if (Reg.get<ParentComp>(entity).Parent == entt::null) continue;
+		// コンポーネントを取得
 		auto& SizeCmp = Reg.get<SizeComp>(entity);
 		auto& CollisionInfo = Reg.get<LaserCollisionInfoComp>(entity);
 
+		// フラグを初期化
 		CollisionInfo.IsLaserCollision = false;
 		CollisionInfo.IsRayCollision = false;
+		// エラー値に設定
 		CollisionInfo.NearObjectDistance = LasetCollisionInfo::InvalidNearDistance;
 
 		// モデルとマウスの当たり判定用の距離
@@ -64,6 +71,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			}
 		}
 
+		// マップオブジェクトにアクセス
 		for (auto entityMapObject : viewMapObject)
 		{
 			// 当たったら
@@ -78,9 +86,11 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 				}
 			}
 		}
+		// 情報を設定
 		SizeCmp.Size.y = Distance;
 		if (Distance != DefaultDist)CollisionInfo.NearObjectDistance = Distance;
 		if (SizeCmp.Size.y <= DefaultDist) CollisionInfo.IsLaserCollision = true;
+		// ちょうてんじょうほうを更新
 		UpdateVertex(Reg, entity);
 	}
 }

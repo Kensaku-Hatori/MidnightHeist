@@ -23,7 +23,7 @@ bool CGame::m_IsFinishedFirstNoise = false;
 bool CGame::m_IsOlfFinishedFirstNoise = false;
 int CGame::m_Time = 0;
 int CGame::m_EnCount = 0;
-int CGame::m_Step = 0;
+int CGame::m_Steal = 0;
 
 // ネームスペース
 using ordered_json = nlohmann::ordered_json;
@@ -63,7 +63,7 @@ HRESULT CGame::Init(void)
 {
 	m_Time = 0;
 	m_EnCount = 0;
-	m_Step = 0;
+	m_Steal = 0;
 
 	// フラグを初期化
 	m_IsFinishedFirstNoise = false;
@@ -167,7 +167,7 @@ void CGame::WriteStutsInfo(void)
 	// キーとバリューを設定
 	objectArray["Time"] = m_Time;
 	objectArray["EnCount"] = m_EnCount;
-	objectArray["Step"] = m_Step;
+	objectArray["Steal"] = m_Steal;
 
 	// "PlayData"タグの中にPlayDataの情報をだいにゅう
 	j["PlayData"] = objectArray;

@@ -39,7 +39,7 @@ public:
 	// セッター
 	static void ResetPlayer(void);
 	static void AddEnCount(void) { m_EnCount++; }
-	static void AddStep(void) { m_Step++; }
+	static void AddSteal(void) { m_Steal++; }
 	// ゲッター
 	static bool IsFinishedFirstNoise(void) { return m_IsFinishedFirstNoise; }
 	static bool IsOlfFinishedFirstNoise(void) { return m_IsOlfFinishedFirstNoise; }
@@ -93,7 +93,7 @@ private:
 	static bool m_IsOlfFinishedFirstNoise;
 	static int m_Time;
 	static int m_EnCount;
-	static int m_Step;
+	static int m_Steal;
 	int m_Frame;
 };
 #endif // !_GAME_H_

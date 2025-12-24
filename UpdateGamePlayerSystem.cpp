@@ -434,6 +434,7 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 			// Å‘å”ˆÈã‚¾‚Á‚½‚ç
 			if (ItemCmp.nCntPicking >= ItemConfig::nFramePicking)
 			{
+				CGame::AddSteal();
 				// —v‘f‚ğíœ
 				Reg.destroy(entity);
 				CMapManager::Instance()->Erase(entity);

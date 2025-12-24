@@ -26,13 +26,13 @@ HRESULT CUICircle::Init(void)
     LPD3DXEFFECT pEffect = GetEffect();
 
     // グローバル変数ハンドル取得
-    GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
-    GetHandle("g_mtxView") = pEffect->GetParameterByName(NULL, "g_mtxView");
-    GetHandle("g_mtxProj") = pEffect->GetParameterByName(NULL, "g_mtxProj");
-    GetHandle("g_FillAmount") = pEffect->GetParameterByName(NULL, "g_FillAmount");
-    GetHandle("g_Center") = pEffect->GetParameterByName(NULL, "g_Center");
-    GetHandle("g_Radius") = pEffect->GetParameterByName(NULL, "g_Radius");
-    GetHandle("g_MaxFillAmount") = pEffect->GetParameterByName(NULL, "g_MaxFillAmount");
+    m_mtxWorldHandle = GetHandle("g_mtxWorld") = pEffect->GetParameterByName(NULL, "g_mtxWorld");
+    m_ViewHandle = GetHandle("g_mtxView") = pEffect->GetParameterByName(NULL, "g_mtxView");
+    m_ProjHandle = GetHandle("g_mtxProj") = pEffect->GetParameterByName(NULL, "g_mtxProj");
+    m_FillAmoutHandle = GetHandle("g_FillAmount") = pEffect->GetParameterByName(NULL, "g_FillAmount");
+    m_CenterHandle = GetHandle("g_Center") = pEffect->GetParameterByName(NULL, "g_Center");
+    m_RadiusHandle = GetHandle("g_Radius") = pEffect->GetParameterByName(NULL, "g_Radius");
+    m_MaxFillHandle = GetHandle("g_MaxFillAmount") = pEffect->GetParameterByName(NULL, "g_MaxFillAmount");
 
     return S_OK;
 }
@@ -53,23 +53,23 @@ void CUICircle::SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginW
     pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
     // パラメータ(グローバル変数の設定)
-    if (GetHandle("g_mtxWorld") != nullptr)
+    if (m_mtxWorldHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_mtxWorld"), &World);
+        pEffect->SetMatrix(m_mtxWorldHandle, &World);
     }
-    if (GetHandle("g_mtxView") != nullptr)
+    if (m_ViewHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_mtxView"), &View);
+        pEffect->SetMatrix(m_ViewHandle, &View);
     }
-    if (GetHandle("g_mtxProj") != nullptr)
+    if (m_ProjHandle != nullptr)
     {
-        pEffect->SetMatrix(GetHandle("g_mtxProj"), &Proj);
+        pEffect->SetMatrix(m_ProjHandle, &Proj);
     }
-    if (GetHandle("g_FillAmount") != nullptr)
+    if (m_FillAmoutHandle != nullptr)
     {
-        pEffect->SetFloat(GetHandle("g_FillAmount"), FillAmount);
+        pEffect->SetFloat(m_FillAmoutHandle, FillAmount);
     }
-    if (GetHandle("g_Center") != nullptr)
+    if (m_CenterHandle != nullptr)
     {
         D3DXVECTOR3 Convert = { OriginWorld._41,OriginWorld._42,OriginWorld._43 };
         D3DXVECTOR4 Set = { OriginWorld._41,OriginWorld._42,OriginWorld._43,1.0f };
@@ -78,15 +78,15 @@ void CUICircle::SetParameters(const D3DXMATRIX& World, const D3DXMATRIX& OriginW
         Set.y = Convert.y;
         Set.z = Convert.z;
 
-        pEffect->SetVector(GetHandle("g_Center"),&Set);
+        pEffect->SetVector(m_CenterHandle,&Set);
     }
-    if (GetHandle("g_Radius") != nullptr)
+    if (m_RadiusHandle != nullptr)
     {
-        pEffect->SetFloat(GetHandle("g_Radius"), Radius);
+        pEffect->SetFloat(m_RadiusHandle, Radius);
     }
-    if (GetHandle("g_MaxFillAmount") != nullptr)
+    if (m_MaxFillHandle != nullptr)
     {
-        pEffect->SetFloat(GetHandle("g_MaxFillAmount"), MaxFillAngle);
+        pEffect->SetFloat(m_MaxFillHandle, MaxFillAngle);
     }
 
     // GPUに変更を適応

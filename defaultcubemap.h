@@ -37,4 +37,9 @@ public:
 private:
 	// コンストラクタ
 	CDefaultCubemap() = default;
+	// メンバ変数
+	D3DXHANDLE m_mtxWorldHandle;	// ワールドマトリックスのハンドル
+	D3DXHANDLE m_ViewHandle;		// ビューマトリックスのハンドル
+	D3DXHANDLE m_ProjHandle;		// プロジェクションマトリックスのハンドル
+	D3DXHANDLE m_CubeMapHandle;		// キューブマップのハンドル
 };

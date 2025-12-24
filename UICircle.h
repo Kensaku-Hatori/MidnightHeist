@@ -35,4 +35,12 @@ public:
 private:
 	// コンストラクタ
 	CUICircle() = default;
+	// メンバ変数
+	D3DXHANDLE m_mtxWorldHandle;	// ワールドマトリックスのハンドル
+	D3DXHANDLE m_ViewHandle;		// ビューマトリックスのハンドル
+	D3DXHANDLE m_ProjHandle;		// プロジェクションマトリックスのハンドル
+	D3DXHANDLE m_FillAmoutHandle;	// 塗りつぶし量のハンドル
+	D3DXHANDLE m_CenterHandle;		// 中心位置のハンドル
+	D3DXHANDLE m_RadiusHandle;		// 半径のハンドル
+	D3DXHANDLE m_MaxFillHandle;		// 最大塗りつぶし量のハンドル
 };

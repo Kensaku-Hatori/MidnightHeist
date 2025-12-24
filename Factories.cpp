@@ -633,7 +633,7 @@ entt::entity ManagerFactories::makeStutsManager(entt::registry& Reg)
 	// NAMEタグのデータを取り出す
 	Result.push_back(obj["Time"]);
 	Result.push_back(obj["EnCount"]);
-	Result.push_back(obj["Step"]);
+	Result.push_back(obj["Steal"]);
 
 	// 子供の数分繰り返す
 	for (UINT nCnt = 0; nCnt < StutsConfig::STUTSNUMBER::NUM_TYPE_MAX; nCnt++)
