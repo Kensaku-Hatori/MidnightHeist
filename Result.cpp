@@ -13,6 +13,7 @@
 #include "ColorComponent.hpp"
 #include "fade.h"
 #include "title.h"
+#include "Sound2D.h"
 
 //***************************************
 // 初期化処理
@@ -43,6 +44,8 @@ HRESULT CResult::Init(void)
 	// カメラにシステムを追加
 	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCamera);
 	else CManager::GetCamera()->AddSystem(new CFailedCamera);
+	if (IsClear == true)CSound2D::Instance()->Play(SoundDevice::LABEL_GAMECLEARBGM);
+	else CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEOVERBGM);
 
     return E_NOTIMPL;
 }

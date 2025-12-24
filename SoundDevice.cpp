@@ -13,6 +13,8 @@ namespace SoundDevice {
     {
         {"data/SOUND/BGM/TITLEBGM.wav", XAUDIO2_LOOP_INFINITE},
         {"data/SOUND/BGM/GAMEBGM.wav", XAUDIO2_LOOP_INFINITE},
+        {"data/SOUND/BGM/GAMECLEAR.wav", XAUDIO2_LOOP_INFINITE},
+        {"data/SOUND/BGM/GAMEOVER.wav", XAUDIO2_LOOP_INFINITE},
         {"data/SOUND/SE/ArrowShot.wav", 0},
         {"data/SOUND/SE/StuckArrow.wav", 0},
         {"data/SOUND/SE/WaterFall.wav", XAUDIO2_LOOP_INFINITE},

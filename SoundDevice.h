@@ -29,6 +29,8 @@ namespace SoundDevice {
 	{
 		LABEL_TITLEBGM = 0,	// BGM
 		LABEL_GAMEBGM,		// ƒQ[ƒ€BGM
+		LABEL_GAMECLEARBGM,	// ƒQ[ƒ€BGM
+		LABEL_GAMEOVERBGM,	// ƒQ[ƒ€BGM
 		LABEL_SHOT,			// •ú‚Â‰¹
 		LABEL_STUCK,		// Žh‚³‚é‰¹
 		LABEL_WATERFALL,	// ‘ê

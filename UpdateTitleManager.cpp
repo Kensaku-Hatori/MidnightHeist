@@ -34,10 +34,12 @@ void UpdateTitleManagerSystem::Update(entt::registry& reg)
 	{
 		// 選択しているメニューを更新
 		auto& SelectMenuCmp = reg.get<Select2DComp>(entity);
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true) {
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true 
+			|| CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true) {
 			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu - 1), MENUTYPE::START, MENUTYPE::EXIT));
 		}
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true) {
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true 
+			|| CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true) {
 			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu + 1), MENUTYPE::START, MENUTYPE::EXIT));
 		}
 		// メニューを更新
@@ -67,7 +69,8 @@ void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity
 		// 青にする
 		ColorCmp.Col = BLUE;
 		// エンターキーが押されたら
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true)
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true || 
+			CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
 		{
 			// メニューに応じた処理を実行
 			FunctionMenu(Reg, entity);
