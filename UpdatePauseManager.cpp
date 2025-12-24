@@ -41,10 +41,12 @@ void UpdatePauseManagerSystem::Update(entt::registry& reg)
 		if (CSystemManager::IsPause() == false) continue;
 
 		// 今選んでいるメニューの更新
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true) {
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true ||
+			CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true) {
 			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu - 1), MENUTYPE::CONTINUE, MENUTYPE::QUIT));
 		}
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true) {
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true ||
+			CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true) {
 			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu + 1), MENUTYPE::CONTINUE, MENUTYPE::QUIT));
 		}
 		// メニューの更新
@@ -75,7 +77,8 @@ void UpdatePauseManagerSystem::UpdatePauseMenu(entt::registry& Reg, entt::entity
 		// 赤色に設定
 		ColorCmp.Col = RED;
 		// 決定ボタンを押したら
-		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true)
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true ||
+			CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
 		{
 			// メニューに応じた処理を実行
 			FunctionMenu(Reg, entity);

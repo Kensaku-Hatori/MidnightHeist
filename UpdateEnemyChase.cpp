@@ -21,6 +21,7 @@
 #include "math.h"
 #include "ChildComp.hpp"
 #include "CharactorComp.hpp"
+#include "math_T.h"
 
 // 名前空間
 using namespace Tag;
@@ -84,6 +85,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 				continue;
 			}
 			// 目標の位置を設定
+			State.BackIdx = Clamp(State.BackIdx, 0, static_cast<int>(State.AStarRoute.size() - 1));
 			State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
 			State.IsFinishedAStar = false;
 			// ステートを切り替えたので切り上げ

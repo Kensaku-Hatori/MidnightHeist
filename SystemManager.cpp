@@ -10,7 +10,8 @@ bool CSystemManager::m_IsPause = false;
 
 void CSystemManager::UpdateAll(entt::registry& Reg)
 {
-	if (CManager::GetInputKeyboard()->GetTrigger(DIK_P) == true) {
+	if (CManager::GetInputKeyboard()->GetTrigger(DIK_P) == true ||
+		CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_START) == true) {
 		m_IsPause = !m_IsPause;
 	}
 

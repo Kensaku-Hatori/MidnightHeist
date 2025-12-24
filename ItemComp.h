@@ -11,7 +11,7 @@
 // 念のため
 namespace ItemConfig {
 	// 解錠にかかるフレーム数
-	static constexpr int nFramePicking = 6;
+	static constexpr int nFramePicking = 300;
 	// 一フレーム解錠ゲージの増加量
 	static constexpr float Ratio = 1.0f / nFramePicking;
 }

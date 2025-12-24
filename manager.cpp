@@ -370,6 +370,7 @@ void CManager::SetScene(CScene* Scene)
 	}
 	else if (m_pScene != NULL)
 	{
+		CSound2D::Instance()->StopAll();
 		m_pScene->Uninit();
 		m_pScene = NULL;
 	}

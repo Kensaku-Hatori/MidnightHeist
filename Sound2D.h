@@ -27,6 +27,7 @@ public:
 	void Play(SoundDevice::LABEL Label);
 	// ’â~
 	void Stop(SoundDevice::LABEL Label);
+	void StopAll(void);
 
 	// Ã“Iƒƒ“ƒoŠÖ”
 	static CSound2D* Instance(void) {

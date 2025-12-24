@@ -67,7 +67,8 @@ void CResult::Uninit(void)
 //***************************************
 void CResult::Update(void)
 {
-	if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN))
+	if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) ||
+		CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
 	{
 		CManager::GetFade()->SetFade(new CTitle);
 	}

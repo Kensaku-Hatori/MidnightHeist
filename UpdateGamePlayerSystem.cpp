@@ -226,12 +226,16 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	float Speed = 12.5f;
 
 	// ‘f‘‚³
-	if (CManager::GetInputKeyboard()->GetPress(DIK_LCONTROL) == true)
+	if (CManager::GetInputKeyboard()->GetPress(DIK_LCONTROL) == true ||
+		CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_L1) == true ||
+		CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_L2) == true)
 	{
 		Speed = 7.5f;
 		PlayerStateCmp.NowState = PlayerState::State::SILENT;
 	}
-	else if (CManager::GetInputKeyboard()->GetPress(DIK_LSHIFT) == true) 
+	else if (CManager::GetInputKeyboard()->GetPress(DIK_LSHIFT) == true ||
+		CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_R1) == true ||
+		CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_R2) == true)
 	{
 		Speed = 17.5f;
 		PlayerStateCmp.NowState = PlayerState::State::DUSH;
@@ -425,7 +429,8 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 			ItemCmp.nCntPicking--;
 			continue;
 		}
-		if (CManager::GetInputKeyboard()->GetPress(DIK_F))
+		if (CManager::GetInputKeyboard()->GetPress(DIK_F) ||
+			CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_A) == true)
 		{
 			PlayerStateCmp.NowState = PlayerState::State::PICKING;
 			ItemCmp.nCntPicking++;

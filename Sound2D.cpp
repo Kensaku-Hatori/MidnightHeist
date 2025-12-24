@@ -117,3 +117,23 @@ void CSound2D::Stop(SoundDevice::LABEL Label)
 		m_pSourceVoice[Label]->Stop(0);
 	}
 }
+
+//*********************************************
+// すべて停止
+//*********************************************
+void CSound2D::StopAll(void)
+{
+	// ソースボイスのステート取得用変数
+	XAUDIO2_VOICE_STATE xa2state;
+	// 最大数分繰り返す
+	for (int nCnt = 0; nCnt < SoundDevice::LABEL_MAX; nCnt++)
+	{
+		// 状態取得
+		m_pSourceVoice[nCnt]->GetState(&xa2state);
+		if (xa2state.BuffersQueued != 0)
+		{// 再生中
+			// 一時停止
+			m_pSourceVoice[nCnt]->Stop(0);
+		}
+	}
+}

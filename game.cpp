@@ -61,10 +61,13 @@ CGame::~CGame()
 //***************************************
 HRESULT CGame::Init(void)
 {
+	// スタッツ情報を初期化
 	m_Time = 0;
 	m_EnCount = 0;
 	m_Steal = 0;
 
+	// フラグを失敗にする
+	CManager::SetClear(false);
 	// フラグを初期化
 	m_IsFinishedFirstNoise = false;
 	// ステージ読み込み
