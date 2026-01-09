@@ -16,7 +16,6 @@
 #include "MeshInfoComponent.hpp"
 #include "VertexRenderingComponent.hpp"
 #include "DivisionComponent.hpp"
-#include "LaserCollisionFragComp.hpp"
 #include "fade.h"
 #include "Result.h"
 
@@ -40,13 +39,6 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 		if (Reg.get<ParentComp>(entity).Parent == entt::null) continue;
 		// コンポーネントを取得
 		auto& SizeCmp = Reg.get<SizeComp>(entity);
-		auto& CollisionInfo = Reg.get<LaserCollisionInfoComp>(entity);
-
-		// フラグを初期化
-		CollisionInfo.IsLaserCollision = false;
-		CollisionInfo.IsRayCollision = false;
-		// エラー値に設定
-		CollisionInfo.NearObjectDistance = LasetCollisionInfo::InvalidNearDistance;
 
 		// モデルとマウスの当たり判定用の距離
 		float Distance, CurrentDistance;
@@ -77,7 +69,6 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			// 当たったら
 			if (CollisionEntity(Reg, entity, entityMapObject, CurrentDistance) == true)
 			{
-				if (ToPlayer > CurrentDistance)CollisionInfo.IsRayCollision = true;
 				// 最新の距離と当たったオブジェクトとの距離を比較
 				if (CurrentDistance < Distance)
 				{
@@ -88,8 +79,6 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 		}
 		// 情報を設定
 		SizeCmp.Size.y = Distance;
-		if (Distance != DefaultDist)CollisionInfo.NearObjectDistance = Distance;
-		if (SizeCmp.Size.y <= DefaultDist) CollisionInfo.IsLaserCollision = true;
 		// ちょうてんじょうほうを更新
 		UpdateVertex(Reg, entity);
 	}

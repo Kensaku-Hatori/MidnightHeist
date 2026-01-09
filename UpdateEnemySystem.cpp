@@ -6,22 +6,8 @@
 //****************************************************************
 
 // インクルード
-#include "TagComp.hpp"
-#include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
 #include "UpdateEnemySystem.h"
-#include "SingleCollisionShapeComponent.hpp"
-#include "SizeComponent.hpp"
-#include "Velocity.hpp"
-#include "ParentComponent.hpp"
-#include "FanInfoComponent.hpp"
-#include "EnemySoundListener.hpp"
-#include "VisibleSineCurveComp.hpp"
-#include "ChildComp.hpp"
-#include "CharactorComp.hpp"
-
-// 名前空間
-using namespace Tag;
+#include "EnemyAIUtils.hpp"
 
 //*********************************************
 // 更新
@@ -52,10 +38,12 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		FanInfoCmp.Origin = { myMatrix._41,myMatrix._42,myMatrix._43 };
 		FanInfoCmp.Dir = { -myMatrix._31,-myMatrix._32,-myMatrix._33 };
 
+		// エミッターの情報を設定
 		EnemyAiCmp.Emitter->SetPos(Transform.Pos);
 		EnemyAiCmp.Emitter->SetFront({ -myMatrix._31,-myMatrix._32,-myMatrix._33 });
 		EnemyAiCmp.Emitter->Update();
 
+		// 向いている方向を計算
 		D3DXVECTOR3 VecUp = VEC_UP;
 		D3DXVECTOR3 Dir;
 		D3DXQUATERNION SetQuat;
@@ -68,14 +56,18 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 
 		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
 
+		// 自身が立てている音の大きさを子往診
 		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(ChildrenCmp.Children[2]);
 
 		SineCurveCmp.Radius = SoundCmp.ListenerVolume;
 
+		// 目標の位置まで補完
 		D3DXQuaternionSlerp(&Transform.Quat, &Transform.Quat, &ChractorCmp.QuatDest, ChractorCmp.QuatSpeed);
 
 		// 剛体の更新
 		UpdateRB(reg, entity);
+		// 光線たちの更新
+		UpdateRays(reg, entity);
 	}
 }
 
@@ -127,4 +119,41 @@ void UpdateEnemySystem::UpdateRB(entt::registry& Reg, entt::entity& Entity)
 
 	// 物理世界に追加
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
+}
+
+//*********************************************
+// 光線の更新
+//*********************************************
+void UpdateEnemySystem::UpdateRays(entt::registry& Reg, entt::entity& Entity)
+{
+	UpdateToPlayerRay(Reg, Entity);
+}
+
+//*********************************************
+// プレイヤーまでの光線の更新
+//*********************************************
+void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Entity)
+{
+	// プレイヤーのビュー
+	auto Playerview = Reg.view<PlayerComponent, InGameComp>();
+	// プレイヤーが存在しなかったら切り上げ
+	if (Playerview.size_hint() == 0) return;
+	// プレイヤーのエンティティ
+	auto PlayerEntity = *Playerview.begin();
+	// 自分自身のコンポーネントを取得
+	auto& Transform = Reg.get<Transform3D>(Entity);
+	auto& State = Reg.get<EnemyAIComp>(Entity);
+	// プレイヤーのトランスフォームを取得
+	auto& PlayerTransform = Reg.get<Transform3D>(PlayerEntity);
+	// プレイヤーまでのベクトル
+	D3DXVECTOR3 Vec = PlayerTransform.Pos - Transform.Pos;
+	// 正規化されたプレイヤーまでのベクトル
+	D3DXVECTOR3 VecNormal;
+	D3DXVec3Normalize(&VecNormal, &Vec);
+	// プレイヤーまでの光線の情報
+	RayComp ToPlayerRay;
+	ToPlayerRay.Origin = Transform.Pos;
+	ToPlayerRay.Dir = VecNormal;
+	// フラグを更新
+	State.IsBlockedToPlayer = CMath::IsBlockedRayToMeshes(CMapManager::Instance()->GetvMapObject(), ToPlayerRay, CMath::CalcDistance(Transform.Pos, PlayerTransform.Pos));
 }

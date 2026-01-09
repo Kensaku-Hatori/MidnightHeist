@@ -7,24 +7,7 @@
 
 // インクルード
 #include "UpdateEnemyChase.h"
-#include "TagComp.hpp"
-#include "EnemyAIComponent.hpp"
-#include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
-#include "Velocity.hpp"
-#include "LaserCollisionFragComp.hpp"
-#include "ParentComponent.hpp"
-#include "EnemyPatrolPointComp.hpp"
-#include "RayComponent.hpp"
-#include "EnemyAIAStarComponent.hpp"
-#include "mapmanager.h"
-#include "math.h"
-#include "ChildComp.hpp"
-#include "CharactorComp.hpp"
-#include "math_T.h"
-
-// 名前空間
-using namespace Tag;
+#include "EnemyAIUtils.hpp"
 
 //*********************************************
 // 更新
@@ -57,12 +40,9 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 
 		// 自分のコンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& Laser = reg.get<ChildrenComp>(Entity);
-		// レーザーのコリジョンフラグを取得
-		auto& CollisionInfo = reg.get<LaserCollisionInfoComp>(Laser.Children[0]);
 
 		// プレイヤーとの間にオブジェクトがあったら
-		if (CollisionInfo.IsRayCollision == true)
+		if (State.IsBlockedToPlayer == true)
 		{
 			// 捜索ステートにする
 			State.State = EnemyState::ENEMYSTATE::PREDICT;

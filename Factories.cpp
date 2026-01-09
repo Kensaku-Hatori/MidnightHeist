@@ -153,8 +153,6 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 	auto& VtxCmp = Reg.get<VertexComp>(Entity);
 	auto& FanInfoCmp = Reg.get<FanComp>(Entity);
 	auto& ColCmp = Reg.get<ColorComp>(Entity);
-	auto& UVCmp = Reg.get<UVComp>(Entity);
-	auto& NorCmp = Reg.get<NorComp>(Entity);
 
 	//頂点情報へのポインタ
 	VERTEX_3D* pVtx = NULL;
@@ -784,7 +782,6 @@ entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(0.0f, 30.0f, 0.0f));
 	Reg.emplace<LaserComponent>(myEntity);
 	Reg.emplace<ParentComp>(myEntity, Parent);
-	Reg.emplace <LaserCollisionInfoComp>(myEntity);
 	Reg.emplace<DivisionComp>(myEntity, 2, 8);
 	Reg.emplace<MeshInfoComp>(myEntity, 2, 8);
 	Reg.emplace<SizeComp>(myEntity, D3DXVECTOR2(1.0f, 100000.0f));

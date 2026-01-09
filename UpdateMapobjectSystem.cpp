@@ -33,7 +33,6 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& ColliderCmp = reg.get <SingleCollisionShapeComp>(entity);
 		auto& SizeCmp = reg.get <Size3DComp>(entity);
-		auto& FilePath = reg.get<XRenderingComp>(entity);
 
 		// リジットボディーの更新
 		UpdateRB(TransformCmp, RBCmp, ColliderCmp, SizeCmp);

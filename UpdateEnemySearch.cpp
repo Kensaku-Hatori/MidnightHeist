@@ -7,25 +7,7 @@
 
 // インクルード
 #include "UpdateEnemySearch.h"
-#include "TagComp.hpp"
-#include "EnemyAIComponent.hpp"
-#include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
-#include "Velocity.hpp"
-#include "EnemyPatrolPointComp.hpp"
-#include "FanInfoComponent.hpp"
-#include "ParentComponent.hpp"
-#include "LaserCollisionFragComp.hpp"
-#include "PlayerSoundVolumeComp.hpp"
-#include "mapmanager.h"
-#include "EnemySoundListener.hpp"
-#include "CharactorComp.hpp"
-#include "game.h"
-#include "math.h"
-
-// 名前空間
-using namespace Tag;
-using namespace SequenceTag;
+#include "EnemyAIUtils.hpp"
 
 //*********************************************
 // 更新
@@ -35,18 +17,18 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 	// 敵のビュー
 	auto view = reg.view<EnemyComponent, EnemyAIComp>();
 
+	// パトロールポイントとプレイヤーのビュー
+	auto PatrolManagerview = reg.view<PatrolPointManager>();
+	auto Playerview = reg.view<PlayerComponent, InGameComp>();
+
+	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
+	if (PatrolManagerview.empty()) return;
+
 	// コンテナにアクセス
 	for (auto [Entity, State] : view.each())
 	{
 		// 捜索状態以外なら切り上げ
 		if (State.State != EnemyState::ENEMYSTATE::SEARCH) continue;
-
-		// パトロールポイントとプレイヤーのビュー
-		auto PatrolManagerview = reg.view<PatrolPointManager>();
-		auto Playerview = reg.view<PlayerComponent,InGameComp>();
-
-		// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
-		if (PatrolManagerview.empty()) continue;
 
 		// 扇情報を取得
 		auto& FanInfoCmp = reg.get<FanComp>(Entity);
@@ -64,11 +46,16 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
 		auto& EnemyListenerVolumeCmp = reg.get<EnemyListenerComp>(Entity);
 
+		// プレイヤーまでのベクトル
 		D3DXVECTOR3 ToPlayer = PlayerTransformCmp.Pos - TransformCmp.Pos;
+		// ベクトルの距離
 		float Distance = D3DXVec3Length(&ToPlayer);
 
-		if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume)
+		// 音が聞こえていたら
+		if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume &&
+			State.IsBlockedToPlayer == false)
 		{
+			// 見つかった回数をインクリメント
 			CGame::AddEnCount();
 			// 追いかけモード
 			State.State = EnemyState::ENEMYSTATE::CHASE;
@@ -76,7 +63,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		}
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == true)
+			State.IsBlockedToPlayer == false)
 		{
 			CGame::AddEnCount();
 			// 追いかけモード

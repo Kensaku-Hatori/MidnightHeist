@@ -629,7 +629,7 @@
     <ClInclude Include="UpdateEnemySearch.h">
       <Filter>System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="LaserCollisionFragComp.hpp">
+    <ClInclude Include="LaserCollisionFragComp1.hpp">
       <Filter>Component\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="UpdateEnemyPredict.h">
@@ -817,6 +817,9 @@
     </ClInclude>
     <ClInclude Include="TimerComp.hpp">
       <Filter>Component\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAIUtils.hpp">
+      <Filter>System\Update\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

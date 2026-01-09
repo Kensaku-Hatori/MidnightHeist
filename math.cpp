@@ -263,6 +263,18 @@ float CMath::Heuristic(const D3DXVECTOR3& Start, const D3DXVECTOR3& Goal)
 	return D3DXVec3Length(&Vec);
 }
 
+/// <summary>
+/// 距離を計算
+/// </summary>
+/// <param name="Start"><始点>
+/// <param name="End"><終点>
+/// <returns><距離>
+float CMath::CalcDistance(const D3DXVECTOR3 Start, const D3DXVECTOR3 End)
+{
+	D3DXVECTOR3 Vec = End - Start;
+	return D3DXVec3Length(&Vec);
+}
+
 //***************************************
 // エースターアルゴリズム
 //***************************************
@@ -421,7 +433,7 @@ int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolP
 			auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 			// 当たったら
-			if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, ToPointRay, &NowDistance) == true)
+			if (CMath::IsCollisionRayToMesh(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, ToPointRay, &NowDistance) == true)
 			{
 				// 距離が現在位置からポイントへの距離より多かったら障害物があると判定
 				float dist = D3DXVec3Length(&ToPointVec);
@@ -486,7 +498,7 @@ bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, st
 		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 		// 当たったら
-		if (CMath::IsMeshOnTheRay(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, ToPointRay, &NowDistance) == true)
+		if (CMath::IsCollisionRayToMesh(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, ToPointRay, &NowDistance) == true)
 		{
 			if (DestDistance > NowDistance)
 			{
@@ -535,10 +547,15 @@ bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)
 	}
 }
 
-////***************************************
-//// 光線状にメッシュがあるかどうか
-////***************************************
-bool CMath::IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance)
+/// <summary>
+/// 光線とメッシュの当たり判定
+/// </summary>
+/// <param name="Mesh"><メッシュ>
+/// <param name="MeshMtx"><メッシュのマトリックス>
+/// <param name="Ray"><光線の情報>
+/// <param name="Distance"><当たったポリゴンまでの距離>
+/// <returns><当たったかどうか/true = 当たった>
+bool CMath::IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance)
 {
 	// モデルのマトリックスの逆行列
 	D3DXMATRIX invWorld;
@@ -573,6 +590,129 @@ bool CMath::IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, cons
 
 	// 当たったかどうかを返す
 	return hit;
+}
+
+/// <summary>
+/// 光線がメッシュによって遮られているかどうか
+/// </summary>
+/// <param name="Mesh"><メッシュ>
+/// <param name="MeshMtx"><メッシュのマトリックス>
+/// <param name="Ray"><光線の情報>
+/// <param name="Border"><光線の長さ>
+/// <returns><遮られているかどうか/true = 遮られている>
+bool CMath::IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float Border)
+{
+	// モデルのマトリックスの逆行列
+	D3DXMATRIX invWorld;
+	D3DXMatrixInverse(&invWorld, NULL, &MeshMtx);
+
+	// レイの始点と向きのローカル変数
+	D3DXVECTOR3 localRayOrigin, localRayDir;
+
+	// マウスのレイを取得
+	D3DXVECTOR3 RayPos = Ray.Origin;
+	D3DXVECTOR3 RayDir = Ray.Dir;
+
+	CInputMouse::Ray LocalRay;
+	LocalRay.Origin = RayPos;
+	LocalRay.Dir = RayDir;
+
+	// 始点を位置としてマトリックスで変換
+	D3DXVec3TransformCoord(&localRayOrigin, &LocalRay.Origin, &invWorld);
+
+	// レイの向きを方向ベクトルとしてマトリックスで変換
+	D3DXVec3TransformNormal(&localRayDir, &LocalRay.Dir, &invWorld);
+
+	// 当たったかどうかの一時変数
+	BOOL hit;
+	// 当たったポリゴンまでの距離
+	float Distance;
+
+	// 当たり判定を実行
+	D3DXIntersect(Mesh, &localRayOrigin, &localRayDir, &hit, NULL, NULL, NULL, &Distance, NULL, NULL);
+
+	// 当たっていてかつ光線の長さが距離より大きかったら
+	if (hit == TRUE && Border > Distance) return true;
+	else return false;
+}
+
+/// <summary>
+/// 光線とメッシュ達の当たり判定
+/// </summary>
+/// <param name="Ojbects"><メッシュとトランスフォームが存在するエンテティのベクター>
+/// <param name="Ray"><光線の情報>
+/// <param name="Distance"><当たったメッシュへの最短距離>
+/// <returns><当たったかどうか/true = 当たった>
+bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float* Distance)
+{
+	// 当たったかどうか
+	bool Hit = false;
+	// 保存用の距離
+	float NowDistance;
+	// 実際の最短距離
+	float MinDistance = FLT_MAX;
+
+	// マップオブジェクトへアクセス
+	for (auto MapObject : Objects)
+	{
+		// 当たり判定に必要なコンポーネントを取得
+		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
+
+		// 当たったら
+		if (CMath::IsCollisionRayToMesh(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, Ray, &NowDistance) == true)
+		{
+			// 最短距離が更新されたら
+			if (MinDistance > NowDistance)
+			{
+				MinDistance = NowDistance;
+			}
+			// フラグを有効にする
+			Hit = true;
+		}
+	}
+	// ヌルポインタじゃなかったら
+	if (Distance != nullptr)
+	{
+		// 最短距離を代入
+		*Distance = MinDistance;
+	}
+	// 当たったかどうかを返す
+	return Hit;
+}
+
+/// <summary>
+/// 光線がメッシュ達によって遮られているかどうか
+/// </summary>
+/// <param name="Objects"><メッシュとトランスフォームが存在するエンテティのベクター>
+/// <param name="Ray"><光線の情報>
+/// <param name="Border"><光線の長さ>
+/// <returns><遮られているかどうか/true = 遮られている>
+bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float Border)
+{
+	// 保存用の距離
+	float NowDistance;
+
+	// マップオブジェクトへアクセス
+	for (auto MapObject : Objects)
+	{
+		// 当たり判定に必要なコンポーネントを取得
+		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
+
+		// 当たったら
+		if (CMath::IsCollisionRayToMesh(XRenderingCmp.Info.modelinfo.pMesh, MapObjectTransCmp.mtxWorld, Ray, &NowDistance) == true)
+		{
+			// 光線の長さがポリゴンまでの距離より大きかったら
+			if (Border > NowDistance)
+			{
+				// 遮られている
+				return true;
+			}
+		}
+	}
+	// 遮られていない
+	return false;
 }
 
 /// <summary>

@@ -7,24 +7,7 @@
 
 // インクルード
 #include "UpdateEnemyPredict.h"
-#include "TagComp.hpp"
-#include "EnemyAIComponent.hpp"
-#include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
-#include "Velocity.hpp"
-#include "EnemyPatrolPointComp.hpp"
-#include "FanInfoComponent.hpp"
-#include "ParentComponent.hpp"
-#include "LaserCollisionFragComp.hpp"
-#include "Factories.h"
-#include "math.h"
-#include "mapmanager.h"
-#include "CharactorComp.hpp"
-#include "game.h"
-#include "math_T.h"
-
-// 名前空間
-using namespace Tag;
+#include "EnemyAIUtils.hpp"
 
 //*********************************************
 // 更新
@@ -34,18 +17,18 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 	// 敵のビュー
 	auto view = reg.view<EnemyComponent, EnemyAIComp>();
 
+	// パトロールポイントとプレイヤーのビュー
+	auto PatrolManagerview = reg.view<PatrolPointManager>();
+	auto Playerview = reg.view<PlayerComponent>();
+
+	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
+	if (PatrolManagerview.empty() || Playerview.empty()) return;
+
 	// コンテナにアクセス
 	for (auto [Entity, State] : view.each())
 	{
 		// 捜索状態以外なら切り上げ
 		if (State.State != EnemyState::ENEMYSTATE::PREDICT) continue;
-
-		// パトロールポイントとプレイヤーのビュー
-		auto PatrolManagerview = reg.view<PatrolPointManager>();
-		auto Playerview = reg.view<PlayerComponent>();
-
-		// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
-		if (PatrolManagerview.empty() || Playerview.empty()) continue;
 
 		// 扇情報を取得
 		auto& FanInfoCmp = reg.get<FanComp>(Entity);

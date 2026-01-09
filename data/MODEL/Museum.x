@@ -1097,7 +1097,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\Student\\Downloads\\Image_fx.jpg";
+    "data\\TEXTURE\\Image_fx.jpg";
    }
   }
   Material {
@@ -1106,7 +1106,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\Student\\Pictures\\Pop.png";
+    "data\\TEXTURE\\Pop.png";
    }
   }
   Material {
@@ -1115,7 +1115,7 @@ Mesh {
    0.000000;0.000000;0.000000;;
    0.000000;0.000000;0.000000;;
    TextureFilename {
-    "C:\\Users\\Student\\Pictures\\Pop.png";
+    "data\\TEXTURE\\Pop.png";
    }
   }
   Material {

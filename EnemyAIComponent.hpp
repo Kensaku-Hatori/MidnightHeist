@@ -65,4 +65,6 @@ struct EnemyAIComp {
 	int CoolDownCnt;
 	// ”¼ü‰º‚©‚Ç‚¤‚©
 	bool IsFinish;
+	// ƒvƒŒƒCƒ„[‚Ü‚Å‚ÌŒõü‚ªÕ‚ç‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©
+	bool IsBlockedToPlayer;
 };

@@ -19,7 +19,7 @@ namespace ItemConfig {
 struct ItemComp {
 	// コンストラクタ
 	ItemComp(const float _InteractSize = NULL) :
-		InteractSize(_InteractSize) {};
+		nCntPicking(0), InteractSize(_InteractSize) {};
 	// 解錠の進行度
 	int nCntPicking;
 	// アイテムの大きさ

@@ -250,6 +250,7 @@
     <ClInclude Include="ChildComp.hpp" />
     <ClInclude Include="defaultcubemap.h" />
     <ClInclude Include="distortion.h" />
+    <ClInclude Include="EnemyAIUtils.hpp" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ResultCameraSystem.h" />
     <ClInclude Include="StutsComp.h" />
@@ -270,7 +271,7 @@
     <ClInclude Include="GameCamera.h" />
     <ClInclude Include="IndexBufferComponent.hpp" />
     <ClInclude Include="ItemComp.h" />
-    <ClInclude Include="LaserCollisionFragComp.hpp" />
+    <ClInclude Include="LaserCollisionFragComp1.hpp" />
     <ClInclude Include="LockOnUIAnim.hpp" />
     <ClInclude Include="Menu2DComponent.hpp" />
     <ClInclude Include="Mesh.hpp" />

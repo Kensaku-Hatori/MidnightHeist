@@ -24,21 +24,25 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<CastShadow>();
 
+	// シャドウマップへの書き込みを開始
 	CShadowMap::Instance()->Begin();
 	CShadowMap::Instance()->BeginPass();
 	CShadowMap::Instance()->WriteMaps();
 
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// ビューマトリックスとプロジェクションマトリックスを取得
 	D3DXMATRIX View, Proj;
-	D3DXVECTOR4 Light = { 1.0f,1.0f,1.0f,0.0f };
 	pDevice->GetTransform(D3DTS_VIEW, &View);
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
+	// アクセス
 	for (auto Entity : view)
 	{
+		// コンポーネントを取得
 		auto& TransformComp = reg.get<Transform3D>(Entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(Entity);
 

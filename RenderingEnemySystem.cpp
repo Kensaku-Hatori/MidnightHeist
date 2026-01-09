@@ -27,6 +27,7 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<EnemyComponent>();
 
+	// 物陰描画
 	CShapeShadow::Instance()->Begin();
 	CShapeShadow::Instance()->BeginScene();
 	for (auto entity : view)
@@ -39,11 +40,14 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
+	// アクセス
 	for (auto Entity : view)
 	{
+		// コンポーネントを取得
 		auto& TransformComp = reg.get<Transform3D>(Entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(Entity);
 
+		// デバイス取得
 		CRenderer* pRenderer;
 		pRenderer = CManager::GetRenderer();
 		LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -51,6 +55,7 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
 
+		// ビューマトリックス・プロジェクションマトリックスを取得
 		D3DXMATRIX View, Proj;
 		pDevice->GetTransform(D3DTS_VIEW, &View);
 		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
@@ -58,15 +63,17 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
 
+		// シェーダー起動
 		CToon::Instance()->Begin();
 
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
+			// マテリアルから色をとってくる
 			D3DXMATERIAL pCol = pMat[nCntMat];
-			// マテリアルの設定
-			pDevice->SetMaterial(&pCol.MatD3D);
+			// ベクトル型に変換
 			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
 
+			// シェーダーにパラメータを設定
 			CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 			// テクスチャパスがあるかどうか
@@ -82,6 +89,7 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
 			CToon::Instance()->EndPass();
 		}
+		// シェーダー終了
 		CToon::Instance()->End();
 		pDevice->SetMaterial(&matDef);
 	}

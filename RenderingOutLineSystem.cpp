@@ -39,8 +39,10 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 	pDevice->GetTransform(D3DTS_VIEW, &View);
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
+	// アクセス
 	for (auto Entity : view)
 	{
+		// コンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
 		auto& RenderingCmp = reg.get<XRenderingComp>(Entity);
 		auto& OutLineCmp = reg.get<OutLineComp>(Entity);

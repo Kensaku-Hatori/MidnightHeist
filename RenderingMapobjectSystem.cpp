@@ -37,12 +37,14 @@ void RenderingMapobjectSystem::Rendering(entt::registry& reg)
 //*********************************************
 void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entity Entity)
 {
+	// コンポーネントを取得
 	auto& TransformComp = Reg.get<Transform3D>(Entity);
 	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);
 
 	// モデルへのインデックスが-1だったら終わる
 	if (RenderingComp.FilePath.empty() == true) return;
 
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -59,18 +61,23 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 	// マテリアルデータへのポインタ
 	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
 
+	// ビューマトリックス・プロジェクションマトリックスを取得
 	D3DXMATRIX View, Proj;
 	pDevice->GetTransform(D3DTS_VIEW, &View);
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
+	// シェーダー起動
 	CToon::Instance()->Begin();
 
+	// 描画開始
 	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
 	{
+		// マテリアルから色をとってくる
 		D3DXMATERIAL col = pMat[nCntMat];
-
+		// ベクトル型に変換
 		D3DXVECTOR4 SettCol = { col.MatD3D.Diffuse.r,col.MatD3D.Diffuse.g,col.MatD3D.Diffuse.b,col.MatD3D.Diffuse.a };
 
+		// テクスチャが存在しなかったら
 		if (col.pTextureFilename == NULL)
 		{
 			CToon::Instance()->BeginPass(0);
@@ -80,14 +87,16 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 			CToon::Instance()->BeginPass(1);
 		}
 
+		// パラメータを設定
 		CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), modelinfo.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 		// モデル(パーツ)の描画
 		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
+		// パスを終了
 		CToon::Instance()->EndPass();
 	}
-
+	// シェーダー終了
 	CToon::Instance()->End();
 
 	pDevice->SetMaterial(&matDef);

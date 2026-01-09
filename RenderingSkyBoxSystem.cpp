@@ -42,11 +42,14 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 		// 回転
 		SkyBoxCmp.Angle += D3DXToRadian(1.0f / 60.0f);
 
+		// マトリックス
 		D3DXMATRIX mtxWorld, mtxTrans,mtxRot;
 		D3DXMatrixIdentity(&mtxWorld);
 
+		// カメラの位置を参照する
 		D3DXVECTOR3 CamPos = CManager::GetCamera()->GetPosV();
 
+		// マトリックスを計算
 		D3DXMatrixRotationY(&mtxRot, SkyBoxCmp.Angle);
 		D3DXMatrixMultiply(&mtxWorld, &mtxWorld, &mtxRot);
 		D3DXMatrixTranslation(&mtxTrans, CamPos.x, CamPos.y, CamPos.z);

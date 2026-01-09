@@ -37,6 +37,7 @@ public:
 	static float VectersFromAngle(D3DXVECTOR3 VecA, D3DXVECTOR3 VecB, D3DXVECTOR3 Border);
 	static D3DXVECTOR3 CalcModelSize(std::string Path);
 	static float Heuristic(const D3DXVECTOR3& Start, const D3DXVECTOR3& Goal);
+	static float CalcDistance(const D3DXVECTOR3 Start, const D3DXVECTOR3 End);
 	static std::vector<int> AStar(std::vector<PatrolPoint::PatrolPointInfo>& Points, const int StartIdx, const int GoalIdx);
 	static int NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolPointInfo>& Points, std::vector<entt::entity>& MapObjects);
 	static D3DXMATRIX CalcMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat);
@@ -48,7 +49,10 @@ public:
 	// èåèéÆ
 	static bool IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, std::vector<entt::entity>& MapObjects);
 	static bool IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point);
-	static bool IsMeshOnTheRay(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance = nullptr);
+	static bool IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance = nullptr);
+	static bool IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float Border = 0.0f);
+	static bool IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float* Distance = nullptr);
+	static bool IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float Border = 0.0f);
 	static bool IsNanVector(const D3DXVECTOR3& Condition);
 	static bool IsNanVector(const btVector3& Condition);
 	//static float CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);

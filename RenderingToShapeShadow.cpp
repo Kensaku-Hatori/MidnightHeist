@@ -24,16 +24,20 @@ void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<CastShapeShadow>();
 
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// 物陰マップへの書き込みを開始
 	CShapeShadow::Instance()->Begin();
 	CShapeShadow::Instance()->BeginObject();
 	CShapeShadow::Instance()->BeginPass();
 
+	// アクセス
 	for (auto Entity : view)
 	{
+		// コンポーネントを取得
 		auto& TransformComp = reg.get<Transform3D>(Entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(Entity);
 
