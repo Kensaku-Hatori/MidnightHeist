@@ -58,6 +58,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			MissPoint = CMath::NearCanMovePoint(State.LastLookPlayerPosition, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
 			// 帰るまでの道筋を取得
 			State.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, MissPoint);
+			// 経路探索が出来なかったら
 			if (State.AStarRoute.empty() == true)
 			{
 				// 捜索ステートにする

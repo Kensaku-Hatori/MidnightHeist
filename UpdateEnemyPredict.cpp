@@ -64,6 +64,7 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 			State.State = EnemyState::ENEMYSTATE::SEARCH;
 		}
 
+		// 移動量を計算するためのベクトル
 		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
@@ -77,16 +78,20 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		{
 			// 今の位置を目標の位置にする
 			State.BackIdx++;
-			// フラグを立てる
+			// エースターのインデックスがサイズオーバーしていてかつ探索が終了していなかったら
 			if (State.BackIdx >= static_cast<int>(State.AStarRoute.size() - 1) && State.IsFinishedAStar == false)
 			{
+				// 探索が終了していたら
 				State.IsFinishedAStar = true;
 				// 目標の位置を設定
 				State.DestPos = State.LastLookPlayerPosition;
 			}
+			// 探索が終了していたら
 			else if (State.IsFinishedAStar == true)
 			{
+				// ステートを変更
 				State.State = EnemyState::ENEMYSTATE::BACK;
+				// リセット
 				State.CoolDownCnt = 0;
 				State.BackIdx = 0;
 				// 一番近くの障害物をまたがないポイントへのIdx
@@ -147,9 +152,13 @@ void UpdateEnemyPredictSystem::UpdateMove(entt::registry& Reg, entt::entity& Ent
 	// 位置を計算、設定
 	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
 
+	// 移動量がなかったら
 	if (VelocityCmp.Velocity == VEC3_NULL) return;
 
+	// クォータニオンを求める
+	// 真上ベクトル
 	D3DXVECTOR3 VecUp = VEC_UP;
+	// 設定用変数
 	D3DXQUATERNION SetQuat;
 	// 移動値を方向ベクトルに変換
 	D3DXVec3Normalize(&VelocityCmp.Velocity, &VelocityCmp.Velocity);
@@ -158,6 +167,8 @@ void UpdateEnemyPredictSystem::UpdateMove(entt::registry& Reg, entt::entity& Ent
 	float angle = atan2f(VelocityCmp.Velocity.x, VelocityCmp.Velocity.z);
 	angle += D3DX_PI;
 
+	// クォータニオンを計算
 	D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
+	// 代入
 	CharactorCmp.QuatDest = SetQuat;
 }

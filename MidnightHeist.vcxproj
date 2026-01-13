@@ -205,8 +205,6 @@
     <ClCompile Include="Update2DSystem.cpp" />
     <ClCompile Include="Update3DSystem.cpp" />
     <ClCompile Include="camera.cpp" />
-    <ClCompile Include="debugproc.cpp" />
-    <ClCompile Include="default.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="input.cpp" />
@@ -323,8 +321,6 @@
     <ClInclude Include="baceUpdatesystem.hpp" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="ColorComponent.hpp" />
-    <ClInclude Include="debugproc.h" />
-    <ClInclude Include="default.h" />
     <ClInclude Include="entt.hpp" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />

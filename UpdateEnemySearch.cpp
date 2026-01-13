@@ -51,7 +51,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// ベクトルの距離
 		float Distance = D3DXVec3Length(&ToPlayer);
 
-		// 音が聞こえていたら
+		// 音が聞こえていたらかつプレイヤーとの間にオブジェクトがなかったら
 		if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume &&
 			State.IsBlockedToPlayer == false)
 		{
@@ -158,9 +158,13 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	// 位置を計算、設定
 	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
 
+	// 移動量がなかったら
 	if (VelocityCmp.Velocity == VEC3_NULL) return;
 
+	// クォータニオンを求める
+	// 真上ベクトル
 	D3DXVECTOR3 VecUp = VEC_UP;
+	// 設定用の変数
 	D3DXQUATERNION SetQuat;
 	// 移動値を方向ベクトルに変換
 	D3DXVec3Normalize(&VelocityCmp.Velocity, &VelocityCmp.Velocity);
@@ -169,6 +173,8 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 	float angle = atan2f(VelocityCmp.Velocity.x, VelocityCmp.Velocity.z);
 	angle += D3DX_PI;
 
+	// クォータニオンを求める
 	D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
+	// 設定
 	CharactorCmp.QuatDest = SetQuat;
 }

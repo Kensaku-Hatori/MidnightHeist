@@ -17,7 +17,6 @@
 #include "EnemyPatrolPointComp.hpp"
 #include "FanInfoComponent.hpp"
 #include "ParentComponent.hpp"
-//#include "LaserCollisionFragComp.hpp"
 #include "Factories.h"
 #include "mapmanager.h"
 #include "math.h"
