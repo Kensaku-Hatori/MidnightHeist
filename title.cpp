@@ -27,8 +27,8 @@ const D3DXVECTOR2 CTitle::Config::MeshField::Size = { 100.0f,100.0f };
 // プレイヤー
 const D3DXVECTOR3 CTitle::Config::Player::Pos = { 0.0f,10.0f,700.0f };
 // 地面
-const btVector3 CTitle::Config::Ground::Size = { 2000.0f,10.0f,1000.0f };
-const btVector3 CTitle::Config::Ground::Origin = { 0.0f,-5.0f,0.0f };
+const btVector3 CTitle::Config::Ground::Size = { 2000.0f,0.0f,1000.0f };
+const btVector3 CTitle::Config::Ground::Origin = { 0.0f,0.0f,0.0f };
 
 //***************************************
 // コンストラクタ

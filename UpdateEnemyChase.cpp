@@ -42,7 +42,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
 
 		// プレイヤーとの間にオブジェクトがあったら
-		if (State.IsBlockedToPlayer == true)
+		if (State.IsOldBlockedToPlayer == false && State.IsBlockedToPlayer == true)
 		{
 			// 捜索ステートにする
 			State.State = EnemyState::ENEMYSTATE::PREDICT;

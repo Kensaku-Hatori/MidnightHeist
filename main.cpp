@@ -71,6 +71,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	DWORD dwCurrentTime;
 	DWORD dwExecLastTime;
 
+	ShowCursor(FALSE);
+
 	if (FAILED(CSoundDevice::Instance()->Init()))
 	{
 		return -1;

@@ -147,6 +147,7 @@ void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Ent
 	auto& PlayerTransform = Reg.get<Transform3D>(PlayerEntity);
 	// プレイヤーまでのベクトル
 	D3DXVECTOR3 Vec = PlayerTransform.Pos - Transform.Pos;
+	Vec.y = 0.0f;
 	// 正規化されたプレイヤーまでのベクトル
 	D3DXVECTOR3 VecNormal;
 	D3DXVec3Normalize(&VecNormal, &Vec);
@@ -154,6 +155,8 @@ void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Ent
 	RayComp ToPlayerRay;
 	ToPlayerRay.Origin = Transform.Pos;
 	ToPlayerRay.Dir = VecNormal;
+	// フラグを保存
+	State.IsOldBlockedToPlayer = State.IsBlockedToPlayer;
 	// フラグを更新
 	State.IsBlockedToPlayer = CMath::IsBlockedRayToMeshes(CMapManager::Instance()->GetvMapObject(), ToPlayerRay, CMath::CalcDistance(Transform.Pos, PlayerTransform.Pos));
 }

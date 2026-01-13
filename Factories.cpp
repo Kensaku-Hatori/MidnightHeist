@@ -290,7 +290,7 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	// ƒ‚ƒfƒ‹‚Ì‘å‚«‚³‚ğŠî€‚É“–‚½‚è”»’è‚ğì¬
-	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 7.0f, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y);
+	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 20.0f);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 	Reg.emplace<CharactorComp>(myEntity, 0.1f);
 

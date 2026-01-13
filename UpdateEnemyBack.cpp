@@ -46,7 +46,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			CMath::IsCanSight(TransformCmp.Pos, PlayerTransformCmp.Pos, CMapManager::Instance()->GetvMapObject()) == false)
+			State.IsBlockedToPlayer == false)
 		{
 			CGame::AddEnCount();
 			// 追いかけモード
