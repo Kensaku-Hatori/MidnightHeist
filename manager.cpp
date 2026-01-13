@@ -8,10 +8,8 @@
 // インクルード
 #include "manager.h"
 #include "renderer.h"
-#include "debugproc.h"
 #include "texmanager.h"
 #include "modelmanager.h"
-#include "default.h"
 #include "toon.h"
 #include "shadowmap.h"
 #include "shapeshadow.h"

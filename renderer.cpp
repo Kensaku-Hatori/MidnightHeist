@@ -7,7 +7,6 @@
 
 // インクルード
 #include "renderer.h"
-#include "debugproc.h"
 #include "manager.h"
 #include "line.h"
 #include "texmanager.h"
@@ -22,9 +21,6 @@
 
 // 名前空間
 using namespace std;
-
-// 静的メンバ変数
-CDebugProc* CRenderer::m_pDebugProc = NULL;
 
 //************************************
 // レンダラークラスのコンストラクタ
@@ -120,15 +116,6 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
-
-	m_pDebugProc = new CDebugProc;
-	m_pDebugProc->Init();
-
-#ifdef _DEBUG
-	m_pDebugProc->SetEnable(true);
-#else
-	m_pDebugProc->SetEnable(false);
-#endif // _DEBUG
 
 	// インスタンスを生成
 	m_pLine = CLine::Create();
@@ -249,10 +236,6 @@ void CRenderer::Uninit()
 	//----------------------------
 	CSystemManager::EndSystem();
 
-	m_pDebugProc->Uninit();
-	delete m_pDebugProc;
-	m_pDebugProc = NULL;
-
 	// 頂点バッファの破棄
 	if (m_pVertex != NULL)
 	{
@@ -304,11 +287,6 @@ void CRenderer::Update()
 		{
 			offWireFrame();
 		}
-	}
-
-	if (CManager::GetInputKeyboard()->GetTrigger(DIK_B) == true)
-	{
-		CDebugProc::SetEnable(false);
 	}
 }
 
@@ -363,10 +341,6 @@ void CRenderer::Draw()
 
 		// 物陰を描画
 		CShapeShadow::Instance()->DrawTex();
-
-		// デバッグ表示の描画
-		CDebugProc::Draw(0, 0);
-		CDebugProc::End();
 
 		// レンダータゲットを元に戻す
 		m_pD3DDevice->SetRenderTarget(0, RenderDef);

@@ -45,8 +45,6 @@ public:
 	RECT GetWindowsRect(void) { return m_RectWindow; }
 // プライベート
 private:
-	// 静的メンバ変数
-	static CDebugProc* m_pDebugProc;// デバッグ表示用
 	// メンバ変数
 	// DirectX用
 	LPDIRECT3D9 m_pD3D;				// デバイス

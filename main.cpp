@@ -8,7 +8,6 @@
 #include "main.h"
 #include "renderer.h"
 #include "manager.h"
-#include "debugproc.h"
 #include "SoundDevice.h"
 #include "resource.h"
 #include <crtdbg.h>
