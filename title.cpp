@@ -66,7 +66,7 @@ HRESULT CTitle::Init(void)
 	// タイトルマネージャ生成
 	ManagerFactories::makeTitleManager(GetReg());
 	// 地面生成
-	MeshFactories::makeMeshField(GetReg(), Config::MeshField::nDivH, Config::MeshField::nDivV, Config::MeshField::Size);
+	MeshFactories::makeMeshField(GetReg(), Config::MeshField::nDivH, Config::MeshField::nDivV, Config::MeshField::Size, "data\\TEXTURE\\field.jpg");
 	// スカイボックス生成
 	MeshFactories::makeSkyBox(GetReg());
 	// タイトルBGMを生成・再生
@@ -110,6 +110,11 @@ HRESULT CTitle::Init(void)
 //***************************************
 void CTitle::Update(void)
 {
+	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
+	D3DVIEWPORT9 test;
+	pDevice->GetViewport(&test);
+	UINT Width = test.Width;
+	int i = 0;
 }
 
 //***************************************

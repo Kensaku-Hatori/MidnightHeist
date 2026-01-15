@@ -54,7 +54,7 @@ namespace ManagerFactories {
 }
 // メッシュ系のファクトリー
 namespace MeshFactories {
-	entt::entity makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size);
+	entt::entity makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size,const std::string Path);
 	HRESULT InitMeshField(entt::registry& Reg, const entt::entity& Entity);
 
 	entt::entity makeLaser(entt::registry& Reg, entt::entity Parent = entt::null);

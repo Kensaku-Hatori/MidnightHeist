@@ -647,7 +647,7 @@ entt::entity ManagerFactories::makeStutsManager(entt::registry& Reg)
 //*********************************************
 // メッシュフィールドの生成
 //*********************************************
-entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size)
+entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size, const std::string Path)
 {
 	// エンティティを生成
 	const entt::entity myEntity = Reg.create();
@@ -659,7 +659,7 @@ entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, c
 	Reg.emplace<SizeComp>(myEntity, Size);
 	Reg.emplace<VertexComp>(myEntity);
 	Reg.emplace<IndexBufferComp>(myEntity);
-	Reg.emplace<TexComp>(myEntity, "data\\TEXTURE\\field.jpg");
+	Reg.emplace<TexComp>(myEntity, Path);
 
 	// 初期化処理
 	InitMeshField(Reg, myEntity);

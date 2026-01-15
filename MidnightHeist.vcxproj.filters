@@ -234,9 +234,6 @@
     <ClCompile Include="fade.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="scene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -339,9 +336,6 @@
     <ClCompile Include="RenderingSkyBoxSystem.cpp">
       <Filter>System\Rendering\SkyBox</Filter>
     </ClCompile>
-    <ClCompile Include="title.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="distortion.cpp">
       <Filter>Shader\Distortion</Filter>
     </ClCompile>
@@ -408,9 +402,6 @@
     <ClCompile Include="UpdateMtxSystem.cpp">
       <Filter>System\Update\Calc</Filter>
     </ClCompile>
-    <ClCompile Include="Result.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="ResultCameraSystem.cpp">
       <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
@@ -419,6 +410,15 @@
     </ClCompile>
     <ClCompile Include="UpdateTimerSystem.cpp">
       <Filter>System\Update\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="title.cpp">
+      <Filter>ソース ファイル\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>ソース ファイル\Sequence</Filter>
+    </ClCompile>
+    <ClCompile Include="game.cpp">
+      <Filter>ソース ファイル\Sequence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

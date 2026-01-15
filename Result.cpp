@@ -28,6 +28,14 @@ HRESULT CResult::Init(void)
 
 	// タイトル用のモデル生成
 	Factories::makeMapobject(GetReg(), Path);
+	// 牢屋の場合は三個
+	if (IsClear == false)
+	{
+		Factories::makeMapobject(GetReg(), Path, D3DXVECTOR3(400.0f, 0.0f, 0.0f));
+		Factories::makeMapobject(GetReg(), Path, D3DXVECTOR3(-400.0f, 0.0f, 0.0f));
+	}
+	// 地面生成
+	MeshFactories::makeMeshField(GetReg(), 100, 100, D3DXVECTOR2(100.0f, 100.0f), "data\\TEXTURE\\field.jpg");
 	// テスト用のプレイヤー生成
 	Factories::makeMapobject(GetReg(), "data/MODEL/testplayer.x");
 	MeshFactories::makeSkyBox(GetReg());
