@@ -13,6 +13,8 @@
 #include "Factories.h"
 #include "TransformComponent.hpp"
 #include "UVComponent.hpp"
+#include "SizeComponent.hpp"
+#include "RenderFragComp.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -31,6 +33,7 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 		auto& Trans = reg.get<Transform2D>(Entity);
 		auto& TimerCmp = reg.get<TimerComp>(Entity);
 		auto& Children = reg.get<ChildrenComp>(Entity);
+		auto& RenderFragCmp = reg.get<RenderFragComp>(Entity);
 
 		// 一時変数に代入
 		int Time = TimerCmp.nData;
@@ -52,6 +55,7 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 		{
 			D3DXVECTOR2 SettPos = Trans.Pos - (TimerCmp.DigitOffset * static_cast<int>(Children.Children.size() + 1));
 			Children.Children.push_back(Factories::makeObject2D(reg, 4, "data/TEXTURE/number001.png", SettPos, TimerCmp.DigitSize));
+			reg.emplace<RenderFragComp>(Children.Children.back());
 			continue;
 		}
 
@@ -73,6 +77,15 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 			// コンポーネントを取得
 			auto& UVCmp = reg.get<UVComp>(Children.Children[nCount]);
 			auto& TransDigit = reg.get<Transform2D>(Children.Children[nCount]);
+			auto& SizeCmp = reg.get<SizeComp>(Children.Children[nCount]);
+			auto& NumberRenderFragCmp = reg.get<RenderFragComp>(Children.Children[nCount]);
+
+			// 描画フラグを設定
+			NumberRenderFragCmp.IsRendering = RenderFragCmp.IsRendering;
+
+			// 大きさを設定
+			SizeCmp.Size.x = TimerCmp.DigitSize.x;
+			SizeCmp.Size.y = TimerCmp.DigitSize.y;
 
 			// 位置を設定
 			D3DXVECTOR2 SettPos = Trans.Pos - (TimerCmp.DigitOffset * nCount);

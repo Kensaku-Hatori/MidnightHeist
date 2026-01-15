@@ -45,6 +45,7 @@
 #include "UpdateVisibleSineCurve.h"
 #include "UpdateMtxSystem.h"
 #include "UpdateTimerSystem.h"
+#include "UpdateStutsAnimSystem.h"
 
 // 描画システム
 #include "Rendering2Dbace.h"
@@ -130,6 +131,7 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
 	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
+	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
 
 	// 描画システムを追加

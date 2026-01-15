@@ -13,6 +13,7 @@
 #include "VertexRenderingComponent.hpp"
 #include "TextureRenderingComponent.h"
 #include "LayerManager.hpp"
+#include "RenderFragComp.hpp"
 
 using namespace Tag;
 
@@ -31,6 +32,10 @@ void Render2DSystem::Rendering(entt::registry& reg)
 
 	for (auto List : Entitys)
 	{
+		if (reg.any_of<RenderFragComp>(List) == true)
+		{
+			if (reg.get<RenderFragComp>(List).IsRendering == false) continue;
+		}
 		auto& VtxComp = reg.get<VertexComp>(List);
 		auto& TextureComp = reg.get<TexComp>(List);
 

@@ -28,7 +28,6 @@
 #include "Mesh.hpp"
 #include "ParentComponent.hpp"
 #include "EnemyAIComponent.hpp"
-//#include "LaserCollisionFragComp.hpp"
 #include "Select2DComponent.hpp"
 #include "Menu2DComponent.hpp"
 #include "EnemyPatrolPointComp.hpp"
@@ -55,3 +54,4 @@
 #include "CharactorComp.hpp"
 #include "StutsComp.h"
 #include "TimerComp.hpp"
+#include "StutsComp.h"

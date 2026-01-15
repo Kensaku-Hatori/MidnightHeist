@@ -52,7 +52,7 @@ namespace Tag {
 	// 音の大きさ
 	struct VisibleSound {};
 	// スタッツマネージャー
-	struct StutsManagerComponent {};
+	struct StutsManagerComp {};
 	// タイマー
 	struct TimerComponent {};
 }

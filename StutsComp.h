@@ -48,9 +48,33 @@ namespace StutsConfig {
 		{"data/TEXTURE/LockingTime.png",{SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.5f},{50.0f,50.0f}},
 		{"data/TEXTURE/StealNum.png",{SCREEN_WIDTH * 0.8f,SCREEN_HEIGHT * 0.6f},{50.0f,50.0f}},
 	};
-	inline static const StutsNumberInfo NumberTable[STUTSNUMBER::NUM_TYPE_MAX] = {
+	inline static const StutsNumberInfo ApperNumberTable[STUTSNUMBER::NUM_TYPE_MAX] = {
+	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.4f},{500.0f,800.0f},{50.0f,0.0f}},
+	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.5f},{500.0f,800.0f},{50.0f,0.0f}},
+	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.6f},{500.0f,800.0f},{50.0f,0.0f}},
+	};
+	inline static const StutsNumberInfo DestNumberTable[STUTSNUMBER::NUM_TYPE_MAX] = {
 	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.4f},{25.0f,40.0f},{50.0f,0.0f}},
 	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.5f},{25.0f,40.0f},{50.0f,0.0f}},
 	{{SCREEN_WIDTH * 0.95f,SCREEN_HEIGHT * 0.6f},{25.0f,40.0f},{50.0f,0.0f}},
 	};
+
+	// 定数を設定
+	// アニメーションのフレーム数
+	static constexpr int nFrameAnim = 60;
 }
+
+// コンポーネント
+struct StutsManagerComponent {
+	// コンストラクタ・デストラクタ
+	StutsManagerComponent(const int _nCounterFrame = 0, const int _nIdx = 0, const bool _IsFinishedAnim = false) :
+		nCountFrame(_nCounterFrame), nIdx(_nIdx), IsFinishedAnim(_IsFinishedAnim) {};
+	~StutsManagerComponent() {};
+	// 情報
+	// カウンタ
+	int nCountFrame;
+	// アニメーション中のインデックス
+	int nIdx;
+	// アニメーションが終わったかどうか
+	bool IsFinishedAnim;
+};

@@ -378,8 +378,7 @@ entt::entity Factories::makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin
 	Reg.emplace<TimerComponent>(myEntity);
 	Reg.emplace<Transform2D>(myEntity, Origin);
 	Reg.emplace<TimerComp>(myEntity, Value, DigitSize, DigitOffset);
-	// 子供のリスト用変数
-	std::vector<entt::entity> ChildrenList;
+	Reg.emplace<RenderFragComp>(myEntity, false);
 	// 親子関係コンポーネントを追加
 	Reg.emplace<ChildrenComp>(myEntity);
 
@@ -637,10 +636,13 @@ entt::entity ManagerFactories::makeStutsManager(entt::registry& Reg)
 	for (UINT nCnt = 0; nCnt < StutsConfig::STUTSNUMBER::NUM_TYPE_MAX; nCnt++)
 	{
 		// 連結
-		ChildrenList.push_back(Factories::makeNumber(Reg, StutsConfig::NumberTable[nCnt].Origin, Result[nCnt], StutsConfig::NumberTable[nCnt].Size, StutsConfig::NumberTable[nCnt].Offset));
+		ChildrenList.push_back(Factories::makeNumber(Reg, StutsConfig::ApperNumberTable[nCnt].Origin, Result[nCnt], StutsConfig::ApperNumberTable[nCnt].Size, StutsConfig::ApperNumberTable[nCnt].Offset));
 	}
 	// コンポーネントを追加
 	Reg.emplace<ChildrenComp>(myEntity, ChildrenList);
+	Reg.emplace<StutsManagerComp>(myEntity);
+	Reg.emplace<StutsManagerComponent>(myEntity);
+	// エンティティを返す
 	return myEntity;
 }
 
