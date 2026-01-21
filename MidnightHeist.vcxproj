@@ -184,9 +184,11 @@
     <ClCompile Include="RenderingUICircle.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultCameraSystem.cpp" />
+    <ClCompile Include="SimpleBloom.cpp" />
     <ClCompile Include="Sound2D.cpp" />
     <ClCompile Include="Sound3D.cpp" />
     <ClCompile Include="SoundDevice.cpp" />
+    <ClCompile Include="ThreadPool.cpp" />
     <ClCompile Include="title.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="UICircle.cpp" />
@@ -251,7 +253,9 @@
     <ClInclude Include="EnemyAIUtils.hpp" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ResultCameraSystem.h" />
+    <ClInclude Include="SimpleBloom.h" />
     <ClInclude Include="StutsComp.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimerComp.hpp" />
     <ClInclude Include="UpdateMtxSystem.h" />
     <ClInclude Include="UpdateStutsAnimSystem.h" />
@@ -411,6 +415,14 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\SimpleBloom.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\Toon.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>

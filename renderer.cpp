@@ -18,6 +18,7 @@
 #include "fade.h"
 #include "SystemManager.h"
 #include "distortion.h"
+#include "SimpleBloom.h"
 
 // 名前空間
 using namespace std;
@@ -303,6 +304,7 @@ void CRenderer::Draw()
 	// マップ系のテクスチャをクリア
 	CShapeShadow::Instance()->Clear();
 	CShadowMap::Instance()->Clear();
+	CSimpleBloom::Instance()->ClearAll();
 
 	//描画開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
@@ -360,6 +362,8 @@ void CRenderer::Draw()
 		CDistortion::Instance()->EndPass();
 		CDistortion::Instance()->End();
 
+		//DrawBloom();
+
 		//描画終了
 		m_pD3DDevice->EndScene();
 	}
@@ -381,6 +385,69 @@ void CRenderer::DrawScene(void)
 
 	//プレイヤーの描画
 	m_pD3DDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
+}
+
+//*************************************
+// ブルーム描画
+//*************************************
+void CRenderer::DrawBloom(void)
+{
+	// 歪みシェーダ起動
+	CSimpleBloom::Instance()->Begin();
+	CSimpleBloom::Instance()->BeginPass(0);
+	// パラメータ設定
+	CSimpleBloom::Instance()->SetBrightParameters(m_SceneTex);
+
+	CSimpleBloom::Instance()->BeginBrightMap();
+
+	// シーン描画
+	DrawScene();
+
+	// 歪みシェーダ終了
+	CSimpleBloom::Instance()->EndBrightMap();
+	CSimpleBloom::Instance()->EndPass();
+	CSimpleBloom::Instance()->End();
+
+
+	// 歪みシェーダ起動
+	CSimpleBloom::Instance()->Begin();
+	// パラメータ設定
+	CSimpleBloom::Instance()->SetBloomParameters();
+
+	CSimpleBloom::Instance()->BeginBloomMap();
+
+	CSimpleBloom::Instance()->BeginPass(1);
+
+	// シーン描画
+	DrawScene();
+
+	CSimpleBloom::Instance()->EndPass();
+
+	CSimpleBloom::Instance()->BeginPass(2);
+
+	// シーン描画
+	DrawScene();
+
+	CSimpleBloom::Instance()->EndPass();
+
+	// 歪みシェーダ終了
+	CSimpleBloom::Instance()->EndBloomMap();
+	CSimpleBloom::Instance()->End();
+
+
+	// 歪みシェーダ起動
+	CSimpleBloom::Instance()->Begin();
+	CSimpleBloom::Instance()->BeginPass(3);
+
+	// パラメータ設定
+	CSimpleBloom::Instance()->SetBloomMap();
+
+	// シーン描画
+	DrawScene();
+
+	// 歪みシェーダ終了
+	CSimpleBloom::Instance()->EndPass();
+	CSimpleBloom::Instance()->End();
 }
 
 //*************************************

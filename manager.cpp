@@ -22,6 +22,7 @@
 #include "UICircle.h"
 #include "Sound2D.h"
 #include "VisibleSineCurve.h"
+#include "SimpleBloom.h"
 
 // 更新システム
 #include "UpdateGamePlayerSystem.h"
@@ -78,6 +79,7 @@ CCamera* CManager::m_pCamera = NULL;
 CLight* CManager::m_pLight = NULL;
 CScene* CManager::m_pScene = NULL;
 CFade* CManager::m_pFade = NULL;
+unique_ptr <CThreadPool> CManager::m_pThreadPool = NULL;
 unique_ptr<btDiscreteDynamicsWorld> CManager::m_pDynamicsWorld = NULL;
 bool CManager::m_isPause = false;
 bool CManager::m_isClear = false;
@@ -112,58 +114,23 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pCamera = new CCamera;
 	m_pLight = new CLight;
 
-	// 更新システムを追加
-	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
-	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
-	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
-	CSystemManager::AddUpdateSystem(new UpdateEnemyBackSystem);
-	CSystemManager::AddUpdateSystem(new UpdateUICircleSystem);
-	CSystemManager::AddUpdateSystem(new Update2DSystem);
-	CSystemManager::AddUpdateSystem(new UpdateTimerSystem);
-	CSystemManager::AddUpdateSystem(new Update3DSystem);
-	CSystemManager::AddUpdateSystem(new UpdateTitlePlayerSystem);
-	CSystemManager::AddUpdateSystem(new UpdateGamePlayerSystem);
-	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
-	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
-	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
-	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);
-	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
-	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
-	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
-	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
-	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
-	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
-
-	// 描画システムを追加
-	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);
-	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
-	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
-	CSystemManager::AddRenderingSystem(new RenderingToShapeShadowSystem);
-	CSystemManager::AddRenderingSystem(new RenderingOutLineSystem);
-	CSystemManager::AddRenderingSystem(new Render3DSystem);
-	CSystemManager::AddRenderingSystem(new RenderXSystem);
-	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
-	CSystemManager::AddRenderingSystem(new RenderingTitlePlayerSystem);
-	CSystemManager::AddRenderingSystem(new RenderingGamePlayerSystem);
-	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
-	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
-	CSystemManager::AddRenderingSystem(new RenderingEnemySightSystem);
-	CSystemManager::AddRenderingSystem(new RenderingVisibleSineCurveSystem);
-	CSystemManager::AddRenderingSystem(new Render2DSystem);
-	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
-	CSystemManager::AddRenderingSystem(new RenderingPauseMenuSystem);
-
 	// 物理世界に必要なポインタを生成
 	m_pBroadPhase = make_unique<btDbvtBroadphase>();
 	m_pConfiguration = make_unique<btDefaultCollisionConfiguration>();
 	m_pDispatcher = make_unique<btCollisionDispatcher>(m_pConfiguration.get());
 	m_pSolver = make_unique<btSequentialImpulseConstraintSolver>();
 
+	// スレッドプール作成
+	m_pThreadPool = make_unique<CThreadPool>();
+
 	// 物理世界生成
 	m_pDynamicsWorld = make_unique<btDiscreteDynamicsWorld>(m_pDispatcher.get(), m_pBroadPhase.get(), m_pSolver.get(), m_pConfiguration.get());
 
 	// 重力を設定
 	m_pDynamicsWorld->setGravity({ 0.0f,-9.81f,0.0f });
+
+	// ECS用のシステムの初期化
+	m_pThreadPool->submit([&] {return InitSystems(); });
 
 	// メモリ確保できたら
 	if (m_Renderer != NULL)
@@ -212,8 +179,56 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	CDistortion::Instance()->Init();
 	CUICircle::Instance()->Init();
 	CVisibleSineCurve::Instance()->Init();
+	CSimpleBloom::Instance()->Init();
 
 	return S_OK;
+}
+
+//***************************************
+// システム初期化処理
+//***************************************
+void CManager::InitSystems(void)
+{
+	// 更新システムを追加
+	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemyBackSystem);
+	CSystemManager::AddUpdateSystem(new UpdateUICircleSystem);
+	CSystemManager::AddUpdateSystem(new Update2DSystem);
+	CSystemManager::AddUpdateSystem(new UpdateTimerSystem);
+	CSystemManager::AddUpdateSystem(new Update3DSystem);
+	CSystemManager::AddUpdateSystem(new UpdateTitlePlayerSystem);
+	CSystemManager::AddUpdateSystem(new UpdateGamePlayerSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMapobjectSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMeshLaserSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemySystem);
+	CSystemManager::AddUpdateSystem(new UpdateTitleManagerSystem);
+	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
+	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
+	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
+	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
+	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
+	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
+
+	// 描画システムを追加
+	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);
+	CSystemManager::AddRenderingSystem(new RenderingToShadowmapSystem);
+	CSystemManager::AddRenderingSystem(new RenderingMapobjectSystem);
+	CSystemManager::AddRenderingSystem(new RenderingToShapeShadowSystem);
+	CSystemManager::AddRenderingSystem(new RenderingOutLineSystem);
+	CSystemManager::AddRenderingSystem(new Render3DSystem);
+	CSystemManager::AddRenderingSystem(new RenderXSystem);
+	CSystemManager::AddRenderingSystem(new RenderingEnemySystem);
+	CSystemManager::AddRenderingSystem(new RenderingTitlePlayerSystem);
+	CSystemManager::AddRenderingSystem(new RenderingGamePlayerSystem);
+	CSystemManager::AddRenderingSystem(new RenderMehFieldSystem);
+	CSystemManager::AddRenderingSystem(new RenderMehLaerSystem);
+	CSystemManager::AddRenderingSystem(new RenderingEnemySightSystem);
+	CSystemManager::AddRenderingSystem(new RenderingVisibleSineCurveSystem);
+	CSystemManager::AddRenderingSystem(new Render2DSystem);
+	CSystemManager::AddRenderingSystem(new RenderingUICircleSystem);
+	CSystemManager::AddRenderingSystem(new RenderingPauseMenuSystem);
 }
 
 //***************************************
@@ -289,6 +304,7 @@ void CManager::Uninit()
 	CDistortion::Instance()->ReSet();
 	CUICircle::Instance()->Reset();
 	CVisibleSineCurve::Instance()->Reset();
+	CSimpleBloom::Instance()->ReSet();
 	// リソースマネージャーの解放
 	CLoadTexture::UnRegistTex();
 	CModelManager::UnRegistModel();

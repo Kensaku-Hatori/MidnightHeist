@@ -110,11 +110,6 @@ HRESULT CTitle::Init(void)
 //***************************************
 void CTitle::Update(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = CManager::GetRenderer()->GetDevice();
-	D3DVIEWPORT9 test;
-	pDevice->GetViewport(&test);
-	UINT Width = test.Width;
-	int i = 0;
 }
 
 //***************************************

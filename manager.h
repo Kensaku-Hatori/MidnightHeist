@@ -15,6 +15,7 @@
 #include "camera.h"
 #include "light.h"
 #include "line.h"
+#include "ThreadPool.h"
 
 // 前方宣言
 class CObject3D;
@@ -42,6 +43,7 @@ public:
 
 	// メンバ関数
 	HRESULT Init(HINSTANCE hInstance, HWND hWnd, bool bWnd);
+	void InitSystems(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
@@ -66,7 +68,7 @@ public:
 	static CScene* GetScene(void) { return m_pScene; };
 	static CFade* GetFade(void) { return m_pFade; };
 	static btDiscreteDynamicsWorld* GetDynamicsWorld(void) { return m_pDynamicsWorld.get(); }
-
+	static CThreadPool* GetThreadPool(void) { return m_pThreadPool.get(); }
 	// プレイヤーをリスポーンさせる
 	static void RespawPlayer(void);
 
@@ -85,11 +87,12 @@ private:
 	static CFade* m_pFade;						// 画面遷移用のフェードのインスタンス
 	static std::unique_ptr<btDiscreteDynamicsWorld> m_pDynamicsWorld;				// 物理世界
 	static bool m_isPause;						// ポーズ中かどうか
-	static bool m_isClear;						// 敵を全滅させたかどうか
+	static bool m_isClear;							// 敵を全滅させたかどうか
 	// メンバ変数
-	std::unique_ptr<btDbvtBroadphase> m_pBroadPhase;					// 衝突判定のクラス
+	static std::unique_ptr<CThreadPool> m_pThreadPool;							// スレッドプール
+	std::unique_ptr<btDbvtBroadphase> m_pBroadPhase;							// 衝突判定のクラス
 	std::unique_ptr<btDefaultCollisionConfiguration> m_pConfiguration;	// 衝突判定を実行するクラス
 	std::unique_ptr<btSequentialImpulseConstraintSolver> m_pSolver;		// 制約ソルバー
-	std::unique_ptr<btCollisionDispatcher> m_pDispatcher;				// 衝突判定を検出するクラス
+	std::unique_ptr<btCollisionDispatcher> m_pDispatcher;							// 衝突判定を検出するクラス
 };
 #endif // !_MANAGER_H_

@@ -30,6 +30,7 @@ public:
 	void Update(void);
 	void Draw(void);
 	void DrawScene(void);
+	void DrawBloom(void);
 
 	// セッター
 	void onWireFrame();

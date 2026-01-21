@@ -26,6 +26,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);//メモリリーク検知
 	//_CrtSetBreakAlloc(131);
 
+	//// スレッド数が足りなかった場合
+	//auto ThreadCount = std::thread::hardware_concurrency();
+	//if (ThreadCount < 3)
+	//{
+	//	return E_FAIL;
+	//}
+
 	WNDCLASSEX wcex =
 	{
 		sizeof(WNDCLASSEX),

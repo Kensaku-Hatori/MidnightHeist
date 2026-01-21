@@ -10,6 +10,7 @@
 #define HLSLID_DISTORTION				206
 #define HLSLID_UICIRCLE					207
 #define HLSLID_VISIBLESINECURVE			208
+#define HLSLID_SIMPLEBLOOM				209
 #define ID_ACCELERATOR40001             40001
 
 // Next default values for new objects

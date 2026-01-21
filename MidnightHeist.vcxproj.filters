@@ -199,6 +199,9 @@
     <Filter Include="Component\Timer">
       <UniqueIdentifier>{96d521aa-bd11-40cd-bfe8-00aa35112c28}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader\SimpleBloom">
+      <UniqueIdentifier>{cd588b20-5cc3-4158-a12b-3e0717d3bd24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -420,6 +423,12 @@
     <ClCompile Include="game.cpp">
       <Filter>ソース ファイル\Sequence</Filter>
     </ClCompile>
+    <ClCompile Include="ThreadPool.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleBloom.cpp">
+      <Filter>Shader\SimpleBloom</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -462,9 +471,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="fade.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="scene.h">
@@ -680,9 +686,6 @@
     <ClInclude Include="EnemyManagerComp.hpp">
       <Filter>Component\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="title.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="distortion.h">
       <Filter>Shader\Distortion</Filter>
     </ClInclude>
@@ -788,9 +791,6 @@
     <ClInclude Include="UpdateMtxSystem.h">
       <Filter>System\Update\Calc</Filter>
     </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ResultCameraSystem.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
@@ -808,6 +808,21 @@
     </ClInclude>
     <ClInclude Include="EnemyAIUtils.hpp">
       <Filter>System\Update\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="title.h">
+      <Filter>ヘッダー ファイル\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="game.h">
+      <Filter>ヘッダー ファイル\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>ヘッダー ファイル\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleBloom.h">
+      <Filter>Shader\SimpleBloom</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -840,6 +855,9 @@
     </FxCompile>
     <FxCompile Include="data\SHADER\VisibleSineCurve.hlsl">
       <Filter>Shader\VisibleSineCurve</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\SimpleBloom.hlsl">
+      <Filter>Shader\SimpleBloom</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

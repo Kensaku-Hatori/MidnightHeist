@@ -136,7 +136,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     // -1から1を0から1に修正
     AmountLight = AmountLight * 0.5f + 0.5f;
     AmountLight = AmountLight * AmountLight;
-
+    
     // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
     
@@ -188,7 +188,7 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     // -1から1を0から1に修正
     AmountLight = AmountLight * 0.5f + 0.5f;
     AmountLight = AmountLight * AmountLight;
-    
+        
     // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
 
