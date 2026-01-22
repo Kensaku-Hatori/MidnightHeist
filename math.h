@@ -53,8 +53,9 @@ public:
 	static bool IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float Border = 0.0f);
 	static bool IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float* Distance = nullptr);
 	static bool IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float Border = 0.0f);
-	static bool IsNanVector(const D3DXVECTOR3& Condition);
-	static bool IsNanVector(const btVector3& Condition);
+	static bool IsValidVector(const D3DXVECTOR3& Condition);
+	static bool IsValidVector(const btVector3& Condition);
+	static bool IsValidScaler(const float Condition);
 	//static float CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 	//static float CalcCapCapDist(CCollision::Capsule Cap1, CCollision::Capsule Cap2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 private:

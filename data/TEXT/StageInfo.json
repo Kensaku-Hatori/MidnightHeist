@@ -619,5 +619,32 @@
                 "z": 1.0
             }
         }
+    },
+    {
+        "RigitBody": {
+            "IsStatic": true,
+            "Mass": 100.0
+        },
+        "Assets": {
+            "Path": "data/MODEL/EXITGate.x"
+        },
+        "Transform": {
+            "Pos": {
+                "x": -750.0,
+                "y": 0.0,
+                "z": -500.0
+            },
+            "Rot": {
+                "w": 1.0,
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                  "x": 1.0,
+                  "y": 1.0,
+                  "z": 1.0
+            }
+        }
     }
 ]

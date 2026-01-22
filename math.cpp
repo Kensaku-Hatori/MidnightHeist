@@ -720,9 +720,9 @@ bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayCo
 /// </summary>
 /// <param name="Condition">"確かめたいベクトル変数"</param>
 /// <returns>"true = 有効","false = 無効s"</returns>
-bool CMath::IsNanVector(const D3DXVECTOR3& Condition)
+bool CMath::IsValidVector(const D3DXVECTOR3& Condition)
 {
-	return !std::isnan(Condition.x) && !std::isnan(Condition.y), !std::isnan(Condition.z);
+	return std::isfinite(Condition.x) && std::isfinite(Condition.y) && std::isfinite(Condition.z);
 }
 
 /// <summary>
@@ -730,9 +730,20 @@ bool CMath::IsNanVector(const D3DXVECTOR3& Condition)
 /// </summary>
 /// <param name="Condition">"確かめたいベクトル変数"</param>
 /// <returns>"true = 有効","false = 無効s"</returns>
-bool CMath::IsNanVector(const btVector3& Condition)
+bool CMath::IsValidVector(const btVector3& Condition)
 {
-	return !std::isnan(Condition.x()) && !std::isnan(Condition.y()), !std::isnan(Condition.z());
+	D3DXVECTOR3 Vec = SetVec(Condition);
+	return std::isfinite(Vec.x) && std::isfinite(Vec.y) && std::isfinite(Vec.z);
+}
+
+/// <summary>
+/// 要素が有効かどうか
+/// </summary>
+/// <param name="Condition">"確かめたい変数"</param>
+/// <returns>"true = 有効","false = 無効s"</returns>
+bool CMath::IsValidScaler(const float Condition)
+{
+	return std::isfinite(Condition);
 }
 
 /// <summary>

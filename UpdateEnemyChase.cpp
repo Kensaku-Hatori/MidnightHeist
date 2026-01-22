@@ -56,6 +56,8 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			int MissPoint;
 			// Idx‚ðŽæ“¾
 			MissPoint = CMath::NearCanMovePoint(State.LastLookPlayerPosition, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+			if (MissPoint < 0) return;
+
 			// ‹A‚é‚Ü‚Å‚Ì“¹‹Ø‚ðŽæ“¾
 			State.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, MissPoint);
 			// Œo˜H’Tõ‚ªo—ˆ‚È‚©‚Á‚½‚ç

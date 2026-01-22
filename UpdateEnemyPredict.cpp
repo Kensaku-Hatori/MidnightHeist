@@ -78,6 +78,10 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		{
 			// 今の位置を目標の位置にする
 			State.BackIdx++;
+			if (State.AStarRoute.size() == 0) return;
+
+			// 目標の位置を設定
+			State.BackIdx = Clamp(State.BackIdx, 0, static_cast<int>(State.AStarRoute.size() - 1));
 			// エースターのインデックスがサイズオーバーしていてかつ探索が終了していなかったら
 			if (State.BackIdx >= static_cast<int>(State.AStarRoute.size() - 1) && State.IsFinishedAStar == false)
 			{
@@ -98,6 +102,8 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 				int BestPoint;
 				// Idxを取得
 				BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+				if (BestPoint < 0) return;
+
 				// 帰るまでの道筋を取得
 				State.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.HalfPatrolRoute[State.NowIdx].Idx);
 				// 目標の位置を設定

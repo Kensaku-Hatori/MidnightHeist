@@ -108,8 +108,10 @@ VS_OUTPUT VS_main(VS_OUTPUT input)
 	return output;
 }
 
+// ピクセルサイズ(1/解像度)
 float2 TexelSize = float2(0.00078125, 0.0013888888888889);
 
+// ずらす方向
 float2 offset[4] =
 {
     float2(1, 0),
@@ -123,6 +125,7 @@ float2 offset[4] =
 //**********************************************************************************
 float4 PS_Toon(VS_OUTPUT input) : COLOR
 {
+    // 光の強さ
     float lightIntensity;
 	
     // テクスチャカラー取得
@@ -138,8 +141,8 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     TransTexCoord.x = input.LightPos.x / input.LightPos.w / 2.0f + 0.5f;
     TransTexCoord.y = -input.LightPos.y / input.LightPos.w / 2.0f + 0.5f;
 
-    float3 normal = normalize(input.nor);
-    float3 lightDir = normalize(g_vecLight.xyz);
+    float3 normal = input.nor;
+    float3 lightDir = g_vecLight.xyz;
 
     // 光の量を計算
     AmountLight = dot(normal, lightDir);
@@ -150,6 +153,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
     
+    // 影をぼかした合計値
     float shadowSum = 0.0f;
     
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
@@ -174,10 +178,8 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
             }
         }
 	}
-    // 影の割合（0.0 = 光, 1.0 = 完全影）
-    float shadowRate = shadowSum / 4;
-    // 影の暗さ調整（完全影でも真っ黒にしない）
-    Shadow = lerp(1.0f, 0.5f, shadowRate);
+    // 影の色を算出
+    Shadow = lerp(1.0f, 0.5f, shadowSum / 4);
     
     return float4(Col.rgb * LightPower * Shadow, Col.a) * ToonMap;
 }
@@ -187,6 +189,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 float4 PS_ToonTex(VS_OUTPUT input) : COLOR
 {
+    // 光の強さ
     float lightIntensity;
 	
     // テクスチャカラー取得
@@ -203,8 +206,8 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     TransTexCoord.x = input.LightPos.x / input.LightPos.w / 2.0f + 0.5f;
     TransTexCoord.y = -input.LightPos.y / input.LightPos.w / 2.0f + 0.5f;
 
-    float3 normal = normalize(input.nor);
-    float3 lightDir = normalize(g_vecLight.xyz);
+    float3 normal = input.nor;
+    float3 lightDir = g_vecLight.xyz;
 
     // 光の量を計算
     AmountLight = dot(normal, lightDir);
@@ -215,6 +218,9 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
 
+    // 影をぼかした合計値
+    float shadowSum = 0.0f;
+
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
      	// ライト目線によるZ値の再算出
@@ -224,13 +230,22 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     
         if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
-            // 算出点がシャドウマップのZ値よりも大きければ影と判断
-            if (ZValue - 0.02f > SM_Z)
+            for (int i = 0; i < 4; i++)
             {
-                Shadow = 0.5f;
+                float2 uv = TransTexCoord + offset[i] * TexelSize;
+
+                float SM_Z = tex2D(ShadowSampler, uv).x;
+
+                if (ZValue - 0.02f > SM_Z)
+                {
+                    shadowSum += 1.0f;
+                }
             }
         }
     }	
+    // 影の色を算出
+    Shadow = lerp(1.0f, 0.5f, shadowSum / 4);
+    
     return float4(Col.rgb * LightPower * Shadow, Col.a) * ToonMap;
 }
 

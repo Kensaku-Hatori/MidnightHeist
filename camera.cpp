@@ -101,14 +101,14 @@ void CCamera::Update(void)
 	}
 
 	// それぞれの更新処理を呼ぶ
-	UpdateMouseMove();
+	//UpdateMouseMove();
 	//UpdateJoyPadMove();
 
 	UpdateCameraPositionV();
 	UpdateCameraPositionR();
 
 	// ホイールでカメラの距離を変える
-	SetMouseWheel(m_pInputMouse->GetMouseState().lZ);
+	//SetMouseWheel(m_pInputMouse->GetMouseState().lZ);
 }
 
 //***************************************
@@ -401,6 +401,10 @@ void CCamera::ResetProjectionMtx(void)
 //***************************************
 void CCamera::UpdateCameraPositionV()
 {
+	if (CMath::IsValidVector(m_posR) == false)
+	{
+		m_posV = m_posVDest;
+	}
 	m_posV.x += (m_posVDest.x - m_posV.x) * m_fSpeedV;
 	m_posV.y += (m_posVDest.y - m_posV.y) * m_fSpeedV;
 	m_posV.z += (m_posVDest.z - m_posV.z) * m_fSpeedV;
@@ -411,6 +415,10 @@ void CCamera::UpdateCameraPositionV()
 //***************************************
 void CCamera::UpdateCameraPositionR()
 {
+	if (CMath::IsValidVector(m_posR) == false)
+	{
+		m_posR = m_posRDest;
+	}
 	// 注視点の更新
 	m_posR.x += (m_posRDest.x - m_posR.x) * m_fSpeedV;
 	m_posR.y += (m_posRDest.y - m_posR.y) * m_fSpeedV;

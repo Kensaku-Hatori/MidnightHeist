@@ -7,6 +7,8 @@
 
 // インクルード
 #include "Sound3D.h"
+#include "math_T.h"
+#include "math.h"
 
 // 定数
 // 
@@ -149,6 +151,12 @@ void CEmitter::Uninit(void)
 void CEmitter::Update(void)
 {
 	if (m_IsDestory == true) return;
+	if (m_pSourceVoice == nullptr) return;
+
+	// 状態取得
+	XAUDIO2_VOICE_STATE xa2state;
+	m_pSourceVoice->GetState(&xa2state);
+	if (xa2state.BuffersQueued <= 0) return;
 
 	DWORD dwCalcFlags = X3DAUDIO_CALCULATE_MATRIX | X3DAUDIO_CALCULATE_DOPPLER
 		| X3DAUDIO_CALCULATE_LPF_DIRECT | X3DAUDIO_CALCULATE_LPF_REVERB
@@ -167,6 +175,8 @@ void CEmitter::Update(void)
 	IXAudio2MasteringVoice* MasteringVoice = CSoundDevice::Instance()->GetMasteringVoice();
 	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance()->GetSubMixVoice(SoundDevice::BUS_DEFAULT);
 
+	if (CMath::IsValidVector(m_emitter.Position) == false || CMath::IsValidVector(m_emitter.OrientTop) == false) return;
+
 	X3DAudioCalculate(*AudioHandle, &Listener, &m_emitter, dwCalcFlags,
 		&m_dspSettings);
 
@@ -174,25 +184,48 @@ void CEmitter::Update(void)
 	{
 		if (!m_pSourceVoice || !MasteringVoice || !SubMixVoice) return;
 
+		HRESULT hr;
+
+		for (int nCnt = 0; nCnt < m_matrixCoefficients.size();nCnt++)
+		{
+			if (CMath::IsValidScaler(m_matrixCoefficients[nCnt]) == false) return;
+		}
+
 		// Apply X3DAudio generated DSP settings to XAudio2
 		m_pSourceVoice->SetFrequencyRatio(m_dspSettings.DopplerFactor);
-		m_pSourceVoice->SetOutputMatrix(MasteringVoice, m_SourceChannels, CSoundDevice::Instance()->GetChannels(),
+		hr = m_pSourceVoice->SetOutputMatrix(
+			MasteringVoice, 
+			m_SourceChannels, 
+			CSoundDevice::Instance()->GetChannels(),
 			m_matrixCoefficients.data());
+
+		if (FAILED(hr)) return;
 
 		XAUDIO2_VOICE_DETAILS submixDetails;
 		SubMixVoice->GetVoiceDetails(&submixDetails);
 
-		m_pSourceVoice->SetOutputMatrix(
+		if (CMath::IsValidScaler(m_dspSettings.ReverbLevel) == false) return;
+
+		hr = m_pSourceVoice->SetOutputMatrix(
 			SubMixVoice,
 			m_SourceChannels,
 			submixDetails.InputChannels,
-			&m_dspSettings.ReverbLevel
-		);
+			&m_dspSettings.ReverbLevel);
+
+		if (FAILED(hr)) return;
+		if (CMath::IsValidScaler(m_dspSettings.LPFDirectCoefficient) == false) return;
 
 		XAUDIO2_FILTER_PARAMETERS FilterParametersDirect = { LowPassFilter, 2.0f * sinf(X3DAUDIO_PI / 6.0f * m_dspSettings.LPFDirectCoefficient), 1.0f }; // see XAudio2CutoffFrequencyToRadians() in XAudio2.h for more information on the formula used here
-		m_pSourceVoice->SetOutputFilterParameters(MasteringVoice, &FilterParametersDirect);
+
+		hr = m_pSourceVoice->SetOutputFilterParameters(MasteringVoice, &FilterParametersDirect);
+
+		if (FAILED(hr)) return;
+		if (CMath::IsValidScaler(m_dspSettings.LPFReverbCoefficient) == false) return;
+
 		XAUDIO2_FILTER_PARAMETERS FilterParametersReverb = { LowPassFilter, 2.0f * sinf(X3DAUDIO_PI / 6.0f * m_dspSettings.LPFReverbCoefficient), 1.0f }; // see XAudio2CutoffFrequencyToRadians() in XAudio2.h for more information on the formula used here
-		m_pSourceVoice->SetOutputFilterParameters(SubMixVoice, &FilterParametersReverb);
+		hr = m_pSourceVoice->SetOutputFilterParameters(SubMixVoice, &FilterParametersReverb);
+
+		if (FAILED(hr)) return;
 	}
 }
 

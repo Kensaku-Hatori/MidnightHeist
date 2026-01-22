@@ -73,14 +73,16 @@ void CGameCamera::Update(void)
 	{
 		if (PlayerStateCmp.NowState == PlayerState::State::RANGE_PICKING)
 		{
-			// 視点を近づける
-			SetPosV = PlayerTransform.Pos;
+			D3DXVECTOR3 VecItem = PlayerTransform.Pos - CGameCamera::Config::Default::PosV;
+			VecItem *= 0.5f;
 			// デフォルトカメラの位置をベクトルとして扱う
 			D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
 			// 正規化
 			D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
-			SetPosV += DefaultPosV * (CGameCamera::Config::PickingZoom::Zoom * 1.1f);
-			SetPosR = PlayerTransform.Pos;
+			SetPosR = VecItem;
+			// 視点を近づける
+			SetPosV = SetPosR;
+			SetPosV += DefaultPosV * (CGameCamera::Config::PickingZoom::Zoom * 1.5f);
 		}
 		else if (PlayerStateCmp.NowState == PlayerState::State::PICKING)
 		{

@@ -53,7 +53,7 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
 
 		// ˆÊ’u‚ðŽæ“¾
-		if (CMath::IsNanVector(trans.getOrigin()) == true)
+		if (CMath::IsValidVector(trans.getOrigin()) == true)
 		{
 			// •`‰æƒ‚ƒfƒ‹‚ÌˆÊ’u
 			btVector3 newPos;

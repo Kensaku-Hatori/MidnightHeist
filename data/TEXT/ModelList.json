@@ -23,6 +23,9 @@
     },
     {
       "Path": "data/MODEL/Museum.x"
+    },
+    {
+      "Path": "data/MODEL/EXITGate.x"
     }
   ]
 }
