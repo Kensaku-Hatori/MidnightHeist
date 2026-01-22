@@ -36,6 +36,7 @@
 #include "fade.h"
 #include "Sound2D.h"
 #include "math.h"
+#include "EnemySoundListener.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -46,9 +47,9 @@ using namespace SequenceTag;
 //*********************************************
 void UpdateGamePlayerSystem::Update(entt::registry& reg)
 {
-	auto view = reg.view<PlayerComponent,InGameComp>();
+	auto view = reg.view<PlayerComponent, InGameComp>();
 
-	for (auto entity : view)
+	for (auto [entity] : view.each())
 	{
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
@@ -121,6 +122,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		{
 			UpdateRB(reg,entity);
 			UpdateMovement(reg, entity);
+			UpdateToEnemyVibration(reg, entity);
 			UpdateUnLock(reg, entity);
 			UpdateState(reg, entity);
 		}
@@ -169,27 +171,38 @@ void UpdateGamePlayerSystem::UpdateRB(entt::registry& reg, entt::entity Player)
 	auto& CapsuleCmp = reg.get<CapsuleComp>(Player);
 	auto& TransformCmp = reg.get<Transform3D>(Player);
 
+	// すでに生成済みなら
 	if (RBCmp.RigitBody != nullptr) return;
 
+	// ポインタ生成
 	ColliderCmp.CollisionShape = std::make_unique<btCapsuleShape>(btScalar(CapsuleCmp.Radius), btScalar(CapsuleCmp.AllHeight));
 
-	btScalar mass = 1.0f; // 質量を1以上にすることで動的剛体になる
+	// 質量
+	btScalar mass = 1.0f;
+	// 回転抗力
 	btVector3 inertia(0, 0, 0);
+	// 生成
 	ColliderCmp.CollisionShape->calculateLocalInertia(mass, inertia);
 
+	// トランスフォーム
 	btTransform transform;
 	transform.setIdentity();
 	transform.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y + CapsuleCmp.ToCenterOffset, TransformCmp.Pos.z));
 
+	// モーションステート生成
 	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
 	btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, ColliderCmp.CollisionShape.get());
 
+	// リジットボディー生成
 	RBCmp.RigitBody = std::make_unique<btRigidBody>(info);
+	// 移動制限
 	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
 
+	// ユーザーポインタ・ステート設定
 	RBCmp.RigitBody->setUserPointer(this);
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
 
+	// 物理世界に登録
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 }
 
@@ -424,15 +437,30 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 		auto& PlayerTransCmp = Reg.get<Transform3D>(Player);
 		D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
 
-		// アイテムを削除
+		// 範囲外だったら
 		if (D3DXVec3Length(&ToPlayer) > ItemCmp.InteractSize)
 		{
 			ItemCmp.nCntPicking--;
 			continue;
 		}
-		if (CManager::GetInputKeyboard()->GetPress(DIK_F) ||
-			CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_A) == true)
+
+		// 物理ボディを取得
+		auto& RBCmp = Reg.get<RigitBodyComp>(Player);
+		// 移動量を取得
+		btVector3 Move = RBCmp.RigitBody->getLinearVelocity();
+		Move.setY(0.0f);
+		ToPlayer.y = 0.0f;
+		D3DXVECTOR3 ConvertMove = CMath::SetVec(Move);
+
+		float Dot = D3DXVec3Dot(&ToPlayer, &ConvertMove);
+
+		// ピッキング範囲内ステートに変える
+		PlayerStateCmp.NowState = PlayerState::State::RANGE_PICKING;
+
+		if (D3DXVec3Length(&ConvertMove) > 0.0f && Dot > 50.0f)
 		{
+			CManager::GetInputJoypad()->BeginVibration(0.1f, 0.1f);
+
 			PlayerStateCmp.NowState = PlayerState::State::PICKING;
 			ItemCmp.nCntPicking++;
 			// 塗りつぶし量を進める
@@ -493,4 +521,36 @@ void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Playe
 	default:
 		break;
 	}
+}
+
+//*********************************************
+// 近くの敵へのバイブレーション
+//*********************************************
+void UpdateGamePlayerSystem::UpdateToEnemyVibration(entt::registry& Reg, entt::entity Player)
+{
+	// 敵のビュー
+	auto EnemyView = Reg.view<EnemyComponent>();
+	auto& PlayerTransformCmp = Reg.get<Transform3D>(Player);
+	auto& PlayerSoundVolumeCmp = Reg.get<PlayerSoundVolumeComp>(Player);
+
+	float MinDistance = FLT_MAX;
+	float Range = 0.0f;
+
+	for (auto Entity : EnemyView)
+	{
+		auto& EnemyTransform = Reg.get<Transform3D>(Entity);
+		auto& EnemyListenerCmp = Reg.get<EnemyListenerComp>(Entity);
+
+		D3DXVECTOR3 ToEnemyVec = EnemyTransform.Pos - PlayerTransformCmp.Pos;
+		float NowDistance = D3DXVec3Length(&ToEnemyVec);
+		if (NowDistance < MinDistance)
+		{
+			MinDistance = NowDistance;
+			Range = PlayerSoundVolumeCmp.SoundVolume + EnemyListenerCmp.ListenerVolume;
+		}
+	}
+	if (Range < 0.0f) return;
+	float Ratio = 0.1f - ((MinDistance / Range * 0.5f) * 0.1f);
+	Ratio = Clamp(Ratio, 0.0f, 1.0f);
+	CManager::GetInputJoypad()->BeginVibration(Ratio, Ratio);
 }

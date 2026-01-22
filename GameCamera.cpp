@@ -69,24 +69,36 @@ void CGameCamera::Update(void)
 		SetPosV += DefaultPosV * CGameCamera::Config::FirstAnimation::Zoom;
 		SetPosR = PlayerTransform.Pos;
 	}
-	// アニメーションが終わっていたら
-	if (PlayerAnimCmp.IsFinishedAnim == true && PlayerStateCmp.NowState != PlayerState::State::PICKING)
+	if (PlayerAnimCmp.IsFinishedAnim == true)
 	{
-		// 設定
-		SetPosV = CGameCamera::Config::Default::PosV;
-		SetPosR = VEC3_NULL;
-	}
-	// 開錠されていたら
-	else if(PlayerStateCmp.NowState == PlayerState::State::PICKING)
-	{
-		// 視点を近づける
-		SetPosV = PlayerTransform.Pos;
-		// デフォルトカメラの位置をベクトルとして扱う
-		D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
-		// 正規化
-		D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
-		SetPosV += DefaultPosV * CGameCamera::Config::PickingZoom::Zoom;
-		SetPosR = PlayerTransform.Pos;
+		if (PlayerStateCmp.NowState == PlayerState::State::RANGE_PICKING)
+		{
+			// 視点を近づける
+			SetPosV = PlayerTransform.Pos;
+			// デフォルトカメラの位置をベクトルとして扱う
+			D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
+			// 正規化
+			D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
+			SetPosV += DefaultPosV * (CGameCamera::Config::PickingZoom::Zoom * 1.1f);
+			SetPosR = PlayerTransform.Pos;
+		}
+		else if (PlayerStateCmp.NowState == PlayerState::State::PICKING)
+		{
+			// 視点を近づける
+			SetPosV = PlayerTransform.Pos;
+			// デフォルトカメラの位置をベクトルとして扱う
+			D3DXVECTOR3 DefaultPosV = CGameCamera::Config::Default::PosV;
+			// 正規化
+			D3DXVec3Normalize(&DefaultPosV, &DefaultPosV);
+			SetPosV += DefaultPosV * CGameCamera::Config::PickingZoom::Zoom;
+			SetPosR = PlayerTransform.Pos;
+		}
+		else
+		{
+			// 設定
+			SetPosV = CGameCamera::Config::Default::PosV;
+			SetPosR = VEC3_NULL;
+		}
 	}
 	// 設定
 	m_pOwner->SetSpeedV(Speed);

@@ -21,11 +21,13 @@ struct UpdateGamePlayerSystem : BaceSystem
 	// コンストラクタ・デストラクタ
 	UpdateGamePlayerSystem() = default;
 	~UpdateGamePlayerSystem() = default;
-	// 描画
+	// 更新
 	void Update(entt::registry& reg)override;
+private:
 	void UpdateRB(entt::registry& reg, entt::entity Player);
 	void UpdateMovement(entt::registry& reg, entt::entity Player);
 	void UpdateLockOn(entt::registry& reg, entt::entity Player);
 	void UpdateUnLock(entt::registry& Reg, entt::entity Player);
 	void UpdateState(entt::registry& Reg, entt::entity Player);
+	void UpdateToEnemyVibration(entt::registry& Reg, entt::entity Player);
 };

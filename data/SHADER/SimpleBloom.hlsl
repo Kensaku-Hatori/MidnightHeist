@@ -106,7 +106,7 @@ float4 PS_BloomWidth(VS_OUTPUT input) : COLOR
     sum += tex2D(BrightSampler, input.tex) * 0.2;
     sum += tex2D(BrightSampler, input.tex + TexelSize * float2(1, 0)) * 0.15;
     sum += tex2D(BrightSampler, input.tex + TexelSize * float2(-1, 0)) * 0.15;
-
+    sum *= 0.5f;
     sum = saturate(sum);
     
     return sum;
@@ -122,7 +122,7 @@ float4 PS_BloomHeight(VS_OUTPUT input) : COLOR
     sum += tex2D(BrightSampler, input.tex) * 0.2;
     sum += tex2D(BrightSampler, input.tex + TexelSize * float2(0, 1)) * 0.15;
     sum += tex2D(BrightSampler, input.tex + TexelSize * float2(0, -1)) * 0.15;
-
+    sum *= 0.5f;
     sum = saturate(sum);
     
     return sum;

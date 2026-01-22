@@ -41,7 +41,7 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 {
 	auto view = reg.view<PlayerComponent, InTitleComp>();
 
-	for (auto entity : view)
+	for (auto [entity] : view.each())
 	{
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);

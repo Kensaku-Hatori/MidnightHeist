@@ -511,12 +511,59 @@ void CInputJoypad::Uninit(void)
 void CInputJoypad::Update(void)
 {
 	XINPUT_STATE joykeyState;
-	//
-	if (XInputGetState(0, &joykeyState) == ERROR_SUCCESS)
+
+	if (XInputGetState(0, &joykeyState) != ERROR_SUCCESS) return;
+
+	m_JoyKeyStateOld = m_JoyKeyState;
+	m_JoyKeyState = joykeyState;
+
+	// バイブレーションステート
+	XINPUT_VIBRATION vib{};
+
+	// カウンタがフレーム以内だったら＆＆バイブレーションが終わっていなかったら
+	if (m_VibrationFrame >= m_VibrationCounter && m_IsFinishedVibration == false)
 	{
-		m_JoyKeyStateOld = m_JoyKeyState;
-		m_JoyKeyState = joykeyState;
+		// 振動を設定
+		vib.wLeftMotorSpeed = WORD(65535.0f * m_VibrationL);
+		vib.wRightMotorSpeed = WORD(65535.0f * m_VibrationR);
+
+		XInputSetState(0, &vib);
 	}
+	else
+	{
+		// カウンタがフレーム以上なら
+		if (m_VibrationFrame < m_VibrationCounter)
+		{
+			// 初期化
+			m_IsFinishedVibration = true;
+			m_VibrationCounter = 0;
+			m_VibrationL = 0.0f;
+			m_VibrationR = 0.0f;
+
+			// 何もない振動を設定
+			vib.wLeftMotorSpeed = WORD(0.0f);
+			vib.wRightMotorSpeed = WORD(0.0f);
+
+			XInputSetState(0, &vib);
+		}
+	}
+	// カウンタを進める
+	m_VibrationCounter++;
+}
+
+//*********************************************
+// 振動開始
+//*********************************************
+void CInputJoypad::BeginVibration(const float R, const float L, const int Frame)
+{
+	// 早期リターン
+	if (R == 0.0f || L == 0.0f) return;
+	// ステートを設定
+	m_VibrationFrame = Frame;
+	m_VibrationCounter = 0;
+	m_VibrationR += R;
+	m_VibrationL += L;
+	m_IsFinishedVibration = false;
 }
 
 //*********************************************

@@ -108,6 +108,16 @@ VS_OUTPUT VS_main(VS_OUTPUT input)
 	return output;
 }
 
+float2 TexelSize = float2(0.00078125, 0.0013888888888889);
+
+float2 offset[4] =
+{
+    float2(1, 0),
+    float2(-1, 0),
+    float2(0, 1),
+    float2(0, -1),
+};
+
 //**********************************************************************************
 // ピクセルシェーダプログラムブロック
 //**********************************************************************************
@@ -140,6 +150,8 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     // トゥーンテクスチャから色をとってくる
     ToonMap = tex2D(ToonMapSampler, float2(AmountLight, 0.0f));
     
+    float shadowSum = 0.0f;
+    
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
      	// ライト目線によるZ値の再算出
@@ -149,13 +161,24 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     
         if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
-            // 算出点がシャドウマップのZ値よりも大きければ影と判断
-            if (ZValue - 0.02f > SM_Z)
+            for (int i = 0; i < 4; i++)
             {
-                Shadow = 0.5f;
+                float2 uv = TransTexCoord + offset[i] * TexelSize;
+
+                float SM_Z = tex2D(ShadowSampler, uv).x;
+
+                if (ZValue - 0.02f > SM_Z)
+                {
+                    shadowSum += 1.0f;
+                }
             }
         }
 	}
+    // 影の割合（0.0 = 光, 1.0 = 完全影）
+    float shadowRate = shadowSum / 4;
+    // 影の暗さ調整（完全影でも真っ黒にしない）
+    Shadow = lerp(1.0f, 0.5f, shadowRate);
+    
     return float4(Col.rgb * LightPower * Shadow, Col.a) * ToonMap;
 }
 

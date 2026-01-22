@@ -151,6 +151,8 @@ public:
 	void Update(void);
 	void Uninit(void);
 
+	// セッター
+	void BeginVibration(const float R = 0.5f, const float L = 0.5f, const int Frame = 1);
 	// ゲッター
 	bool GetPress(JOYKEY nKey);
 	bool GetTrigger(JOYKEY nKey);
@@ -164,6 +166,10 @@ protected:
 	XINPUT_STATE m_JoyKeyState;			// ジョイパットのステート
 	XINPUT_STATE m_JoyKeyStateOld;		// ジョイパッドの昔の状態
 private:
-
+	int m_VibrationCounter = 0;			// バイブレーション用カウンタ
+	int m_VibrationFrame;				// バイブレーション用フレーム
+	float m_VibrationR;					// バイブレーション用の右の強さ
+	float m_VibrationL;					// バイブレーション用の左の強さ
+	bool m_IsFinishedVibration = false;	// バイブレーション終了フラグトリガー
 };
 #endif // !_INPUT_H_

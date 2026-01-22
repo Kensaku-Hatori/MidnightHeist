@@ -55,6 +55,8 @@ private:
 	std::vector<FLOAT32> m_matrixCoefficients;
 	// ソースボイスのチャンネル数
 	UINT32 m_SourceChannels;
+	// 破棄されたかどうか
+	bool m_IsDestory;
 };
 
 // クラスを定義

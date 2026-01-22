@@ -15,6 +15,11 @@
 //*********************************************
 HRESULT CEmitter::Init(void)
 {
+	m_IsDestory = false;
+
+	ZeroMemory(&m_emitter, sizeof(X3DAUDIO_EMITTER));
+	ZeroMemory(&m_dspSettings, sizeof(X3DAUDIO_DSP_SETTINGS));
+
 	HRESULT hr;
 
 	// LFEカーブ
@@ -58,8 +63,8 @@ HRESULT CEmitter::Init(void)
 	int AzimuthNum = SetFmt.Format.nChannels;
 	int CoefficientNum = SetFmt.Format.nChannels * details.InputChannels;
 
-	m_emitterAzimuths.reserve(AzimuthNum);
-	m_matrixCoefficients.reserve(CoefficientNum);
+	m_emitterAzimuths.resize(AzimuthNum);
+	m_matrixCoefficients.resize(CoefficientNum);
 
 	XAUDIO2_BUFFER buffer;
 
@@ -130,12 +135,11 @@ void CEmitter::Uninit(void)
 		m_pSourceVoice->Stop();
 		m_pSourceVoice->FlushSourceBuffers();
 		m_pSourceVoice->DestroyVoice();
-		// 別スレッドで完全に破棄されるまで待つ
-		Sleep(100);
 		m_pSourceVoice = nullptr;
 	}
 	m_matrixCoefficients.clear();
 	m_emitterAzimuths.clear();
+	m_IsDestory = true;
 	delete this;
 }
 
@@ -144,6 +148,8 @@ void CEmitter::Uninit(void)
 //*********************************************
 void CEmitter::Update(void)
 {
+	if (m_IsDestory == true) return;
+
 	DWORD dwCalcFlags = X3DAUDIO_CALCULATE_MATRIX | X3DAUDIO_CALCULATE_DOPPLER
 		| X3DAUDIO_CALCULATE_LPF_DIRECT | X3DAUDIO_CALCULATE_LPF_REVERB
 		| X3DAUDIO_CALCULATE_REVERB;
@@ -166,17 +172,23 @@ void CEmitter::Update(void)
 
 	if (m_pSourceVoice != nullptr)
 	{
+		if (!m_pSourceVoice || !MasteringVoice || !SubMixVoice) return;
+
 		// Apply X3DAudio generated DSP settings to XAudio2
 		m_pSourceVoice->SetFrequencyRatio(m_dspSettings.DopplerFactor);
 		m_pSourceVoice->SetOutputMatrix(MasteringVoice, m_SourceChannels, CSoundDevice::Instance()->GetChannels(),
 			m_matrixCoefficients.data());
 
+		XAUDIO2_VOICE_DETAILS submixDetails;
+		SubMixVoice->GetVoiceDetails(&submixDetails);
+
 		m_pSourceVoice->SetOutputMatrix(
 			SubMixVoice,
 			m_SourceChannels,
-			1,
+			submixDetails.InputChannels,
 			&m_dspSettings.ReverbLevel
 		);
+
 		XAUDIO2_FILTER_PARAMETERS FilterParametersDirect = { LowPassFilter, 2.0f * sinf(X3DAUDIO_PI / 6.0f * m_dspSettings.LPFDirectCoefficient), 1.0f }; // see XAudio2CutoffFrequencyToRadians() in XAudio2.h for more information on the formula used here
 		m_pSourceVoice->SetOutputFilterParameters(MasteringVoice, &FilterParametersDirect);
 		XAUDIO2_FILTER_PARAMETERS FilterParametersReverb = { LowPassFilter, 2.0f * sinf(X3DAUDIO_PI / 6.0f * m_dspSettings.LPFReverbCoefficient), 1.0f }; // see XAudio2CutoffFrequencyToRadians() in XAudio2.h for more information on the formula used here
