@@ -560,7 +560,7 @@ entt::entity ManagerFactories::makeGateManager(entt::registry& Reg, entt::entity
 	// エンティティを生成
 	entt::entity myEntity = Reg.create();
 	// コンポーネントを追加
-	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(-750.0f, 0.0f, -450.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(-750.0f, 0.0f, -475.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
 	Reg.emplace<GateManager>(myEntity);
 	Reg.emplace<GateManagerComponent>(myEntity);
 

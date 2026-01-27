@@ -42,7 +42,7 @@ void UpdateGateManagerSystem::Update(entt::registry& reg)
 			if (fabsf(TransformCmp.Pos.x) > 75.0f) break;
 			// İ’è—p‚ÌˆÚ“®’n
 			D3DXVECTOR3 Move;
-			Move = D3DXVECTOR3(5.0f * powf(-1.0f, nCnt), 0.0f, 0.0f);
+			Move = D3DXVECTOR3(0.1f * powf(-1.0f, nCnt), 0.0f, 0.0f);
 			// ‘«‚·
 			TransformCmp.Pos += Move;
 		}
