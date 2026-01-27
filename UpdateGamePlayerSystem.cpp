@@ -199,7 +199,7 @@ void UpdateGamePlayerSystem::UpdateRB(entt::registry& reg, entt::entity Player)
 	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
 
 	// ユーザーポインタ・ステート設定
-	RBCmp.RigitBody->setUserPointer(this);
+	RBCmp.RigitBody->setUserPointer((void*)Player);
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
 
 	// 物理世界に登録

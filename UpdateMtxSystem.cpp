@@ -27,10 +27,13 @@ void UpdateMtxSystem::Update(entt::registry& Reg)
 
 		// マトリックスを計算
 		D3DXMatrixIdentity(&Transform.mtxWorld);
+
 		D3DXMatrixScaling(&Transform.mtxScale, Transform.Scale.x, Transform.Scale.y, Transform.Scale.z);
 		D3DXMatrixMultiply(&Transform.mtxWorld, &Transform.mtxWorld, &Transform.mtxScale);
+
 		D3DXMatrixRotationQuaternion(&Transform.mtxBasis, &Transform.Quat);
 		D3DXMatrixMultiply(&Transform.mtxWorld, &Transform.mtxWorld, &Transform.mtxBasis);
+
 		D3DXMatrixTranslation(&Transform.mtxTrans, Transform.Pos.x, Transform.Pos.y, Transform.Pos.z);
 		D3DXMatrixMultiply(&Transform.mtxWorld, &Transform.mtxWorld, &Transform.mtxTrans);
 	}
@@ -54,7 +57,7 @@ void UpdateMtxSystem::Update(entt::registry& Reg)
 			// 親のコンポーネントを取得
 			auto& ParentTrans = Reg.get<Transform3D>(ParentCmp.Parent);
 			// かけ合わせる
-			D3DXMatrixMultiply(&TransformCmp.mtxWorld, &ParentTrans.mtxWorld, &TransformCmp.mtxWorld);
+			D3DXMatrixMultiply(&TransformCmp.mtxWorld, &TransformCmp.mtxWorld, &ParentTrans.mtxWorld);
 		}
 	}
 }

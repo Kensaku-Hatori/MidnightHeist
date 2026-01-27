@@ -66,7 +66,7 @@ technique StandardDraw
 {
 	pass P0
 	{
-		vertexShader = compile vs_3_0 VS_main();
-        pixelShader = compile ps_3_0 PS_main();
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_main();
     }
 }

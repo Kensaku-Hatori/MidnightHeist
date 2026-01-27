@@ -24,6 +24,8 @@ struct UpdateMapobjectSystem : BaceSystem
 	~UpdateMapobjectSystem() = default;
 	// 更新処理
 	void Update(entt::registry& reg)override;
+	// ゴールとの当たり判定
+	void CollisionExitGate(entt::registry& Reg, entt::entity MapObject);
 	// 剛体の更新
-	void UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp,Size3DComp& SizeCmp);
+	void UpdateRB(Transform3D& ParentTransCmp, Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp, Size3DComp& SizeCmp,entt::entity Entity);
 };

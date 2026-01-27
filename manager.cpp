@@ -47,6 +47,7 @@
 #include "UpdateMtxSystem.h"
 #include "UpdateTimerSystem.h"
 #include "UpdateStutsAnimSystem.h"
+#include "UpdateGateManager.h"
 
 // 描画システム
 #include "Rendering2Dbace.h"
@@ -210,6 +211,7 @@ void CManager::InitSystems(void)
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
 	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
+	CSystemManager::AddUpdateSystem(new UpdateGateManagerSystem);
 
 	// 描画システムを追加
 	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);

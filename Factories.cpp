@@ -439,7 +439,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 //*********************************************
 // オブジェクトMapobjectの生成
 //*********************************************
-entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale)
+entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale, const entt::entity& Parent)
 {
 	// エンティティを生成
 	entt::entity myEntity = Reg.create();
@@ -453,6 +453,12 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	Reg.emplace<Size3DComp>(myEntity, Path);
 	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
 	Reg.emplace<XRenderingComp>(myEntity, Path);
+
+	// 親が引数に素材したら
+	if (Parent != entt::null)
+	{
+		Reg.emplace<ParentComp>(myEntity, Parent);
+	}
 
 	// コンポーネントをマッピング
 	MappingModelPathToComponent(Reg, myEntity, Path);
@@ -544,6 +550,39 @@ void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent
 		Reg.emplace<PauseMenuComponent>(menuEntity);
 		Reg.emplace<Menu2DComp>(menuEntity, nCnt);
 	}
+}
+
+//*********************************************
+// ゲートマネージャーの生成
+//*********************************************
+entt::entity ManagerFactories::makeGateManager(entt::registry& Reg, entt::entity Parent)
+{
+	// エンティティを生成
+	entt::entity myEntity = Reg.create();
+	// コンポーネントを追加
+	Reg.emplace<Transform3D>(myEntity, D3DXVECTOR3(-750.0f, 0.0f, -450.0f), D3DXVECTOR3(1.0f, 1.0f, 1.0f));
+	Reg.emplace<GateManager>(myEntity);
+	Reg.emplace<GateManagerComponent>(myEntity);
+
+	// 基礎プレイヤー用の初期化処理
+	InitGateManager(Reg, myEntity);
+
+	return myEntity;
+}
+
+//*********************************************
+// ゲートマネージャーの初期化
+//*********************************************
+void ManagerFactories::InitGateManager(entt::registry& Reg, entt::entity& Entity)
+{
+	// 親子関係コンポーネント用のリスト
+	std::vector<entt::entity> Children;
+	// 子供を作成
+	Children.push_back(Factories::makeMapobject(Reg, "data/MODEL/EXITGate.x", { 30.0f,0.0f,0.0f }, QUAT_NULL, { 1.0f,1.0f,1.0f }, Entity));
+	Children.push_back(Factories::makeMapobject(Reg, "data/MODEL/EXITGate.x", { -30.0f,0.0f,0.0f }, QUAT_NULL, { 1.0f,1.0f,1.0f }, Entity));
+
+	// 親子関係のコンポーネントを追加
+	Reg.emplace<ChildrenComp>(Entity, Children);
 }
 
 //*********************************************

@@ -55,3 +55,4 @@
 #include "StutsComp.h"
 #include "TimerComp.hpp"
 #include "StutsComp.h"
+#include "GateManagerComponent.hpp"

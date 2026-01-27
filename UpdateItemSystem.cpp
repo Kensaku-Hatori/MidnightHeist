@@ -25,6 +25,7 @@
 #include "fade.h"
 #include "Result.h"
 #include "game.h"
+#include "GateManagerComponent.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -38,12 +39,12 @@ void UpdateItemSystem::Update(entt::registry& reg)
 	auto view = reg.view<ItemComponent>();
 
 	// ゲームシーン中にアイテムがなくなったら
-	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME)
+	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME || CManager::GetInputKeyboard()->GetTrigger(DIK_T) == true)
 	{
-		// フラグを立てる
-		CManager::SetClear(true);
-		// 遷移
-		CManager::GetFade()->SetFade(new CResult);
+		auto GateManagerView = reg.view<GateManager>();
+		auto& GateManagerEntity = *GateManagerView.begin();
+		auto& GateManagerFragCmp = reg.get<GateManagerComponent>(GateManagerEntity);
+		GateManagerFragCmp.m_IsOpenTrigger = true;
 	}
 
 	// アクセス

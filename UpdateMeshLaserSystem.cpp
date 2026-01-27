@@ -57,7 +57,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 			// Entity‚ðŽæ“¾
 			auto playerEntity = *PlayerView.begin();
 			// “–‚½‚Á‚½‚ç
-			if (CollisionEntity(Reg, entity, playerEntity, ToPlayer) == true && ToPlayer < Distance)
+			if (CollisionEntity(Reg, entity, playerEntity, ToPlayer) == true && ToPlayer < Distance && CFade::GetFade() == CFade::FADE_NONE)
 			{
 				CFade::SetFade(new CResult);
 			}

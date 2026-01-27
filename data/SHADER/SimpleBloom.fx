@@ -146,22 +146,22 @@ technique StandardDraw
 {
     pass P0
     {
-        vertexShader = compile vs_3_0 VS_main();
-        pixelShader = compile ps_3_0 PS_Filter();
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_Filter();
     }
     pass P1
     {
-        vertexShader = compile vs_3_0 VS_main();
-        pixelShader = compile ps_3_0 PS_BloomWidth();
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_BloomWidth();
     }
     pass P2
     {
-        vertexShader = compile vs_3_0 VS_main();
-        pixelShader = compile ps_3_0 PS_BloomHeight();
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_BloomHeight();
     }
     pass P3
     {
-        vertexShader = compile vs_3_0 VS_main();
-        pixelShader = compile ps_3_0 PS_Multiply();
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_Multiply();
     }
 }

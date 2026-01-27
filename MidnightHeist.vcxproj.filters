@@ -202,6 +202,9 @@
     <Filter Include="Shader\SimpleBloom">
       <UniqueIdentifier>{cd588b20-5cc3-4158-a12b-3e0717d3bd24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Gate">
+      <UniqueIdentifier>{611db3ed-2f4c-41b7-8ee9-cdb79dc35d7a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -428,6 +431,9 @@
     </ClCompile>
     <ClCompile Include="SimpleBloom.cpp">
       <Filter>Shader\SimpleBloom</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateGateManager.cpp">
+      <Filter>System\Update</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -824,6 +830,12 @@
     <ClInclude Include="SimpleBloom.h">
       <Filter>Shader\SimpleBloom</Filter>
     </ClInclude>
+    <ClInclude Include="UpdateGateManager.h">
+      <Filter>System\Update</Filter>
+    </ClInclude>
+    <ClInclude Include="GateManagerComponent.hpp">
+      <Filter>Component\Gate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
@@ -835,28 +847,28 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="data\SHADER\ShadowMap.hlsl">
+    <FxCompile Include="data\SHADER\ShadowMap.fx">
       <Filter>Shader\Shadow</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\ShapeShadow.hlsl">
+    <FxCompile Include="data\SHADER\ShapeShadow.fx">
       <Filter>Shader\Shadow</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\Toon.hlsl">
+    <FxCompile Include="data\SHADER\Toon.fx">
       <Filter>Shader\Toon</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\DefaultCubeMap.hlsl">
+    <FxCompile Include="data\SHADER\DefaultCubeMap.fx">
       <Filter>Shader\SkyBox</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\Distortion.hlsl">
+    <FxCompile Include="data\SHADER\Distortion.fx">
       <Filter>Shader\Distortion</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\UICircle.hlsl">
+    <FxCompile Include="data\SHADER\UICircle.fx">
       <Filter>Shader\UICircle</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\VisibleSineCurve.hlsl">
+    <FxCompile Include="data\SHADER\VisibleSineCurve.fx">
       <Filter>Shader\VisibleSineCurve</Filter>
     </FxCompile>
-    <FxCompile Include="data\SHADER\SimpleBloom.hlsl">
+    <FxCompile Include="data\SHADER\SimpleBloom.fx">
       <Filter>Shader\SimpleBloom</Filter>
     </FxCompile>
   </ItemGroup>

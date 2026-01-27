@@ -87,6 +87,9 @@ HRESULT CGame::Init(void)
 	ManagerFactories::makePauseManager(GetReg());
 	// アイテムマネージャー
 	ManagerFactories::makeItemManager(GetReg());
+	// ゲートマネージャー
+	ManagerFactories::makeGateManager(GetReg());
+
 	// ゲームBGMの再生
 	CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEBGM);
 

@@ -188,10 +188,7 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
 // ピクセルシェーダプログラムブロック
 //**********************************************************************************
 float4 PS_ToonTex(VS_OUTPUT input) : COLOR
-{
-    // 光の強さ
-    float lightIntensity;
-	
+{	
     // テクスチャカラー取得
     float4 TexCol = tex2D(ModelSampler, input.tex);
     float4 Col = TexCol;
@@ -299,16 +296,16 @@ technique StandardDraw
 	{
 		// 表面だけを描画
 		CullMode = CCW;
-		vertexShader = compile vs_3_0 VS_main();
-		pixelShader = compile ps_3_0 PS_Toon();
-	}
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_Toon();
+    }
 	pass P1_ToonTex
 	{
 		// 表面だけを描画
 		CullMode = CCW;
-		vertexShader = compile vs_3_0 VS_main();
-		pixelShader = compile ps_3_0 PS_ToonTex();
-	}
+        VertexShader = compile vs_3_0 VS_main();
+        PixelShader = compile ps_3_0 PS_ToonTex();
+    }
 	pass P2_Outline
 	{
 		// 裏面だけを描画

@@ -51,25 +51,25 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		// ベクトルの距離
 		float Distance = D3DXVec3Length(&ToPlayer);
 
-		// 音が聞こえていたらかつプレイヤーとの間にオブジェクトがなかったら
-		if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume &&
-			State.IsBlockedToPlayer == false)
-		{
-			// 見つかった回数をインクリメント
-			CGame::AddEnCount();
-			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
-			continue;
-		}
-		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
-		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			State.IsBlockedToPlayer == false)
-		{
-			CGame::AddEnCount();
-			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
-			continue;
-		}
+		//// 音が聞こえていたらかつプレイヤーとの間にオブジェクトがなかったら
+		//if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume &&
+		//	State.IsBlockedToPlayer == false)
+		//{
+		//	// 見つかった回数をインクリメント
+		//	CGame::AddEnCount();
+		//	// 追いかけモード
+		//	State.State = EnemyState::ENEMYSTATE::CHASE;
+		//	continue;
+		//}
+		//// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
+		//if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
+		//	State.IsBlockedToPlayer == false)
+		//{
+		//	CGame::AddEnCount();
+		//	// 追いかけモード
+		//	State.State = EnemyState::ENEMYSTATE::CHASE;
+		//	continue;
+		//}
 
 		// 剛体が生成されていたら
 		if (RBCmp.RigitBody == nullptr) continue;

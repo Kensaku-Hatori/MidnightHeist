@@ -14,7 +14,10 @@
 #include "math.h"
 #include "scene.h"
 #include "title.h"
+#include "ParentComponent.hpp"
+#include "Result.h"
 
+// 名前空間
 using namespace Tag;
 
 //*********************************************
@@ -33,9 +36,24 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& ColliderCmp = reg.get <SingleCollisionShapeComp>(entity);
 		auto& SizeCmp = reg.get <Size3DComp>(entity);
+		auto& XRenderCmp = reg.get<XRenderingComp>(entity);
 
+		Transform3D ParentTrans;
+
+		if (XRenderCmp.FilePath.find("EXITPlate.x") != std::string::npos)
+		{
+			// 剛体の更新前に実行
+			CollisionExitGate(reg, entity);
+		}
+
+		if (reg.any_of<ParentComp>(entity) == true)
+		{
+			auto& ParentCmp = reg.get<ParentComp>(entity);
+			auto& ParentTransCmp = reg.get<Transform3D>(ParentCmp.Parent);
+			ParentTrans = ParentTransCmp;
+		}
 		// リジットボディーの更新
-		UpdateRB(TransformCmp, RBCmp, ColliderCmp, SizeCmp);
+		UpdateRB(ParentTrans, TransformCmp, RBCmp, ColliderCmp, SizeCmp, entity);
 
 		// トランスフォーム
 		btTransform trans;
@@ -45,7 +63,7 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 
 		// 回転行列を取得オフセット分掛ける
 		// 物理世界での位置からオフセット分ずらした現実世界での位置を計算する用の変数
-		btVector3 worldoffet = trans.getBasis() * btVector3(ColliderCmp.Offset.x, ColliderCmp.Offset.y, ColliderCmp.Offset.z);
+		btVector3 worldoffet = trans.getBasis() * btVector3(ParentTrans.Pos.x + ColliderCmp.Offset.x, ParentTrans.Pos.y + ColliderCmp.Offset.y, ParentTrans.Pos.z + ColliderCmp.Offset.z);
 
 		// 物理世界の位置から回転行列をかけ合わせたオフセットを引く
 		btVector3 pos = trans.getOrigin() - worldoffet;
@@ -56,9 +74,43 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 }
 
 //*********************************************
+// ゴールとの当たり判定
+//*********************************************
+void UpdateMapobjectSystem::CollisionExitGate(entt::registry& Reg, entt::entity MapObject)
+{
+	// ビューを生成
+	auto PlayerView = Reg.view<PlayerComponent, SequenceTag::InGameComp>();
+	auto& PlayerEntity = *PlayerView.begin();
+	auto& RBPlayerCmp = Reg.get<RigitBodyComp>(PlayerEntity);
+
+	// 自分のコンポーネントを取得
+	auto& RBCmp = Reg.get<RigitBodyComp>(MapObject);
+
+	int numManifolds = CManager::GetDynamicsWorld()->getDispatcher()->getNumManifolds();
+
+	for (int i = 0; i < numManifolds; i++)
+	{
+		btPersistentManifold* manifold =
+			CManager::GetDynamicsWorld()->getDispatcher()->getManifoldByIndexInternal(i);
+
+		const btCollisionObject* objA = manifold->getBody0();
+		const btCollisionObject* objB = manifold->getBody1();
+
+		const bool Condition = (objA == RBPlayerCmp.RigitBody.get() && objB == RBCmp.RigitBody.get()) || (objA == RBCmp.RigitBody.get() && objB == RBPlayerCmp.RigitBody.get());
+
+		// 自分とプレイヤーが当たったか？
+		if (Condition == false) continue;
+		// フラグを立てる
+		CManager::SetClear(true);
+		// 遷移
+		CManager::GetFade()->SetFade(new CResult);
+	}
+}
+
+//*********************************************
 // 剛体の更新
 //*********************************************
-void UpdateMapobjectSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp, Size3DComp& SizeCmp)
+void UpdateMapobjectSystem::UpdateRB(Transform3D& ParentTransCmp, Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp, Size3DComp& SizeCmp,entt::entity Entity)
 {
 	// 剛体の削除
 	if (RBCmp.RigitBody)
@@ -90,20 +142,29 @@ void UpdateMapobjectSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& R
 	ColliderCmp.CollisionShape->calculateLocalInertia(Mass, Inertia);
 
 	// 物理世界の位置などを取得
-	btTransform transform, origin, offset;
+	btTransform transform, origin, offset,Parent;
 
 	// 初期化
 	transform.setIdentity();
+	Parent.setIdentity();
 	origin.setIdentity();
 	offset.setIdentity();
 
 	// OBBの回転（例：Y軸まわりに45度回転）
 	btQuaternion rotation;
+
+	rotation = CMath::SetQuad(ParentTransCmp.Quat);
+	Parent.setRotation(rotation);
+	Parent.setOrigin(btVector3(ParentTransCmp.Pos.x, ParentTransCmp.Pos.y, ParentTransCmp.Pos.z));
+
 	rotation = CMath::SetQuad(TransformCmp.Quat);
 	origin.setRotation(rotation);
 	origin.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y, TransformCmp.Pos.z));
+
 	offset.setOrigin(btVector3(ColliderCmp.Offset.x, ColliderCmp.Offset.y, ColliderCmp.Offset.z));
-	transform.mult(origin, offset);
+
+	transform.mult(origin, Parent);
+	transform.mult(transform, offset);
 
 	// インターフェイスを設定
 	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
@@ -116,7 +177,7 @@ void UpdateMapobjectSystem::UpdateRB(Transform3D& TransformCmp, RigitBodyComp& R
 	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
 
 	// ユーザーポインタを設定
-	RBCmp.RigitBody->setUserPointer(RBCmp.RigitBody.get());
+	RBCmp.RigitBody->setUserPointer((void*)Entity);
 
 	// スリープ状態を設定
 	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);

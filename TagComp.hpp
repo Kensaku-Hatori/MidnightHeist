@@ -55,6 +55,8 @@ namespace Tag {
 	struct StutsManagerComp {};
 	// タイマー
 	struct TimerComponent {};
+	// ゲートマネージャー
+	struct GateManager {};
 }
 
 // 画面遷移用のタグ

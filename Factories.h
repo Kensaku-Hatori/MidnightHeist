@@ -34,7 +34,8 @@ namespace Factories {
 	void InitNumber(entt::registry& Reg, entt::entity& Timer);
 
 	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
-	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL, const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f });
+	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL,
+		const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f }, const entt::entity& Parent = entt::null);
 	void MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path);
 }
 
@@ -45,6 +46,9 @@ namespace ManagerFactories {
 
 	entt::entity makePauseManager(entt::registry& Reg);
 	void InitPauseManager(entt::registry& Reg, entt::entity Parent);
+
+	entt::entity makeGateManager(entt::registry& Reg, entt::entity Parent = entt::null);
+	void InitGateManager(entt::registry& Reg, entt::entity& Entity);
 
 	entt::entity makeEnemyManager(entt::registry& Reg);
 
