@@ -418,7 +418,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<SingleCollisionShapeComp>(myEntity);
 	Reg.emplace<RigitBodyComp>(myEntity);
-	Reg.emplace<EnemtAIAstarComp>(myEntity);
+	Reg.emplace<EnemyAIAstarComp>(myEntity);
 	// エミッタを生成再生
 	auto& AI = Reg.get<EnemyAIComp>(myEntity);
 	AI.Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE, Pos);

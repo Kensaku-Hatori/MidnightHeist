@@ -39,8 +39,10 @@ using namespace SequenceTag;
 //*********************************************
 void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 {
+	// ビュー生成
 	auto view = reg.view<PlayerComponent, InTitleComp>();
 
+	// アクセス
 	for (auto [entity] : view.each())
 	{
 		// コンポーネント取得

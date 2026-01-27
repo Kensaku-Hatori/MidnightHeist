@@ -14,6 +14,7 @@
 #include "ParentComponent.hpp"
 #include "TransformComponent.hpp"
 
+// 名前空間
 using namespace Tag;
 
 //*********************************************
@@ -21,15 +22,18 @@ using namespace Tag;
 //*********************************************
 void RenderMehLaerSystem::Rendering(entt::registry& reg)
 {
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
+	// ビュー生成
 	auto view = reg.view<LaserComponent>();
 
 	// ライトの影響を受けない
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
 
+	// アクセス
 	for (auto entity : view)
 	{
 		// 自分自身の情報を取得
@@ -40,19 +44,14 @@ void RenderMehLaerSystem::Rendering(entt::registry& reg)
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformCmp.mtxWorld);
-
 		//頂点バッファをデータストリームに設定
 		pDevice->SetStreamSource(0, VtxCmp.pVertex, 0, sizeof(VERTEX_3D));
-
 		//インデックスバッファをデータストリームに設定
 		pDevice->SetIndices(IdxBuffCmp.pIdx);
-
 		//頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_3D);
-
 		//テクスチャの設定
 		pDevice->SetTexture(0, NULL);
-
 		//メッシュ床を描画
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLESTRIP, 0, 0, MeshInfo.nNumVtx, 0, MeshInfo.nNumPoly);
 	}

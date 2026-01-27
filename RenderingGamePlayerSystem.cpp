@@ -5,6 +5,7 @@
 //
 //****************************************************************
 
+// インクルード
 #include "RenderingGamePlayerSystem.h"
 #include "XRenderingComponent.hpp"
 #include "TagComp.hpp"
@@ -12,6 +13,7 @@
 #include "toon.h"
 #include "shadowmap.h"
 
+// 名前空間
 using namespace Tag;
 using namespace SequenceTag;
 
@@ -20,6 +22,7 @@ using namespace SequenceTag;
 //*********************************************
 void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 {
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -30,21 +33,28 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<PlayerComponent,InGameComp>();
 
-	// 物陰マップに書き込む
+	//*********************************************
+	// 物陰マップに書き込みを開始
+	//*********************************************
 	CShapeShadow::Instance()->Begin();
 	CShapeShadow::Instance()->BeginScene();
+
 	// アクセス
-	for (auto Entity : view)
+	for (auto [Entity] : view.each())
 	{
 		// 描画
 		RenderingShape(reg, Entity);
 	}
+
 	// 書き込みを終了する
 	CShapeShadow::Instance()->EndTexs();
 	CShapeShadow::Instance()->End();
 
+	//*********************************************
+	// 通常描画
+	//*********************************************
 	// アクセス
-	for (auto entity : view)
+	for (auto [entity] : view.each())
 	{
 		// 情報を取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
@@ -56,24 +66,27 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
 
+		// シェーダーに渡す用のマトリックス
 		D3DXMATRIX View, Proj;
 		pDevice->GetTransform(D3DTS_VIEW, &View);
 		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
+		// シェーダー起動
 		CToon::Instance()->Begin();
 
 		// マテリアル分回す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
-			D3DXMATERIAL pCol = pMat[nCntMat];
 			// マテリアルの設定
-			pDevice->SetMaterial(&pCol.MatD3D);
-			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
+			// シェーダーに渡す用の色
+			D3DXVECTOR4 SettCol = { pMat[nCntMat].MatD3D.Diffuse.r,pMat[nCntMat].MatD3D.Diffuse.g,pMat[nCntMat].MatD3D.Diffuse.b,pMat[nCntMat].MatD3D.Diffuse.a };
+			// パラメータ設定
 			CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
 
 			// テクスチャパスがあるかどうか
-			if (pCol.pTextureFilename == NULL)
+			if (pMat[nCntMat].pTextureFilename == NULL)
 			{
 				CToon::Instance()->BeginPass(0);
 			}
@@ -83,6 +96,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 			}
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
+			// シェーダー終了
 			CToon::Instance()->EndPass();
 		}
 		CToon::Instance()->End();

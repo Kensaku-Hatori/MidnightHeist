@@ -21,6 +21,7 @@ using namespace Tag;
 //*********************************************
 void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 {
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -28,14 +29,17 @@ void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<SightFanComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// コンポーネント取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& VtxComp = reg.get<VertexComp>(entity);
 		auto& TextureComp = reg.get<TexComp>(entity);
 
 		// テクスチャを設定
 		pDevice->SetTexture(0, TextureComp.Tex);
+		// バイアス設定
 		float bias = 0.000005f + (0.0000001f * static_cast<int>(entity));
 		pDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&bias);
 		// 頂点バッファをデバイスからデータストリームに設定
@@ -44,7 +48,6 @@ void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);
-
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLEFAN, 0, 1);
 	}

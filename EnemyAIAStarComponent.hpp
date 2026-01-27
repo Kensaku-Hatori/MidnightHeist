@@ -20,9 +20,9 @@ namespace EnemyAI {
 	};
 }
 // 敵のステートコンポーネント
-struct EnemtAIAstarComp {
+struct EnemyAIAstarComp {
 	// コンストラクタ
-	EnemtAIAstarComp() = default;
+	EnemyAIAstarComp() = default;
 	// 計算結果のルート
 	std::vector<int> DestRoute;
 };

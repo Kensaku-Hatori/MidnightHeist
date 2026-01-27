@@ -41,9 +41,13 @@ void UpdateItemSystem::Update(entt::registry& reg)
 	// ゲームシーン中にアイテムがなくなったら
 	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME || CManager::GetInputKeyboard()->GetTrigger(DIK_T) == true)
 	{
+		// ゲートマネージャーのビューを生成
 		auto GateManagerView = reg.view<GateManager>();
+		// エンティティを決め打ちで取得
 		auto& GateManagerEntity = *GateManagerView.begin();
+		// コンポーネント取得
 		auto& GateManagerFragCmp = reg.get<GateManagerComponent>(GateManagerEntity);
+		// フラグを有効にする
 		GateManagerFragCmp.m_IsOpenTrigger = true;
 	}
 

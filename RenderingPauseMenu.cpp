@@ -24,7 +24,9 @@ using namespace Tag;
 //*********************************************
 void RenderingPauseMenuSystem::Rendering(entt::registry& reg)
 {
+	// ポーズフラグが無効なら
 	if (CSystemManager::IsPause() == false) return;
+
 	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
@@ -33,8 +35,10 @@ void RenderingPauseMenuSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto Entitys = LayerManager::GetSortEntityList<LayerComp,PauseMenuComponent>(reg);
 
+	// アクセス
 	for (auto List : Entitys)
 	{
+		// コンポーネント取得
 		auto& VtxComp = reg.get<VertexComp>(List);
 		auto& TextureComp = reg.get<TexComp>(List);
 
@@ -43,13 +47,10 @@ void RenderingPauseMenuSystem::Rendering(entt::registry& reg)
 
 		//頂点フォーマットの設定
 		pDevice->SetFVF(FVF_VERTEX_2D);
-
 		// 頂点バッファをデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_2D));
-
 		// テクスチャの設定
 		pDevice->SetTexture(0, CLoadTexture::GetTex(TextureComp.FilePath));
-
 		// 描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 	}

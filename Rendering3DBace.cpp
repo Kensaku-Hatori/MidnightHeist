@@ -22,6 +22,7 @@ using namespace Tag;
 //*********************************************
 void Render3DSystem::Rendering(entt::registry& reg)
 {
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -29,8 +30,10 @@ void Render3DSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<Object3DComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// コンポーネント取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& VtxComp = reg.get<VertexComp>(entity);
 		auto& TextureComp = reg.get<TexComp>(entity);
@@ -43,7 +46,6 @@ void Render3DSystem::Rendering(entt::registry& reg)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);
-
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 	}

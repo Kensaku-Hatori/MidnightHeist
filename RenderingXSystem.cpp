@@ -15,6 +15,7 @@
 #include "RenderingXSystem.h"
 #include "LayerManager.hpp"
 
+// 名前空間
 using namespace Tag;
 
 //*********************************************
@@ -22,6 +23,7 @@ using namespace Tag;
 //*********************************************
 void RenderXSystem::Rendering(entt::registry& reg)
 {
+	// デバイス取得
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
@@ -32,26 +34,28 @@ void RenderXSystem::Rendering(entt::registry& reg)
 	// エンテティのリストを取得
 	auto view = reg.view<ObjectXComponent>();
 
+	// アクセス
 	for (auto entity : view)
 	{
+		// コンポーネント取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& RenderingComp = reg.get<XRenderingComp>(entity);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);
-
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
 
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
 
+		// マテリアル分繰り返す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
-			D3DXMATERIAL pCol = pMat[nCntMat];
 			// マテリアルの設定
-			pDevice->SetMaterial(&pCol.MatD3D);
+			pDevice->SetMaterial(&pMat[nCntMat].MatD3D);
 
+			// テクスチャを使っているかどうか
 			if (RenderingComp.Info.modelinfo.Tex[nCntMat] != nullptr)
 			{
 				// テクスチャの設定
@@ -65,6 +69,7 @@ void RenderXSystem::Rendering(entt::registry& reg)
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
 		}
+		// マテリアルをもとに戻す
 		pDevice->SetMaterial(&matDef);
 	}
 }

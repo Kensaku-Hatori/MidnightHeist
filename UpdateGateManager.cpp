@@ -39,6 +39,7 @@ void UpdateGateManagerSystem::Update(entt::registry& reg)
 		{
 			// コンポーネントを取得
 			auto& TransformCmp = reg.get<Transform3D>(ChildrenCmp.Children[nCnt]);
+			// ゲートの移動量が制限に達していたら
 			if (fabsf(TransformCmp.Pos.x) > 75.0f) break;
 			// 設定用の移動地
 			D3DXVECTOR3 Move;

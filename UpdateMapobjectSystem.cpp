@@ -38,16 +38,20 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		auto& SizeCmp = reg.get <Size3DComp>(entity);
 		auto& XRenderCmp = reg.get<XRenderingComp>(entity);
 
-		Transform3D ParentTrans;
-
+		// ゴール用オブジェクトだったら
 		if (XRenderCmp.FilePath.find("EXITPlate.x") != std::string::npos)
 		{
 			// 剛体の更新前に実行
 			CollisionExitGate(reg, entity);
 		}
 
+		// 親のトランスフォーム
+		Transform3D ParentTrans;
+
+		// 親子関係コンポーネントが存在したら
 		if (reg.any_of<ParentComp>(entity) == true)
 		{
+			// 親のトランスフォームを取得
 			auto& ParentCmp = reg.get<ParentComp>(entity);
 			auto& ParentTransCmp = reg.get<Transform3D>(ParentCmp.Parent);
 			ParentTrans = ParentTransCmp;
@@ -86,16 +90,20 @@ void UpdateMapobjectSystem::CollisionExitGate(entt::registry& Reg, entt::entity 
 	// 自分のコンポーネントを取得
 	auto& RBCmp = Reg.get<RigitBodyComp>(MapObject);
 
+	// 何組が衝突しているか
 	int numManifolds = CManager::GetDynamicsWorld()->getDispatcher()->getNumManifolds();
 
-	for (int i = 0; i < numManifolds; i++)
+	// アクセスするために繰り返す
+	for (int nCnt = 0; nCnt < numManifolds; nCnt++)
 	{
-		btPersistentManifold* manifold =
-			CManager::GetDynamicsWorld()->getDispatcher()->getManifoldByIndexInternal(i);
+		// ペアを取得
+		btPersistentManifold* manifold = CManager::GetDynamicsWorld()->getDispatcher()->getManifoldByIndexInternal(nCnt);
 
+		// 衝突オブジェクト1,2を取得
 		const btCollisionObject* objA = manifold->getBody0();
 		const btCollisionObject* objB = manifold->getBody1();
 
+		// ゴールとプレイヤーが衝突していたら
 		const bool Condition = (objA == RBPlayerCmp.RigitBody.get() && objB == RBCmp.RigitBody.get()) || (objA == RBCmp.RigitBody.get() && objB == RBPlayerCmp.RigitBody.get());
 
 		// 自分とプレイヤーが当たったか？
