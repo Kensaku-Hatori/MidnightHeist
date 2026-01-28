@@ -165,19 +165,17 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     
         if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                float2 uv = TransTexCoord + offset[i] * TexelSize;
+            float2 uv0 = TransTexCoord + offset[0] * TexelSize;
+            float2 uv1 = TransTexCoord + offset[1] * TexelSize;
+            float2 uv2 = TransTexCoord + offset[2] * TexelSize;
+            float2 uv3 = TransTexCoord + offset[3] * TexelSize;
 
-                float SM_Z = tex2D(ShadowSampler, uv).x;
-
-                if (ZValue - 0.02f > SM_Z)
-                {
-                    shadowSum += 1.0f;
-                }
-            }
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv0).x);
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv1).x);
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv2).x);
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv3).x);
         }
-	}
+    }
     // ‰e‚ÌF‚ğZo
     Shadow = lerp(1.0f, 0.5f, shadowSum / 4);
     
@@ -227,19 +225,17 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     
         if (ZValue >= 0.0f && ZValue <= 1.0f)
         {
-            for (int i = 0; i < 4; i++)
-            {
-                float2 uv = TransTexCoord + offset[i] * TexelSize;
+            float2 uv0 = TransTexCoord + offset[0] * TexelSize;
+            float2 uv1 = TransTexCoord + offset[1] * TexelSize;
+            float2 uv2 = TransTexCoord + offset[2] * TexelSize;
+            float2 uv3 = TransTexCoord + offset[3] * TexelSize;
 
-                float SM_Z = tex2D(ShadowSampler, uv).x;
-
-                if (ZValue - 0.02f > SM_Z)
-                {
-                    shadowSum += 1.0f;
-                }
-            }
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv0).x);
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv1).x);
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv2).x);
+            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv3).x);
         }
-    }	
+    }
     // ‰e‚ÌF‚ğZo
     Shadow = lerp(1.0f, 0.5f, shadowSum / 4);
     

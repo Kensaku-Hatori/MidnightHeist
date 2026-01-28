@@ -64,3 +64,11 @@ namespace SequenceTag {
 	struct InTitleComp {};
 	struct InGameComp {};
 }
+
+// 物理エンジン用
+namespace Pysics {
+	// 矩形の当たり判定
+	struct btBoxColliderComponent {};
+	// カプセルの当たり判定
+	struct btCapsuleColliderComponent {};
+}

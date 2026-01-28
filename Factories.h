@@ -23,7 +23,6 @@ namespace Factories {
 	entt::entity makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR Col, entt::entity Parent = entt::null);
 
 	entt::entity makeUICircle(entt::registry& Reg, entt::entity Parent = entt::null);
-	void InitUICircle(entt::registry& Reg, entt::entity& Entity);
 
 	entt::entity makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos);
 	void InitBacePlayer(entt::registry& Reg, entt::entity& Entity);
@@ -31,7 +30,6 @@ namespace Factories {
 	void InitTitlePlayer(entt::registry& Reg, entt::entity& Entity);
 
 	entt::entity makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin, const int Value, const D3DXVECTOR2 DigitSize, const D3DXVECTOR2 DigitOffset);
-	void InitNumber(entt::registry& Reg, entt::entity& Timer);
 
 	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL,
@@ -47,7 +45,7 @@ namespace ManagerFactories {
 	entt::entity makePauseManager(entt::registry& Reg);
 	void InitPauseManager(entt::registry& Reg, entt::entity Parent);
 
-	entt::entity makeGateManager(entt::registry& Reg, entt::entity Parent = entt::null);
+	entt::entity makeGateManager(entt::registry& Reg);
 	void InitGateManager(entt::registry& Reg, entt::entity& Entity);
 
 	entt::entity makeEnemyManager(entt::registry& Reg);

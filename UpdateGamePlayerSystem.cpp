@@ -60,6 +60,8 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		auto& StateCmp = reg.get<PlayerStateComp>(entity);
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
 
+		if (RBCmp.RigitBody == nullptr) continue;
+
 		// プレイヤーの前方向ベクトル
 		D3DXVECTOR3 Front = { -TransformCmp.mtxWorld._31,-TransformCmp.mtxWorld._32,-TransformCmp.mtxWorld._33 };
 		// リスナーの位置と向きを設定
@@ -120,7 +122,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
 		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsJump == false)
 		{
-			UpdateRB(reg,entity);
+			//UpdateRB(reg,entity);
 			UpdateMovement(reg, entity);
 			UpdateToEnemyVibration(reg, entity);
 			UpdateUnLock(reg, entity);

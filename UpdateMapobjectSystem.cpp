@@ -35,7 +35,6 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		auto& TransformCmp = reg.get<Transform3D>(entity);
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& ColliderCmp = reg.get <SingleCollisionShapeComp>(entity);
-		auto& SizeCmp = reg.get <Size3DComp>(entity);
 		auto& XRenderCmp = reg.get<XRenderingComp>(entity);
 
 		// ゴール用オブジェクトだったら
@@ -48,32 +47,48 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 		// 親のトランスフォーム
 		Transform3D ParentTrans;
 
+		// トランスフォーム
+		btTransform trans;
+		trans.setIdentity();
+
+		if (RBCmp.RigitBody == nullptr) continue;
+
 		// 親子関係コンポーネントが存在したら
 		if (reg.any_of<ParentComp>(entity) == true)
 		{
+			// ゲット
+			RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+
 			// 親のトランスフォームを取得
 			auto& ParentCmp = reg.get<ParentComp>(entity);
 			auto& ParentTransCmp = reg.get<Transform3D>(ParentCmp.Parent);
 			ParentTrans = ParentTransCmp;
+
+			// 回転行列を取得オフセット分掛ける
+			// 物理世界での位置からオフセット分ずらした現実世界での位置を計算する用の変数
+			btVector3 worldoffet = trans.getBasis() * btVector3(ColliderCmp.Offset.x, ColliderCmp.Offset.y, ColliderCmp.Offset.z);
+
+			// 物理世界の位置から回転行列をかけ合わせたオフセットを引く
+			btVector3 pos = (trans.getOrigin() - worldoffet) - btVector3(ParentTransCmp.Pos.x, ParentTransCmp.Pos.y, ParentTransCmp.Pos.z);
+
+			// 位置に代入
+			TransformCmp.Pos = { pos.x(), pos.y(), pos.z() };
 		}
-		// リジットボディーの更新
-		UpdateRB(ParentTrans, TransformCmp, RBCmp, ColliderCmp, SizeCmp, entity);
+		else
+		{
+			// ゲット
+			RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
 
-		// トランスフォーム
-		btTransform trans;
+			// 回転行列を取得オフセット分掛ける
+			// 物理世界での位置からオフセット分ずらした現実世界での位置を計算する用の変数
+			btVector3 worldoffet = trans.getBasis() * btVector3(ColliderCmp.Offset.x, ColliderCmp.Offset.y, ColliderCmp.Offset.z);
 
-		// ゲット
-		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+			// 物理世界の位置から回転行列をかけ合わせたオフセットを引く
+			btVector3 pos = trans.getOrigin() - worldoffet;
 
-		// 回転行列を取得オフセット分掛ける
-		// 物理世界での位置からオフセット分ずらした現実世界での位置を計算する用の変数
-		btVector3 worldoffet = trans.getBasis() * btVector3(ParentTrans.Pos.x + ColliderCmp.Offset.x, ParentTrans.Pos.y + ColliderCmp.Offset.y, ParentTrans.Pos.z + ColliderCmp.Offset.z);
-
-		// 物理世界の位置から回転行列をかけ合わせたオフセットを引く
-		btVector3 pos = trans.getOrigin() - worldoffet;
-
-		// 位置に代入
-		TransformCmp.Pos = { pos.x(), pos.y(), pos.z() };
+			// 位置に代入
+			TransformCmp.Pos = { pos.x(), pos.y(), pos.z() };
+		}
 	}
 }
 

@@ -48,6 +48,8 @@
 #include "UpdateTimerSystem.h"
 #include "UpdateStutsAnimSystem.h"
 #include "UpdateGateManager.h"
+#include "UpdatebtBoxColliderSystem.h"
+#include "UpdatebtCapsuleColliderSystem.h"
 
 // 描画システム
 #include "Rendering2Dbace.h"
@@ -191,6 +193,9 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 void CManager::InitSystems(void)
 {
 	// 更新システムを追加
+	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
+	CSystemManager::AddUpdateSystem(new UpdatebtBoxColliderSystem);
+	CSystemManager::AddUpdateSystem(new UpdatebtCapsuleColliderSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);
@@ -210,7 +215,6 @@ void CManager::InitSystems(void)
 	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
-	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
 	CSystemManager::AddUpdateSystem(new UpdateGateManagerSystem);
 
 	// 描画システムを追加

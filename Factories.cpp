@@ -271,13 +271,6 @@ entt::entity Factories::makeUICircle(entt::registry& Reg, entt::entity Parent)
 }
 
 //*********************************************
-// 円形UIの初期化
-//*********************************************
-void Factories::InitUICircle(entt::registry& Reg, entt::entity& Entity)
-{
-}
-
-//*********************************************
 // オブジェクトPlayerの生成
 //*********************************************
 entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos)
@@ -287,15 +280,16 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, Pos);
 	Reg.emplace<PlayerComponent>(myEntity);
-	Reg.emplace<SingleCollisionShapeComp>(myEntity);
+	Reg.emplace<SingleCollisionShapeComp>(myEntity, CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 	Reg.emplace<RigitBodyComp>(myEntity);
+	Reg.emplace<Pysics::btCapsuleColliderComponent>(myEntity);
 	// モデルの大きさを基準に当たり判定を作成
 	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 20.0f);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
 	Reg.emplace<CharactorComp>(myEntity, 0.1f);
 
 	// 基礎プレイヤー用の初期化処理
-	InitBacePlayer(Reg, myEntity);
+	//InitBacePlayer(Reg, myEntity);
 
 	return myEntity;
 }
@@ -386,13 +380,6 @@ entt::entity Factories::makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin
 }
 
 //*********************************************
-// 数字ポリゴンの初期化
-//*********************************************
-void Factories::InitNumber(entt::registry& Reg, entt::entity& Timer)
-{
-}
-
-//*********************************************
 // オブジェクトEnemyの生成
 //*********************************************
 entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vector<EnemyState::PatrolMap>& PointList)
@@ -416,9 +403,11 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<CharactorComp>(myEntity,0.1f);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
 	Reg.emplace<CastShadow>(myEntity);
-	Reg.emplace<SingleCollisionShapeComp>(myEntity);
+	Reg.emplace<SingleCollisionShapeComp>(myEntity, CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<EnemyAIAstarComp>(myEntity);
+	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\serchrobot.x").y * 2.0f, 20.0f);
+	Reg.emplace<Pysics::btCapsuleColliderComponent>(myEntity);
 	// エミッタを生成再生
 	auto& AI = Reg.get<EnemyAIComp>(myEntity);
 	AI.Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE, Pos);
@@ -452,6 +441,7 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<Size3DComp>(myEntity, Path);
 	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
+	Reg.emplace<Pysics::btBoxColliderComponent>(myEntity);
 	Reg.emplace<XRenderingComp>(myEntity, Path);
 
 	// 親が引数に素材したら
@@ -555,7 +545,7 @@ void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent
 //*********************************************
 // ゲートマネージャーの生成
 //*********************************************
-entt::entity ManagerFactories::makeGateManager(entt::registry& Reg, entt::entity Parent)
+entt::entity ManagerFactories::makeGateManager(entt::registry& Reg)
 {
 	// エンティティを生成
 	entt::entity myEntity = Reg.create();

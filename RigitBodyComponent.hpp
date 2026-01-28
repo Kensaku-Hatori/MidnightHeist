@@ -81,4 +81,6 @@ struct RigitBodyComp {
 	std::unique_ptr<btRigidBody> RigitBody;
 	// ジャンプフラグ
 	bool IsJump;
+	// 更新フラグ
+	bool IsNeedUpdate = true;
 };

@@ -51,9 +51,9 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 		if (DigitNum > 0) TimerCmp.nDigitNum = DigitNum;
 
 		// ë´ÇËÇ»Ç¢ï™ÇæÇØê∂ê¨
-		if (Children.Children.size() < TimerCmp.nDigitNum)
+		if (static_cast<int>(Children.Children.size()) < TimerCmp.nDigitNum)
 		{
-			D3DXVECTOR2 SettPos = Trans.Pos - (TimerCmp.DigitOffset * static_cast<int>(Children.Children.size() + 1));
+			D3DXVECTOR2 SettPos = Trans.Pos - (TimerCmp.DigitOffset * static_cast<float>(static_cast<int>(Children.Children.size() + 1)));
 			Children.Children.push_back(Factories::makeObject2D(reg, 4, "data/TEXTURE/number001.png", SettPos, TimerCmp.DigitSize));
 			reg.emplace<RenderFragComp>(Children.Children.back());
 			continue;
@@ -91,10 +91,10 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 			D3DXVECTOR2 SettPos = Trans.Pos - (TimerCmp.DigitOffset * nCount);
 			TransDigit.Pos = SettPos;
 			// UVç¿ïWÇê›íË
-			UVCmp.UV[0] = D3DXVECTOR2(0.0f + ((1.0f / 10) * DigitInfo[nCount]), 0.0f);
-			UVCmp.UV[1] = D3DXVECTOR2((1.0f / 10) + ((1.0f / 10) * DigitInfo[nCount]), 0.0f);
-			UVCmp.UV[2] = D3DXVECTOR2(0.0f + ((1.0f / 10) * DigitInfo[nCount]), 1.0f);
-			UVCmp.UV[3] = D3DXVECTOR2((1.0f / 10) + ((1.0f / 10) * DigitInfo[nCount]), 1.0f);
+			UVCmp.UV[0] = D3DXVECTOR2(0.0f + ((1.0f / 10.0f) * DigitInfo[nCount]), 0.0f);
+			UVCmp.UV[1] = D3DXVECTOR2((1.0f / 10.0f) + ((1.0f / 10.0f) * DigitInfo[nCount]), 0.0f);
+			UVCmp.UV[2] = D3DXVECTOR2(0.0f + ((1.0f / 10.0f) * DigitInfo[nCount]), 1.0f);
+			UVCmp.UV[3] = D3DXVECTOR2((1.0f / 10.0f) + ((1.0f / 10.0f) * DigitInfo[nCount]), 1.0f);
 		}
 	}
 }

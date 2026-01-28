@@ -192,6 +192,8 @@
     <ClCompile Include="title.cpp" />
     <ClCompile Include="TitleCamera.cpp" />
     <ClCompile Include="UICircle.cpp" />
+    <ClCompile Include="UpdatebtBoxColliderSystem.cpp" />
+    <ClCompile Include="UpdatebtCapsuleColliderSystem.cpp" />
     <ClCompile Include="UpdateGateManager.cpp" />
     <ClCompile Include="UpdateMtxSystem.cpp" />
     <ClCompile Include="UpdateStutsAnimSystem.cpp" />
@@ -259,6 +261,8 @@
     <ClInclude Include="StutsComp.h" />
     <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="TimerComp.hpp" />
+    <ClInclude Include="UpdatebtBoxColliderSystem.h" />
+    <ClInclude Include="UpdatebtCapsuleColliderSystem.h" />
     <ClInclude Include="UpdateGateManager.h" />
     <ClInclude Include="UpdateMtxSystem.h" />
     <ClInclude Include="UpdateStutsAnimSystem.h" />

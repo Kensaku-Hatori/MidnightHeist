@@ -205,6 +205,9 @@
     <Filter Include="Component\Gate">
       <UniqueIdentifier>{611db3ed-2f4c-41b7-8ee9-cdb79dc35d7a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Update\Pysics">
+      <UniqueIdentifier>{c6e9a420-f82a-449e-9dd1-2c19e1011482}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -434,6 +437,12 @@
     </ClCompile>
     <ClCompile Include="UpdateGateManager.cpp">
       <Filter>System\Update</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatebtCapsuleColliderSystem.cpp">
+      <Filter>System\Update\Pysics</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdatebtBoxColliderSystem.cpp">
+      <Filter>System\Update\Pysics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -835,6 +844,12 @@
     </ClInclude>
     <ClInclude Include="GateManagerComponent.hpp">
       <Filter>Component\Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatebtBoxColliderSystem.h">
+      <Filter>System\Update\Pysics</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdatebtCapsuleColliderSystem.h">
+      <Filter>System\Update\Pysics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

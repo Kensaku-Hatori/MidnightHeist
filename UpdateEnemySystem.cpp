@@ -64,8 +64,6 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		// 目標の位置まで補完
 		D3DXQuaternionSlerp(&Transform.Quat, &Transform.Quat, &ChractorCmp.QuatDest, ChractorCmp.QuatSpeed);
 
-		// 剛体の更新
-		UpdateRB(reg, entity);
 		// 光線たちの更新
 		UpdateRays(reg, entity);
 	}

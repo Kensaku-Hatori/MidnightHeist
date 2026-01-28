@@ -19,7 +19,6 @@ struct UpdateEnemySearchSystem : BaceSystem
 	~UpdateEnemySearchSystem() = default;
 	// 更新
 	void Update(entt::registry& reg)override;
-	void UpdateAStar(entt::registry& Reg, entt::entity Entity);
 	// 移動の更新
 	void UpdateMove(entt::registry& Reg, entt::entity Entity);
 };

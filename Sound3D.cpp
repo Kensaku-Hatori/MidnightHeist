@@ -186,7 +186,7 @@ void CEmitter::Update(void)
 
 		HRESULT hr;
 
-		for (int nCnt = 0; nCnt < m_matrixCoefficients.size();nCnt++)
+		for (int nCnt = 0; nCnt < static_cast<int>(m_matrixCoefficients.size());nCnt++)
 		{
 			if (CMath::IsValidScaler(m_matrixCoefficients[nCnt]) == false) return;
 		}

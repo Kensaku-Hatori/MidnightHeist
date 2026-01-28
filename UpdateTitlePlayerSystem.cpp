@@ -50,6 +50,8 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 		auto& RBCmp = reg.get<RigitBodyComp>(entity);
 		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
 
+		if (RBCmp.RigitBody == nullptr) continue;
+
 		// トランスフォームを取得
 		btTransform trans;
 		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
@@ -63,7 +65,7 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 			newPos = trans.getOrigin();
 			// 位置を計算、設定
 			TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
-			UpdateRB(reg, entity);
+			//UpdateRB(reg, entity);
 		}
 	}
 }
