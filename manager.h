@@ -43,13 +43,13 @@ public:
 
 	// メンバ関数
 	HRESULT Init(HINSTANCE hInstance, HWND hWnd, bool bWnd);
-	void InitSystems(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 
 	// 静的メンバ関数
 	// セッター
+	static void InitSystems(void);
 	static void ChangePause(void) { m_isPause = !m_isPause; };
 	static void OffPause(void) { m_isPause = false; };
 	static void OnPause(void) { m_isPause = true; };

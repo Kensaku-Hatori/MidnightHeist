@@ -196,6 +196,7 @@
     <ClCompile Include="UpdatebtCapsuleColliderSystem.cpp" />
     <ClCompile Include="UpdateGateManager.cpp" />
     <ClCompile Include="UpdateMtxSystem.cpp" />
+    <ClCompile Include="UpdateRigidBodySystem.cpp" />
     <ClCompile Include="UpdateStutsAnimSystem.cpp" />
     <ClCompile Include="UpdateTimerSystem.cpp" />
     <ClCompile Include="UpdateVisibleSineCurve.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="CapsuleComponent.hpp" />
     <ClInclude Include="CharactorComp.hpp" />
     <ClInclude Include="ChildComp.hpp" />
+    <ClInclude Include="Components.hpp" />
     <ClInclude Include="defaultcubemap.h" />
     <ClInclude Include="distortion.h" />
     <ClInclude Include="EnemyAIUtils.hpp" />
@@ -265,6 +267,7 @@
     <ClInclude Include="UpdatebtCapsuleColliderSystem.h" />
     <ClInclude Include="UpdateGateManager.h" />
     <ClInclude Include="UpdateMtxSystem.h" />
+    <ClInclude Include="UpdateRigidBodySystem.h" />
     <ClInclude Include="UpdateStutsAnimSystem.h" />
     <ClInclude Include="UpdateTimerSystem.h" />
     <ClInclude Include="VisibleSineCurve.h" />

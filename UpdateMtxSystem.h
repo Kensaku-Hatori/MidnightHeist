@@ -14,10 +14,13 @@
 // ２D更新処理を定義
 struct UpdateMtxSystem : BaceSystem
 {
+public:
 	// コンストラクタ
-	UpdateMtxSystem() = default;
+	UpdateMtxSystem();
 	// デストラクタ
 	~UpdateMtxSystem() = default;
 	// 更新
 	void Update(entt::registry& Reg)override;
+private:
+	void OnTransformComponentConstruct(entt::registry& Reg, entt::entity Entity);
 };

@@ -56,3 +56,4 @@
 #include "TimerComp.hpp"
 #include "StutsComp.h"
 #include "GateManagerComponent.hpp"
+#include "Components.hpp"

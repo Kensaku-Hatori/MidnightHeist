@@ -280,12 +280,15 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity, Pos);
 	Reg.emplace<PlayerComponent>(myEntity);
-	Reg.emplace<SingleCollisionShapeComp>(myEntity, CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
-	Reg.emplace<RigitBodyComp>(myEntity);
-	Reg.emplace<Pysics::btCapsuleColliderComponent>(myEntity);
 	// モデルの大きさを基準に当たり判定を作成
-	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f, 20.0f);
+	auto& Collider = Reg.emplace<CapsuleColliderComponent>(myEntity);
+	Collider.Height = CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f;
+	Collider.Radius = 20.0f;
+	Collider.LocalPos = D3DXVECTOR3(0.0f, Collider.Height + Collider.Radius, 0.0f);
+	Collider.LocalQuat = QUAT_NULL;
+
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
+	Reg.emplace<RigidBodyComponent>(myEntity);
 	Reg.emplace<CharactorComp>(myEntity, 0.1f);
 
 	// 基礎プレイヤー用の初期化処理

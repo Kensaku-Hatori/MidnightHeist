@@ -444,6 +444,9 @@
     <ClCompile Include="UpdatebtBoxColliderSystem.cpp">
       <Filter>System\Update\Pysics</Filter>
     </ClCompile>
+    <ClCompile Include="UpdateRigidBodySystem.cpp">
+      <Filter>System\Update\Pysics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="input.h">
@@ -849,6 +852,12 @@
       <Filter>System\Update\Pysics</Filter>
     </ClInclude>
     <ClInclude Include="UpdatebtCapsuleColliderSystem.h">
+      <Filter>System\Update\Pysics</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.hpp">
+      <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateRigidBodySystem.h">
       <Filter>System\Update\Pysics</Filter>
     </ClInclude>
   </ItemGroup>

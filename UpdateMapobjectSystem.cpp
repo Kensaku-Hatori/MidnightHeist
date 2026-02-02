@@ -135,6 +135,7 @@ void UpdateMapobjectSystem::CollisionExitGate(entt::registry& Reg, entt::entity 
 //*********************************************
 void UpdateMapobjectSystem::UpdateRB(Transform3D& ParentTransCmp, Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp, Size3DComp& SizeCmp,entt::entity Entity)
 {
+	if (RBCmp.RigitBody != nullptr) return;
 	// çÑëÃÇÃçÌèú
 	if (RBCmp.RigitBody)
 	{

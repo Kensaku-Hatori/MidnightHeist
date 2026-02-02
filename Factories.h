@@ -54,6 +54,7 @@ namespace ManagerFactories {
 
 	entt::entity makeStutsManager(entt::registry& Reg);
 }
+
 // メッシュ系のファクトリー
 namespace MeshFactories {
 	entt::entity makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size,const std::string Path);
@@ -66,4 +67,22 @@ namespace MeshFactories {
 
 	entt::entity makeSkyBox(entt::registry& Reg);
 	HRESULT InitMeshCube(entt::registry& Reg, const entt::entity& Entity);
+}
+
+// 物理系
+namespace Pysics {
+	template<typename T>
+	concept ColliderComponent = requires(T _T) {
+		{_T.LocalPos} -> std::convertible_to<D3DXVECTOR3>;
+		{_T.LocalQuat} -> std::convertible_to<D3DXQUATERNION>;
+	};
+
+	template<ColliderComponent T>
+	void AddShapeToCompound(btCompoundShape* Compound, const T& ColliderComp, btCollisionShape* Shape)
+	{
+		btTransform LocalTrans;
+		LocalTrans.setRotation(ColliderComp->LocalQuat);
+		LocalTrans.setOrigin(ColliderComp->LocalPos);
+		Compound->addChildShape(LocalTrans, Shape);
+	}
 }

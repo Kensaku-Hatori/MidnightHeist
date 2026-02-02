@@ -50,6 +50,7 @@
 #include "UpdateGateManager.h"
 #include "UpdatebtBoxColliderSystem.h"
 #include "UpdatebtCapsuleColliderSystem.h"
+#include "UpdateRigidBodySystem.h"
 
 // 描画システム
 #include "Rendering2Dbace.h"
@@ -132,9 +133,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	// 重力を設定
 	m_pDynamicsWorld->setGravity({ 0.0f,-9.81f,0.0f });
 
-	// ECS用のシステムの初期化
-	m_pThreadPool->submit([&] {return InitSystems(); });
-
 	// メモリ確保できたら
 	if (m_Renderer != NULL)
 	{
@@ -216,6 +214,7 @@ void CManager::InitSystems(void)
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
 	CSystemManager::AddUpdateSystem(new UpdateGateManagerSystem);
+	CSystemManager::AddUpdateSystem(new UpdateRigidBodySystem);
 
 	// 描画システムを追加
 	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);
@@ -394,9 +393,11 @@ void CManager::SetScene(CScene* Scene)
 	{
 		CSound2D::Instance()->StopAll();
 		m_pScene->Uninit();
+		CSystemManager::EndSystem();
 		m_pScene = NULL;
 	}
 	m_pScene = Scene;
+	InitSystems();
 	m_pScene->Init();
 }
 

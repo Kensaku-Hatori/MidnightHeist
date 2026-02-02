@@ -8,7 +8,7 @@
 // インクルード
 #include "UpdateTitlePlayerSystem.h"
 #include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
+#include "Components.hpp"
 #include "SingleCollisionShapeComponent.hpp"
 #include "OutLineComp.hpp"
 #include "Velocity.hpp"
@@ -47,14 +47,14 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 	{
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& RBCmp = reg.get<RigitBodyComp>(entity);
-		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
+		auto& RBCmp = reg.get<RigidBodyComponent>(entity);
+		auto& CapsuleCmp = reg.get<CapsuleColliderComponent>(entity);
 
-		if (RBCmp.RigitBody == nullptr) continue;
+		if (RBCmp.Body == nullptr) continue;
 
 		// トランスフォームを取得
 		btTransform trans;
-		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+		RBCmp.Body->getMotionState()->getWorldTransform(trans);
 
 		// 位置を取得
 		if (CMath::IsValidVector(trans.getOrigin()) == true)
@@ -64,7 +64,7 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 
 			newPos = trans.getOrigin();
 			// 位置を計算、設定
-			TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
+			//TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
 			//UpdateRB(reg, entity);
 		}
 	}
