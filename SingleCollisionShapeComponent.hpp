@@ -14,15 +14,15 @@
 // 単純な当たり判定
 struct SingleCollisionShapeComp {
 	// コンストラクタ
-	SingleCollisionShapeComp(const char _Group = CollisionGroupAndMasks::GROUP_MAPOBJECT, const char _Mask = CollisionGroupAndMasks::MASK_MAPOBJECT) :
+	SingleCollisionShapeComp(const int _Group = CollisionGroupAndMasks::GROUP_MAPOBJECT, const int _Mask = CollisionGroupAndMasks::MASK_MAPOBJECT) :
 		Group(_Group), Mask(_Mask), Offset(VEC3_NULL) {};
 	// デストラクタ
 	~SingleCollisionShapeComp() {
 		CollisionShape.reset();
 	};
 	// 当たり判定用のフラグ
-	char Group;
-	char Mask;
+	int Group;
+	int Mask;
 	// 当たり判定
 	D3DXVECTOR3 Offset;
 	std::unique_ptr<btCollisionShape> CollisionShape;

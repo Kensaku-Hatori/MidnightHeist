@@ -41,7 +41,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		auto& PlayerSoundVolumeCmp = reg.get<PlayerSoundVolumeComp>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
-		auto& RBCmp = reg.get<RigitBodyComp>(Entity);
+		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
 		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
 		auto& EnemyListenerVolumeCmp = reg.get<EnemyListenerComp>(Entity);
@@ -72,7 +72,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		}
 
 		// 剛体が生成されていたら
-		if (RBCmp.RigitBody == nullptr) continue;
+		if (RBCmp.Body == nullptr) continue;
 
 		// 目的地へのベクトルを引く
 		State.NextIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
@@ -117,7 +117,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 			// 速さを掛ける
 			VelocityCmp.Velocity *= 8;
 			// Y成分を取り除く
-			VelocityCmp.Velocity.y = RBCmp.RigitBody->getLinearVelocity().y();
+			VelocityCmp.Velocity.y = RBCmp.Body->getLinearVelocity().y();
 		}
 		// 移動
 		UpdateMove(reg, Entity);
@@ -130,26 +130,13 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entity)
 {
 	// 自分自身のコンポーネントを取得
-	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
 	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
 
 	// 設定
-	RBCmp.RigitBody->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
-
-	// トランスフォームを取得
-	btTransform trans;
-	RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
-
-	// 描画モデルの位置
-	btVector3 newPos;
-
-	// 位置を取得
-	newPos = trans.getOrigin();
-
-	// 位置を計算、設定
-	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
+	RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
 
 	// 移動量がなかったら
 	if (VelocityCmp.Velocity == VEC3_NULL) return;

@@ -26,6 +26,7 @@
 #include "Result.h"
 #include "game.h"
 #include "GateManagerComponent.hpp"
+#include "Components.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -39,7 +40,7 @@ void UpdateItemSystem::Update(entt::registry& reg)
 	auto view = reg.view<ItemComponent>();
 
 	// ゲームシーン中にアイテムがなくなったら
-	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME /* || CManager::GetInputKeyboard()->GetTrigger(DIK_T) == true*/)
+	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME  || CManager::GetInputKeyboard()->GetTrigger(DIK_T) == true)
 	{
 		// ゲートマネージャーのビューを生成
 		auto GateManagerView = reg.view<GateManager>();
@@ -96,15 +97,15 @@ void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 	auto& TransformLockOn = Reg.get<Transform2D>(LockOnEntity);
 
 	// ロックオンの位置を決めるためにコンポーネントを取得
-	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
 
-	if (RBCmp.RigitBody == nullptr) return;
+	if (RBCmp.Body == nullptr) return;
 
 	// 起動状態にする
 	if (LockAnimCmp.IsBoot == false) LockAnimCmp.IsBoot = true;
 	// トランスフォームを取得
 	btTransform trans;
-	RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+	RBCmp.Body->getMotionState()->getWorldTransform(trans);
 
 	// 剛体の位置
 	btVector3 newPos;

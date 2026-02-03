@@ -22,7 +22,7 @@ using namespace Pysics;
 //***************************************
 void UpdatebtCapsuleColliderSystem::Update(entt::registry& reg)
 {
-	auto CapsuleColliderView = reg.view< Pysics::btCapsuleColliderComponent>();
+	auto CapsuleColliderView = reg.view< Pysics::CapsuleCollider>();
 	for (auto Entity : CapsuleColliderView)
 	{
 		if (reg.all_of<RigitBodyComp, CapsuleComp, Transform3D, SingleCollisionShapeComp>(Entity) == false) continue;

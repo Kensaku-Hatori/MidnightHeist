@@ -84,31 +84,21 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entity, entt::entity& PlayerEntity)
 {
 	// 自分のコンポーネントを取得
-	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
 	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
 	// プレイヤーのコンポーネントを取得
 	auto& PlayerTransCmp = Reg.get<Transform3D>(PlayerEntity);
 
-	if (RBCmp.RigitBody != nullptr)
+	if (RBCmp.Body != nullptr)
 	{
 		D3DXVECTOR3 ToPlayer = PlayerTransCmp.Pos - TransformCmp.Pos;
 		D3DXVec3Normalize(&ToPlayer, &ToPlayer);
 		VelocityCmp.Velocity = { ToPlayer.x, ToPlayer.y, ToPlayer.z };
-		VelocityCmp.Velocity.y = RBCmp.RigitBody->getLinearVelocity().y();
+		VelocityCmp.Velocity.y = RBCmp.Body->getLinearVelocity().y();
 		// 設定
-		RBCmp.RigitBody->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity * 9));
-
-		// トランスフォームを取得
-		btTransform trans;
-		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
-
-		// 描画モデルの位置
-		btVector3 newPos;
-
-		// 位置を取得
-		newPos = trans.getOrigin();
+		RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity * 9));
 
 		D3DXVECTOR3 VecUp = VEC_UP;
 		// 移動値を方向ベクトルに変換
@@ -120,8 +110,5 @@ void UpdateEnemyChaseSystem::UpdateMove(entt::registry& Reg, entt::entity& Entit
 
 		// 目標のクォータニオンとして設定
 		D3DXQuaternionRotationAxis(&CharactorCmp.QuatDest, &VecUp, angle);
-
-		// 位置を計算、設定
-		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
 	}
 }

@@ -284,11 +284,12 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 	auto& Collider = Reg.emplace<CapsuleColliderComponent>(myEntity);
 	Collider.Height = CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f;
 	Collider.Radius = 20.0f;
-	Collider.LocalPos = D3DXVECTOR3(0.0f, Collider.Height + Collider.Radius, 0.0f);
+	Collider.LocalPos = D3DXVECTOR3(0.0f, (Collider.Height * 0.5f) + Collider.Radius, 0.0f);
 	Collider.LocalQuat = QUAT_NULL;
 
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\testplayer1.x");
-	Reg.emplace<RigidBodyComponent>(myEntity);
+	Reg.emplace<Pysics::RigitBody>(myEntity);
+	Reg.emplace<RigidBodyComponent>(myEntity, 1.0f, CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 	Reg.emplace<CharactorComp>(myEntity, 0.1f);
 
 	// 基礎プレイヤー用の初期化処理
@@ -406,11 +407,17 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Reg.emplace<CharactorComp>(myEntity,0.1f);
 	Reg.emplace<XRenderingComp>(myEntity, "data\\MODEL\\serchrobot.x");
 	Reg.emplace<CastShadow>(myEntity);
-	Reg.emplace<SingleCollisionShapeComp>(myEntity, CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
-	Reg.emplace<RigitBodyComp>(myEntity);
 	Reg.emplace<EnemyAIAstarComp>(myEntity);
-	Reg.emplace<CapsuleComp>(myEntity, CMath::CalcModelSize("data\\MODEL\\serchrobot.x").y * 2.0f, 20.0f);
-	Reg.emplace<Pysics::btCapsuleColliderComponent>(myEntity);
+	// モデルの大きさを基準に当たり判定を作成
+	auto& Collider = Reg.emplace<CapsuleColliderComponent>(myEntity);
+	Collider.Height = CMath::CalcModelSize("data\\MODEL\\serchrobot.x").y * 2.0f;
+	Collider.Radius = 21.0f;
+	Collider.LocalPos = D3DXVECTOR3(0.0f, (Collider.Height * 0.5f) + 20.0f, 0.0f);
+	Collider.LocalQuat = QUAT_NULL;
+
+	Reg.emplace<Pysics::RigitBody>(myEntity);
+	Reg.emplace<RigidBodyComponent>(myEntity, 1.0f, CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
+
 	// エミッタを生成再生
 	auto& AI = Reg.get<EnemyAIComp>(myEntity);
 	AI.Emitter = CEmitter::Create(SoundDevice::LABEL_ENEMYMOVE, Pos);
@@ -436,15 +443,17 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	// エンティティを生成
 	entt::entity myEntity = Reg.create();
 	// コンポーネントを追加
-	Reg.emplace<Transform3D>(myEntity, Pos, Scale, Quat);
+	auto& TransCmp = Reg.emplace<Transform3D>(myEntity, Pos, Scale, Quat);
 	Reg.emplace<CastShadow>(myEntity);
 	Reg.emplace<CastShapeShadow>(myEntity);
 	Reg.emplace<MapObjectComponent>(myEntity);
-	Reg.emplace<SingleCollisionShapeComp>(myEntity);
-	Reg.emplace<RigitBodyComp>(myEntity);
-	Reg.emplace<Size3DComp>(myEntity, Path);
-	Reg.get<SingleCollisionShapeComp>(myEntity).Offset.y = Reg.get<Size3DComp>(myEntity).Size.y;
-	Reg.emplace<Pysics::btBoxColliderComponent>(myEntity);
+	auto& SizeCmp = Reg.emplace<Size3DComp>(myEntity, Path);
+	auto& BoxColliderCmp = Reg.emplace<BoxColliderComponent>(myEntity);
+	BoxColliderCmp.LocalPos = D3DXVECTOR3(0.0f, SizeCmp.Size.y, 0.0f);
+	BoxColliderCmp.LocalQuat = QUAT_NULL;
+	BoxColliderCmp.HalfSize = D3DXVECTOR3(SizeCmp.Size.x * TransCmp.Scale.x, SizeCmp.Size.y * TransCmp.Scale.y, SizeCmp.Size.z * TransCmp.Scale.z);
+	Reg.emplace<Pysics::RigitBody>(myEntity);
+	Reg.emplace<RigidBodyComponent>(myEntity, 0.0f, CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
 	Reg.emplace<XRenderingComp>(myEntity, Path);
 
 	// 親が引数に素材したら

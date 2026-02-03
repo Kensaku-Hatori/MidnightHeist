@@ -12,7 +12,10 @@
 #include "manager.h"
 #include "TransformComponent.hpp"
 #include "Components.hpp"
+#include "TagComp.hpp"
 #include "math.h"
+
+using namespace Pysics;
 
 //*********************************************
 // コンストラクタ
@@ -29,6 +32,29 @@ UpdateRigidBodySystem::UpdateRigidBodySystem()
 //*********************************************
 void UpdateRigidBodySystem::Update(entt::registry& reg)
 {
+	auto RigidBodyView = reg.view<RigitBody>();
+	for (auto Entity : RigidBodyView)
+	{
+		if (reg.all_of<RigidBodyComponent, Transform3D>(Entity) == false) continue;
+		auto& RigidBodyCmp = reg.get<RigidBodyComponent>(Entity);
+		auto& TransformCmp = reg.get<Transform3D>(Entity);
+		btTransform TransBody;
+
+		RigidBodyCmp.Body->getMotionState()->getWorldTransform(TransBody);
+		TransformCmp.Pos = CMath::SetVec(TransBody.getOrigin());
+
+		// レイの始点(少し上にずらす)
+		btVector3 RayOrigin = TransBody.getOrigin();
+		RayOrigin.setY(RayOrigin.getY() + 1.0f);
+
+		// レイの終点(少し下にずらす)
+		btVector3 RayEnd = RayOrigin + btVector3(0, btScalar(-1.0f), 0);
+
+		// 着地判定
+		btCollisionWorld::ClosestRayResultCallback callback(RayOrigin, RayEnd);
+		CManager::GetDynamicsWorld()->rayTest(RayOrigin, RayEnd, callback);
+		RigidBodyCmp.IsGround = callback.hasHit();
+	}
 }
 
 //*********************************************
@@ -69,6 +95,7 @@ void UpdateRigidBodySystem::OnRigidBodyComponentConstruct(entt::registry& Reg, e
 
 	btTransform transform;
 	transform.setIdentity();
+	transform.setRotation(CMath::SetQuad(TransformCmp.Quat));
 	transform.setOrigin(btVector3(TransformCmp.mtxWorld._41, TransformCmp.mtxWorld._42, TransformCmp.mtxWorld._43));
 
 	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
@@ -105,8 +132,8 @@ void UpdateRigidBodySystem::OnRigidBodyComponentDestruct(entt::registry& Reg, en
 	{
 		if (RBCmp.Shape->isCompound())
 		{
-			auto* compound = static_cast<btCompoundShape*>(RB.CollisionShape);
-			for (...) delete child;
+			auto* compound = static_cast<btCompoundShape*>(RBCmp.Shape);
+			for (int ChildNum = 0; ChildNum < compound->getNumChildShapes(); ChildNum++) delete compound->getChildShape(ChildNum);
 		}
 		delete RBCmp.Shape;
 	}

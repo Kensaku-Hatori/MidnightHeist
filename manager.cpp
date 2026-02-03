@@ -192,6 +192,7 @@ void CManager::InitSystems(void)
 {
 	// 更新システムを追加
 	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
+	CSystemManager::AddUpdateSystem(new UpdateRigidBodySystem);
 	CSystemManager::AddUpdateSystem(new UpdatebtBoxColliderSystem);
 	CSystemManager::AddUpdateSystem(new UpdatebtCapsuleColliderSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
@@ -214,7 +215,6 @@ void CManager::InitSystems(void)
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
 	CSystemManager::AddUpdateSystem(new UpdateGateManagerSystem);
-	CSystemManager::AddUpdateSystem(new UpdateRigidBodySystem);
 
 	// 描画システムを追加
 	CSystemManager::AddRenderingSystem(new RenderingSkyBoxSystem);

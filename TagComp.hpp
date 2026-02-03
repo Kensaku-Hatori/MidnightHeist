@@ -68,9 +68,9 @@ namespace SequenceTag {
 // 物理エンジン用
 namespace Pysics {
 	// 剛体
-	struct btRigitBodyComponent {};
+	struct RigitBody {};
 	// 矩形の当たり判定
-	struct btBoxColliderComponent {};
+	struct BoxCollider {};
 	// カプセルの当たり判定
-	struct btCapsuleColliderComponent {};
+	struct CapsuleCollider {};
 }

@@ -10,6 +10,7 @@
 
 // 剛体コンポーネント
 struct RigidBodyComponent{
+	RigidBodyComponent(const float _Mass = 0.0f, const int _Group = 0, const int _Mask = 0) :Mass(_Mass), Group(_Group), Mask(_Mask) {};
 	// 剛体
 	btRigidBody* Body;
 	// 当たり判定形状
@@ -20,6 +21,8 @@ struct RigidBodyComponent{
 	int Group;
 	// マスク
 	int Mask;
+	// 着地判定
+	bool IsGroundOld, IsGround;
 };
 
 // 矩形コライダー

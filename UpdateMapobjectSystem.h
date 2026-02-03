@@ -26,6 +26,4 @@ struct UpdateMapobjectSystem : BaceSystem
 	void Update(entt::registry& reg)override;
 	// ƒS[ƒ‹‚Æ‚Ì“–‚½‚è”»’è
 	void CollisionExitGate(entt::registry& Reg, entt::entity MapObject);
-	// „‘Ì‚ÌXV
-	void UpdateRB(Transform3D& ParentTransCmp, Transform3D& TransformCmp, RigitBodyComp& RBCmp, SingleCollisionShapeComp& ColliderCmp, Size3DComp& SizeCmp,entt::entity Entity);
 };

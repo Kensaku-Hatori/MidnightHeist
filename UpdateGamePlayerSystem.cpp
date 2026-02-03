@@ -37,6 +37,7 @@
 #include "Sound2D.h"
 #include "math.h"
 #include "EnemySoundListener.hpp"
+#include "Components.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -53,14 +54,13 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 	{
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& RBCmp = reg.get<RigitBodyComp>(entity);
+		auto& RBCmp = reg.get<RigidBodyComponent>(entity);
 		auto& OutLineCmp = reg.get<OutLineComp>(entity);
-		auto& CapsuleCmp = reg.get<CapsuleComp>(entity);
 		auto& AnimCmp = reg.get<PlayerAnimComp>(entity);
 		auto& StateCmp = reg.get<PlayerStateComp>(entity);
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
 
-		if (RBCmp.RigitBody == nullptr) continue;
+		if (RBCmp.Body == nullptr) continue;
 
 		// プレイヤーの前方向ベクトル
 		D3DXVECTOR3 Front = { -TransformCmp.mtxWorld._31,-TransformCmp.mtxWorld._32,-TransformCmp.mtxWorld._33 };
@@ -93,36 +93,18 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		// アウトラインを徐々に光らせる
 		OutLineCmp.Height -= 1.0f;
 
-		// トランスフォームを取得
-		btTransform trans;
-		RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
-
-		// 描画モデルの位置
-		btVector3 newPos;
-
-		// 位置を取得
-		newPos = trans.getOrigin();
-
-		// 位置を計算、設定
-		TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
-
 		// 最初のアニメーションに必要な情報
-		btCapsuleShape myCapsule(btScalar(CapsuleCmp.Radius), btScalar(CapsuleCmp.AllHeight));
 		D3DXVECTOR3 VecDest = { 700.0f,0.0f,375.0f };
 		VecDest -= TransformCmp.Pos;
 		VecDest.y = 0.0f;
 
-		// 着地判定
-		RBCmp.IsJump = !RBCmp.IsGround(myCapsule);
-
 		// 画面にっ入ったら
 		if (TransformCmp.Pos.x < 900.0f)AnimCmp.IsScreen = true;
 		// ベルトコンベアアニメーションが終わっていて地面に着いてアニメーションが終了していなかったら
-		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsGround(myCapsule) == true && AnimCmp.IsFinishedAnim == false)AnimCmp.IsFinishedAnim = true;
+		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsGround == true && AnimCmp.IsFinishedAnim == false)AnimCmp.IsFinishedAnim = true;
 		// ベルトコンベアアニメーションが終わっていて地面に着いていたら通常の更新
-		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsJump == false)
+		if (AnimCmp.IsFinishedBelt == true && RBCmp.IsGround == true)
 		{
-			//UpdateRB(reg,entity);
 			UpdateMovement(reg, entity);
 			UpdateToEnemyVibration(reg, entity);
 			UpdateUnLock(reg, entity);
@@ -139,7 +121,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		if (AnimCmp.IsFinishedBelt == false && ItemManagerCmp.IsFinished == true)
 		{
 			// ベルトコンベアの移動量を設定
-			RBCmp.RigitBody->setLinearVelocity(btVector3(-15.0f, RBCmp.RigitBody->getLinearVelocity().getY(), 0.0f));
+			RBCmp.Body->setLinearVelocity(btVector3(-15.0f, RBCmp.Body->getLinearVelocity().getY(), 0.0f));
 		}
 		// ベルトコンベアの端のほうに着いたら
 		if (D3DXVec3Length(&VecDest) < 10.0f)
@@ -151,7 +133,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		if (AnimCmp.IsFinishedBeltOld == false && AnimCmp.IsFinishedBelt == true)
 		{
 			// ジャンプする
-			RBCmp.RigitBody->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
+			RBCmp.Body->applyCentralImpulse(btVector3(-20.0f, 25.0f, 0.0f));
 		}
 		// プレイヤーが画面内に存在したら
 		if (AnimCmp.IsScreen == true)
@@ -214,14 +196,14 @@ void UpdateGamePlayerSystem::UpdateRB(entt::registry& reg, entt::entity Player)
 void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Player)
 {
 	// コンポーネント取得
-	auto& RBCmp = reg.get<RigitBodyComp>(Player);
+	auto& RBCmp = reg.get<RigidBodyComponent>(Player);
 	auto& Trans = reg.get<Transform3D>(Player);
 	auto& PlayerStateCmp = reg.get<PlayerStateComp>(Player);
 	auto& CharactorCmp = reg.get<CharactorComp>(Player);
 
 	// 早期リターン
-	if (RBCmp.RigitBody == nullptr) return;
-	if (RBCmp.RigitBody->getMotionState() == nullptr) return;
+	if (RBCmp.Body == nullptr) return;
+	if (RBCmp.IsGround == false) return;
 
 	// 移動量を設定するための変数
 	btVector3 moveDir(0, 0, 0);
@@ -312,10 +294,10 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	}
 
 	// Yの移動量を取得(重力)
-	moveDir.setY(RBCmp.RigitBody->getLinearVelocity().y());
+	moveDir.setY(RBCmp.Body->getLinearVelocity().y());
 
 	// 設定
-	RBCmp.RigitBody->setLinearVelocity(moveDir);
+	RBCmp.Body->setLinearVelocity(moveDir);
 }
 
 //*********************************************
@@ -335,11 +317,11 @@ void UpdateGamePlayerSystem::UpdateLockOn(entt::registry& reg, entt::entity Play
 	auto& LockOnColor = reg.get<ColorComp>(LockOnEntity);
 	auto& TransformLockOn = reg.get<Transform2D>(LockOnEntity);
 	// ロックオンの位置を決めるためにコンポーネントを取得
-	auto& RBCmp = reg.get<RigitBodyComp>(Player);
+	auto& RBCmp = reg.get<RigidBodyComponent>(Player);
 
 	// トランスフォームを取得
 	btTransform trans;
-	RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+	RBCmp.Body->getMotionState()->getWorldTransform(trans);
 
 	// 剛体の位置
 	btVector3 newPos;

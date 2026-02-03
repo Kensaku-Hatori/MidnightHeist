@@ -12,6 +12,7 @@
 #include "RigitBodyComponent.hpp"
 #include "TransformComponent.hpp"
 #include "GateManagerComponent.hpp"
+#include "Components.hpp"
 
 // ネームスペース
 using namespace Tag;
@@ -39,7 +40,7 @@ void UpdateGateManagerSystem::Update(entt::registry& reg)
 		for (int nCnt = 0; nCnt < static_cast<int>(ChildrenCmp.Children.size()); nCnt++)
 		{
 			// コンポーネントを取得
-			auto& RBCmp = reg.get<RigitBodyComp>(ChildrenCmp.Children[nCnt]);
+			auto& RBCmp = reg.get<RigidBodyComponent>(ChildrenCmp.Children[nCnt]);
 			auto& TransformCmp = reg.get<Transform3D>(ChildrenCmp.Children[nCnt]);
 			// ゲートの移動量が制限に達していたら
 			if (fabsf(TransformCmp.Pos.x) > 75.0f) break;
@@ -50,14 +51,13 @@ void UpdateGateManagerSystem::Update(entt::registry& reg)
 			// 移動量計算
 			Move = btVector3(10.0f * pow(-1, nCnt), 0.0f, 0.0f);
 			// トランスフォームを取得
-			RBCmp.RigitBody->getMotionState()->getWorldTransform(Trans);
+			RBCmp.Body->getMotionState()->getWorldTransform(Trans);
 			// 移動した後の位置を計算
 			Pos = Trans.getOrigin();
 			Pos.setValue(Pos.x() + Move.x(), Pos.y() + Move.y(), Pos.z() + Move.z());
 			Trans.setOrigin(Pos);
 			// 設定
-			RBCmp.RigitBody->getMotionState()->setWorldTransform(Trans);
-			RBCmp.RigitBody->setWorldTransform(Trans);
+			RBCmp.Body->getMotionState()->setWorldTransform(Trans);
 		}
 	}
 }

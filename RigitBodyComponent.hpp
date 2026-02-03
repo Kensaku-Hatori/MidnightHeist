@@ -12,12 +12,12 @@
 
 // 当たり判定のグループ
 namespace CollisionGroupAndMasks {
-	constexpr char GROUP_ENEMY =	1 << 0;	// 敵グループ
-	constexpr char GROUP_PLAYER =	1 << 1;	// プレイヤーグループ
-	constexpr char GROUP_MAPOBJECT =		1 << 2;	// マップグループ
-	constexpr char MASK_ENEMY = GROUP_PLAYER | GROUP_MAPOBJECT;					// 敵のマスク
-	constexpr char MASK_PLAYER = GROUP_ENEMY | GROUP_PLAYER | GROUP_MAPOBJECT;	// プレイヤーのマスク
-	constexpr char MASK_MAPOBJECT = GROUP_ENEMY | GROUP_PLAYER | GROUP_MAPOBJECT;	// プレイヤーのマスク
+	constexpr int GROUP_ENEMY =	1 << 0;	// 敵グループ
+	constexpr int GROUP_PLAYER =	1 << 1;	// プレイヤーグループ
+	constexpr int GROUP_MAPOBJECT =		1 << 2;	// マップグループ
+	constexpr int MASK_ENEMY = GROUP_PLAYER | GROUP_MAPOBJECT;					// 敵のマスク
+	constexpr int MASK_PLAYER = GROUP_ENEMY | GROUP_PLAYER | GROUP_MAPOBJECT;	// プレイヤーのマスク
+	constexpr int MASK_MAPOBJECT = GROUP_ENEMY | GROUP_PLAYER | GROUP_MAPOBJECT;	// プレイヤーのマスク
 }
 
 // 剛体コンポーネント

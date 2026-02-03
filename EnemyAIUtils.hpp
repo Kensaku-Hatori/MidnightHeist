@@ -28,6 +28,7 @@
 #include "ChildComp.hpp"
 #include "VisibleSineCurveComp.hpp"
 #include "SingleCollisionShapeComponent.hpp"
+#include "Components.hpp"
 
 // –¼‘O‹óŠÔ
 using namespace Tag;
