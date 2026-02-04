@@ -8,6 +8,7 @@
 // インクルード
 #include "UpdateEnemySystem.h"
 #include "EnemyAIUtils.hpp"
+#include "ColorComponent.hpp"
 
 //*********************************************
 // 更新
@@ -28,7 +29,17 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		auto& SoundCmp = reg.get<EnemyListenerComp>(entity);
 		auto& StateCmp = reg.get<EnemyAIComp>(entity);
 		auto& ChractorCmp = reg.get<CharactorComp>(entity);
+		auto& SightColorCmp = reg.get<ColorComp>(ChildrenCmp.Children[1]);
 		
+		switch (StateCmp.State)
+		{
+		case EnemyState::ENEMYSTATE::SEARCH:
+			SightColorCmp.Col = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+			break;
+		default:
+			SightColorCmp.Col = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+			break;
+		}
 		// プレイヤーが発する音
 		SoundCmp.ListenerVolume = EnemyListenerConfig::Bace * EnemyListenerConfig::Scale[static_cast<int>(StateCmp.State)];
 

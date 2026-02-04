@@ -194,6 +194,7 @@
     <ClCompile Include="UICircle.cpp" />
     <ClCompile Include="UpdatebtBoxColliderSystem.cpp" />
     <ClCompile Include="UpdatebtCapsuleColliderSystem.cpp" />
+    <ClCompile Include="UpdateEnemySightSystem.cpp" />
     <ClCompile Include="UpdateGateManager.cpp" />
     <ClCompile Include="UpdateMtxSystem.cpp" />
     <ClCompile Include="UpdateRigidBodySystem.cpp" />
@@ -265,6 +266,7 @@
     <ClInclude Include="TimerComp.hpp" />
     <ClInclude Include="UpdatebtBoxColliderSystem.h" />
     <ClInclude Include="UpdatebtCapsuleColliderSystem.h" />
+    <ClInclude Include="UpdateEnemySightSystem.h" />
     <ClInclude Include="UpdateGateManager.h" />
     <ClInclude Include="UpdateMtxSystem.h" />
     <ClInclude Include="UpdateRigidBodySystem.h" />

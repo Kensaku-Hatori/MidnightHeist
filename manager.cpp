@@ -51,6 +51,7 @@
 #include "UpdatebtBoxColliderSystem.h"
 #include "UpdatebtCapsuleColliderSystem.h"
 #include "UpdateRigidBodySystem.h"
+#include "UpdateEnemySightSystem.h"
 
 // •`‰æƒVƒXƒeƒ€
 #include "Rendering2Dbace.h"
@@ -212,6 +213,7 @@ void CManager::InitSystems(void)
 	CSystemManager::AddUpdateSystem(new UpdatePauseManagerSystem);
 	CSystemManager::AddUpdateSystem(new UpdatePauseMenuSystem);
 	CSystemManager::AddUpdateSystem(new UpdateItemSystem);
+	CSystemManager::AddUpdateSystem(new UpdateEnemySightSystem);
 	CSystemManager::AddUpdateSystem(new UpdateVisibleSineCurveSystem);
 	CSystemManager::AddUpdateSystem(new UpdateStutsAnimSystem);
 	CSystemManager::AddUpdateSystem(new UpdateGateManagerSystem);

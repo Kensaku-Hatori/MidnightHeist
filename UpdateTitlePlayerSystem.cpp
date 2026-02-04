@@ -45,28 +45,6 @@ void UpdateTitlePlayerSystem::Update(entt::registry& reg)
 	// アクセス
 	for (auto [entity] : view.each())
 	{
-		// コンポーネント取得
-		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& RBCmp = reg.get<RigidBodyComponent>(entity);
-		auto& CapsuleCmp = reg.get<CapsuleColliderComponent>(entity);
-
-		if (RBCmp.Body == nullptr) continue;
-
-		// トランスフォームを取得
-		btTransform trans;
-		RBCmp.Body->getMotionState()->getWorldTransform(trans);
-
-		// 位置を取得
-		if (CMath::IsValidVector(trans.getOrigin()) == true)
-		{
-			// 描画モデルの位置
-			btVector3 newPos;
-
-			newPos = trans.getOrigin();
-			// 位置を計算、設定
-			//TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - CapsuleCmp.ToCenterOffset, newPos.z()));
-			//UpdateRB(reg, entity);
-		}
 	}
 }
 

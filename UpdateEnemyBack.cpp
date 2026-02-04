@@ -40,7 +40,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
-		auto& RBCmp = reg.get<RigitBodyComp>(Entity);
+		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
 		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
 
@@ -55,7 +55,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		}
 
 		// 剛体が生成されていたら
-		if (RBCmp.RigitBody == nullptr) continue;
+		if (RBCmp.Body == nullptr) continue;
 
 		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
 		// Y成分を消す
@@ -91,7 +91,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 			// 速さを掛ける
 			VelocityCmp.Velocity *= 8;
 			// Y成分を取り除く
-			VelocityCmp.Velocity.y = RBCmp.RigitBody->getLinearVelocity().y();
+			VelocityCmp.Velocity.y = RBCmp.Body->getLinearVelocity().y();
 		}
 		// 移動
 		UpdateMove(reg, Entity);
@@ -104,17 +104,17 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 void UpdateEnemyBackSystem::UpdateMove(entt::registry& Reg, entt::entity& Entity)
 {
 	// 自分自身のコンポーネントを取得
-	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
+	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
 	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
 
 	// 設定
-	RBCmp.RigitBody->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
+	RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
 
 	// トランスフォームを取得
 	btTransform trans;
-	RBCmp.RigitBody->getMotionState()->getWorldTransform(trans);
+	RBCmp.Body->getMotionState()->getWorldTransform(trans);
 
 	// 描画モデルの位置
 	btVector3 newPos;

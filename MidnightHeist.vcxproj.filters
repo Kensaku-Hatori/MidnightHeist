@@ -208,6 +208,9 @@
     <Filter Include="System\Update\Pysics">
       <UniqueIdentifier>{c6e9a420-f82a-449e-9dd1-2c19e1011482}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\Update\Fan">
+      <UniqueIdentifier>{947db478-37c5-4cb7-aa1b-c0769545114a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="input.cpp">
@@ -446,6 +449,9 @@
     </ClCompile>
     <ClCompile Include="UpdateRigidBodySystem.cpp">
       <Filter>System\Update\Pysics</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateEnemySightSystem.cpp">
+      <Filter>System\Update\Fan</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -859,6 +865,9 @@
     </ClInclude>
     <ClInclude Include="UpdateRigidBodySystem.h">
       <Filter>System\Update\Pysics</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateEnemySightSystem.h">
+      <Filter>System\Update\Fan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
