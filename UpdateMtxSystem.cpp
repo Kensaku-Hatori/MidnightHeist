@@ -17,6 +17,7 @@
 //*********************************************
 UpdateMtxSystem::UpdateMtxSystem()
 {
+	// 関数をコネクト
 	entt::registry& Reg = CManager::GetScene()->GetReg();
 	Reg.on_construct<Transform3D>().connect<&UpdateMtxSystem::OnTransformComponentConstruct>(this);
 }
@@ -97,6 +98,7 @@ void UpdateMtxSystem::OnTransformComponentConstruct(entt::registry& Reg, entt::e
 	D3DXMatrixTranslation(&Transform.mtxTrans, Transform.Pos.x, Transform.Pos.y, Transform.Pos.z);
 	D3DXMatrixMultiply(&Transform.mtxWorld, &Transform.mtxWorld, &Transform.mtxTrans);
 
+	// 親が居たら
 	if (Reg.any_of<ParentComp>(Entity))
 	{
 		// コンポーネントを取得
@@ -108,7 +110,7 @@ void UpdateMtxSystem::OnTransformComponentConstruct(entt::registry& Reg, entt::e
 			// 親のコンポーネントを取得
 			auto& ParentTrans = Reg.get<Transform3D>(ParentCmp.Parent);
 
-			// マトリックスを計算
+			// 親のマトリックスを計算
 			D3DXMatrixIdentity(&ParentTrans.mtxWorld);
 
 			D3DXMatrixScaling(&ParentTrans.mtxScale, ParentTrans.Scale.x, ParentTrans.Scale.y, ParentTrans.Scale.z);

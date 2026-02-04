@@ -79,9 +79,6 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		// ”­‚µ‚Ä‚¢‚é”ÍˆÍ‚ğİ’è
 		SineCurveCmp.Radius = SoundCmp.SoundVolume;
 
-		// •`‰æƒtƒ‰ƒO‚ğÜ‚é
-		CircleRenderFrag.IsRendering = false;
-
 		// ó‘Ô‚Ì‰Šú‰»
 		StateCmp.OldState = StateCmp.NowState;
 
