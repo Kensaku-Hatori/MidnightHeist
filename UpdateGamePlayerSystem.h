@@ -24,7 +24,6 @@ struct UpdateGamePlayerSystem : BaceSystem
 	// XV
 	void Update(entt::registry& reg)override;
 private:
-	void UpdateRB(entt::registry& reg, entt::entity Player);
 	void UpdateMovement(entt::registry& reg, entt::entity Player);
 	void UpdateLockOn(entt::registry& reg, entt::entity Player);
 	void UpdateUnLock(entt::registry& Reg, entt::entity Player);

@@ -14,6 +14,7 @@
 #include "Components.hpp"
 #include "TagComp.hpp"
 #include "math.h"
+#include "ParentComponent.hpp"
 
 using namespace Pysics;
 
@@ -41,6 +42,17 @@ void UpdateRigidBodySystem::Update(entt::registry& reg)
 		btTransform TransBody;
 
 		RigidBodyCmp.Body->getMotionState()->getWorldTransform(TransBody);
+
+		if (reg.any_of<ParentComp>(Entity))
+		{
+			auto& ParentCmp = reg.get<ParentComp>(Entity);
+			auto& ParentTransCmp = reg.get<Transform3D>(ParentCmp.Parent);
+			btTransform ParentInvTrans;
+			ParentInvTrans.setRotation(CMath::SetQuad(ParentTransCmp.Quat));
+			ParentInvTrans.setOrigin(CMath::SetVec(ParentTransCmp.Pos));
+			ParentInvTrans = ParentInvTrans.inverse();
+			TransBody.mult(TransBody, ParentInvTrans);
+		}
 		TransformCmp.Pos = CMath::SetVec(TransBody.getOrigin());
 
 		// ÉåÉCÇÃénì_(è≠Çµè„Ç…Ç∏ÇÁÇ∑)

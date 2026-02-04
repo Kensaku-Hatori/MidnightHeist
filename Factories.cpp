@@ -442,6 +442,11 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 {
 	// エンティティを生成
 	entt::entity myEntity = Reg.create();
+	// 親が引数に素材したら
+	if (Parent != entt::null)
+	{
+		Reg.emplace<ParentComp>(myEntity, Parent);
+	}
 	// コンポーネントを追加
 	auto& TransCmp = Reg.emplace<Transform3D>(myEntity, Pos, Scale, Quat);
 	Reg.emplace<CastShadow>(myEntity);
@@ -455,12 +460,6 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	Reg.emplace<Pysics::RigitBody>(myEntity);
 	Reg.emplace<RigidBodyComponent>(myEntity, 0.0f, CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
 	Reg.emplace<XRenderingComp>(myEntity, Path);
-
-	// 親が引数に素材したら
-	if (Parent != entt::null)
-	{
-		Reg.emplace<ParentComp>(myEntity, Parent);
-	}
 
 	// コンポーネントをマッピング
 	MappingModelPathToComponent(Reg, myEntity, Path);

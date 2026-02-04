@@ -84,7 +84,6 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 
 		// 状態の初期化
 		StateCmp.OldState = StateCmp.NowState;
-		StateCmp.NowState = PlayerState::State::NORMAL;
 
 		// カウンタインクリメント
 		if (AnimCmp.FirstDelayFrame > AnimCmp.FirstDelayCounter)AnimCmp.FirstDelayCounter++;
@@ -142,52 +141,6 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 			UpdateLockOn(reg, entity);
 		}
 	}
-}
-
-//*********************************************
-// 剛体の更新
-//*********************************************
-void UpdateGamePlayerSystem::UpdateRB(entt::registry& reg, entt::entity Player)
-{
-	// コンポーネント取得
-	auto& RBCmp = reg.get<RigitBodyComp>(Player);
-	auto& ColliderCmp = reg.get<SingleCollisionShapeComp>(Player);
-	auto& CapsuleCmp = reg.get<CapsuleComp>(Player);
-	auto& TransformCmp = reg.get<Transform3D>(Player);
-
-	// すでに生成済みなら
-	if (RBCmp.RigitBody != nullptr) return;
-
-	// ポインタ生成
-	ColliderCmp.CollisionShape = std::make_unique<btCapsuleShape>(btScalar(CapsuleCmp.Radius), btScalar(CapsuleCmp.AllHeight));
-
-	// 質量
-	btScalar mass = 1.0f;
-	// 回転抗力
-	btVector3 inertia(0, 0, 0);
-	// 生成
-	ColliderCmp.CollisionShape->calculateLocalInertia(mass, inertia);
-
-	// トランスフォーム
-	btTransform transform;
-	transform.setIdentity();
-	transform.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y + CapsuleCmp.ToCenterOffset, TransformCmp.Pos.z));
-
-	// モーションステート生成
-	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
-	btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, ColliderCmp.CollisionShape.get());
-
-	// リジットボディー生成
-	RBCmp.RigitBody = std::make_unique<btRigidBody>(info);
-	// 移動制限
-	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
-
-	// ユーザーポインタ・ステート設定
-	RBCmp.RigitBody->setUserPointer((void*)Player);
-	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
-
-	// 物理世界に登録
-	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 }
 
 //*********************************************
@@ -287,6 +240,7 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	}
 	else
 	{
+		PlayerStateCmp.NowState = PlayerState::State::NORMAL;
 		// コンポーネントを取得
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(Player);
 		// プレイヤーが発する音
@@ -409,31 +363,39 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 	auto& CircleEntity = Reg.get<ChildrenComp>(Player);
 	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Children[1]);
 
+	// 描画フラグを設定する用のフラグ
+	bool IsRenderingLocalFrag = false;
+
 	// アクセス
 	for (auto entity : ItemView)
 	{
 		// 自分自身のコンポーネントを取得
-		auto& TransformCmp = Reg.get<Transform3D>(entity);
+		auto& RBCmp = Reg.get<RigidBodyComponent>(entity);
 		auto& ItemCmp = Reg.get<ItemComp>(entity);
 		auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
 
 		// コンポーネントを取得
-		auto& PlayerTransCmp = Reg.get<Transform3D>(Player);
-		D3DXVECTOR3 ToPlayer = TransformCmp.Pos - PlayerTransCmp.Pos;
+		auto& PlayerRBCmp = Reg.get<RigidBodyComponent>(Player);
+
+		// アイテムとプレイヤーのトランスフォームを取得
+		btTransform ItemTrans, PlayerTrans;
+		RBCmp.Body->getMotionState()->getWorldTransform(ItemTrans);
+		PlayerRBCmp.Body->getMotionState()->getWorldTransform(PlayerTrans);
+		D3DXVECTOR3 ToPlayer = CMath::SetVec(ItemTrans.getOrigin()) - CMath::SetVec(PlayerTrans.getOrigin());
+		ToPlayer.y = 0.0f;
 
 		// 範囲外だったら
-		if (D3DXVec3Length(&ToPlayer) > ItemCmp.InteractSize)
+		if (D3DXVec3Length(&ToPlayer) > ItemCmp.InteractSize || entity == entt::null)
 		{
-			ItemCmp.nCntPicking--;
+			ItemCmp.nCntPicking = Clamp(ItemCmp.nCntPicking - 1, 0, INT_MAX);
 			continue;
 		}
 
-		// 物理ボディを取得
-		auto& RBCmp = Reg.get<RigitBodyComp>(Player);
+		IsRenderingLocalFrag = true;
+
 		// 移動量を取得
-		btVector3 Move = RBCmp.RigitBody->getLinearVelocity();
+		btVector3 Move = PlayerRBCmp.Body->getLinearVelocity();
 		Move.setY(0.0f);
-		ToPlayer.y = 0.0f;
 		D3DXVECTOR3 ConvertMove = CMath::SetVec(Move);
 
 		float Dot = D3DXVec3Dot(&ToPlayer, &ConvertMove);
@@ -441,7 +403,7 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 		// ピッキング範囲内ステートに変える
 		PlayerStateCmp.NowState = PlayerState::State::RANGE_PICKING;
 
-		if (D3DXVec3Length(&ConvertMove) > 0.0f && Dot > 50.0f)
+		if (D3DXVec3Length(&ConvertMove) > 0.0f && Dot > 100.0f)
 		{
 			CManager::GetInputJoypad()->BeginVibration(0.1f, 0.1f);
 
@@ -457,11 +419,21 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 				// 要素を削除
 				Reg.destroy(entity);
 				CMapManager::Instance()->Erase(entity);
+				PlayerStateCmp.NowState = PlayerState::State::NORMAL;
 			}
+		}
+		else
+		{
+			ItemCmp.nCntPicking--;
+			// 塗りつぶし量を進める
+			CircleCmp.FillAmount = ItemConfig::Ratio * ItemCmp.nCntPicking;
 		}
 		// クランプ
 		ItemCmp.nCntPicking = Clamp(ItemCmp.nCntPicking, 0, ItemConfig::nFramePicking);
 	}
+	// 円形UIの情報を取得
+	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Children[1]);
+	CircleRenderFrag.IsRendering = IsRenderingLocalFrag;
 }
 
 //*********************************************
@@ -485,22 +457,16 @@ void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Playe
 	switch (PlayerStateCmp.NowState)
 	{
 	case PlayerState::State::SILENT:
-		// 塗りつぶし量を進める
-		CircleCmp.FillAmount -= 0.01f;
 		break;
 	case PlayerState::State::NORMAL:
-		// 塗りつぶし量を進める
-		CircleCmp.FillAmount -= 0.01f;
 		break;
 	case PlayerState::State::DUSH:
-		// 塗りつぶし量を進める
-		CircleCmp.FillAmount -= 0.01f;
+		break;
+	case PlayerState::State::RANGE_PICKING:
 		break;
 	case PlayerState::State::PICKING:
 		// 位置を更新
 		CircleTransform.Pos = CirlcePos;
-		// ピッキング中だけ描画フラグを立てる
-		CircleRenderFrag.IsRendering = true;
 		break;
 	default:
 		break;

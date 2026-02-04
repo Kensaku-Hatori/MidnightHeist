@@ -58,6 +58,7 @@ void UpdateGateManagerSystem::Update(entt::registry& reg)
 			Trans.setOrigin(Pos);
 			// Ý’è
 			RBCmp.Body->getMotionState()->setWorldTransform(Trans);
+			RBCmp.Body->setWorldTransform(Trans);
 		}
 	}
 }
