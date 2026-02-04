@@ -409,8 +409,6 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 
 			PlayerStateCmp.NowState = PlayerState::State::PICKING;
 			ItemCmp.nCntPicking++;
-			// 塗りつぶし量を進める
-			CircleCmp.FillAmount = ItemConfig::Ratio * ItemCmp.nCntPicking;
 			// 最大数以上だったら
 			if (ItemCmp.nCntPicking >= ItemConfig::nFramePicking)
 			{
@@ -425,11 +423,11 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 		else
 		{
 			ItemCmp.nCntPicking--;
-			// 塗りつぶし量を進める
-			CircleCmp.FillAmount = ItemConfig::Ratio * ItemCmp.nCntPicking;
 		}
 		// クランプ
 		ItemCmp.nCntPicking = Clamp(ItemCmp.nCntPicking, 0, ItemConfig::nFramePicking);
+		// 塗りつぶし量を進める
+		CircleCmp.FillAmount = ItemConfig::Ratio * ItemCmp.nCntPicking;
 	}
 	// 円形UIの情報を取得
 	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Children[1]);
