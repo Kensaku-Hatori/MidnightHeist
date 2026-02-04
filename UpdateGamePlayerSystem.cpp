@@ -150,6 +150,7 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	auto& Trans = reg.get<Transform3D>(Player);
 	auto& PlayerStateCmp = reg.get<PlayerStateComp>(Player);
 	auto& CharactorCmp = reg.get<CharactorComp>(Player);
+	auto& OutLineCmp = reg.get<OutLineComp>(Player);
 
 	// 早期リターン
 	if (RBCmp.Body == nullptr) return;
@@ -180,6 +181,8 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	{
 		Speed = 7.5f;
 		PlayerStateCmp.NowState = PlayerState::State::SILENT;
+		// 色設定
+		OutLineCmp.Color = D3DXVECTOR4(0.0f, 0.0f, 1.0f, 1.0f);
 	}
 	else if (CManager::GetInputKeyboard()->GetPress(DIK_LSHIFT) == true ||
 		CManager::GetInputJoypad()->GetPress(CInputJoypad::JOYKEY_R1) == true ||
@@ -187,6 +190,13 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	{
 		Speed = 17.5f;
 		PlayerStateCmp.NowState = PlayerState::State::DUSH;
+		// 色設定
+		OutLineCmp.Color = D3DXVECTOR4(1.0f, 0.0f, 0.0f, 1.0f);
+	}
+	else
+	{
+		// 色設定
+		OutLineCmp.Color = D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f);
 	}
 
 	// スティックのステートを取得

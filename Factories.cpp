@@ -341,7 +341,7 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 	Reg.emplace<PlayerSoundVolumeComp>(Entity);
 	Reg.emplace<RenderingOutLine>(Entity);
 	// アウトライン用の情報を設定
-	Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 0.3f, 0.5f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
+	Reg.emplace<OutLineComp>(Entity, 6.0f, D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f), CMath::CalcModelSize("data\\MODEL\\testplayer1.x").y * 2.0f);
 	Reg.emplace<PlayerStateComp>(Entity);
 	Reg.emplace<PlayerAnimComp>(Entity);
 	// 子供エンティティリスト用の変数
