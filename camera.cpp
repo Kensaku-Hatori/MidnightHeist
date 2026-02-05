@@ -99,16 +99,8 @@ void CCamera::Update(void)
 	{
 		Systems->Update();
 	}
-
-	// それぞれの更新処理を呼ぶ
-	//UpdateMouseMove();
-	//UpdateJoyPadMove();
-
 	UpdateCameraPositionV();
 	UpdateCameraPositionR();
-
-	// ホイールでカメラの距離を変える
-	//SetMouseWheel(m_pInputMouse->GetMouseState().lZ);
 }
 
 //***************************************

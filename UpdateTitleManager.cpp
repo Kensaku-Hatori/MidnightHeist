@@ -19,7 +19,7 @@
 
 // 名前空間
 using namespace Tag;
-using namespace TitleMenu;
+using namespace TitleMenuConfig;
 
 //*********************************************
 // 更新
@@ -27,13 +27,13 @@ using namespace TitleMenu;
 void UpdateTitleManagerSystem::Update(entt::registry& reg)
 {
 	// ビューを生成
-	auto view = reg.view<TitleManagerComponent>();
+	auto view = reg.view<TitleManager>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// 選択しているメニューを更新
-		auto& SelectMenuCmp = reg.get<Select2DComp>(entity);
+		auto& SelectMenuCmp = reg.get<Select2DComponent>(entity);
 		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true 
 			|| CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true) {
 			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu - 1), MENUTYPE::START, MENUTYPE::EXIT));
@@ -53,15 +53,15 @@ void UpdateTitleManagerSystem::Update(entt::registry& reg)
 void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity& Manager)
 {
 	// コンポーネントを取得
-	auto& SelectMenuCmp = Reg.get<Select2DComp>(Manager);
+	auto& SelectMenuCmp = Reg.get<Select2DComponent>(Manager);
 	// ビューを生成
-	auto view = Reg.view<TitleMenuComponent>();
+	auto view = Reg.view<TitleMenu>();
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& myType = Reg.get<Menu2DComp>(entity);
-		auto& ColorCmp = Reg.get<ColorComp>(entity);
+		auto& myType = Reg.get<Menu2DComponent>(entity);
+		auto& ColorCmp = Reg.get<ColorComponent>(entity);
 		// 白にする
 		ColorCmp.Col = WHITE;
 		// 選ばれていなかったら早期リターン
@@ -86,7 +86,7 @@ void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity
 void UpdateTitleManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& Menu)
 {
 	// コンポーネントを取得
-	auto& myType = Reg.get<Menu2DComp>(Menu);
+	auto& myType = Reg.get<Menu2DComponent>(Menu);
 	// タイプに応じた処理を実行
 	if (MENUTYPE::START == myType.myType)CFade::SetFade(new CGame);
 	else if (MENUTYPE::EXIT == myType.myType)PostQuitMessage(0);

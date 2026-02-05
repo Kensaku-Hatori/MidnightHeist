@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct RenderFragComp {
+struct RenderFragComponent {
     // イニシャライズコンストラクタ
-    RenderFragComp(const bool _IsRendering = true) : IsRendering(_IsRendering) {};
+    RenderFragComponent(const bool _IsRendering = true) : IsRendering(_IsRendering) {};
     // 自分のメニューの種類
     bool IsRendering;
 };

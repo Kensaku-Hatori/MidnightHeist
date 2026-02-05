@@ -9,7 +9,7 @@
 #pragma once
 
 // インクルード
-#include "EnemyAIComponent.hpp"
+#include "EnemyStateComponent.h"
 
 namespace EnemyListenerConfig {
 	static constexpr float Bace = 50.0f;
@@ -18,9 +18,9 @@ namespace EnemyListenerConfig {
 	};
 }
 // 情報
-struct EnemyListenerComp {
+struct EnemyListenerComponent {
 	// コンスタント
-	EnemyListenerComp(const float _Default = NULL) : ListenerVolume(_Default) {}
+	EnemyListenerComponent(const float _Default = NULL) : ListenerVolume(_Default) {}
 	// 情報
 	float ListenerVolume;
 };

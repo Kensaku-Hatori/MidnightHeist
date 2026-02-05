@@ -9,7 +9,7 @@
 #pragma once
 
 // インクルード
-#include "EnemyAIComponent.hpp"
+#include "AIComponent.hpp"
 
 // 通常のファクトリー
 namespace Factories {
@@ -25,13 +25,12 @@ namespace Factories {
 	entt::entity makeUICircle(entt::registry& Reg, entt::entity Parent = entt::null);
 
 	entt::entity makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos);
-	void InitBacePlayer(entt::registry& Reg, entt::entity& Entity);
 	void InitGamePlayer(entt::registry& Reg, entt::entity& Entity);
 	void InitTitlePlayer(entt::registry& Reg, entt::entity& Entity);
 
 	entt::entity makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin, const int Value, const D3DXVECTOR2 DigitSize, const D3DXVECTOR2 DigitOffset);
 
-	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<EnemyState::PatrolMap>& PointList);
+	entt::entity makeEnemy(entt::registry& Reg,D3DXVECTOR3 Pos,std::vector<BasicAI::PatrolMap>& PointList);
 	entt::entity makeMapobject(entt::registry& Reg, const std::string& Path, const D3DXVECTOR3& Pos = VEC3_NULL,
 		const D3DXQUATERNION& Quat = QUAT_NULL, const D3DXVECTOR3& Scale = { 1.0f,1.0f,1.0f }, const entt::entity& Parent = entt::null);
 	void MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path);

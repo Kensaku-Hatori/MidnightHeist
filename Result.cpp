@@ -42,7 +42,7 @@ HRESULT CResult::Init(void)
 
 	// çïÇ¢îºìßñæÉ|ÉäÉSÉì
 	entt::entity BlackBoard = Factories::makeObject2D(GetReg(), 3, "", D3DXVECTOR2(SCREEN_WIDTH * 0.9f, SCREEN_HEIGHT * 0.5f), D3DXVECTOR2(SCREEN_WIDTH * 0.2f, SCREEN_WIDTH * 0.5f));
-	auto& ColorCmp = GetReg().get<ColorComp>(BlackBoard);
+	auto& ColorCmp = GetReg().get<ColorComponent>(BlackBoard);
 	ColorCmp.Col = BLACK;
 	ColorCmp.Col.a = 0.5f;
 

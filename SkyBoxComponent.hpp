@@ -12,9 +12,9 @@
 #include "manager.h"
 
 // スカイボックスの情報
-struct SkyBoxComp {
+struct SkyBoxComponent {
 	// コンスタント
-	SkyBoxComp(const std::string& FileDir) {
+	SkyBoxComponent(const std::string& FileDir) {
 		// テクスチャがまとめられているファイルを開く
 		std::string Path;
 		Path = FileDir;
@@ -102,7 +102,7 @@ struct SkyBoxComp {
 			srcTex->Release();
 		}
 	};
-	~SkyBoxComp() {
+	~SkyBoxComponent() {
 		if (pCubeTex != nullptr)
 		{
 			pCubeTex->Release();

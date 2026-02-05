@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct Menu2DComp {
+struct Menu2DComponent {
     // イニシャライズコンストラクタ
-    Menu2DComp(int _myType) : myType(_myType) {};
+    Menu2DComponent(int _myType) : myType(_myType) {};
     // 自分のメニューの種類
     const int myType;
 };

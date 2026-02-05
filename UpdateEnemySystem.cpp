@@ -16,20 +16,20 @@
 void UpdateEnemySystem::Update(entt::registry& reg)
 {
 	// ビュー取得
-	auto view = reg.view<EnemyComponent>();
+	auto view = reg.view<Enemy>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// 情報を取得
 		auto& Transform = reg.get<Transform3D>(entity);
-		auto& FanInfoCmp = reg.get<FanComp>(entity);
-		auto& ChildrenCmp = reg.get<ChildrenComp>(entity);
-		auto& EnemyAiCmp = reg.get<EnemyAIComp>(entity);
-		auto& SoundCmp = reg.get<EnemyListenerComp>(entity);
-		auto& StateCmp = reg.get<EnemyAIComp>(entity);
-		auto& ChractorCmp = reg.get<CharactorComp>(entity);
-		auto& SightColorCmp = reg.get<ColorComp>(ChildrenCmp.Children[1]);
+		auto& FanInfoCmp = reg.get<FanComponent>(entity);
+		auto& ChildrenCmp = reg.get<ChildrenComponent>(entity);
+		auto& EnemyAiCmp = reg.get<AIComponent>(entity);
+		auto& SoundCmp = reg.get<EnemyListenerComponent>(entity);
+		auto& StateCmp = reg.get<EnemyStateComponent>(entity);
+		auto& ChractorCmp = reg.get<CharactorComponent>(entity);
+		auto& SightColorCmp = reg.get<ColorComponent>(ChildrenCmp.Children[1]);
 		
 		switch (StateCmp.State)
 		{
@@ -68,7 +68,7 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
 
 		// 自身が立てている音の大きさを子往診
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(ChildrenCmp.Children[2]);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(ChildrenCmp.Children[2]);
 
 		SineCurveCmp.Radius = SoundCmp.ListenerVolume;
 
@@ -78,56 +78,6 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		// 光線たちの更新
 		UpdateRays(reg, entity);
 	}
-}
-
-//*********************************************
-// 剛体更新
-//*********************************************
-void UpdateEnemySystem::UpdateRB(entt::registry& Reg, entt::entity& Entity)
-{
-	// 剛体情報を取得
-	auto& RBCmp = Reg.get<RigitBodyComp>(Entity);
-	// 生成されていなかったら
-	if (RBCmp.RigitBody != nullptr) return;
-
-	// 自分の情報を取得
-	auto& TransformCmp = Reg.get<Transform3D>(Entity);
-	auto& ColliderCmp = Reg.get <SingleCollisionShapeComp>(Entity);
-
-	// 当たり判定を生成
-	ColliderCmp.CollisionShape = std::make_unique<btCapsuleShape>(btScalar(15.0f), btScalar(20.0f));
-
-	// 質量を設定する用の変数
-	btScalar mass = 1.0f;
-	// 回転抗力
-	btVector3 inertia(0, 0, 0);
-	// 当たり判定に情報を渡す
-	ColliderCmp.CollisionShape->calculateLocalInertia(mass, inertia);
-
-	// 剛体のトランスフォームを設定する用の変数
-	btTransform transform;
-	transform.setIdentity();
-	// 原点を設定
-	transform.setOrigin(btVector3(TransformCmp.Pos.x, TransformCmp.Pos.y + 20.0f, TransformCmp.Pos.z));
-
-	// モーションステートを生成
-	btDefaultMotionState* motionState = new btDefaultMotionState(transform);
-	// 剛体生成時に必要な情報
-	btRigidBody::btRigidBodyConstructionInfo info(mass, motionState, ColliderCmp.CollisionShape.get());
-
-	// 生成
-	RBCmp.RigitBody = std::make_unique<btRigidBody>(info);
-
-	// 移動制限を設定
-	RBCmp.RigitBody->setLinearFactor(btVector3(1, 1, 1));
-
-	// ユーザーポインタを設定
-	RBCmp.RigitBody->setUserPointer(this);
-	// 剛体の状態を設定
-	RBCmp.RigitBody->setActivationState(DISABLE_DEACTIVATION);
-
-	// 物理世界に追加
-	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.RigitBody.get(), CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
 }
 
 //*********************************************
@@ -144,14 +94,14 @@ void UpdateEnemySystem::UpdateRays(entt::registry& Reg, entt::entity& Entity)
 void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Entity)
 {
 	// プレイヤーのビュー
-	auto Playerview = Reg.view<PlayerComponent, InGameComp>();
+	auto Playerview = Reg.view<Player, InGame>();
 	// プレイヤーが存在しなかったら切り上げ
 	if (Playerview.size_hint() == 0) return;
 	// プレイヤーのエンティティ
 	auto PlayerEntity = *Playerview.begin();
 	// 自分自身のコンポーネントを取得
 	auto& TransformCmp = Reg.get<Transform3D>(Entity);
-	auto& State = Reg.get<EnemyAIComp>(Entity);
+	auto& State = Reg.get<AIComponent>(Entity);
 	// プレイヤーのトランスフォームを取得
 	auto& PlayerTransformCmp = Reg.get<Transform3D>(PlayerEntity);
 	D3DXVECTOR3 MyPos, PlayerPos;
@@ -164,7 +114,7 @@ void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Ent
 	D3DXVECTOR3 VecNormal;
 	D3DXVec3Normalize(&VecNormal, &Vec);
 	// プレイヤーまでの光線の情報
-	RayComp ToPlayerRay;
+	RayComponent ToPlayerRay;
 	ToPlayerRay.Origin = MyPos;
 	ToPlayerRay.Dir = VecNormal;
 	// フラグを保存

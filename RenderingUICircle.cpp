@@ -12,9 +12,9 @@
 #include "VertexRenderingComponent.hpp"
 #include "texmanager.h"
 #include "TextureRenderingComponent.h"
-#include "UICircleComp.hpp"
+#include "UICircleComponent.hpp"
 #include "UICircle.h"
-#include "RenderFragComp.hpp"
+#include "RenderFragComponent.hpp"
 #include "TransformComponent.hpp"
 
 // 名前空間
@@ -31,7 +31,7 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// エンテティのリストを取得
-	auto view = reg.view<UICircleComponent>();
+	auto view = reg.view<UICircle>();
 
 	// シェーダ起動
 	CUICircle::Instance()->Begin();
@@ -42,10 +42,10 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 	{
 		// コンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& TextureCmp = reg.get<TexComp>(entity);
-		auto& UICircleCmp = reg.get<UICircleComp>(entity);
-		auto& RenderFragCmp = reg.get<RenderFragComp>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& TextureCmp = reg.get<TexComponent>(entity);
+		auto& UICircleCmp = reg.get<UICircleComponent>(entity);
+		auto& RenderFragCmp = reg.get<RenderFragComponent>(entity);
 
 		// 描画フラグが立っていなかったら
 		if (RenderFragCmp.IsRendering == false) continue;

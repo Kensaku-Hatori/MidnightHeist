@@ -10,31 +10,31 @@
 
 namespace Tag {
 	// 2Dのポリゴンタグ
-	struct Object2DComponent {};
+	struct Object2D {};
 	// 3Dポリゴンタグ
-	struct Object3DComponent {};
+	struct Object3D {};
 	// オブジェクトXの情報
-	struct ObjectXComponent {};
+	struct ObjectX {};
 	// タイトルマネージャー
-	struct TitleManagerComponent {};
+	struct TitleManager {};
 	// タイトルメニュー
-	struct TitleMenuComponent {};
+	struct TitleMenu {};
 	// ポーズマネージャー
-	struct PauseManagerComponent {};
+	struct PauseManager {};
 	// ポーズメニュー
-	struct PauseMenuComponent {};
+	struct PauseMenu {};
 	// プレイヤー情報
-	struct PlayerComponent {};
+	struct Player {};
 	// 敵
-	struct EnemyComponent {};
+	struct Enemy {};
 	// レーザー
-	struct LaserComponent {};
+	struct Laser {};
 	// マップオブジェクト
-	struct MapObjectComponent {};
+	struct MapObject {};
 	// アイテム
-	struct ItemComponent {};
+	struct Item {};
 	// メッシュフィールド
-	struct MeshFieldComponent {};
+	struct MeshField {};
 	// シャドウマップに書き込む
 	struct CastShadow {};
 	// 物陰として書き込む
@@ -44,25 +44,25 @@ namespace Tag {
 	// パトロールポイント情報
 	struct PatrolPointManager {};
 	// スカイボックス情報
-	struct SkyBoxComponent {};
+	struct SkyBox {};
 	// 円形UI
-	struct UICircleComponent {};
+	struct UICircle {};
 	// 扇形視界
-	struct SightFanComponent {};
+	struct SightFan {};
 	// 音の大きさ
 	struct VisibleSound {};
 	// スタッツマネージャー
-	struct StutsManagerComp {};
+	struct StutsManager {};
 	// タイマー
-	struct TimerComponent {};
+	struct Timer {};
 	// ゲートマネージャー
 	struct GateManager {};
 }
 
 // 画面遷移用のタグ
 namespace SequenceTag {
-	struct InTitleComp {};
-	struct InGameComp {};
+	struct InTitle {};
+	struct InGame {};
 }
 
 // 物理エンジン用

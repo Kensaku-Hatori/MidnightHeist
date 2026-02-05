@@ -32,14 +32,14 @@ void RenderXSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<ObjectXComponent>();
+	auto view = reg.view<ObjectX>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネント取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& RenderingComp = reg.get<XRenderingComp>(entity);
+		auto& RenderingComp = reg.get<XRenderingComponent>(entity);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);

@@ -8,21 +8,10 @@
 // 二重インクルード防止
 #pragma once
 
-// インクルード
-#include "EnemyPatrolPointComponent.hpp"
-
-namespace EnemyAI {
-	struct AStarPointInfo
-	{
-		PatrolPoint::PatrolPointInfo PatrolPoint;
-		float Cost;
-		int MyIdx;
-	};
-}
-// 敵のステートコンポーネント
-struct EnemyAIAstarComp {
+// A*コンポーネント
+struct AstarComponent {
 	// コンストラクタ
-	EnemyAIAstarComp() = default;
+	AstarComponent() = default;
 	// 計算結果のルート
 	std::vector<int> DestRoute;
 };

@@ -15,36 +15,36 @@
 void UpdateEnemySearchSystem::Update(entt::registry& reg)
 {
 	// 敵のビュー
-	auto view = reg.view<EnemyComponent, EnemyAIComp>();
+	auto view = reg.view<Enemy, AIComponent,EnemyStateComponent>();
 
 	// パトロールポイントとプレイヤーのビュー
 	auto PatrolManagerview = reg.view<PatrolPointManager>();
-	auto Playerview = reg.view<PlayerComponent, InGameComp>();
+	auto Playerview = reg.view<Player, InGame>();
 
 	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
 	if (PatrolManagerview.empty()) return;
 
 	// コンテナにアクセス
-	for (auto [Entity, State] : view.each())
+	for (auto [Entity, AICmp,StateCmp] : view.each())
 	{
 		// 捜索状態以外なら切り上げ
-		if (State.State != EnemyState::ENEMYSTATE::SEARCH) continue;
+		if (StateCmp.State != EnemyState::ENEMYSTATE::SEARCH) continue;
 
 		// 扇情報を取得
-		auto& FanInfoCmp = reg.get<FanComp>(Entity);
+		auto& FanInfoCmp = reg.get<FanComponent>(Entity);
 		// Entityを取得
 		auto PatrolManagerEneity = *PatrolManagerview.begin();
 		auto PlayerEneity = *Playerview.begin();
 		// コンポーネントを取得
-		auto& PatrolPointCmp = reg.get<PatrolPointComp>(PatrolManagerEneity);
+		auto& PatrolPointCmp = reg.get<PatrolPointComponent>(PatrolManagerEneity);
 		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
-		auto& PlayerSoundVolumeCmp = reg.get<PlayerSoundVolumeComp>(PlayerEneity);
+		auto& PlayerSoundVolumeCmp = reg.get<PlayerSoundVolumeComponent>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
-		auto& EnemyListenerVolumeCmp = reg.get<EnemyListenerComp>(Entity);
+		auto& VelocityCmp = reg.get<VelocityComponent>(Entity);
+		auto& EnemyListenerVolumeCmp = reg.get<EnemyListenerComponent>(Entity);
 
 		// プレイヤーまでのベクトル
 		D3DXVECTOR3 ToPlayer = PlayerTransformCmp.Pos - TransformCmp.Pos;
@@ -53,21 +53,21 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 
 		// 音が聞こえていたらかつプレイヤーとの間にオブジェクトがなかったら
 		if (Distance < PlayerSoundVolumeCmp.SoundVolume + EnemyListenerVolumeCmp.ListenerVolume &&
-			State.IsBlockedToPlayer == false)
+			AICmp.IsBlockedToPlayer == false)
 		{
 			// 見つかった回数をインクリメント
 			CGame::AddEnCount();
 			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
+			StateCmp.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
 		}
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			State.IsBlockedToPlayer == false)
+			AICmp.IsBlockedToPlayer == false)
 		{
 			CGame::AddEnCount();
 			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
+			StateCmp.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
 		}
 
@@ -75,8 +75,8 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		if (RBCmp.Body == nullptr) continue;
 
 		// 目的地へのベクトルを引く
-		State.NextIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
-		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[State.HalfPatrolRoute[State.NextIdx].Idx].Point - TransformCmp.Pos;
+		AICmp.NextIdx = AICmp.IsFinish ? AICmp.NowIdx - 1 : AICmp.NowIdx + 1;
+		D3DXVECTOR3 ToDestPos = PatrolPointCmp.PatrolPoint[AICmp.HalfPatrolRoute[AICmp.NextIdx].Idx].Point - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
@@ -90,23 +90,23 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 			// 移動量を無くす
 			VelocityCmp = VEC3_NULL;
 			// カウンタを進める
-			State.CoolDownCnt++;
+			AICmp.CoolDownCnt++;
 
 			// クールダウンが終わったら
-			if (State.CoolDownCnt >= State.HalfPatrolRoute[State.NextIdx].CoolDown)
+			if (AICmp.CoolDownCnt >= AICmp.HalfPatrolRoute[AICmp.NextIdx].CoolDown)
 			{
 				// リセット
-				State.CoolDownCnt = 0;
+				AICmp.CoolDownCnt = 0;
 				// 今の位置を目標の位置にする
-				State.NowIdx = State.IsFinish ? State.NowIdx - 1 : State.NowIdx + 1;
+				AICmp.NowIdx = AICmp.IsFinish ? AICmp.NowIdx - 1 : AICmp.NowIdx + 1;
 				// フラグを立てる
-				if (static_cast<int>(State.HalfPatrolRoute.capacity() - 1) <= State.NowIdx && State.IsFinish == false)
+				if (static_cast<int>(AICmp.HalfPatrolRoute.capacity() - 1) <= AICmp.NowIdx && AICmp.IsFinish == false)
 				{
-					State.IsFinish = true;
+					AICmp.IsFinish = true;
 				}
-				if (0 >= State.NowIdx && State.IsFinish == true)
+				if (0 >= AICmp.NowIdx && AICmp.IsFinish == true)
 				{
-					State.IsFinish = false;
+					AICmp.IsFinish = false;
 				}
 			}
 		}
@@ -131,9 +131,8 @@ void UpdateEnemySearchSystem::UpdateMove(entt::registry& Reg, entt::entity Entit
 {
 	// 自分自身のコンポーネントを取得
 	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
-	auto& TransformCmp = Reg.get<Transform3D>(Entity);
-	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
-	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
+	auto& VelocityCmp = Reg.get<VelocityComponent>(Entity);
+	auto& CharactorCmp = Reg.get<CharactorComponent>(Entity);
 
 	// 設定
 	RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;

@@ -9,7 +9,7 @@
 #pragma once
 
 // テクスチャ情報
-struct UVComp {
+struct UVComponent {
     // テクスチャ座標
     D3DXVECTOR2 UV[4] = { {0.0f,0.0f,},{1.0f,0.0f},{0.0f,1.0f},{1.0f,1.0f} };
 };

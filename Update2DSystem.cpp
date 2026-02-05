@@ -22,17 +22,17 @@ using namespace Tag;
 void Update2DSystem::Update(entt::registry& reg)
 {
 	// ビューを生成
-	auto view = reg.view<Object2DComponent>();
+	auto view = reg.view<Object2D>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
 		auto& TransformCmp = reg.get<Transform2D>(entity);
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& SizeCmp = reg.get<SizeComp>(entity);
-		auto& ColorCmp = reg.get<ColorComp>(entity);
-		auto& UVCmp = reg.get<UVComp>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& SizeCmp = reg.get<SizeComponent>(entity);
+		auto& ColorCmp = reg.get<ColorComponent>(entity);
+		auto& UVCmp = reg.get<UVComponent>(entity);
 
 		VERTEX_2D* pVtx = NULL;
 

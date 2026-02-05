@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct VisibleSineCurveComp {
+struct VisibleSineCurveComponent {
     // 引数アリのコンストラクタ
-	VisibleSineCurveComp(const float _SineMacro = 0.1f, const float _Speed = 1.0f, const float _Ripple = 1.0f, const float _Radius = 100.0f) :
+	VisibleSineCurveComponent(const float _SineMacro = 0.1f, const float _Speed = 1.0f, const float _Ripple = 1.0f, const float _Radius = 100.0f) :
 		SineMacro(_SineMacro), Speed(_Speed), Ripple(_Ripple), Radius(_Radius), nCntSineCurve(0) {};
     // 波の細かさ
 	float SineMacro;

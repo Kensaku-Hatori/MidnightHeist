@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct TimerComp {
+struct TimerComponent {
 	// 引数アリのコンストラクタ
-	TimerComp(const int _nData = 1, const D3DXVECTOR2 _DigitSize = { 50.0f,100.0f }, const D3DXVECTOR2 _DigitOffset = { 100.0f,0.0f }) :
+	TimerComponent(const int _nData = 1, const D3DXVECTOR2 _DigitSize = { 50.0f,100.0f }, const D3DXVECTOR2 _DigitOffset = { 100.0f,0.0f }) :
 		nDigitNum(0), nData(_nData), DigitSize(_DigitSize), DigitOffset(_DigitOffset) {};
 	// 桁数
 	int nDigitNum;

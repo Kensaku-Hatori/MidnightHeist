@@ -441,12 +441,6 @@
     <ClCompile Include="UpdateGateManager.cpp">
       <Filter>System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="UpdatebtCapsuleColliderSystem.cpp">
-      <Filter>System\Update\Pysics</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdatebtBoxColliderSystem.cpp">
-      <Filter>System\Update\Pysics</Filter>
-    </ClCompile>
     <ClCompile Include="UpdateRigidBodySystem.cpp">
       <Filter>System\Update\Pysics</Filter>
     </ClCompile>
@@ -551,12 +545,6 @@
     <ClInclude Include="SystemManager.h">
       <Filter>System\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="RigitBodyComponent.hpp">
-      <Filter>Component\Pysics</Filter>
-    </ClInclude>
-    <ClInclude Include="SingleCollisionShapeComponent.hpp">
-      <Filter>Component\Pysics</Filter>
-    </ClInclude>
     <ClInclude Include="ColorComponent.hpp">
       <Filter>Component\Object</Filter>
     </ClInclude>
@@ -564,9 +552,6 @@
       <Filter>Component\Object</Filter>
     </ClInclude>
     <ClInclude Include="NormalComponent.hpp">
-      <Filter>Component\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectBaceComponent.hpp">
       <Filter>Component\Object</Filter>
     </ClInclude>
     <ClInclude Include="SizeComponent.hpp">
@@ -632,7 +617,7 @@
     <ClInclude Include="RenderingEnemySystem.h">
       <Filter>System\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAIComponent.hpp">
+    <ClInclude Include="AIComponent.hpp">
       <Filter>Component\AI</Filter>
     </ClInclude>
     <ClInclude Include="UpdateEnemySystem.h">
@@ -647,9 +632,6 @@
     <ClInclude Include="UpdateEnemySearch.h">
       <Filter>System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="LaserCollisionFragComp1.hpp">
-      <Filter>Component\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="UpdateEnemyPredict.h">
       <Filter>System\Update\Enemy</Filter>
     </ClInclude>
@@ -659,7 +641,7 @@
     <ClInclude Include="TitleUI.hpp">
       <Filter>Component\Title</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyPatrolPointComp.hpp">
+    <ClInclude Include="EnemyPatrolPointComponent.hpp">
       <Filter>Component\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="ShaderResource.h">
@@ -686,9 +668,6 @@
     <ClInclude Include="UpdatePauseMenu.h">
       <Filter>System\Update\Pause</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAIAStarComponent.hpp">
-      <Filter>Component\AI</Filter>
-    </ClInclude>
     <ClInclude Include="RenderingOutLineSystem.h">
       <Filter>System\Rendering\Shader</Filter>
     </ClInclude>
@@ -707,13 +686,13 @@
     <ClInclude Include="RenderingSkyBoxSystem.h">
       <Filter>System\Rendering\SkyBox</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManagerComp.hpp">
+    <ClInclude Include="EnemyManagerComponent.hpp">
       <Filter>Component\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="distortion.h">
       <Filter>Shader\Distortion</Filter>
     </ClInclude>
-    <ClInclude Include="OutLineComp.hpp">
+    <ClInclude Include="OutLineComponent.hpp">
       <Filter>Component\Shader</Filter>
     </ClInclude>
     <ClInclude Include="UpdateItemSystem.h">
@@ -725,7 +704,7 @@
     <ClInclude Include="PlayerAnimetionComponent.hpp">
       <Filter>Component\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="LockOnUIAnim.hpp">
+    <ClInclude Include="LockOnUIAnimComponent.hpp">
       <Filter>Component\Animation</Filter>
     </ClInclude>
     <ClInclude Include="camera.h">
@@ -740,13 +719,13 @@
     <ClInclude Include="GameCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSoundVolumeComp.hpp">
+    <ClInclude Include="PlayerSoundVolumeComponent.hpp">
       <Filter>Component\SoundVolume</Filter>
     </ClInclude>
-    <ClInclude Include="ItemComp.h">
+    <ClInclude Include="ItemComponent.h">
       <Filter>Component\Item</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerStateComp.hpp">
+    <ClInclude Include="PlayerStateComponent.hpp">
       <Filter>Component\State</Filter>
     </ClInclude>
     <ClInclude Include="UICircle.h">
@@ -758,10 +737,10 @@
     <ClInclude Include="RenderingUICircle.h">
       <Filter>System\Rendering\UICircle</Filter>
     </ClInclude>
-    <ClInclude Include="UICircleComp.hpp">
+    <ClInclude Include="UICircleComponent.hpp">
       <Filter>Component\UI</Filter>
     </ClInclude>
-    <ClInclude Include="RenderFragComp.hpp">
+    <ClInclude Include="RenderFragComponent.hpp">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="UpdateEnemyBack.h">
@@ -779,7 +758,7 @@
     <ClInclude Include="RenderingTitlePlayerSystem.h">
       <Filter>System\Rendering\Player</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySoundListener.hpp">
+    <ClInclude Include="EnemySoundListenerComponent.hpp">
       <Filter>Component\SoundVolume</Filter>
     </ClInclude>
     <ClInclude Include="RenderingEnemySightSystem.h">
@@ -794,7 +773,7 @@
     <ClInclude Include="SoundDevice.h">
       <Filter>ヘッダー ファイル\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="VisibleSineCurveComp.hpp">
+    <ClInclude Include="VisibleSineCurveComponent.hpp">
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="RenderingVisibleSineCurve.h">
@@ -806,10 +785,10 @@
     <ClInclude Include="VisibleSineCurve.h">
       <Filter>Shader\VisibleSineCurve</Filter>
     </ClInclude>
-    <ClInclude Include="ChildComp.hpp">
+    <ClInclude Include="ChildComponent.hpp">
       <Filter>Component\Object</Filter>
     </ClInclude>
-    <ClInclude Include="CharactorComp.hpp">
+    <ClInclude Include="CharactorComponent.hpp">
       <Filter>Component\Charactor</Filter>
     </ClInclude>
     <ClInclude Include="UpdateMtxSystem.h">
@@ -818,7 +797,7 @@
     <ClInclude Include="ResultCameraSystem.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="StutsComp.h">
+    <ClInclude Include="StutsComponent.h">
       <Filter>Component\Stuts</Filter>
     </ClInclude>
     <ClInclude Include="UpdateStutsAnimSystem.h">
@@ -827,7 +806,7 @@
     <ClInclude Include="UpdateTimerSystem.h">
       <Filter>System\Update\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="TimerComp.hpp">
+    <ClInclude Include="TimerComponent.hpp">
       <Filter>Component\Timer</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAIUtils.hpp">
@@ -854,12 +833,6 @@
     <ClInclude Include="GateManagerComponent.hpp">
       <Filter>Component\Gate</Filter>
     </ClInclude>
-    <ClInclude Include="UpdatebtBoxColliderSystem.h">
-      <Filter>System\Update\Pysics</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdatebtCapsuleColliderSystem.h">
-      <Filter>System\Update\Pysics</Filter>
-    </ClInclude>
     <ClInclude Include="Components.hpp">
       <Filter>Component</Filter>
     </ClInclude>
@@ -869,13 +842,22 @@
     <ClInclude Include="UpdateEnemySightSystem.h">
       <Filter>System\Update\Fan</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyAIAStarComponent.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateComponent.h">
+      <Filter>Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="btCollisionConfig.hpp">
+      <Filter>Component\Pysics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ShadowMap.cso" />
     <None Include="ShapeShadow.cso" />
     <None Include="Toon.cso" />
     <None Include="Default.cso" />
-    <None Include="ItemManagerComp.hpp">
+    <None Include="ItemManagerComponent.hpp">
       <Filter>Component\Item</Filter>
     </None>
   </ItemGroup>

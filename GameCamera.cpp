@@ -11,8 +11,7 @@
 #include "scene.h"
 #include "TransformComponent.hpp"
 #include "PlayerAnimetionComponent.hpp"
-#include "RigitBodyComponent.hpp"
-#include "PlayerStateComp.hpp"
+#include "PlayerStateComponent.hpp"
 #include "TagComp.hpp"
 
 // 名前空間
@@ -39,10 +38,10 @@ void CGameCamera::Init(void)
 void CGameCamera::Update(void)
 {
 	// プレイヤーのコンポーネントを取得
-	auto Playerview = CManager::GetScene()->GetReg().view<PlayerComponent>();
+	auto Playerview = CManager::GetScene()->GetReg().view<Player>();
 	auto PlayerEneity = *Playerview.begin();
-	auto& PlayerAnimCmp = CManager::GetScene()->GetReg().get<PlayerAnimComp>(PlayerEneity);
-	auto& PlayerStateCmp = CManager::GetScene()->GetReg().get<PlayerStateComp>(PlayerEneity);
+	auto& PlayerAnimCmp = CManager::GetScene()->GetReg().get<PlayerAnimComponent>(PlayerEneity);
+	auto& PlayerStateCmp = CManager::GetScene()->GetReg().get<PlayerStateComponent>(PlayerEneity);
 	auto& PlayerTransform = CManager::GetScene()->GetReg().get<Transform3D>(PlayerEneity);
 
 	// デフォルトの視点からプレイヤーまでのベクトル

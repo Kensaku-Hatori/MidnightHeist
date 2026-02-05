@@ -21,7 +21,7 @@
 
 // 名前空間
 using namespace Tag;
-using namespace PauseMenu;
+using namespace PauseMenuConfig;
 
 //*********************************************
 // 更新
@@ -29,13 +29,13 @@ using namespace PauseMenu;
 void UpdatePauseManagerSystem::Update(entt::registry& reg)
 {
 	// ビューを生成
-	auto view = reg.view<PauseManagerComponent>();
+	auto view = reg.view<PauseManager>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& SelectMenuCmp = reg.get<Select2DComp>(entity);
+		auto& SelectMenuCmp = reg.get<Select2DComponent>(entity);
 
 		// ポーズ中じゃなかったら早期リターン
 		if (CSystemManager::IsPause() == false) continue;
@@ -60,16 +60,16 @@ void UpdatePauseManagerSystem::Update(entt::registry& reg)
 void UpdatePauseManagerSystem::UpdatePauseMenu(entt::registry& Reg, entt::entity& Manager)
 {
 	// コンポーネントを取得
-	auto& SelectMenuCmp = Reg.get<Select2DComp>(Manager);
+	auto& SelectMenuCmp = Reg.get<Select2DComponent>(Manager);
 	// ビューを生成
-	auto view = Reg.view<PauseMenuComponent>();
+	auto view = Reg.view<PauseMenu>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& myType = Reg.get<Menu2DComp>(entity);
-		auto& ColorCmp = Reg.get<ColorComp>(entity);
+		auto& myType = Reg.get<Menu2DComponent>(entity);
+		auto& ColorCmp = Reg.get<ColorComponent>(entity);
 		// 白色に設定
 		ColorCmp.Col = WHITE;
 		// 選ばれていなかったら切り上げる
@@ -94,7 +94,7 @@ void UpdatePauseManagerSystem::UpdatePauseMenu(entt::registry& Reg, entt::entity
 void UpdatePauseManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& Menu)
 {
 	// コンポーネントを取得
-	auto& myType = Reg.get<Menu2DComp>(Menu);
+	auto& myType = Reg.get<Menu2DComponent>(Menu);
 	// メニューに応じた処理を実行
 	if (MENUTYPE::CONTINUE == myType.myType)CSystemManager::SetPause(false);
 	else if (MENUTYPE::RETRY == myType.myType)CFade::SetFade(new CGame);

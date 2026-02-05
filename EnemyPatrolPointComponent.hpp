@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// 巡回ポイントのコンポーネント[PatrolPointComp.hpp]
+// 巡回ポイントのコンポーネント[PatrolPointComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -39,9 +39,9 @@ namespace PatrolPoint {
 }
 
 // テクスチャ情報
-struct PatrolPointComp {
+struct PatrolPointComponent {
     // イニシャライズコンストラクタ
-    PatrolPointComp(const std::string& Path,const float Radius) {
+	PatrolPointComponent(const std::string& Path,const float Radius) {
 		// 名前空間
 		using namespace nlohmann;
 		using namespace std;
@@ -100,7 +100,7 @@ struct PatrolPointComp {
 		//}
     };
 	// デストラクタ
-	~PatrolPointComp() {
+	~PatrolPointComponent() {
 		// 配列をクリア
 		PatrolPoint.clear();
 	};

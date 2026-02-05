@@ -9,16 +9,16 @@
 #pragma once
 
 // 頂点バッファ情報
-struct VertexComp {
+struct VertexComponent {
 	// 頂点バッファ
 	LPDIRECT3DVERTEXBUFFER9 pVertex = nullptr;
-	VertexComp() {
+	VertexComponent() {
 		pVertex = nullptr;
 	}
 	// コピー禁止
-	VertexComp& operator=(const VertexComp&) = delete;
+	VertexComponent& operator=(const VertexComponent&) = delete;
 	// デストラクタ
-	~VertexComp() {
+	~VertexComponent() {
 		// 頂点バッファの破棄
 		if (pVertex) { pVertex->Release(); pVertex = nullptr; }
 	}

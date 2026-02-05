@@ -35,9 +35,9 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 	for (auto Entity : view)
 	{
 		// î•ñ‚ğæ“¾
-		auto& VertexCmp = reg.get<VertexComp>(Entity);
-		auto& IdxBuffCmp = reg.get<IndexBufferComp>(Entity);
-		auto& SkyBoxCmp = reg.get<SkyBoxComp>(Entity);
+		auto& VertexCmp = reg.get<VertexComponent>(Entity);
+		auto& IdxBuffCmp = reg.get<IndexBufferComponent>(Entity);
+		auto& SkyBoxCmp = reg.get<SkyBoxComponent>(Entity);
 
 		// ‰ñ“]
 		SkyBoxCmp.Angle += D3DXToRadian(1.0f / 60.0f);

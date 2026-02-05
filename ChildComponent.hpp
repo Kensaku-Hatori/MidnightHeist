@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// 親子関係のコンポーネント[Parent.hpp]
+// 親子関係のコンポーネント[ChildrenComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -9,9 +9,9 @@
 #pragma once
 
 // シンプルな親子関係コンポーネントを宣言
-struct ChildrenComp {
+struct ChildrenComponent {
 	// イニシャライズコンストラクタ
-	ChildrenComp(const std::vector<entt::entity> Children = {}) : Children(Children) {}
+	ChildrenComponent(const std::vector<entt::entity> Children = {}) : Children(Children) {}
 	// 子供のリスト
 	std::vector<entt::entity> Children;
 };

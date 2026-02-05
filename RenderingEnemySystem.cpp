@@ -25,7 +25,7 @@ using namespace Tag;
 void RenderingEnemySystem::Rendering(entt::registry& reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<EnemyComponent>();
+	auto view = reg.view<Enemy>();
 
 	// 物陰描画
 	CShapeShadow::Instance()->Begin();
@@ -45,7 +45,7 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 	{
 		// コンポーネントを取得
 		auto& TransformComp = reg.get<Transform3D>(Entity);
-		auto& RenderingComp = reg.get<XRenderingComp>(Entity);
+		auto& RenderingComp = reg.get<XRenderingComponent>(Entity);
 
 		// デバイス取得
 		CRenderer* pRenderer;
@@ -101,7 +101,7 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 void RenderingEnemySystem::DrawShapeShadowMap(entt::registry& Reg, entt::entity Entity)
 {
 	auto& TransformComp = Reg.get<Transform3D>(Entity);
-	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);
+	auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
 
 	// モデルへのインデックスが-1だったら終わる
 	if (RenderingComp.FilePath.empty() == true) return;

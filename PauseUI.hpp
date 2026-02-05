@@ -9,7 +9,7 @@
 #pragma once
 
 // 名前空間で囲っておく
-namespace PauseMenu {
+namespace PauseMenuConfig {
     // メニューの種類の列挙型
     enum class MENUTYPE : int
     {
@@ -94,7 +94,7 @@ namespace PauseMenu {
     }
 
     // ポーズメニューのテクスチャパス一覧
-    const std::string PathList[static_cast<uint8_t>(PauseMenu::MENUTYPE::MAX)] = {
+    const std::string PathList[static_cast<uint8_t>(PauseMenuConfig::MENUTYPE::MAX)] = {
     "data\\TEXTURE\\Pause\\continue.png",
     "data\\TEXTURE\\Pause\\retry.png",
     "data\\TEXTURE\\Pause\\quit.png",

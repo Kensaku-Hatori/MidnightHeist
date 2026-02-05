@@ -9,7 +9,7 @@
 #pragma once
 
 // インクルード
-#include "PlayerStateComp.hpp"
+#include "PlayerStateComponent.hpp"
 
 namespace PlayerSoundVolumeConfig {
 	static constexpr float Bace = 50.0f;
@@ -18,9 +18,9 @@ namespace PlayerSoundVolumeConfig {
 	};
 }
 // 情報
-struct PlayerSoundVolumeComp {
+struct PlayerSoundVolumeComponent {
 	// コンスタント
-	PlayerSoundVolumeComp(const float _Default = NULL) : SoundVolume(_Default) {}
+	PlayerSoundVolumeComponent(const float _Default = NULL) : SoundVolume(_Default) {}
 	// 光線情報
 	float SoundVolume;
 };

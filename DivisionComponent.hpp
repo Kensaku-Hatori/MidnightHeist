@@ -9,11 +9,11 @@
 #pragma once
 
 // インデックスバッファ情報
-struct DivisionComp {
+struct DivisionComponent {
     // 水平方向の分割数
     int nDivHorizontal;
     // 垂直方向の分割数
     int nDivVertical;
     // コンストラクタ
-    DivisionComp(const int DivH = 1, const int DivV = 1) : nDivHorizontal(DivH), nDivVertical(DivV) {}
+    DivisionComponent(const int DivH = 1, const int DivV = 1) : nDivHorizontal(DivH), nDivVertical(DivV) {}
 };

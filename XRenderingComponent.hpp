@@ -12,9 +12,9 @@
 #include "modelmanager.h"
 
 // X情報
-struct XRenderingComp {
+struct XRenderingComponent {
 	// イニシャライズコンストラクタ
-	XRenderingComp(std::string _Path = {}) : FilePath(_Path) {
+	XRenderingComponent(std::string _Path = {}) : FilePath(_Path) {
 		Info = CModelManager::GetModelInfo(FilePath);
 	};
 	// モデル情報へのパス

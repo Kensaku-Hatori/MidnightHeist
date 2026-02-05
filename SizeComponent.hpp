@@ -12,18 +12,18 @@
 #include "math.h"
 
 // テクスチャ情報
-struct SizeComp {
+struct SizeComponent {
     // イニシャライズコンストラクタ
-    SizeComp(D3DXVECTOR2 _Size = { 1.0f,1.0f }) : Size(_Size) {};
+    SizeComponent(D3DXVECTOR2 _Size = { 1.0f,1.0f }) : Size(_Size) {};
     // ポリゴンの大きさ
     D3DXVECTOR2 Size;
 };
 
 // テクスチャ情報
-struct Size3DComp {
+struct Size3DComponent {
     // イニシャライズコンストラクタ
-    Size3DComp(D3DXVECTOR3 _Size = { 1.0f,1.0f,1.0f }) : Size(_Size) {};
-    Size3DComp(std::string ModelPath) : Size(CMath::CalcModelSize(ModelPath)) {};
+    Size3DComponent(D3DXVECTOR3 _Size = { 1.0f,1.0f,1.0f }) : Size(_Size) {};
+    Size3DComponent(std::string ModelPath) : Size(CMath::CalcModelSize(ModelPath)) {};
     // ポリゴンの大きさ
     D3DXVECTOR3 Size;
 };

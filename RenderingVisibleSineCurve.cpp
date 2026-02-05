@@ -11,7 +11,7 @@
 #include "VertexRenderingComponent.hpp"
 #include "TextureRenderingComponent.h"
 #include "VisibleSineCurve.h"
-#include "VisibleSineCurveComp.hpp"
+#include "VisibleSineCurveComponent.hpp"
 #include "TagComp.hpp"
 #include "manager.h"
 
@@ -37,8 +37,8 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 	for (auto entity : view)
 	{
 		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& VtxComp = reg.get<VertexComp>(entity);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(entity);
+		auto& VtxComp = reg.get<VertexComponent>(entity);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(entity);
 
 		// 頂点バッファをデバイスからデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));

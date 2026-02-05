@@ -10,8 +10,6 @@
 
 // インクルード
 #include "baceRenderingsystem.hpp"
-#include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
 
 // プレイヤーのアップデート
 struct RenderingTitlePlayerSystem : BaceRenderingSystem

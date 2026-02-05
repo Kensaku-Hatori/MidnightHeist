@@ -39,7 +39,7 @@ void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
 	{
 		// コンポーネントを取得
 		auto& TransformComp = reg.get<Transform3D>(Entity);
-		auto& RenderingComp = reg.get<XRenderingComp>(Entity);
+		auto& RenderingComp = reg.get<XRenderingComponent>(Entity);
 
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingComp.FilePath.empty() == true) return;

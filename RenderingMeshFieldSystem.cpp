@@ -23,7 +23,7 @@ using namespace Tag;
 void RenderMehFieldSystem::Rendering(entt::registry& reg)
 {
 	// ビュー生成
-	auto view = reg.view<MeshFieldComponent>();
+	auto view = reg.view<MeshField>();
 
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -35,10 +35,10 @@ void RenderMehFieldSystem::Rendering(entt::registry& reg)
 	{
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& MeshInfo = reg.get<MeshInfoComp>(entity);
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& IdxBuffCmp = reg.get<IndexBufferComp>(entity);
-		auto& TexCmp = reg.get<TexComp>(entity);
+		auto& MeshInfo = reg.get<MeshInfoComponent>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& IdxBuffCmp = reg.get<IndexBufferComponent>(entity);
+		auto& TexCmp = reg.get<TexComponent>(entity);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformCmp.mtxWorld);

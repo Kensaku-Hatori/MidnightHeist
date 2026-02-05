@@ -25,18 +25,18 @@ using namespace Tag;
 void Update3DSystem::Update(entt::registry& reg)
 {
 	// ビューを生成
-	auto view = reg.view<Object3DComponent>();
+	auto view = reg.view<Object3D>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
 		auto& Trans = reg.get<Transform3D>(entity);
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& SizeCmp = reg.get<SizeComp>(entity);
-		auto& ColorCmp = reg.get<ColorComp>(entity);
-		auto& NorCmp = reg.get<NorComp>(entity);
-		auto& UVCmp = reg.get<UVComp>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& SizeCmp = reg.get<SizeComponent>(entity);
+		auto& ColorCmp = reg.get<ColorComponent>(entity);
+		auto& NorCmp = reg.get<NorComponent>(entity);
+		auto& UVCmp = reg.get<UVComponent>(entity);
 
 		VERTEX_3D* pVtx = NULL;
 

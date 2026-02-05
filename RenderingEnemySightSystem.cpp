@@ -27,15 +27,15 @@ void RenderingEnemySightSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// エンテティのリストを取得
-	auto view = reg.view<SightFanComponent>();
+	auto view = reg.view<SightFan>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネント取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& VtxComp = reg.get<VertexComp>(entity);
-		auto& TextureComp = reg.get<TexComp>(entity);
+		auto& VtxComp = reg.get<VertexComponent>(entity);
+		auto& TextureComp = reg.get<TexComponent>(entity);
 
 		// テクスチャを設定
 		pDevice->SetTexture(0, TextureComp.Tex);

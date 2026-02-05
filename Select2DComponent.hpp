@@ -9,10 +9,10 @@
 #pragma once
 
 // テクスチャ情報
-struct Select2DComp {
+struct Select2DComponent {
     // イニシャライズテンプレートコンストラクタ
     template <typename T>
-    Select2DComp(T Default) : SelectMenu(static_cast<int>(Default)) {};
+    Select2DComponent(T Default) : SelectMenu(static_cast<int>(Default)) {};
     // 選んでいるメニュー
     int SelectMenu;
 };

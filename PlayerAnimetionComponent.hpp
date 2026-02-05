@@ -9,9 +9,9 @@
 #pragma once
 
 // プレイヤーの最初のアニメーションの情報
-struct PlayerAnimComp {
+struct PlayerAnimComponent {
 	// コンストラクタ
-	PlayerAnimComp() : IsFinishedBelt(false), IsFinishedBeltOld(false), IsScreen(false), IsFinishedAnim(false), FirstDelayCounter(0), FirstDelayFrame(120) {};
+	PlayerAnimComponent() : IsFinishedBelt(false), IsFinishedBeltOld(false), IsScreen(false), IsFinishedAnim(false), FirstDelayCounter(0), FirstDelayFrame(120) {};
 	// プレイヤーのアニメーション情報
 	int FirstDelayCounter;
 	int FirstDelayFrame;

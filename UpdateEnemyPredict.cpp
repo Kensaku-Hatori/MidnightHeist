@@ -15,42 +15,42 @@
 void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 {
 	// 敵のビュー
-	auto view = reg.view<EnemyComponent, EnemyAIComp>();
+	auto view = reg.view<Enemy, AIComponent,EnemyStateComponent>();
 
 	// パトロールポイントとプレイヤーのビュー
 	auto PatrolManagerview = reg.view<PatrolPointManager>();
-	auto Playerview = reg.view<PlayerComponent>();
+	auto Playerview = reg.view<Player>();
 
 	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
 	if (PatrolManagerview.empty() || Playerview.empty()) return;
 
 	// コンテナにアクセス
-	for (auto [Entity, State] : view.each())
+	for (auto [Entity, AICmp,StateCmp] : view.each())
 	{
 		// 捜索状態以外なら切り上げ
-		if (State.State != EnemyState::ENEMYSTATE::PREDICT) continue;
+		if (StateCmp.State != EnemyState::ENEMYSTATE::PREDICT) continue;
 
 		// 扇情報を取得
-		auto& FanInfoCmp = reg.get<FanComp>(Entity);
+		auto& FanInfoCmp = reg.get<FanComponent>(Entity);
 		// Entityを取得
 		auto PatrolManagerEneity = *PatrolManagerview.begin();
 		auto PlayerEneity = *Playerview.begin();
 		// コンポーネントを取得
-		auto& PatrolPointCmp = reg.get<PatrolPointComp>(PatrolManagerEneity);
+		auto& PatrolPointCmp = reg.get<PatrolPointComponent>(PatrolManagerEneity);
 		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
+		auto& VelocityCmp = reg.get<VelocityComponent>(Entity);
 
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			State.IsBlockedToPlayer == false)
+			AICmp.IsBlockedToPlayer == false)
 		{
 			CGame::AddEnCount();
 			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
+			StateCmp.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
 		}
 
@@ -58,14 +58,14 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		if (RBCmp.Body == nullptr) continue;
 
 		// 経路が見つかっていなかったら
-		if (State.AStarRoute.empty() == true)
+		if (AICmp.AStarRoute.empty() == true)
 		{
-			State.DestPos = PatrolPointCmp.PatrolPoint[State.HalfPatrolRoute[State.NextIdx].Idx].Point;
-			State.State = EnemyState::ENEMYSTATE::SEARCH;
+			AICmp.DestPos = PatrolPointCmp.PatrolPoint[AICmp.HalfPatrolRoute[AICmp.NextIdx].Idx].Point;
+			StateCmp.State = EnemyState::ENEMYSTATE::SEARCH;
 		}
 
 		// 移動量を計算するためのベクトル
-		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
+		D3DXVECTOR3 ToDestPos = AICmp.DestPos - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
@@ -77,27 +77,27 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 		if (D3DXVec3Length(&ToDestPos) < PatrolPointCmp.PointRadius)
 		{
 			// 今の位置を目標の位置にする
-			State.BackIdx++;
-			if (State.AStarRoute.size() == 0) return;
+			AICmp.BackIdx++;
+			if (AICmp.AStarRoute.size() == 0) return;
 
 			// 目標の位置を設定
-			State.BackIdx = Clamp(State.BackIdx, 0, static_cast<int>(State.AStarRoute.size() - 1));
+			AICmp.BackIdx = Clamp(AICmp.BackIdx, 0, static_cast<int>(AICmp.AStarRoute.size() - 1));
 			// エースターのインデックスがサイズオーバーしていてかつ探索が終了していなかったら
-			if (State.BackIdx >= static_cast<int>(State.AStarRoute.size() - 1) && State.IsFinishedAStar == false)
+			if (AICmp.BackIdx >= static_cast<int>(AICmp.AStarRoute.size() - 1) && AICmp.IsFinishedAStar == false)
 			{
 				// 探索が終了していたら
-				State.IsFinishedAStar = true;
+				AICmp.IsFinishedAStar = true;
 				// 目標の位置を設定
-				State.DestPos = State.LastLookPlayerPosition;
+				AICmp.DestPos = AICmp.LastLookPlayerPosition;
 			}
 			// 探索が終了していたら
-			else if (State.IsFinishedAStar == true)
+			else if (AICmp.IsFinishedAStar == true)
 			{
 				// ステートを変更
-				State.State = EnemyState::ENEMYSTATE::BACK;
+				StateCmp.State = EnemyState::ENEMYSTATE::BACK;
 				// リセット
-				State.CoolDownCnt = 0;
-				State.BackIdx = 0;
+				AICmp.CoolDownCnt = 0;
+				AICmp.BackIdx = 0;
 				// 一番近くの障害物をまたがないポイントへのIdx
 				int BestPoint;
 				// Idxを取得
@@ -105,16 +105,16 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 				if (BestPoint < 0) return;
 
 				// 帰るまでの道筋を取得
-				State.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, State.HalfPatrolRoute[State.NowIdx].Idx);
+				AICmp.AStarRoute = CMath::AStar(PatrolPointCmp.PatrolPoint, BestPoint, AICmp.HalfPatrolRoute[AICmp.NowIdx].Idx);
 				// 目標の位置を設定
-				State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
-				State.IsFinishedAStar = false;
+				AICmp.DestPos = PatrolPointCmp.PatrolPoint[AICmp.AStarRoute[AICmp.BackIdx]].Point;
+				AICmp.IsFinishedAStar = false;
 				continue;
 			}
 			else
 			{
 				// 目標の位置を設定
-				State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
+				AICmp.DestPos = PatrolPointCmp.PatrolPoint[AICmp.AStarRoute[AICmp.BackIdx]].Point;
 			}
 		}
 		else
@@ -138,9 +138,8 @@ void UpdateEnemyPredictSystem::UpdateMove(entt::registry& Reg, entt::entity& Ent
 {
 	// 自分自身のコンポーネントを取得
 	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
-	auto& TransformCmp = Reg.get<Transform3D>(Entity);
-	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
-	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
+	auto& VelocityCmp = Reg.get<VelocityComponent>(Entity);
+	auto& CharactorCmp = Reg.get<CharactorComponent>(Entity);
 
 	// 設定
 	RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;

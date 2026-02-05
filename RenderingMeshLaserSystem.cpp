@@ -28,7 +28,7 @@ void RenderMehLaerSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// ビュー生成
-	auto view = reg.view<LaserComponent>();
+	auto view = reg.view<Laser>();
 
 	// ライトの影響を受けない
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -38,9 +38,9 @@ void RenderMehLaerSystem::Rendering(entt::registry& reg)
 	{
 		// 自分自身の情報を取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& MeshInfo = reg.get<MeshInfoComp>(entity);
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& IdxBuffCmp = reg.get<IndexBufferComp>(entity);
+		auto& MeshInfo = reg.get<MeshInfoComponent>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& IdxBuffCmp = reg.get<IndexBufferComponent>(entity);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformCmp.mtxWorld);

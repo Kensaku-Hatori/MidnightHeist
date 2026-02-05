@@ -7,21 +7,20 @@
 
 // インクルード
 #include "UpdateItemSystem.h"
-#include "OutLineComp.hpp"
+#include "OutLineComponent.hpp"
 #include "TagComp.hpp"
-#include "RigitBodyComponent.hpp"
 #include "CapsuleComponent.hpp"
 #include "PlayerAnimetionComponent.hpp"
 #include "ParentComponent.hpp"
 #include "ColorComponent.hpp"
 #include "SizeComponent.hpp"
-#include "LockOnUIAnim.hpp"
+#include "LockOnUIAnimComponent.hpp"
 #include "SystemManager.h"
-#include "ItemComp.h"
-#include "ItemManagerComp.hpp"
+#include "ItemComponent.h"
+#include "ItemManagerComponent.hpp"
 #include "math_T.h"
 #include "TransformComponent.hpp"
-#include "ChildComp.hpp"
+#include "ChildComponent.hpp"
 #include "fade.h"
 #include "Result.h"
 #include "game.h"
@@ -37,7 +36,7 @@ using namespace Tag;
 void UpdateItemSystem::Update(entt::registry& reg)
 {
 	// ビューを取得
-	auto view = reg.view<ItemComponent>();
+	auto view = reg.view<Item>();
 
 	// ゲームシーン中にアイテムがなくなったら
 	if (static_cast<int>(view.size()) <= 0 && CManager::GetScene()->GetMode() == CScene::MODE_GAME  || CManager::GetInputKeyboard()->GetTrigger(DIK_T) == true)
@@ -61,7 +60,7 @@ void UpdateItemSystem::Update(entt::registry& reg)
 		if (CGame::IsFinishedFirstNoise() == false) break;
 
 		// コンポーネントを取得
-		auto& OutLineCmp = reg.get<OutLineComp>(entity);
+		auto& OutLineCmp = reg.get<OutLineComponent>(entity);
 		// アウトラインを徐々に描画
 		OutLineCmp.Height -= 1.0f;
 		// ロックオンアニメーションの更新
@@ -75,25 +74,25 @@ void UpdateItemSystem::Update(entt::registry& reg)
 void UpdateItemSystem::UpdateLockOn(entt::registry& Reg, entt::entity& Entity)
 {
 	// ロックオンが無効だったら
-	if (Reg.valid(Reg.get<ChildrenComp>(Entity).Children[0]) == false) return;
+	if (Reg.valid(Reg.get<ChildrenComponent>(Entity).Children[0]) == false) return;
 
 	// アイテムマネージャーのビューを生成
-	auto ItemMangerView = Reg.view<ItemManagerComp>();
+	auto ItemMangerView = Reg.view<ItemManagerComponent>();
 	// アイテムマネージャーの先頭のエンティティを取得
 	entt::entity ItemManagerEntity = *ItemMangerView.begin();
 	// コンポーネントを取得
-	auto& ItemManagerCmp = Reg.get<ItemManagerComp>(ItemManagerEntity);
+	auto& ItemManagerCmp = Reg.get<ItemManagerComponent>(ItemManagerEntity);
 	// ロックオンのエンティティを取得
-	entt::entity LockOnEntity = Reg.get<ChildrenComp>(Entity).Children[0];
+	entt::entity LockOnEntity = Reg.get<ChildrenComponent>(Entity).Children[0];
 	// ロックオンのコンポーネントを取得
-	auto& LockAnimCmp = Reg.get<LockOnAnimComp>(LockOnEntity);
+	auto& LockAnimCmp = Reg.get<LockOnAnimComponent>(LockOnEntity);
 
 	// 現在フォーカスされているアイテムが自分自身じゃなかったらかつ起動していなかったら
 	if (ItemManagerCmp.ItemLiset[ItemManagerCmp.NowAnimIdx] != Entity && LockAnimCmp.IsBoot == false) return;
 
 	// コンポーネントを取得
-	auto& LockOnSize = Reg.get<SizeComp>(LockOnEntity);
-	auto& LockOnColor = Reg.get<ColorComp>(LockOnEntity);
+	auto& LockOnSize = Reg.get<SizeComponent>(LockOnEntity);
+	auto& LockOnColor = Reg.get<ColorComponent>(LockOnEntity);
 	auto& TransformLockOn = Reg.get<Transform2D>(LockOnEntity);
 
 	// ロックオンの位置を決めるためにコンポーネントを取得

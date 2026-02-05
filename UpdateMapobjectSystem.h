@@ -11,8 +11,6 @@
 // インクルード
 #include "baceUpdatesystem.hpp"
 #include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
-#include "SingleCollisionShapeComponent.hpp"
 #include "SizeComponent.hpp"
 
 // モデルの更新処理

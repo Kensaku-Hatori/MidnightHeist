@@ -9,7 +9,7 @@
 #pragma once
 
 // インクルード
-#include "PlayerStateComp.hpp"
+#include "PlayerStateComponent.hpp"
 
 // 念のため
 namespace StutsConfig {

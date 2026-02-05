@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// アイテム管理のコンポーネント[ItemManagerComp.hpp]
+// アイテム管理のコンポーネント[ItemManagerComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -9,9 +9,9 @@
 #pragma once
 
 // アイテムの情報
-struct ItemManagerComp {
+struct ItemManagerComponent {
 	// コンストラクタ
-	ItemManagerComp(std::vector<entt::entity>& _ItemList) :
+	ItemManagerComponent(std::vector<entt::entity>& _ItemList) :
 		NowAnimIdx(0), ItemLiset(_ItemList), IsFinished(false) {};
 	// アイテム管理に必要な情報
 	int NowAnimIdx;

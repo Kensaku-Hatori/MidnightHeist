@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// 敵の管理のコンポーネント[EnemyManagerComp.hpp]
+// 敵の管理のコンポーネント[EnemyManagerComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -14,9 +14,9 @@
 #include "scene.h"
 
 // テクスチャ情報
-struct EnemyManagerComp {
+struct EnemyManagerComponent {
 	// イニシャライズコンストラクタ
-	EnemyManagerComp(const std::string& Path = "") {
+	EnemyManagerComponent(const std::string& Path = "") {
 		// 名前空間
 		using namespace nlohmann;
 		using namespace std;
@@ -44,7 +44,7 @@ struct EnemyManagerComp {
 		// SetStage配列の中にあるデータを代入存在しなかったら終わる
 		for (const auto& Info : jsonData)
 		{
-			std::vector<EnemyState::PatrolMap> SetInfo;
+			std::vector<BasicAI::PatrolMap> SetInfo;
 			D3DXVECTOR3 Pos;
 			D3DXQUATERNION Quat;
 

@@ -9,9 +9,9 @@
 #pragma once
 
 // 描画順コンポーネントを宣言
-struct LayerComp {
+struct LayerComponent {
 	// イニシャライズコンストラクタ
-	LayerComp(const int Layer = 1) : nLayer(Layer) {}
+	LayerComponent(const int Layer = 1) : nLayer(Layer) {}
 	// 描画順
 	int nLayer;
 };

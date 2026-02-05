@@ -8,8 +8,7 @@
 // インクルード
 #include "UpdateGateManager.h"
 #include "TagComp.hpp"
-#include "ChildComp.hpp"
-#include "RigitBodyComponent.hpp"
+#include "ChildComponent.hpp"
 #include "TransformComponent.hpp"
 #include "GateManagerComponent.hpp"
 #include "Components.hpp"
@@ -34,7 +33,7 @@ void UpdateGateManagerSystem::Update(entt::registry& reg)
 		if (OpenTriggerCmp.m_IsOpenTrigger == false) return;
 
 		// 子供のリストを取得
-		auto& ChildrenCmp = reg.get<ChildrenComp>(entity);
+		auto& ChildrenCmp = reg.get<ChildrenComponent>(entity);
 
 		// アクセス
 		for (int nCnt = 0; nCnt < static_cast<int>(ChildrenCmp.Children.size()); nCnt++)

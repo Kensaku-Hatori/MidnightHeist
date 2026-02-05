@@ -15,49 +15,49 @@
 void UpdateEnemyBackSystem::Update(entt::registry& reg)
 {
 	// 敵のビュー
-	auto view = reg.view<EnemyComponent, EnemyAIComp>();
+	auto view = reg.view<Enemy, AIComponent,EnemyStateComponent>();
 
 	// パトロールポイントとプレイヤーのビュー
 	auto PatrolManagerview = reg.view<PatrolPointManager>();
-	auto Playerview = reg.view<PlayerComponent>();
+	auto Playerview = reg.view<Player>();
 
 	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
 	if (PatrolManagerview.empty() || Playerview.empty()) return;
 
 	// コンテナにアクセス
-	for (auto [Entity, State] : view.each())
+	for (auto [Entity, AICmp,StateCmp] : view.each())
 	{
 		// 捜索状態以外なら切り上げ
-		if (State.State != EnemyState::ENEMYSTATE::BACK) continue;
+		if (StateCmp.State != EnemyState::ENEMYSTATE::BACK) continue;
 
 		// 扇情報を取得
-		auto& FanInfoCmp = reg.get<FanComp>(Entity);
+		auto& FanInfoCmp = reg.get<FanComponent>(Entity);
 		// Entityを取得
 		auto PatrolManagerEneity = *PatrolManagerview.begin();
 		auto PlayerEneity = *Playerview.begin();
 		// コンポーネントを取得
-		auto& PatrolPointCmp = reg.get<PatrolPointComp>(PatrolManagerEneity);
+		auto& PatrolPointCmp = reg.get<PatrolPointComponent>(PatrolManagerEneity);
 		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& VelocityCmp = reg.get<VelocityComp>(Entity);
+		auto& VelocityCmp = reg.get<VelocityComponent>(Entity);
 
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
-			State.IsBlockedToPlayer == false)
+			AICmp.IsBlockedToPlayer == false)
 		{
 			CGame::AddEnCount();
 			// 追いかけモード
-			State.State = EnemyState::ENEMYSTATE::CHASE;
+			StateCmp.State = EnemyState::ENEMYSTATE::CHASE;
 			continue;
 		}
 
 		// 剛体が生成されていたら
 		if (RBCmp.Body == nullptr) continue;
 
-		D3DXVECTOR3 ToDestPos = State.DestPos - TransformCmp.Pos;
+		D3DXVECTOR3 ToDestPos = AICmp.DestPos - TransformCmp.Pos;
 		// Y成分を消す
 		ToDestPos.y = 0.0f;
 		// ベクトルを正規化する用の変数
@@ -69,19 +69,19 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		if (D3DXVec3Length(&ToDestPos) < PatrolPointCmp.PointRadius)
 		{
 			// 今の位置を目標の位置にする
-			State.BackIdx++;
+			AICmp.BackIdx++;
 			// フラグを立てる
-			if (State.BackIdx > static_cast<int>(State.AStarRoute.size() - 1))
+			if (AICmp.BackIdx > static_cast<int>(AICmp.AStarRoute.size() - 1))
 			{
-				State.State = EnemyState::ENEMYSTATE::SEARCH;
-				State.CoolDownCnt = 0;
-				State.BackIdx = 0;
+				StateCmp.State = EnemyState::ENEMYSTATE::SEARCH;
+				AICmp.CoolDownCnt = 0;
+				AICmp.BackIdx = 0;
 				continue;
 			}
 			else
 			{
 				// 目標の位置を設定
-				State.DestPos = PatrolPointCmp.PatrolPoint[State.AStarRoute[State.BackIdx]].Point;
+				AICmp.DestPos = PatrolPointCmp.PatrolPoint[AICmp.AStarRoute[AICmp.BackIdx]].Point;
 			}
 		}
 		else
@@ -105,9 +105,8 @@ void UpdateEnemyBackSystem::UpdateMove(entt::registry& Reg, entt::entity& Entity
 {
 	// 自分自身のコンポーネントを取得
 	auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
-	auto& TransformCmp = Reg.get<Transform3D>(Entity);
-	auto& VelocityCmp = Reg.get<VelocityComp>(Entity);
-	auto& CharactorCmp = Reg.get<CharactorComp>(Entity);
+	auto& VelocityCmp = Reg.get<VelocityComponent>(Entity);
+	auto& CharactorCmp = Reg.get<CharactorComponent>(Entity);
 
 	// 設定
 	RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;

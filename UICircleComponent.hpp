@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct UICircleComp {
+struct UICircleComponent {
     // コンストラクタ
-    UICircleComp(const float _Radius = NULL, const float _MaxFillAngle = D3DX_PI * 2.0f, const float _FillAmount = 0.0f) :
+    UICircleComponent(const float _Radius = NULL, const float _MaxFillAngle = D3DX_PI * 2.0f, const float _FillAmount = 0.0f) :
         FillAmount(_FillAmount), Radius(_Radius), MaxFillAngle(_MaxFillAngle) {};
     // 情報
     float FillAmount;   // 塗りつぶす量

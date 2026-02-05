@@ -19,7 +19,6 @@ struct UpdateEnemySystem : BaceSystem
 	~UpdateEnemySystem() = default;
 	// XV
 	void Update(entt::registry& reg)override;
-	void UpdateRB(entt::registry& Reg, entt::entity& Entity);
 	void UpdateRays(entt::registry& Reg, entt::entity& Entity);
 	void UpdateToPlayerRay(entt::registry& Reg, entt::entity& Entity);
 };

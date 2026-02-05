@@ -21,9 +21,9 @@ namespace PlayerState {
 	};
 }
 // アイテムの情報
-struct PlayerStateComp {
+struct PlayerStateComponent {
 	// コンストラクタ
-	PlayerStateComp() :
+	PlayerStateComponent() :
 		NowState(PlayerState::State::NORMAL), OldState(PlayerState::State::NORMAL) {};
 	// プレイヤーの状態
 	PlayerState::State OldState;

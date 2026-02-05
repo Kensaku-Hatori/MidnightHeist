@@ -20,14 +20,14 @@ using namespace Tag;
 void UpdateEnemySightSystem::Update(entt::registry& reg)
 {
 	// ビュー生成
-	auto view = reg.view<SightFanComponent>();
+	auto view = reg.view<SightFan>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& ColorCmp = reg.get<ColorComp>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& ColorCmp = reg.get<ColorComponent>(entity);
 
 		VERTEX_3D* pVtx = NULL;
 

@@ -12,6 +12,8 @@
 #include "shapeshadow.h"
 #include "toon.h"
 #include "shadowmap.h"
+#include "manager.h"
+#include "TransformComponent.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -31,7 +33,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<PlayerComponent,InGameComp>();
+	auto view = reg.view<Player,InGame>();
 
 	//*********************************************
 	// 物陰マップに書き込みを開始
@@ -58,7 +60,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	{
 		// 情報を取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& RenderingComp = reg.get<XRenderingComp>(entity);
+		auto& RenderingComp = reg.get<XRenderingComponent>(entity);
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);
@@ -111,7 +113,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 void RenderingGamePlayerSystem::RenderingShape(entt::registry& Reg, entt::entity Entity)
 {
 	auto& TransformComp = Reg.get<Transform3D>(Entity);
-	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);
+	auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
 
 	// モデルへのインデックスが-1だったら終わる
 	if (RenderingComp.FilePath.empty() == true) return;

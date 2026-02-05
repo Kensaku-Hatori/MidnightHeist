@@ -405,7 +405,7 @@ int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolP
 	for (int nCnt = 0; nCnt < static_cast<int>(Points.size()); nCnt++)
 	{
 		// ポイントへのレイ
-		RayComp ToPointRay;
+		RayComponent ToPointRay;
 		// 例の向きを正規化するようの変数
 		D3DXVECTOR3 NormalizeToPointVec;
 		// ベクトルを引く
@@ -429,7 +429,7 @@ int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolP
 		for (auto MapObject : MapObjects)
 		{
 			// 当たり判定に必要なコンポーネントを取得
-			auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+			auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComponent>(MapObject);
 			auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 			// 当たったら
@@ -474,7 +474,7 @@ bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, st
 	float DestDistance = D3DXVec3Length(&VecDest);
 
 	// ポイントへのレイ
-	RayComp ToPointRay;
+	RayComponent ToPointRay;
 	// 例の向きを正規化するようの変数
 	D3DXVECTOR3 NormalizeToDestPoint;
 	// 正規化した結果を代入
@@ -494,7 +494,7 @@ bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, st
 	for (auto MapObject : MapObjects)
 	{
 		// 当たり判定に必要なコンポーネントを取得
-		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComponent>(MapObject);
 		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 		// 当たったら
@@ -513,7 +513,7 @@ bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, st
 //***************************************
 // 扇形の中に点が存在するかどうか
 //***************************************
-bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)
+bool CMath::IsPointInFan(const FanComponent Fan, const D3DXVECTOR3 Point)
 {
 	// 距離を計算
 	D3DXVECTOR3 ToPoint = Point - Fan.Origin;
@@ -555,7 +555,7 @@ bool CMath::IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point)
 /// <param name="Ray"><光線の情報>
 /// <param name="Distance"><当たったポリゴンまでの距離>
 /// <returns><当たったかどうか/true = 当たった>
-bool CMath::IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance)
+bool CMath::IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComponent Ray, float* Distance)
 {
 	// モデルのマトリックスの逆行列
 	D3DXMATRIX invWorld;
@@ -600,7 +600,7 @@ bool CMath::IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx
 /// <param name="Ray"><光線の情報>
 /// <param name="Border"><光線の長さ>
 /// <returns><遮られているかどうか/true = 遮られている>
-bool CMath::IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float Border)
+bool CMath::IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComponent Ray, float Border)
 {
 	// モデルのマトリックスの逆行列
 	D3DXMATRIX invWorld;
@@ -643,7 +643,7 @@ bool CMath::IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, 
 /// <param name="Ray"><光線の情報>
 /// <param name="Distance"><当たったメッシュへの最短距離>
 /// <returns><当たったかどうか/true = 当たった>
-bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float* Distance)
+bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComponent Ray, float* Distance)
 {
 	// 当たったかどうか
 	bool Hit = false;
@@ -656,7 +656,7 @@ bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const Ray
 	for (auto MapObject : Objects)
 	{
 		// 当たり判定に必要なコンポーネントを取得
-		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComponent>(MapObject);
 		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 		// 当たったら
@@ -688,7 +688,7 @@ bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const Ray
 /// <param name="Ray"><光線の情報>
 /// <param name="Border"><光線の長さ>
 /// <returns><遮られているかどうか/true = 遮られている>
-bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float Border)
+bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComponent Ray, float Border)
 {
 	// 保存用の距離
 	float NowDistance;
@@ -697,7 +697,7 @@ bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayCo
 	for (auto MapObject : Objects)
 	{
 		// 当たり判定に必要なコンポーネントを取得
-		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComp>(MapObject);
+		auto& XRenderingCmp = CManager::GetScene()->GetReg().get<XRenderingComponent>(MapObject);
 		auto& MapObjectTransCmp = CManager::GetScene()->GetReg().get<Transform3D>(MapObject);
 
 		// 当たったら

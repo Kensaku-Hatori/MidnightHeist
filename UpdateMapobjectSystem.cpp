@@ -27,15 +27,13 @@ using namespace Tag;
 void UpdateMapobjectSystem::Update(entt::registry& reg)
 {
 	// ビューを生成
-	auto view = reg.view<MapObjectComponent>();
+	auto view = reg.view<MapObject>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& RBCmp = reg.get<RigidBodyComponent>(entity);
-		auto& XRenderCmp = reg.get<XRenderingComp>(entity);
+		auto& XRenderCmp = reg.get<XRenderingComponent>(entity);
 
 		// ゴール用オブジェクトだったら
 		if (XRenderCmp.FilePath.find("EXITPlate.x") != std::string::npos)
@@ -52,7 +50,7 @@ void UpdateMapobjectSystem::Update(entt::registry& reg)
 void UpdateMapobjectSystem::CollisionExitGate(entt::registry& Reg, entt::entity MapObject)
 {
 	// ビューを生成
-	auto PlayerView = Reg.view<PlayerComponent, SequenceTag::InGameComp>();
+	auto PlayerView = Reg.view<Player, SequenceTag::InGame>();
 	auto& PlayerEntity = *PlayerView.begin();
 	auto& RBPlayerCmp = Reg.get<RigidBodyComponent>(PlayerEntity);
 

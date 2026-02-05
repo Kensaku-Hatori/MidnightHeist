@@ -29,7 +29,7 @@ void UpdateMtxSystem::Update(entt::registry& Reg)
 {
 	// ビューを生成
 	auto TransformView = Reg.view<Transform3D>();
-	auto ParentView = Reg.view<ParentComp, Transform3D>();
+	auto ParentView = Reg.view<ParentComponent, Transform3D>();
 
 	// アクセス
 	for (auto Entity : TransformView)
@@ -54,14 +54,14 @@ void UpdateMtxSystem::Update(entt::registry& Reg)
 	std::vector<entt::entity> ParentEntityList(ParentView.begin(), ParentView.end());
 	std::sort(ParentEntityList.begin(), ParentEntityList.end(), [&](entt::entity Other, entt::entity Self)
 		{
-			return Reg.get<ParentComp>(Other).nIdx < Reg.get<ParentComp>(Self).nIdx;
+			return Reg.get<ParentComponent>(Other).nIdx < Reg.get<ParentComponent>(Self).nIdx;
 		}
 	);
 	// アクセス
 	for (auto Entity : ParentEntityList)
 	{
 		// コンポーネントを取得
-		auto& ParentCmp = Reg.get<ParentComp>(Entity);
+		auto& ParentCmp = Reg.get<ParentComponent>(Entity);
 		auto& TransformCmp = Reg.get<Transform3D>(Entity);
 		// 有効だったら
 		if (Reg.valid(ParentCmp.Parent) == true)
@@ -81,7 +81,7 @@ void UpdateMtxSystem::OnTransformComponentConstruct(entt::registry& Reg, entt::e
 {
 	// ビューを生成
 	auto TransformView = Reg.view<Transform3D>();
-	auto ParentView = Reg.view<ParentComp, Transform3D>();
+	auto ParentView = Reg.view<ParentComponent, Transform3D>();
 
 	// コンポーネントを取得
 	auto& Transform = Reg.get<Transform3D>(Entity);
@@ -99,10 +99,10 @@ void UpdateMtxSystem::OnTransformComponentConstruct(entt::registry& Reg, entt::e
 	D3DXMatrixMultiply(&Transform.mtxWorld, &Transform.mtxWorld, &Transform.mtxTrans);
 
 	// 親が居たら
-	if (Reg.any_of<ParentComp>(Entity))
+	if (Reg.any_of<ParentComponent>(Entity))
 	{
 		// コンポーネントを取得
-		auto& ParentCmp = Reg.get<ParentComp>(Entity);
+		auto& ParentCmp = Reg.get<ParentComponent>(Entity);
 		auto& TransformCmp = Reg.get<Transform3D>(Entity);
 		// 有効だったら
 		if (Reg.valid(ParentCmp.Parent) == true)

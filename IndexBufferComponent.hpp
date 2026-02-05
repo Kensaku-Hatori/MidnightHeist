@@ -9,15 +9,15 @@
 #pragma once
 
 // インデックスバッファ情報
-struct IndexBufferComp {
+struct IndexBufferComponent {
     // インデックスバッファ
     LPDIRECT3DINDEXBUFFER9 pIdx;
     // コンストラクタ
-    IndexBufferComp() {
+    IndexBufferComponent() {
         pIdx = nullptr;
     }
     // デストラクタ
-    ~IndexBufferComp() {
+    ~IndexBufferComponent() {
         if (pIdx != nullptr) { pIdx->Release(); pIdx = nullptr; };
     }
 };

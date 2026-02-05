@@ -12,7 +12,10 @@
 #include "shapeshadow.h"
 #include "toon.h"
 #include "shadowmap.h"
+#include "manager.h"
+#include "TransformComponent.hpp"
 
+// 名前空間
 using namespace Tag;
 using namespace SequenceTag;
 
@@ -29,14 +32,14 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<PlayerComponent, InTitleComp>();
+	auto view = reg.view<Player, InTitle>();
 
 	// アクセス
-	for (auto entity : view)
+	for (auto [entity] : view.each())
 	{
 		// 情報を取得
 		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& RenderingComp = reg.get<XRenderingComp>(entity);
+		auto& RenderingComp = reg.get<XRenderingComponent>(entity);
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);

@@ -24,7 +24,7 @@ namespace LayerManager
 		// ソートした後の配列用変数
 		std::vector<entt::entity> EntiryList;
 		// レイヤーコンポーネントのビュー
-		auto view = reg.view<LayerComp, Comps...>();
+		auto view = reg.view<LayerComponent, Comps...>();
 		// ビューの大きさ分サイズを確保
 		EntiryList.reserve(view.size_hint());
 
@@ -42,7 +42,7 @@ namespace LayerManager
 			[&](entt::entity EntityA, entt::entity EntityB)
 			{
 				// 条件式
-				return reg.get<LayerComp>(EntityA).nLayer < reg.get<LayerComp>(EntityB).nLayer;
+				return reg.get<LayerComponent>(EntityA).nLayer < reg.get<LayerComponent>(EntityB).nLayer;
 			});
 
 		// 情報を返す

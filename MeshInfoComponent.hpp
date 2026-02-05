@@ -9,7 +9,7 @@
 #pragma once
 
 // インデックスバッファの数情報
-struct MeshInfoComp {
+struct MeshInfoComponent {
     // インデックスバッファの数
     int nNumIdx;
     // 描画するポリゴン数
@@ -17,5 +17,5 @@ struct MeshInfoComp {
     // 頂点バッファの頂点数
     int nNumVtx;
     // コンストラクタ
-    MeshInfoComp(const int DivH = 1, const int DivV = 1) : nNumVtx((DivH + 1)* (DivV + 1)), nNumIdx((2 * DivH * DivV + (DivV - 1) * 4) + 2), nNumPoly(nNumIdx - 2) {}
+    MeshInfoComponent(const int DivH = 1, const int DivV = 1) : nNumVtx((DivH + 1)* (DivV + 1)), nNumIdx((2 * DivH * DivV + (DivV - 1) * 4) + 2), nNumPoly(nNumIdx - 2) {}
 };

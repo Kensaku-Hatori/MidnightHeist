@@ -8,13 +8,13 @@
 // インクルード
 #include "UpdateTimerSystem.h"
 #include "TagComp.hpp"
-#include "TimerComp.hpp"
-#include "ChildComp.hpp"
+#include "TimerComponent.hpp"
+#include "ChildComponent.hpp"
 #include "Factories.h"
 #include "TransformComponent.hpp"
 #include "UVComponent.hpp"
 #include "SizeComponent.hpp"
-#include "RenderFragComp.hpp"
+#include "RenderFragComponent.hpp"
 
 // 名前空間
 using namespace Tag;
@@ -25,15 +25,15 @@ using namespace Tag;
 void UpdateTimerSystem::Update(entt::registry& reg)
 {
 	// ビューを作成
-	auto view = reg.view<TimerComponent>();
+	auto view = reg.view<Timer>();
 	// アクセス
 	for (auto Entity : view)
 	{
 		// コンポーネントを取得
 		auto& Trans = reg.get<Transform2D>(Entity);
-		auto& TimerCmp = reg.get<TimerComp>(Entity);
-		auto& Children = reg.get<ChildrenComp>(Entity);
-		auto& RenderFragCmp = reg.get<RenderFragComp>(Entity);
+		auto& TimerCmp = reg.get<TimerComponent>(Entity);
+		auto& Children = reg.get<ChildrenComponent>(Entity);
+		auto& RenderFragCmp = reg.get<RenderFragComponent>(Entity);
 
 		// 一時変数に代入
 		int Time = TimerCmp.nData;
@@ -55,7 +55,7 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 		{
 			D3DXVECTOR2 SettPos = Trans.Pos - (TimerCmp.DigitOffset * static_cast<float>(static_cast<int>(Children.Children.size() + 1)));
 			Children.Children.push_back(Factories::makeObject2D(reg, 4, "data/TEXTURE/number001.png", SettPos, TimerCmp.DigitSize));
-			reg.emplace<RenderFragComp>(Children.Children.back());
+			reg.emplace<RenderFragComponent>(Children.Children.back());
 			continue;
 		}
 
@@ -75,10 +75,10 @@ void UpdateTimerSystem::Update(entt::registry& reg)
 		for (int nCount = 0; nCount < TimerCmp.nDigitNum; nCount++)
 		{
 			// コンポーネントを取得
-			auto& UVCmp = reg.get<UVComp>(Children.Children[nCount]);
+			auto& UVCmp = reg.get<UVComponent>(Children.Children[nCount]);
 			auto& TransDigit = reg.get<Transform2D>(Children.Children[nCount]);
-			auto& SizeCmp = reg.get<SizeComp>(Children.Children[nCount]);
-			auto& NumberRenderFragCmp = reg.get<RenderFragComp>(Children.Children[nCount]);
+			auto& SizeCmp = reg.get<SizeComponent>(Children.Children[nCount]);
+			auto& NumberRenderFragCmp = reg.get<RenderFragComponent>(Children.Children[nCount]);
 
 			// 描画フラグを設定
 			NumberRenderFragCmp.IsRendering = RenderFragCmp.IsRendering;

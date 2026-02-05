@@ -48,8 +48,6 @@
 #include "UpdateTimerSystem.h"
 #include "UpdateStutsAnimSystem.h"
 #include "UpdateGateManager.h"
-#include "UpdatebtBoxColliderSystem.h"
-#include "UpdatebtCapsuleColliderSystem.h"
 #include "UpdateRigidBodySystem.h"
 #include "UpdateEnemySightSystem.h"
 
@@ -194,8 +192,6 @@ void CManager::InitSystems(void)
 	// 更新システムを追加
 	CSystemManager::AddUpdateSystem(new UpdateMtxSystem);
 	CSystemManager::AddUpdateSystem(new UpdateRigidBodySystem);
-	CSystemManager::AddUpdateSystem(new UpdatebtBoxColliderSystem);
-	CSystemManager::AddUpdateSystem(new UpdatebtCapsuleColliderSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyChaseSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemyPredictSystem);
 	CSystemManager::AddUpdateSystem(new UpdateEnemySearchSystem);

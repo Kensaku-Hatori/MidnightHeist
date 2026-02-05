@@ -13,7 +13,7 @@
 #include "VertexRenderingComponent.hpp"
 #include "TextureRenderingComponent.h"
 #include "LayerManager.hpp"
-#include "RenderFragComp.hpp"
+#include "RenderFragComponent.hpp"
 
 using namespace Tag;
 
@@ -28,20 +28,20 @@ void Render2DSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// 描画が整理されたリストを取得
-	auto Entitys = LayerManager::GetSortEntityList<Object2DComponent>(reg);
+	auto Entitys = LayerManager::GetSortEntityList<Object2D>(reg);
 
 	// アクセス
 	for (auto List : Entitys)
 	{
 		// コンポーネントが存在したら
-		if (reg.any_of<RenderFragComp>(List) == true)
+		if (reg.any_of<RenderFragComponent>(List) == true)
 		{
 			// 描画フラグを確認
-			if (reg.get<RenderFragComp>(List).IsRendering == false) continue;
+			if (reg.get<RenderFragComponent>(List).IsRendering == false) continue;
 		}
 		// コンポーネント取得
-		auto& VtxComp = reg.get<VertexComp>(List);
-		auto& TextureComp = reg.get<TexComp>(List);
+		auto& VtxComp = reg.get<VertexComponent>(List);
+		auto& TextureComp = reg.get<TexComponent>(List);
 
 		// 頂点バッファが生成されていなかったら
 		if (VtxComp.pVertex == nullptr) continue;

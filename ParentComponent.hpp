@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// 親子関係のコンポーネント[Parent.hpp]
+// 親子関係のコンポーネント[ParentComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -9,9 +9,9 @@
 #pragma once
 
 // シンプルな親子関係コンポーネントを宣言
-struct ParentComp {
+struct ParentComponent {
 	// イニシャライズコンストラクタ
-	ParentComp(const entt::entity ParentEntity = entt::null) : Parent(ParentEntity) {
+	ParentComponent(const entt::entity ParentEntity = entt::null) : Parent(ParentEntity) {
 		static int Idx = 0;
 		nIdx = Idx;
 		Idx++;

@@ -28,17 +28,17 @@ using namespace Tag;
 void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 {
 	// レーザのビューを生成
-	auto view = Reg.view<LaserComponent>();
+	auto view = Reg.view<Laser>();
 	// マップオブジェクトのビューを生成
-	auto viewMapObject = Reg.view<MapObjectComponent>();
+	auto viewMapObject = Reg.view<MapObject>();
 
 	// レーザーにアクセス
 	for (auto entity : view)
 	{
 		// 親がいなかったら
-		if (Reg.get<ParentComp>(entity).Parent == entt::null) continue;
+		if (Reg.get<ParentComponent>(entity).Parent == entt::null) continue;
 		// コンポーネントを取得
-		auto& SizeCmp = Reg.get<SizeComp>(entity);
+		auto& SizeCmp = Reg.get<SizeComponent>(entity);
 
 		// モデルとマウスの当たり判定用の距離
 		float Distance, CurrentDistance;
@@ -50,7 +50,7 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 		// 昔の距離を初期化
 		CurrentDistance = 0.0f;
 
-		auto PlayerView = Reg.view<PlayerComponent>();
+		auto PlayerView = Reg.view<Player>();
 		// プレイヤーが存在したら
 		if (!PlayerView.empty() && CManager::GetScene()->GetMode() == CScene::MODE_GAME)
 		{
@@ -90,9 +90,9 @@ void UpdateMeshLaserSystem::Update(entt::registry& Reg)
 void UpdateMeshLaserSystem::UpdateVertex(entt::registry& Reg, entt::entity Entity)
 {
 	// コンポーネントを取得
-	auto& VtxCmp = Reg.get<VertexComp>(Entity);
-	auto& DivCmp = Reg.get<DivisionComp>(Entity);
-	auto& SizeCmp = Reg.get<SizeComp>(Entity);
+	auto& VtxCmp = Reg.get<VertexComponent>(Entity);
+	auto& DivCmp = Reg.get<DivisionComponent>(Entity);
+	auto& SizeCmp = Reg.get<SizeComponent>(Entity);
 
 	//頂点情報へのポインタ
 	VERTEX_3D* pVtx = NULL;
@@ -151,11 +151,11 @@ bool UpdateMeshLaserSystem::CollisionEntity(entt::registry& Reg, entt::entity En
 {
 	// マップオブジェクトのコンポーネントを取得
 	auto& TransformCmp = Reg.get<Transform3D>(ToEntity);
-	auto& ModelInfo = Reg.get<XRenderingComp>(ToEntity);
+	auto& ModelInfo = Reg.get<XRenderingComponent>(ToEntity);
 
 	// 自分自身のコンポーネントを取得
 	auto& LaserTrans = Reg.get<Transform3D>(Entity);
-	auto& Parent = Reg.get<ParentComp>(Entity);
+	auto& Parent = Reg.get<ParentComponent>(Entity);
 	auto& EnemyTranf = Reg.get<Transform3D>(Parent.Parent);
 
 	// 親のワールドマトリックスとかけ合わせたマトリックス

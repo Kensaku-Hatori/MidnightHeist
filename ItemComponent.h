@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// アイテムのコンポーネント[ItemComp.hpp]
+// アイテムのコンポーネント[ItemComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -16,9 +16,9 @@ namespace ItemConfig {
 	static constexpr float Ratio = 1.0f / nFramePicking;
 }
 // アイテムの情報
-struct ItemComp {
+struct ItemComponent {
 	// コンストラクタ
-	ItemComp(const float _InteractSize = NULL) :
+	ItemComponent(const float _InteractSize = NULL) :
 		nCntPicking(0), InteractSize(_InteractSize) {};
 	// 解錠の進行度
 	int nCntPicking;

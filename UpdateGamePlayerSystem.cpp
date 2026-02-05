@@ -8,35 +8,33 @@
 // インクルード
 #include "UpdateGamePlayerSystem.h"
 #include "TransformComponent.hpp"
-#include "RigitBodyComponent.hpp"
-#include "SingleCollisionShapeComponent.hpp"
-#include "OutLineComp.hpp"
+#include "OutLineComponent.hpp"
 #include "Velocity.hpp"
 #include "TagComp.hpp"
 #include "CapsuleComponent.hpp"
 #include "PlayerAnimetionComponent.hpp"
-#include "LockOnUIAnim.hpp"
+#include "LockOnUIAnimComponent.hpp"
 #include "ParentComponent.hpp"
 #include "SizeComponent.hpp"
 #include "ColorComponent.hpp"
 #include "SystemManager.h"
 #include "game.h"
-#include "ItemComp.h"
-#include "PlayerStateComp.hpp"
-#include "RenderFragComp.hpp"
-#include "UICircleComp.hpp"
-#include "ItemManagerComp.hpp"
-#include "PlayerSoundVolumeComp.hpp"
-#include "VisibleSineCurveComp.hpp"
+#include "ItemComponent.h"
+#include "PlayerStateComponent.hpp"
+#include "RenderFragComponent.hpp"
+#include "UICircleComponent.hpp"
+#include "ItemManagerComponent.hpp"
+#include "PlayerSoundVolumeComponent.hpp"
+#include "VisibleSineCurveComponent.hpp"
 #include "mapmanager.h"
 #include "math_T.h"
 #include "Sound3D.h"
-#include "ChildComp.hpp"
-#include "CharactorComp.hpp"
+#include "ChildComponent.hpp"
+#include "CharactorComponent.hpp"
 #include "fade.h"
 #include "Sound2D.h"
 #include "math.h"
-#include "EnemySoundListener.hpp"
+#include "EnemySoundListenerComponent.hpp"
 #include "Components.hpp"
 
 // 名前空間
@@ -48,17 +46,17 @@ using namespace SequenceTag;
 //*********************************************
 void UpdateGamePlayerSystem::Update(entt::registry& reg)
 {
-	auto view = reg.view<PlayerComponent, InGameComp>();
+	auto view = reg.view<Player, InGame>();
 
 	for (auto [entity] : view.each())
 	{
 		// コンポーネント取得
 		auto& TransformCmp = reg.get<Transform3D>(entity);
 		auto& RBCmp = reg.get<RigidBodyComponent>(entity);
-		auto& OutLineCmp = reg.get<OutLineComp>(entity);
-		auto& AnimCmp = reg.get<PlayerAnimComp>(entity);
-		auto& StateCmp = reg.get<PlayerStateComp>(entity);
-		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(entity);
+		auto& OutLineCmp = reg.get<OutLineComponent>(entity);
+		auto& AnimCmp = reg.get<PlayerAnimComponent>(entity);
+		auto& StateCmp = reg.get<PlayerStateComponent>(entity);
+		auto& SoundCmp = reg.get<PlayerSoundVolumeComponent>(entity);
 
 		if (RBCmp.Body == nullptr) continue;
 
@@ -72,9 +70,8 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		SoundCmp.SoundVolume = PlayerSoundVolumeConfig::Bace * PlayerSoundVolumeConfig::Scale[static_cast<int>(StateCmp.NowState)];
 
 		// 円形UIの情報を取得
-		auto& Parents = reg.get<ChildrenComp>(entity);
-		auto& CircleRenderFrag = reg.get<RenderFragComp>(Parents.Children[1]);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(Parents.Children[2]);
+		auto& Parents = reg.get<ChildrenComponent>(entity);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(Parents.Children[2]);
 
 		// 発している範囲を設定
 		SineCurveCmp.Radius = SoundCmp.SoundVolume;
@@ -107,11 +104,11 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 			UpdateState(reg, entity);
 		}
 		// アイテムマネージャーのビューを生成
-		auto ItemMangerView = reg.view<ItemManagerComp>();
+		auto ItemMangerView = reg.view<ItemManagerComponent>();
 		// エンティティを取得
 		entt::entity ItemManagerEntity = *ItemMangerView.begin();
 		// コンポーネントを取得
-		auto& ItemManagerCmp = reg.get<ItemManagerComp>(ItemManagerEntity);
+		auto& ItemManagerCmp = reg.get<ItemManagerComponent>(ItemManagerEntity);
 
 		// ベルトコンベアの上に乗っていたら
 		if (AnimCmp.IsFinishedBelt == false && ItemManagerCmp.IsFinished == true)
@@ -148,9 +145,9 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	// コンポーネント取得
 	auto& RBCmp = reg.get<RigidBodyComponent>(Player);
 	auto& Trans = reg.get<Transform3D>(Player);
-	auto& PlayerStateCmp = reg.get<PlayerStateComp>(Player);
-	auto& CharactorCmp = reg.get<CharactorComp>(Player);
-	auto& OutLineCmp = reg.get<OutLineComp>(Player);
+	auto& PlayerStateCmp = reg.get<PlayerStateComponent>(Player);
+	auto& CharactorCmp = reg.get<CharactorComponent>(Player);
+	auto& OutLineCmp = reg.get<OutLineComponent>(Player);
 
 	// 早期リターン
 	if (RBCmp.Body == nullptr) return;
@@ -249,7 +246,7 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	{
 		PlayerStateCmp.NowState = PlayerState::State::NORMAL;
 		// コンポーネントを取得
-		auto& SoundCmp = reg.get<PlayerSoundVolumeComp>(Player);
+		auto& SoundCmp = reg.get<PlayerSoundVolumeComponent>(Player);
 		// プレイヤーが発する音
 		SoundCmp.SoundVolume = 0.0f;
 	}
@@ -267,15 +264,15 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 void UpdateGamePlayerSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 {
 	// ロックオンが無効だったら
-	if (reg.valid(reg.get<ChildrenComp>(Player).Children[0]) == false) return;
+	if (reg.valid(reg.get<ChildrenComponent>(Player).Children[0]) == false) return;
 
 	// ロックオンエンティティを取得
-	entt::entity LockOnEntity = reg.get<ChildrenComp>(Player).Children[0];
+	entt::entity LockOnEntity = reg.get<ChildrenComponent>(Player).Children[0];
 
 	// ロックオンエンティティのコンポーネントを取得
-	auto& LockAnimCmp = reg.get<LockOnAnimComp>(LockOnEntity);
-	auto& LockOnSize = reg.get<SizeComp>(LockOnEntity);
-	auto& LockOnColor = reg.get<ColorComp>(LockOnEntity);
+	auto& LockAnimCmp = reg.get<LockOnAnimComponent>(LockOnEntity);
+	auto& LockOnSize = reg.get<SizeComponent>(LockOnEntity);
+	auto& LockOnColor = reg.get<ColorComponent>(LockOnEntity);
 	auto& TransformLockOn = reg.get<Transform2D>(LockOnEntity);
 	// ロックオンの位置を決めるためにコンポーネントを取得
 	auto& RBCmp = reg.get<RigidBodyComponent>(Player);
@@ -367,8 +364,8 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 	auto ItemView = Reg.view<ItemComponent>();
 
 	// 円形UIの情報を取得
-	auto& CircleEntity = Reg.get<ChildrenComp>(Player);
-	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Children[1]);
+	auto& CircleEntity = Reg.get<ChildrenComponent>(Player);
+	auto& CircleCmp = Reg.get<UICircleComponent>(CircleEntity.Children[1]);
 
 	// 描画フラグを設定する用のフラグ
 	bool IsRenderingLocalFrag = false;
@@ -378,8 +375,8 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 	{
 		// 自分自身のコンポーネントを取得
 		auto& RBCmp = Reg.get<RigidBodyComponent>(entity);
-		auto& ItemCmp = Reg.get<ItemComp>(entity);
-		auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
+		auto& ItemCmp = Reg.get<ItemComponent>(entity);
+		auto& PlayerStateCmp = Reg.get<PlayerStateComponent>(Player);
 
 		// コンポーネントを取得
 		auto& PlayerRBCmp = Reg.get<RigidBodyComponent>(Player);
@@ -437,7 +434,7 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 		CircleCmp.FillAmount = ItemConfig::Ratio * ItemCmp.nCntPicking;
 	}
 	// 円形UIの情報を取得
-	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Children[1]);
+	auto& CircleRenderFrag = Reg.get<RenderFragComponent>(CircleEntity.Children[1]);
 	CircleRenderFrag.IsRendering = IsRenderingLocalFrag;
 }
 
@@ -447,16 +444,14 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Player)
 {
 	// 状態コンポーネントを取得
-	auto& PlayerStateCmp = Reg.get<PlayerStateComp>(Player);
+	auto& PlayerStateCmp = Reg.get<PlayerStateComponent>(Player);
 	// 円の中心点をプレイヤーの座標基準に設定
 	D3DXVECTOR3 CirlcePos = VEC3_NULL;
 	// 少し上にあげる
 	CirlcePos.y += 100.0f;
 	// 円形UIの情報を取得
-	auto& CircleEntity = Reg.get<ChildrenComp>(Player);
+	auto& CircleEntity = Reg.get<ChildrenComponent>(Player);
 	auto& CircleTransform = Reg.get<Transform3D>(CircleEntity.Children[1]);
-	auto& CircleRenderFrag = Reg.get<RenderFragComp>(CircleEntity.Children[1]);
-	auto& CircleCmp = Reg.get<UICircleComp>(CircleEntity.Children[1]);
 
 	// ステートによって処理を分ける
 	switch (PlayerStateCmp.NowState)
@@ -484,9 +479,9 @@ void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Playe
 void UpdateGamePlayerSystem::UpdateToEnemyVibration(entt::registry& Reg, entt::entity Player)
 {
 	// 敵のビュー
-	auto EnemyView = Reg.view<EnemyComponent>();
+	auto EnemyView = Reg.view<Enemy>();
 	auto& PlayerTransformCmp = Reg.get<Transform3D>(Player);
-	auto& PlayerSoundVolumeCmp = Reg.get<PlayerSoundVolumeComp>(Player);
+	auto& PlayerSoundVolumeCmp = Reg.get<PlayerSoundVolumeComponent>(Player);
 
 	float MinDistance = FLT_MAX;
 	float Range = 0.0f;
@@ -494,7 +489,7 @@ void UpdateGamePlayerSystem::UpdateToEnemyVibration(entt::registry& Reg, entt::e
 	for (auto Entity : EnemyView)
 	{
 		auto& EnemyTransform = Reg.get<Transform3D>(Entity);
-		auto& EnemyListenerCmp = Reg.get<EnemyListenerComp>(Entity);
+		auto& EnemyListenerCmp = Reg.get<EnemyListenerComponent>(Entity);
 
 		D3DXVECTOR3 ToEnemyVec = EnemyTransform.Pos - PlayerTransformCmp.Pos;
 		float NowDistance = D3DXVec3Length(&ToEnemyVec);

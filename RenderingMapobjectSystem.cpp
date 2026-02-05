@@ -12,6 +12,8 @@
 #include "shadowmap.h"
 #include "toon.h"
 #include "shapeshadow.h"
+#include "TransformComponent.hpp"
+#include "manager.h"
 
 using namespace Tag;
 
@@ -21,7 +23,7 @@ using namespace Tag;
 void RenderingMapobjectSystem::Rendering(entt::registry& reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<MapObjectComponent>();
+	auto view = reg.view<MapObject>();
 
 	// 影を付けて描画
 	CToon::Instance()->Begin();
@@ -39,7 +41,7 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 {
 	// コンポーネントを取得
 	auto& TransformComp = Reg.get<Transform3D>(Entity);
-	auto& RenderingComp = Reg.get<XRenderingComp>(Entity);
+	auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
 
 	// モデルへのインデックスが-1だったら終わる
 	if (RenderingComp.FilePath.empty() == true) return;

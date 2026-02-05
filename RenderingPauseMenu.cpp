@@ -33,14 +33,14 @@ void RenderingPauseMenuSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// エンテティのリストを取得
-	auto Entitys = LayerManager::GetSortEntityList<LayerComp,PauseMenuComponent>(reg);
+	auto Entitys = LayerManager::GetSortEntityList<LayerComponent,PauseMenu>(reg);
 
 	// アクセス
 	for (auto List : Entitys)
 	{
 		// コンポーネント取得
-		auto& VtxComp = reg.get<VertexComp>(List);
-		auto& TextureComp = reg.get<TexComp>(List);
+		auto& VtxComp = reg.get<VertexComponent>(List);
+		auto& TextureComp = reg.get<TexComponent>(List);
 
 		// 頂点バッファが生成されていなかったら
 		if (VtxComp.pVertex == nullptr) continue;

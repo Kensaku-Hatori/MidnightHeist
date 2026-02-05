@@ -7,7 +7,7 @@
 
 // インクルード
 #include "RenderingOutLineSystem.h"
-#include "OutLineComp.hpp"
+#include "OutLineComponent.hpp"
 #include "TagComp.hpp"
 #include "TransformComponent.hpp"
 #include "XRenderingComponent.hpp"
@@ -44,8 +44,8 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 	{
 		// コンポーネントを取得
 		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& RenderingCmp = reg.get<XRenderingComp>(Entity);
-		auto& OutLineCmp = reg.get<OutLineComp>(Entity);
+		auto& RenderingCmp = reg.get<XRenderingComponent>(Entity);
+		auto& OutLineCmp = reg.get<OutLineComponent>(Entity);
 
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingCmp.FilePath.empty() == true) return;

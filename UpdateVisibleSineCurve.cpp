@@ -11,7 +11,7 @@
 #include "TextureRenderingComponent.h"
 #include "UVComponent.hpp"
 #include "ColorComponent.hpp"
-#include "VisibleSineCurveComp.hpp"
+#include "VisibleSineCurveComponent.hpp"
 #include "TagComp.hpp"
 #include "math_T.h"
 
@@ -30,10 +30,10 @@ void UpdateVisibleSineCurveSystem::Update(entt::registry& reg)
 	for (auto entity : view)
 	{
 		// 情報取得
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& ColorCmp = reg.get<ColorComp>(entity);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComp>(entity);
-		auto& UVCmp = reg.get<UVComp>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& ColorCmp = reg.get<ColorComponent>(entity);
+		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(entity);
+		auto& UVCmp = reg.get<UVComponent>(entity);
 
 		// カウンタを進める
 		SineCurveCmp.nCntSineCurve = Clamp(SineCurveCmp.nCntSineCurve + 1, 0, INT_MAX);

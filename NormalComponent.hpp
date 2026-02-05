@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct NorComp {
+struct NorComponent {
 	// イニシャライズコンストラクタ
-	NorComp(D3DXVECTOR3 _Nor = VEC3_NULL) : Nor(_Nor) {};
+	NorComponent(D3DXVECTOR3 _Nor = VEC3_NULL) : Nor(_Nor) {};
 	// 法線
 	D3DXVECTOR3 Nor;
 };

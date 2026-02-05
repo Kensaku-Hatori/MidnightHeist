@@ -13,11 +13,11 @@
 #include "mapmanager.h"
 #include "Factories.h"
 #include "SystemManager.h"
-#include "EnemyAIComponent.hpp"
+#include "AIComponent.hpp"
 #include "distortion.h"
 #include "GameCamera.h"
 #include "Sound2D.h"
-#include "RigitBodyComponent.hpp"
+#include "btCollisionConfig.hpp"
 
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
 bool CGame::m_IsFinishedFirstNoise = false;

@@ -14,7 +14,7 @@
 #include "FanInfoComponent.hpp"
 #include "XRenderingComponent.hpp"
 #include "RayComponent.hpp"
-#include "EnemyPatrolPointComp.hpp"
+#include "EnemyPatrolPointComponent.hpp"
 
 // ÉNÉâÉXÇíËã`
 class CMath
@@ -48,11 +48,11 @@ public:
 	static D3DXMATRIX CalcInverseMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat);
 	// èåèéÆ
 	static bool IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, std::vector<entt::entity>& MapObjects);
-	static bool IsPointInFan(const FanComp Fan, const D3DXVECTOR3 Point);
-	static bool IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float* Distance = nullptr);
-	static bool IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComp Ray, float Border = 0.0f);
-	static bool IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float* Distance = nullptr);
-	static bool IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComp Ray, float Border = 0.0f);
+	static bool IsPointInFan(const FanComponent Fan, const D3DXVECTOR3 Point);
+	static bool IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComponent Ray, float* Distance = nullptr);
+	static bool IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComponent Ray, float Border = 0.0f);
+	static bool IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComponent Ray, float* Distance = nullptr);
+	static bool IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComponent Ray, float Border = 0.0f);
 	static bool IsValidVector(const D3DXVECTOR3& Condition);
 	static bool IsValidVector(const btVector3& Condition);
 	static bool IsValidScaler(const float Condition);

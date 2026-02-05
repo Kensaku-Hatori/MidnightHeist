@@ -12,41 +12,52 @@
 #include "Sound3D.h"
 
 // 念のため
-namespace EnemyState {
+namespace PatrolPoint {
 	struct PatrolMap {
 		// そのポイントへのIdx
 		int Idx;
 		// そのポイントに滞在する時間
 		int CoolDown;
 	};
-	// ステートの列挙型
-	enum class ENEMYSTATE
-	{
-		NONE = 0,
-		CHASE,
-		PREDICT,
-		SEARCH,
-		BACK,
-		MAX
-	};
 	// プレイヤーの位置のエラー値を設定
 	static const D3DXVECTOR3 InvalidPlayerPosition = { 0.0f,-100000.0f,0.0f };
+
+	// 一つの巡回ポイントの構造体
+	struct PatrolPointInfo
+	{
+		// 位置
+		D3DXVECTOR3 Point;
+		// 移動できる隣接ノードへのIdx
+		std::vector<int> CanMove;
+		// 自分自身のIdx
+		int Idx;
+	};
+	// エースター用の構造体
+	struct PatrolPointInfoForAStar
+	{
+		// 自分自身のIdx
+		int Idx;
+		// 自分自身のノードの親
+		int Parent;
+		// スタート地点からゴールまでのコスト
+		// 今の位置からゴールまでのコスト
+		// ヒューリスティック関数のコスト
+		float StartGoalCost, MyGoalCost, Heuristic;
+	};
 }
 
 // 敵のステートコンポーネント
-struct EnemyAIComp {
+struct PatrolAIComponent {
 	// コンストラクタ
-	EnemyAIComp(EnemyState::ENEMYSTATE Default, std::vector<EnemyState::PatrolMap>& _PointList) :
-		State(Default), LastLookPlayerPosition(VEC3_NULL), HalfPatrolRoute(_PointList), NowIdx(-1), NextIdx(NowIdx + 1), IsFinish(false), CoolDownCnt(0), BackIdx(0) {};
-	~EnemyAIComp() {
+	PatrolAIComponent(std::vector<PatrolPoint::PatrolMap>& _PointList) :
+		LastLookPlayerPosition(VEC3_NULL), HalfPatrolRoute(_PointList), NowIdx(-1), NextIdx(NowIdx + 1), IsFinish(false), CoolDownCnt(0), BackIdx(0) {};
+	~PatrolAIComponent() {
 		if (Emitter != nullptr) Emitter->Uninit();
 	}
-	// 管理者
-	EnemyState::ENEMYSTATE State;
 	// 最後に見たプレイヤーの位置
 	D3DXVECTOR3 LastLookPlayerPosition;
 	// 半周分の巡回ポイント
-	std::vector<EnemyState::PatrolMap> HalfPatrolRoute;
+	std::vector<PatrolPoint::PatrolMap> HalfPatrolRoute;
 	// 復帰用の巡回ポイントIdx記憶用
 	std::vector<int> AStarRoute;
 	// AStarが終わったかどうか

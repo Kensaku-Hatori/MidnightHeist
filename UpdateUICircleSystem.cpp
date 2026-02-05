@@ -13,7 +13,7 @@
 #include "ColorComponent.hpp"
 #include "NormalComponent.hpp"
 #include "UVComponent.hpp"
-#include "UICircleComp.hpp"
+#include "UICircleComponent.hpp"
 #include "math_T.h"
 
 // 名前空間
@@ -25,18 +25,18 @@ using namespace Tag;
 void UpdateUICircleSystem::Update(entt::registry& reg)
 {
 	// ビュー作成
-	auto view = reg.view<UICircleComponent>();
+	auto view = reg.view<UICircle>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// 情報を取得
-		auto& VtxCmp = reg.get<VertexComp>(entity);
-		auto& SizeCmp = reg.get<SizeComp>(entity);
-		auto& ColorCmp = reg.get<ColorComp>(entity);
-		auto& NorCmp = reg.get<NorComp>(entity);
-		auto& UVCmp = reg.get<UVComp>(entity);
-		auto& UICircleCmp = reg.get<UICircleComp>(entity);
+		auto& VtxCmp = reg.get<VertexComponent>(entity);
+		auto& SizeCmp = reg.get<SizeComponent>(entity);
+		auto& ColorCmp = reg.get<ColorComponent>(entity);
+		auto& NorCmp = reg.get<NorComponent>(entity);
+		auto& UVCmp = reg.get<UVComponent>(entity);
+		auto& UICircleCmp = reg.get<UICircleComponent>(entity);
 
 		// 塗りつぶし量をクランプ
 		UICircleCmp.FillAmount = Clamp(UICircleCmp.FillAmount, 0.0f, 1.0f);

@@ -9,9 +9,9 @@
 #pragma once
 
 // テクスチャ情報
-struct ColorComp {
+struct ColorComponent {
     // イニシャライズコンストラクタ
-    ColorComp(D3DXCOLOR _Col = WHITE) : Col(_Col) {};
+    ColorComponent(D3DXCOLOR _Col = WHITE) : Col(_Col) {};
     // ポリゴンの色
     D3DXCOLOR Col;
 };

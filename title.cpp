@@ -13,10 +13,10 @@
 #include "fade.h"
 #include "game.h"
 #include "TitleCamera.h"
-#include "RigitBodyComponent.hpp"
 #include "Sound2D.h"
 #include "Sound3D.h"
 #include "math.h"
+#include "btCollisionConfig.hpp"
 
 // 規定値を設定
 // タイトル

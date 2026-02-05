@@ -1,6 +1,6 @@
 //****************************************************************
 //
-// テクスチャ情報のコンポーネント[TextureRenderingComp.hpp]
+// テクスチャ情報のコンポーネント[TextureRenderingComponent.hpp]
 // Author Kensaku Hatori
 //
 //****************************************************************
@@ -12,9 +12,9 @@
 #include "texmanager.h"
 
 // テクスチャ情報
-struct TexComp {
+struct TexComponent {
 	// イニシャライズコンストラクタ
-	TexComp(std::string _Path = {}) : FilePath(_Path) {
+	TexComponent(std::string _Path = {}) : FilePath(_Path) {
 		// テクスチャのコピーを取得
 		Tex = CLoadTexture::GetTex(FilePath);
 	};

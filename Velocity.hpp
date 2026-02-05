@@ -9,8 +9,8 @@
 #pragma once
 
 // 頂点バッファ情報
-struct VelocityComp {
+struct VelocityComponent {
 	// 頂点バッファ
 	D3DXVECTOR3 Velocity;
-	VelocityComp(D3DXVECTOR3 _Velocity = VEC3_NULL) : Velocity(_Velocity) {};
+	VelocityComponent(D3DXVECTOR3 _Velocity = VEC3_NULL) : Velocity(_Velocity) {};
 };

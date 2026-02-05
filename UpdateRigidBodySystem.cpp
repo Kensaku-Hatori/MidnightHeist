@@ -53,10 +53,10 @@ void UpdateRigidBodySystem::Update(entt::registry& reg)
 		RigidBodyCmp.Body->getMotionState()->getWorldTransform(TransBody);
 
 		// 親がいたら
-		if (reg.any_of<ParentComp>(Entity))
+		if (reg.any_of<ParentComponent>(Entity))
 		{
 			// 親のコンポーネントを取得
-			auto& ParentCmp = reg.get<ParentComp>(Entity);
+			auto& ParentCmp = reg.get<ParentComponent>(Entity);
 			auto& ParentTransCmp = reg.get<Transform3D>(ParentCmp.Parent);
 
 			// 親の逆トランスフォーム
