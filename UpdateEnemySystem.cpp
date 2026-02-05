@@ -150,22 +150,25 @@ void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Ent
 	// プレイヤーのエンティティ
 	auto PlayerEntity = *Playerview.begin();
 	// 自分自身のコンポーネントを取得
-	auto& Transform = Reg.get<Transform3D>(Entity);
+	auto& TransformCmp = Reg.get<Transform3D>(Entity);
 	auto& State = Reg.get<EnemyAIComp>(Entity);
 	// プレイヤーのトランスフォームを取得
-	auto& PlayerTransform = Reg.get<Transform3D>(PlayerEntity);
-	// プレイヤーまでのベクトル
-	D3DXVECTOR3 Vec = PlayerTransform.Pos - Transform.Pos;
-	Vec.y = 0.0f;
+	auto& PlayerTransformCmp = Reg.get<Transform3D>(PlayerEntity);
+	D3DXVECTOR3 MyPos, PlayerPos;
+	MyPos = D3DXVECTOR3(TransformCmp.mtxWorld._41, 0.0f, TransformCmp.mtxWorld._43);
+	PlayerPos = D3DXVECTOR3(PlayerTransformCmp.mtxWorld._41, 0.0f, PlayerTransformCmp.mtxWorld._43);
+
+	D3DXVECTOR3 Vec = PlayerPos - MyPos;
+
 	// 正規化されたプレイヤーまでのベクトル
 	D3DXVECTOR3 VecNormal;
 	D3DXVec3Normalize(&VecNormal, &Vec);
 	// プレイヤーまでの光線の情報
 	RayComp ToPlayerRay;
-	ToPlayerRay.Origin = Transform.Pos;
+	ToPlayerRay.Origin = MyPos;
 	ToPlayerRay.Dir = VecNormal;
 	// フラグを保存
 	State.IsOldBlockedToPlayer = State.IsBlockedToPlayer;
 	// フラグを更新
-	State.IsBlockedToPlayer = CMath::IsBlockedRayToMeshes(CMapManager::Instance()->GetvMapObject(), ToPlayerRay, CMath::CalcDistance(Transform.Pos, PlayerTransform.Pos));
+	State.IsBlockedToPlayer = CMath::IsBlockedRayToMeshes(CMapManager::Instance()->GetvMapObject(), ToPlayerRay, CMath::CalcDistance(MyPos, PlayerPos));
 }

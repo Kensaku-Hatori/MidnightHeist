@@ -719,7 +719,7 @@ bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayCo
 /// ベクターの要素がすべて有効かどうか
 /// </summary>
 /// <param name="Condition">"確かめたいベクトル変数"</param>
-/// <returns>"true = 有効","false = 無効s"</returns>
+/// <returns>"true = 有効","false = 無効"</returns>
 bool CMath::IsValidVector(const D3DXVECTOR3& Condition)
 {
 	return std::isfinite(Condition.x) && std::isfinite(Condition.y) && std::isfinite(Condition.z);

@@ -162,7 +162,8 @@ bool UpdateMeshLaserSystem::CollisionEntity(entt::registry& Reg, entt::entity En
 	D3DXMATRIX Mulmtx = CMath::CalcMultiplyMtxWorld(LaserTrans.Pos, LaserTrans.Scale, LaserTrans.Quat, EnemyTranf.mtxWorld);
 
 	// モデルのマトリックスの逆行列
-	D3DXMATRIX invWorld = CMath::CalcInverseMtxWorld(TransformCmp.Pos, TransformCmp.Scale, TransformCmp.Quat);
+	D3DXMATRIX invWorld;
+	D3DXMatrixInverse(&invWorld, NULL, &TransformCmp.mtxWorld);
 
 	// レイの始点と向きのローカル変数
 	D3DXVECTOR3 localRayOrigin, localRayDir;

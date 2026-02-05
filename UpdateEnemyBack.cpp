@@ -112,19 +112,6 @@ void UpdateEnemyBackSystem::UpdateMove(entt::registry& Reg, entt::entity& Entity
 	// 設定
 	RBCmp.Body->setLinearVelocity(CMath::SetVec(VelocityCmp.Velocity));;
 
-	// トランスフォームを取得
-	btTransform trans;
-	RBCmp.Body->getMotionState()->getWorldTransform(trans);
-
-	// 描画モデルの位置
-	btVector3 newPos;
-
-	// 位置を取得
-	newPos = trans.getOrigin();
-
-	// 位置を計算、設定
-	TransformCmp.Pos = (D3DXVECTOR3(newPos.x(), newPos.y() - 20.0f, newPos.z()));
-
 	if (VelocityCmp.Velocity == VEC3_NULL) return;
 
 	D3DXVECTOR3 VecUp = VEC_UP;
