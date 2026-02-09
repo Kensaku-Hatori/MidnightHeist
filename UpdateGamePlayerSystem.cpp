@@ -194,6 +194,7 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	{
 		// 色設定
 		OutLineCmp.Color = D3DXVECTOR4(1.0f, 1.0f, 0.0f, 1.0f);
+		PlayerStateCmp.NowState = PlayerState::State::NORMAL;
 	}
 
 	// スティックのステートを取得
@@ -244,7 +245,7 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	}
 	else
 	{
-		PlayerStateCmp.NowState = PlayerState::State::NORMAL;
+		PlayerStateCmp.NowState = PlayerState::State::STEALTH;
 		// コンポーネントを取得
 		auto& SoundCmp = reg.get<PlayerSoundVolumeComponent>(Player);
 		// プレイヤーが発する音

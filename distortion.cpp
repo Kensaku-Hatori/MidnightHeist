@@ -8,6 +8,7 @@
 // インクルード
 #include "distortion.h"
 #include "ShaderResource.h"
+#include "texmanager.h"
 
 //***************************************
 // デストラクタ
@@ -32,10 +33,13 @@ HRESULT CDistortion::Init(void)
 
     // グローバル変数ハンドル取得
     m_SceneTexHandle = GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
+    m_NoizeTexHandle = GetHandle("g_NoizeTexture") = pEffect->GetParameterByName(NULL, "g_NoizeTexture");
     m_CounterHandle = GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
     m_SpeedHandle = GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
     m_MinRangeHandle = GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
     m_MaxRangeHandle = GetHandle("g_NoiseMaxRange") = pEffect->GetParameterByName(NULL, "g_NoiseMaxRange");
+    // テクスチャ取得
+    m_NoizeTex = CLoadTexture::GetTex("data/TEXTURE/ParlinNoize.png");
 
     return S_OK;
 }
@@ -45,6 +49,11 @@ HRESULT CDistortion::Init(void)
 //***************************************
 void CDistortion::ReSet(void)
 {
+    if (m_NoizeTex != nullptr)
+    {
+        m_NoizeTex->Release();
+        m_NoizeTex = nullptr;
+    }
     CShader::Reset();
 }
 
@@ -59,6 +68,7 @@ void CDistortion::ReStart(void)
 
     // グローバル変数ハンドル取得
     m_SceneTexHandle = GetHandle("g_SceneTexture") = pEffect->GetParameterByName(NULL, "g_SceneTexture");
+    m_NoizeTexHandle = GetHandle("g_NoizeTexture") = pEffect->GetParameterByName(NULL, "g_NoizeTexture");
     m_CounterHandle = GetHandle("g_nCnt") = pEffect->GetParameterByName(NULL, "g_nCnt");
     m_SpeedHandle = GetHandle("g_NoiseSpeed") = pEffect->GetParameterByName(NULL, "g_NoiseSpeed");
     m_MinRangeHandle = GetHandle("g_NoiseMinRange") = pEffect->GetParameterByName(NULL, "g_NoiseMinRange");
@@ -92,13 +102,18 @@ void CDistortion::EndNoise(void)
 void CDistortion::SetParameters(LPDIRECT3DTEXTURE9 Scene)
 {
     if (m_NoiseFrag == true)m_NoiseCount++;
-    if (m_NoiseCount > m_NoiseSpeed)m_NoiseFrag = false;
+    if (m_NoiseCount > m_NoiseSpeed)
+    {
+        EndNoise();
+    }
 
     // エフェクトを取得
     LPD3DXEFFECT pEffect = GetEffect();
 
     // パラメータ(グローバル変数の設定)
     pEffect->SetTexture(m_SceneTexHandle, Scene);
+    pEffect->SetTexture(m_NoizeTexHandle, m_NoizeTex);
+
     pEffect->SetInt(m_CounterHandle, m_NoiseCount);
     pEffect->SetFloat(m_SpeedHandle, m_NoiseSpeed);
     pEffect->SetFloat(m_MinRangeHandle, m_NoiseMinRange);

@@ -20,7 +20,7 @@ struct VS_OUTPUT
 	float2 tex : TEXCOORD;			// テクスチャ座標
 };
 
-// シャドウマップ(テクスチャ)
+// シーンマップ(テクスチャ)
 texture g_SceneTexture;
 
 // テクスチャサンプラーを宣言
@@ -28,6 +28,21 @@ sampler2D SceneSampler = sampler_state
 {
 	// サンプラーを設定
     Texture = <g_SceneTexture>;
+    MinFilter = POINT;
+    MagFilter = POINT;
+    MipFilter = NONE;
+    AddressU = CLAMP;
+    AddressV = CLAMP;
+};
+
+// シーンマップ(テクスチャ)
+texture g_NoizeTexture;
+
+// テクスチャサンプラーを宣言
+sampler2D NoizeSampler = sampler_state
+{
+	// サンプラーを設定
+    Texture = <g_NoizeTexture>;
     MinFilter = POINT;
     MagFilter = POINT;
     MipFilter = NONE;

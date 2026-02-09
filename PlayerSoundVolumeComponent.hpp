@@ -14,7 +14,7 @@
 namespace PlayerSoundVolumeConfig {
 	static constexpr float Bace = 50.0f;
 	static constexpr float Scale[static_cast<int>(PlayerState::State::MAX)] = {
-		0.5f,1.0f,1.5f,1.5f
+		0.0f,0.5f,1.0f,1.5f,1.5f
 	};
 }
 // î•ñ

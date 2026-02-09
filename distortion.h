@@ -51,8 +51,11 @@ private:
 	float m_NoiseMinRange, m_NoiseMaxRange;
 	// ハンドル
 	D3DXHANDLE m_SceneTexHandle;// シーンテクスチャのハンドル
+	D3DXHANDLE m_NoizeTexHandle;// ノイズテクスチャのハンドル
 	D3DXHANDLE m_CounterHandle;	// カウンタハンドル
 	D3DXHANDLE m_SpeedHandle;	// 速さハンドル
 	D3DXHANDLE m_MaxRangeHandle;// 最大レンジハンドル
 	D3DXHANDLE m_MinRangeHandle;// 最小レンジハンドル
+	// ノイズテクスチャ
+	LPDIRECT3DTEXTURE9 m_NoizeTex;	// ノイズテクスチャ
 };

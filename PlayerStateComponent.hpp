@@ -12,7 +12,8 @@
 namespace PlayerState {
 	// プレイヤーの状態
 	enum class State {
-		SILENT = 0,		// スニーク
+		STEALTH = 0,	// 停止
+		SILENT,			// スニーク
 		NORMAL,			// 通常
 		DUSH,			// ダッシュ
 		RANGE_PICKING,	// 解錠可能位置にいるかどうか
