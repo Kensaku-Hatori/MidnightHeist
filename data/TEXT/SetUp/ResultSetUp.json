@@ -1,0 +1,26 @@
+[
+  {
+    "Attribute": "MapObject",
+    "Asset": "data/MODEL/testplayer.x"
+  },
+  {
+    "Attribute": "MeshField",
+    "Asset": "data\\TEXTURE\\field.jpg",
+    "Transform": {
+      "Division": {
+        "h": 100,
+        "v": 100
+      },
+      "Size": {
+        "x": 100.0,
+        "y": 100.0
+      }
+    }
+  },
+  {
+    "Attribute": "SkyBox"
+  },
+  {
+    "Attribute": "StutsManager"
+  }
+]

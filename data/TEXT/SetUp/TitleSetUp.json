@@ -1,0 +1,51 @@
+[
+  {
+    "Attribute": "Poly2D",
+    "Layer": 3,
+    "Asset": "data/TEXTURE/Title/MidNightHeist.png",
+    "Transform": {
+      "Position": {
+        "x": 340.0,
+        "y": 160.0
+      },
+      "Size": {
+        "x": 200.0,
+        "y": 100.0
+      }
+    }
+  },
+  {
+    "Attribute": "TitlePlayer",
+    "Transform": {
+      "Position": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 700.0
+      }
+    }
+  },
+  {
+    "Attribute": "MapObject",
+    "Asset": "data/MODEL/Museum.x"
+  },
+  {
+    "Attribute": "TitleManager"
+  },
+  {
+    "Attribute": "MeshField",
+    "Asset": "data\\TEXTURE\\field.jpg",
+    "Transform": {
+      "Division": {
+        "h": 100,
+        "v": 100
+      },
+      "Size": {
+        "x": 100.0,
+        "y": 100.0
+      }
+    }
+  },
+  {
+    "Attribute": "SkyBox"
+  }
+]

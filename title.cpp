@@ -63,9 +63,6 @@ HRESULT CTitle::Init(void)
 	// タイトル用のモデル生成
 	Factories::makeMapobject(GetReg(), Config::TitleModel::Path);
 
-	//// タイトル用のモデル生成
-	//Factories::makeMapobject(GetReg(), "data/MODEL/testBall_01.x", { 0.0f,0.0f,500.0f }, QUAT_NULL, { 10.0f,10.0f,10.0f });
-
 	// タイトルマネージャ生成
 	ManagerFactories::makeTitleManager(GetReg());
 	// 地面生成

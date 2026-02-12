@@ -184,6 +184,7 @@
     <ClCompile Include="RenderingUICircle.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="ResultCameraSystem.cpp" />
+    <ClCompile Include="SetUpLoader.cpp" />
     <ClCompile Include="SimpleBloom.cpp" />
     <ClCompile Include="Sound2D.cpp" />
     <ClCompile Include="Sound3D.cpp" />
@@ -260,6 +261,7 @@
     <ClInclude Include="GateManagerComponent.hpp" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ResultCameraSystem.h" />
+    <ClInclude Include="SetUpLoader.h" />
     <ClInclude Include="SimpleBloom.h" />
     <ClInclude Include="StutsComponent.h" />
     <ClInclude Include="ThreadPool.h" />
