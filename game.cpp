@@ -17,6 +17,7 @@
 #include "distortion.h"
 #include "GameCamera.h"
 #include "Sound2D.h"
+#include "SetUpLoader.h"
 #include "btCollisionConfig.hpp"
 
 // 静的メンバ変数宣言
@@ -74,29 +75,10 @@ HRESULT CGame::Init(void)
 	CManager::SetClear(false);
 	// フラグを初期化
 	m_IsFinishedFirstNoise = false;
-	// ステージ読み込み
-	CMapManager::Instance()->Load(Config::MapObjects::Path);
-	// プレイヤー生成
-	entt::entity Player = Factories::makeBacePlayer(GetReg(), Config::Player::Pos);
-	Factories::InitGamePlayer(GetReg(), Player);
-	// 巡回ポイント読み込み
-	MeshFactories::makePatrolPointFromFile(GetReg(), Config::PatrolPoints::Path);
-	// 敵管理エンティティを生成
-	ManagerFactories::makeEnemyManager(GetReg());
-	// ポーズマネージャー生成
-	ManagerFactories::makePauseManager(GetReg());
-	// アイテムマネージャー
-	ManagerFactories::makeItemManager(GetReg());
-	// ゲートマネージャー
-	ManagerFactories::makeGateManager(GetReg());
-
+	CSetUpLoader::Instance().LoadToScene(GetReg(), "data/TEXT/SetUp/GameSetUp.json");
 	// ゲームBGMの再生
 	CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEBGM);
 
-	// モニター用の2Dポリゴン生成
-	Factories::makeObject2D(GetReg(), 3, Config::XDay::Path, Config::XDay::Pos, Config::XDay::Size);
-	Factories::makeObject2D(GetReg(), 3, Config::Rec::Path, Config::Rec::Pos, Config::Rec::Size);
-	Factories::makeObject2D(GetReg(), 3, Config::CameraWork::Path, Config::CameraWork::Pos, Config::CameraWork::Size);
 	// ノイズスタート
 	CDistortion::Instance()->StartNoise();
 

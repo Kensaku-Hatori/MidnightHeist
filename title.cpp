@@ -16,6 +16,7 @@
 #include "Sound2D.h"
 #include "Sound3D.h"
 #include "math.h"
+#include "SetUpLoader.h"
 #include "btCollisionConfig.hpp"
 
 // 規定値を設定
@@ -51,24 +52,24 @@ HRESULT CTitle::Init(void)
 {
 	// 平行光源の色をリセット
 	CManager::GetLight()->ResetCol();
+	CSetUpLoader::Instance().LoadToScene(GetReg(), "data/TEXT/SetUp/TitleSetUp.json");
+	//// タイトルロゴを生成
+	//Factories::makeObject2D(GetReg(), 3, Config::TitleLogo::Path, Config::TitleLogo::Pos, Config::TitleLogo::Size);
 
-	// タイトルロゴを生成
-	Factories::makeObject2D(GetReg(), 3, Config::TitleLogo::Path, Config::TitleLogo::Pos, Config::TitleLogo::Size);
+	//// プレイヤー生成
+	//entt::entity Player = Factories::makeBacePlayer(GetReg(), Config::Player::Pos);
+	//// プレイヤーをタイトル用の初期化
+	//Factories::InitTitlePlayer(GetReg(), Player);
 
-	// プレイヤー生成
-	entt::entity Player = Factories::makeBacePlayer(GetReg(), Config::Player::Pos);
-	// プレイヤーをタイトル用の初期化
-	Factories::InitTitlePlayer(GetReg(), Player);
+	//// タイトル用のモデル生成
+	//Factories::makeMapobject(GetReg(), Config::TitleModel::Path);
 
-	// タイトル用のモデル生成
-	Factories::makeMapobject(GetReg(), Config::TitleModel::Path);
-
-	// タイトルマネージャ生成
-	ManagerFactories::makeTitleManager(GetReg());
-	// 地面生成
-	MeshFactories::makeMeshField(GetReg(), Config::MeshField::nDivH, Config::MeshField::nDivV, Config::MeshField::Size, "data\\TEXTURE\\field.jpg");
-	// スカイボックス生成
-	MeshFactories::makeSkyBox(GetReg());
+	//// タイトルマネージャ生成
+	//ManagerFactories::makeTitleManager(GetReg());
+	//// 地面生成
+	//MeshFactories::makeMeshField(GetReg(), Config::MeshField::nDivH, Config::MeshField::nDivV, Config::MeshField::Size, "data\\TEXTURE\\field.jpg");
+	//// スカイボックス生成
+	//MeshFactories::makeSkyBox(GetReg());
 	// タイトルBGMを生成・再生
 	CSound2D::Instance()->Play(SoundDevice::LABEL_TITLEBGM);
 

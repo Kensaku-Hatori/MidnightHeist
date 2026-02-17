@@ -14,6 +14,7 @@
 #include "fade.h"
 #include "title.h"
 #include "Sound2D.h"
+#include "SetUpLoader.h"
 
 //***************************************
 // 初期化処理
@@ -34,20 +35,15 @@ HRESULT CResult::Init(void)
 		Factories::makeMapobject(GetReg(), Path, D3DXVECTOR3(400.0f, 0.0f, 0.0f));
 		Factories::makeMapobject(GetReg(), Path, D3DXVECTOR3(-400.0f, 0.0f, 0.0f));
 	}
-	// 地面生成
-	MeshFactories::makeMeshField(GetReg(), 100, 100, D3DXVECTOR2(100.0f, 100.0f), "data\\TEXTURE\\field.jpg");
-	// テスト用のプレイヤー生成
-	Factories::makeMapobject(GetReg(), "data/MODEL/testplayer.x");
-	MeshFactories::makeSkyBox(GetReg());
+
+	// セットアップ
+	CSetUpLoader::Instance().LoadToScene(GetReg(), "data/TEXT/SetUp/ResultSetUp.json");
 
 	// 黒い半透明ポリゴン
 	entt::entity BlackBoard = Factories::makeObject2D(GetReg(), 3, "", D3DXVECTOR2(SCREEN_WIDTH * 0.9f, SCREEN_HEIGHT * 0.5f), D3DXVECTOR2(SCREEN_WIDTH * 0.2f, SCREEN_WIDTH * 0.5f));
 	auto& ColorCmp = GetReg().get<ColorComponent>(BlackBoard);
 	ColorCmp.Col = BLACK;
 	ColorCmp.Col.a = 0.5f;
-
-	// スタッツ情報
-	ManagerFactories::makeStutsManager(GetReg());
 
 	// カメラにシステムを追加
 	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCamera);

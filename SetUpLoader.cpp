@@ -164,9 +164,10 @@ void CSetUpLoader::LoadToScene(entt::registry& Reg, std::string Path)
 			ManagerFactories::makeTitleManager(Reg);
 		}
 		// タイトルマネージャーなら
-		//else if (Attribute.find("StutsManager") != std::string::npos)
-		//{
-		//}
+		else if (Attribute.find("StutsManager") != std::string::npos)
+		{
+		ManagerFactories::makeStutsManager(Reg);
+		}
 		// メッシュフィールドなら
 		else if (Attribute.find("MeshField") != std::string::npos)
 		{

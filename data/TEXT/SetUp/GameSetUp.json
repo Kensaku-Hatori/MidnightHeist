@@ -4,6 +4,16 @@
     "Asset": "data\\TEXT\\StageInfo.json"
   },
   {
+    "Attribute": "GamePlayer",
+    "Transform": {
+      "Position": {
+        "x": 1000.0,
+        "y": 50.0,
+        "z": 375.0
+      }
+    }
+  },
+  {
     "Attribute": "PatrolManager",
     "Asset": "data\\TEXT\\Patrol.json"
   },
@@ -61,16 +71,6 @@
       "Size": {
         "x": 640.0,
         "y": 360.0
-      }
-    }
-  },
-  {
-    "Attribute": "GamePlayer",
-    "Transform": {
-      "Position": {
-        "x": 1000.0,
-        "y": 50.0,
-        "z": 375.0
       }
     }
   }
