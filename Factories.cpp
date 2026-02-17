@@ -338,7 +338,7 @@ entt::entity Factories::makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin
 	// エンティティを生成
 	entt::entity myEntity = Reg.create();
 	// コンポーネントを追加
-	Reg.emplace<TimerComponent>(myEntity);
+	Reg.emplace<Timer>(myEntity);
 	Reg.emplace<Transform2D>(myEntity, Origin);
 	Reg.emplace<TimerComponent>(myEntity, Value, DigitSize, DigitOffset);
 	Reg.emplace<RenderFragComponent>(myEntity, false);
