@@ -32,18 +32,6 @@ using ordered_json = nlohmann::ordered_json;
 using namespace std;
 
 // 規定値を設定
-// プレイヤー
-const D3DXVECTOR3 CGame::Config::Player::Pos = { 1000.0f, 50.0f, 375.0f };
-// 2Dポリゴン
-const D3DXVECTOR2 CGame::Config::XDay::Pos = { 175.0f,125.0f };
-const D3DXVECTOR2 CGame::Config::XDay::Size = { 100.0f,50.0f };
-
-const D3DXVECTOR2 CGame::Config::Rec::Pos = { 1150.0f,125.0f };
-const D3DXVECTOR2 CGame::Config::Rec::Size = { 50.0f,50.0f };
-
-const D3DXVECTOR2 CGame::Config::CameraWork::Pos = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f };
-const D3DXVECTOR2 CGame::Config::CameraWork::Size = { SCREEN_WIDTH * 0.5f,SCREEN_HEIGHT * 0.5f };
-
 const btVector3 CGame::Config::NearWall::Size = btVector3(1000.0f, 1000.0f, 0.0f);
 const btVector3 CGame::Config::NearWall::Origin = btVector3(0.0f, 0.0f, 500.0f);
 

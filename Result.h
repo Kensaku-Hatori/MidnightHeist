@@ -22,4 +22,11 @@ public:
 	void Update(void);
 	void Draw(void);
 private:
+	// 定数を設定
+	struct Config {
+		// セットアップ
+		struct SetUp {
+			static constexpr const char* Path = "data/TEXT/SetUp/ResultSetUp.json";
+		};
+	};
 };

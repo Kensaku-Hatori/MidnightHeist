@@ -35,37 +35,19 @@ public:
 private:
 	// 定数を設定
 	struct Config {
-		// プレイヤー
-		struct Player {
-			// 位置
-			static const D3DXVECTOR3 Pos;
-		};
-		// タイトルロゴ
-		struct TitleLogo {
-			// 位置
-			static const D3DXVECTOR2 Pos;
-			static const D3DXVECTOR2 Size;
-			static constexpr const char* Path = "data/TEXTURE/Title/MidNightHeist.png";
-		};
-		// メッシュフィールド
-		struct MeshField {
-			static constexpr int nDivH = 100;
-			static constexpr int nDivV = 100;
-			static const D3DXVECTOR2 Size;
+		// セットアップ
+		struct SetUp {
+			static constexpr const char* Path = "data/TEXT/SetUp/TitleSetUp.json";
 		};
 		// 地面の当たり判定
 		struct Ground {
 			static const btVector3 Size;
 			static const btVector3 Origin;
 		};
-		// タイトルモデル
-		struct TitleModel {
-			static constexpr const char* Path = "data/MODEL/Museum.x";
-		};
 	};
 	// メンバ変数
 	// 地面の当たり判定用変数
-	std::unique_ptr<btBoxShape> m_GroundShape;
-	std::unique_ptr<btRigidBody> m_GroundRB;
+	std::unique_ptr<btBoxShape>		m_GroundShape;
+	std::unique_ptr<btRigidBody>	m_GroundRB;
 };
 #endif // !_TITLE_H_

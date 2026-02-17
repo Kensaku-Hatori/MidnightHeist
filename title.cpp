@@ -20,13 +20,6 @@
 #include "btCollisionConfig.hpp"
 
 // 規定値を設定
-// タイトル
-const D3DXVECTOR2 CTitle::Config::TitleLogo::Pos = { 340.0f,160.0f };
-const D3DXVECTOR2 CTitle::Config::TitleLogo::Size = { 200.0f,100.0f };
-// メッシュフィールド
-const D3DXVECTOR2 CTitle::Config::MeshField::Size = { 100.0f,100.0f };
-// プレイヤー
-const D3DXVECTOR3 CTitle::Config::Player::Pos = { 0.0f,10.0f,700.0f };
 // 地面
 const btVector3 CTitle::Config::Ground::Size = { 2000.0f,0.0f,1000.0f };
 const btVector3 CTitle::Config::Ground::Origin = { 0.0f,0.0f,0.0f };
@@ -52,27 +45,9 @@ HRESULT CTitle::Init(void)
 {
 	// 平行光源の色をリセット
 	CManager::GetLight()->ResetCol();
-	CSetUpLoader::Instance().LoadToScene(GetReg(), "data/TEXT/SetUp/TitleSetUp.json");
-	//// タイトルロゴを生成
-	//Factories::makeObject2D(GetReg(), 3, Config::TitleLogo::Path, Config::TitleLogo::Pos, Config::TitleLogo::Size);
-
-	//// プレイヤー生成
-	//entt::entity Player = Factories::makeBacePlayer(GetReg(), Config::Player::Pos);
-	//// プレイヤーをタイトル用の初期化
-	//Factories::InitTitlePlayer(GetReg(), Player);
-
-	//// タイトル用のモデル生成
-	//Factories::makeMapobject(GetReg(), Config::TitleModel::Path);
-
-	//// タイトルマネージャ生成
-	//ManagerFactories::makeTitleManager(GetReg());
-	//// 地面生成
-	//MeshFactories::makeMeshField(GetReg(), Config::MeshField::nDivH, Config::MeshField::nDivV, Config::MeshField::Size, "data\\TEXTURE\\field.jpg");
-	//// スカイボックス生成
-	//MeshFactories::makeSkyBox(GetReg());
+	CSetUpLoader::Instance().LoadToScene(GetReg(), Config::SetUp::Path);
 	// タイトルBGMを生成・再生
 	CSound2D::Instance()->Play(SoundDevice::LABEL_TITLEBGM);
-
 	// 聞き手の初期化
 	CListener::Instance()->Init();
 

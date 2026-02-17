@@ -82,12 +82,12 @@ void CSetUpLoader::LoadToScene(entt::registry& Reg, std::string Path)
 			Pos.y = Info["Transform"]["Position"]["y"];
 			Pos.z = Info["Transform"]["Position"]["z"];
 
-			// タイトルロゴを生成
+			// プレイヤーを生成
 			entt::entity Player =  Factories::makeBacePlayer(Reg, Pos);
 			// プレイヤーをタイトル用の初期化
 			Factories::InitTitlePlayer(Reg, Player);
 		}
-		// タイトルプレイヤーなら
+		// ゲームプレイヤーなら
 		else if (Attribute.find("GamePlayer") != std::string::npos)
 		{
 			// 位置
@@ -98,7 +98,7 @@ void CSetUpLoader::LoadToScene(entt::registry& Reg, std::string Path)
 			Pos.y = Info["Transform"]["Position"]["y"];
 			Pos.z = Info["Transform"]["Position"]["z"];
 
-			// タイトルロゴを生成
+			// プレイヤーを生成
 			entt::entity Player = Factories::makeBacePlayer(Reg, Pos);
 			// プレイヤーをタイトル用の初期化
 			Factories::InitGamePlayer(Reg, Player);
@@ -110,51 +110,51 @@ void CSetUpLoader::LoadToScene(entt::registry& Reg, std::string Path)
 			std::string Asset;
 			// アセットを読み込み
 			Asset = Info["Asset"];
-			// タイトルロゴを生成
+			// マップオブジェクトを生成
 			Factories::makeMapobject(Reg, Asset);
 		}
-		// タイトルマネージャーなら
+		// マップマネージャーなら
 		else if (Attribute.find("MapManager") != std::string::npos)
 		{
 			// アセット
 			std::string Asset;
 			// アセットを読み込み
 			Asset = Info["Asset"];
-			// タイトルマネージャ生成
+			// マップマネージャ生成
 			CMapManager::Instance()->Load(Asset);
 		}
-		// タイトルマネージャーなら
+		// 巡回ポイントマネージャーなら
 		else if (Attribute.find("PatrolManager") != std::string::npos)
 		{
 			// アセット
 			std::string Asset;
 			// アセットを読み込み
 			Asset = Info["Asset"];
-			// タイトルマネージャ生成
+			// 巡回ポイントマネージャ生成
 			MeshFactories::makePatrolPointFromFile(Reg, Asset);
 		}
-		// タイトルマネージャーなら
+		// エネミーマネージャーなら
 		else if (Attribute.find("EnemyManager") != std::string::npos)
 		{
-			// タイトルマネージャ生成
+			// エネミーマネージャ生成
 			ManagerFactories::makeEnemyManager(Reg);
 		}
-		// タイトルマネージャーなら
+		// ポーズマネージャーなら
 		else if (Attribute.find("PauseManager") != std::string::npos)
 		{
-			// タイトルマネージャ生成
+			// ポーズマネージャ生成
 			ManagerFactories::makePauseManager(Reg);
 		}
-		// タイトルマネージャーなら
+		// アイテムマネージャーなら
 		else if (Attribute.find("ItemManager") != std::string::npos)
 		{
-			// タイトルマネージャ生成
+			// アイテムマネージャ生成
 			ManagerFactories::makeItemManager(Reg);
 		}
-		// タイトルマネージャーなら
+		// ゲートマネージャーなら
 		else if (Attribute.find("GateManager") != std::string::npos)
 		{
-			// タイトルマネージャ生成
+			// ゲートマネージャ生成
 			ManagerFactories::makeGateManager(Reg);
 		}
 		// タイトルマネージャーなら
@@ -163,10 +163,11 @@ void CSetUpLoader::LoadToScene(entt::registry& Reg, std::string Path)
 			// タイトルマネージャ生成
 			ManagerFactories::makeTitleManager(Reg);
 		}
-		// タイトルマネージャーなら
+		// 戦績マネージャーなら
 		else if (Attribute.find("StutsManager") != std::string::npos)
 		{
-		ManagerFactories::makeStutsManager(Reg);
+			// 戦績マネージャーを生成
+			ManagerFactories::makeStutsManager(Reg);
 		}
 		// メッシュフィールドなら
 		else if (Attribute.find("MeshField") != std::string::npos)

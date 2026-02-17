@@ -46,45 +46,9 @@ public:
 private:
 	// 定数を設定
 	struct Config {
-		// プレイヤー
-		struct Player {
-			// 位置
-			static const D3DXVECTOR3 Pos;
-		};
-		// ２Dテクスチャ
-		struct XDay {
-			// 位置
-			static const D3DXVECTOR2 Pos;
-			// 大きさ
-			static const D3DXVECTOR2 Size;
-			// パス
-			static constexpr const char* Path = "data/TEXTURE/XDay.png";
-		};
-		struct Rec {
-			// 位置
-			static const D3DXVECTOR2 Pos;
-			// 大きさ
-			static const D3DXVECTOR2 Size;
-			// パス
-			static constexpr const char* Path = "data/TEXTURE/Rec.png";
-		};
-		struct CameraWork {
-			// 位置
-			static const D3DXVECTOR2 Pos;
-			// 大きさ
-			static const D3DXVECTOR2 Size;
-			// パス
-			static constexpr const char* Path = "data/TEXTURE/CameraWork.png";
-		};
-		// マップ
-		struct MapObjects {
-			// パス
-			static constexpr const char* Path = "data\\TEXT\\StageInfo.json";
-		};
-		// パトロールポイント一覧
-		struct PatrolPoints {
-			// パス
-			static constexpr const char* Path = "data\\TEXT\\Patrol.json";
+		// セットアップ
+		struct SetUp {
+			static constexpr const char* Path = "data/TEXT/SetUp/GameSetUp.json";
 		};
 		// 手前の壁
 		struct NearWall {
@@ -96,12 +60,13 @@ private:
 	// ノイズ用のフラグ
 	static bool m_IsFinishedFirstNoise;
 	static bool m_IsOlfFinishedFirstNoise;
-	static int m_Time;
-	static int m_EnCount;
-	static int m_Steal;
+	static int	m_Time;
+	static int	m_EnCount;
+	static int	m_Steal;
+	// メンバ変数
 	int m_Frame;
 	// 手前の壁の当たり判定用変数
-	std::unique_ptr<btBoxShape> m_NearWallShape;
-	std::unique_ptr<btRigidBody> m_NearWallRB;
+	std::unique_ptr<btBoxShape>		m_NearWallShape;
+	std::unique_ptr<btRigidBody>	m_NearWallRB;
 };
 #endif // !_GAME_H_
