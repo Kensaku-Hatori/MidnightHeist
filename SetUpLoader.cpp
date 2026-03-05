@@ -121,7 +121,7 @@ void CSetUpLoader::LoadToScene(entt::registry& Reg, std::string Path)
 			// アセットを読み込み
 			Asset = Info["Asset"];
 			// マップマネージャ生成
-			CMapManager::Instance()->Load(Asset);
+			CMapManager::Instance().Load(Asset);
 		}
 		// 巡回ポイントマネージャーなら
 		else if (Attribute.find("PatrolManager") != std::string::npos)

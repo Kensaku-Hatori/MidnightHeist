@@ -69,16 +69,16 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 
 		// キューブマップ用のシェーダーを設定
-		CDefaultCubemap::Instance()->Begin();
-		CDefaultCubemap::Instance()->BeginPass(0);
-		CDefaultCubemap::Instance()->SetParameters(mtxWorld, SkyBoxCmp.pCubeTex);
+		CDefaultCubemap::Instance().Begin();
+		CDefaultCubemap::Instance().BeginPass(0);
+		CDefaultCubemap::Instance().SetParameters(mtxWorld, SkyBoxCmp.pCubeTex);
 
 		//メッシュキューブを描画
 		pDevice->DrawIndexedPrimitive(D3DPT_TRIANGLELIST, 0, 0, 8, 0, 12);
 
 		// シェーダを終了
-		CDefaultCubemap::Instance()->EndPass();
-		CDefaultCubemap::Instance()->End();
+		CDefaultCubemap::Instance().EndPass();
+		CDefaultCubemap::Instance().End();
 
 		// ライトの影響を受けない
 		pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);

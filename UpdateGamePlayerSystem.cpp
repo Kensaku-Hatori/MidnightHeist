@@ -63,8 +63,8 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 		// プレイヤーの前方向ベクトル
 		D3DXVECTOR3 Front = { -TransformCmp.mtxWorld._31,-TransformCmp.mtxWorld._32,-TransformCmp.mtxWorld._33 };
 		// リスナーの位置と向きを設定
-		CListener::Instance()->SetPos(TransformCmp.Pos);
-		CListener::Instance()->SetFront(Front);
+		CListener::Instance().SetPos(TransformCmp.Pos);
+		CListener::Instance().SetFront(Front);
 
 		// プレイヤーが発する音
 		SoundCmp.SoundVolume = PlayerSoundVolumeConfig::Bace * PlayerSoundVolumeConfig::Scale[static_cast<int>(StateCmp.NowState)];
@@ -417,11 +417,11 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 			// 最大数以上だったら
 			if (ItemCmp.nCntPicking >= ItemConfig::nFramePicking)
 			{
-				CSound2D::Instance()->Play(SoundDevice::LABEL_PICKING);
+				CSound2D::Instance().Play(SoundDevice::LABEL_PICKING);
 				CGame::AddSteal();
 				// 要素を削除
 				Reg.destroy(entity);
-				CMapManager::Instance()->Erase(entity);
+				CMapManager::Instance().Erase(entity);
 				PlayerStateCmp.NowState = PlayerState::State::NORMAL;
 			}
 		}

@@ -79,9 +79,9 @@ public:
 	X3DAUDIO_LISTENER GetListener(void) { return m_listener; }
 
 	// Ã“Iƒƒ“ƒoŠÖ”
-	static CListener* Instance(void) {
-		static std::unique_ptr<CListener> Instance = std::make_unique<CListener>();
-		return Instance.get();
+	static CListener& Instance(void) {
+		static CListener Instance;
+		return Instance;
 	}
 private:
 	// ƒƒ“ƒo•Ï”

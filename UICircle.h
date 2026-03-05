@@ -28,9 +28,9 @@ public:
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
-	static CUICircle* Instance(void) {
-		static std::unique_ptr<CUICircle> Instance(new CUICircle);
-		return Instance.get();
+	static CUICircle& Instance(void) {
+		static CUICircle Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

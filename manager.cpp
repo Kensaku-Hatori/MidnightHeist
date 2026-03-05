@@ -81,7 +81,6 @@ CInputMouse* CManager::m_pInputMouse = NULL;
 CCamera* CManager::m_pCamera = NULL;
 CLight* CManager::m_pLight = NULL;
 CScene* CManager::m_pScene = NULL;
-CFade* CManager::m_pFade = NULL;
 unique_ptr <CThreadPool> CManager::m_pThreadPool = NULL;
 unique_ptr<btDiscreteDynamicsWorld> CManager::m_pDynamicsWorld = NULL;
 bool CManager::m_isPause = false;
@@ -162,24 +161,23 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, bool bWnd)
 	m_pCamera->Init();
 	m_pLight->Init();
 
-	// 2Dサウンドを初期化
-	CSound2D::Instance()->Init();
+	CFade::Instance().Init();
 
-	// 暗転係を生成
-	m_pFade = CFade::CreateSingle();
+	// 2Dサウンドを初期化
+	CSound2D::Instance().Init();
 
 	// タイトル画面に設定
 	SetScene(new CTitle);
 
 	// シェーダー初期化
-	CShapeShadow::Instance()->Init();
-	CShadowMap::Instance()->Init();
-	CToon::Instance()->Init();
-	CDefaultCubemap::Instance()->Init();
-	CDistortion::Instance()->Init();
-	CUICircle::Instance()->Init();
-	CVisibleSineCurve::Instance()->Init();
-	CSimpleBloom::Instance()->Init();
+	CShapeShadow::Instance().Init();
+	CShadowMap::Instance().Init();
+	CToon::Instance().Init();
+	CDefaultCubemap::Instance().Init();
+	CDistortion::Instance().Init();
+	CUICircle::Instance().Init();
+	CVisibleSineCurve::Instance().Init();
+	CSimpleBloom::Instance().Init();
 
 	return S_OK;
 }
@@ -292,27 +290,22 @@ void CManager::Uninit()
 		m_pLight = NULL;
 	}
 
-	// フェードの破棄
-	if (m_pFade != NULL)
-	{
-		m_pFade->Uninit();
-		m_pFade = NULL;
-	}
+	CFade::Instance().Uninit();
 
 	// シェーダー終了
-	CShapeShadow::Instance()->ReSet();
-	CShadowMap::Instance()->ReSet();
-	CToon::Instance()->ReSet();
-	CDefaultCubemap::Instance()->ReSet();
-	CDistortion::Instance()->ReSet();
-	CUICircle::Instance()->Reset();
-	CVisibleSineCurve::Instance()->Reset();
-	CSimpleBloom::Instance()->ReSet();
+	CShapeShadow::Instance().ReSet();
+	CShadowMap::Instance().ReSet();
+	CToon::Instance().ReSet();
+	CDefaultCubemap::Instance().ReSet();
+	CDistortion::Instance().ReSet();
+	CUICircle::Instance().Reset();
+	CVisibleSineCurve::Instance().Reset();
+	CSimpleBloom::Instance().ReSet();
 	// リソースマネージャーの解放
 	CLoadTexture::UnRegistTex();
 	CModelManager::UnRegistModel();
 	// ２D音源の破棄
-	CSound2D::Instance()->Uninit();
+	CSound2D::Instance().Uninit();
 }
 
 //***************************************
@@ -343,11 +336,7 @@ void CManager::Update()
 		m_pScene->Update();
 	}
 
-	// フェードの更新
-	if (m_pFade != NULL)
-	{
-		m_pFade->Update();
-	}
+	CFade::Instance().Update();
 
 	// キーボードが使われていたら更新
 	if (m_pInputKeyboard != NULL)
@@ -389,7 +378,7 @@ void CManager::SetScene(CScene* Scene)
 	}
 	else if (m_pScene != NULL)
 	{
-		CSound2D::Instance()->StopAll();
+		CSound2D::Instance().StopAll();
 		m_pScene->Uninit();
 		CSystemManager::EndSystem();
 		m_pScene = NULL;

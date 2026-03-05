@@ -79,7 +79,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 
 	ShowCursor(FALSE);
 
-	if (FAILED(CSoundDevice::Instance()->Init()))
+	if (FAILED(CSoundDevice::Instance().Init()))
 	{
 		return -1;
 	}
@@ -165,10 +165,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 		pManager = NULL;
 	}
 
-	if (CSoundDevice::Instance() != nullptr)
-	{
-		CSoundDevice::Instance()->Uninit();
-	}
+	CSoundDevice::Instance().Uninit();
+
 	//
 	timeEndPeriod(1);
 

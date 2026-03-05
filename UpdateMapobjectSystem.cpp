@@ -78,6 +78,6 @@ void UpdateMapobjectSystem::CollisionExitGate(entt::registry& Reg, entt::entity 
 		// ƒtƒ‰ƒO‚ð—§‚Ä‚é
 		CManager::SetClear(true);
 		// ‘JˆÚ
-		CManager::GetFade()->SetFade(new CResult);
+		CFade::Instance().SetFade(new CResult);
 	}
 }

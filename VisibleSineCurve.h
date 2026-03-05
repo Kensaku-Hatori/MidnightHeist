@@ -25,9 +25,9 @@ public:
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
-	static CVisibleSineCurve* Instance(void) {
-		static std::unique_ptr<CVisibleSineCurve> Instance(new CVisibleSineCurve);
-		return Instance.get();
+	static CVisibleSineCurve& Instance(void) {
+		static CVisibleSineCurve Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

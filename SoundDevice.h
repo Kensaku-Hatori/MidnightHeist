@@ -75,9 +75,9 @@ public:
 	WAVEFORMATEXTENSIBLE GetAudioFMT(SoundDevice::LABEL Label) { return m_aWaveFMT[Label]; }
 
 	//@Ã“Iƒƒ“ƒoŠÖ”
-	static CSoundDevice* Instance(void) {
-		static std::unique_ptr<CSoundDevice> Instance = std::make_unique<CSoundDevice>();
-		return Instance.get();
+	static CSoundDevice& Instance(void) {
+		static CSoundDevice Instance;
+		return Instance;
 	}
 private:
     // XAudio2

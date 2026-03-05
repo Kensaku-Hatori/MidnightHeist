@@ -34,7 +34,10 @@ public:
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
-	static CToon* Instance(void);
+	static CToon& Instance(void) {
+		static CToon Instance;
+		return Instance;
+	};
 private:
 	// コンストラクタ
 	CToon() {};

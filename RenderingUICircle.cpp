@@ -34,8 +34,8 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 	auto view = reg.view<UICircle>();
 
 	// シェーダ起動
-	CUICircle::Instance()->Begin();
-	CUICircle::Instance()->BeginPass();
+	CUICircle::Instance().Begin();
+	CUICircle::Instance().BeginPass();
 
 	// アクセス
 	for (auto entity : view)
@@ -75,11 +75,11 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 		pDevice->SetFVF(FVF_VERTEX_3D);
 		// パラメータ設定
 		D3DXMATRIX Origin = TransformCmp.mtxWorld;
-		CUICircle::Instance()->SetParameters(mtxInv, Origin, UICircleCmp.FillAmount, UICircleCmp.Radius, UICircleCmp.MaxFillAngle);
+		CUICircle::Instance().SetParameters(mtxInv, Origin, UICircleCmp.FillAmount, UICircleCmp.Radius, UICircleCmp.MaxFillAngle);
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 	}
 	// シェーダ終了
-	CUICircle::Instance()->EndPass();
-	CUICircle::Instance()->End();
+	CUICircle::Instance().EndPass();
+	CUICircle::Instance().End();
 }

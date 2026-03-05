@@ -120,5 +120,5 @@ void UpdateEnemySystem::UpdateToPlayerRay(entt::registry& Reg, entt::entity& Ent
 	// フラグを保存
 	State.IsOldBlockedToPlayer = State.IsBlockedToPlayer;
 	// フラグを更新
-	State.IsBlockedToPlayer = CMath::IsBlockedRayToMeshes(CMapManager::Instance()->GetvMapObject(), ToPlayerRay, CMath::CalcDistance(MyPos, PlayerPos));
+	State.IsBlockedToPlayer = CMath::IsBlockedRayToMeshes(CMapManager::Instance().GetvMapObject(), ToPlayerRay, CMath::CalcDistance(MyPos, PlayerPos));
 }

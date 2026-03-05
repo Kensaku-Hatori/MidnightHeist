@@ -97,6 +97,6 @@ void UpdatePauseManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& M
 	auto& myType = Reg.get<Menu2DComponent>(Menu);
 	// ƒƒjƒ…[‚É‰‚¶‚½ˆ—‚ğÀs
 	if (MENUTYPE::CONTINUE == myType.myType)CSystemManager::SetPause(false);
-	else if (MENUTYPE::RETRY == myType.myType)CFade::SetFade(new CGame);
-	else if (MENUTYPE::QUIT == myType.myType)CFade::SetFade(new CTitle);
+	else if (MENUTYPE::RETRY == myType.myType)CFade::Instance().SetFade(new CGame);
+	else if (MENUTYPE::QUIT == myType.myType)CFade::Instance().SetFade(new CTitle);
 }

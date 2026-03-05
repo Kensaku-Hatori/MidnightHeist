@@ -40,9 +40,9 @@ public:
 	// ゲッター
 	LPDIRECT3DTEXTURE9& GetBloomMap(void) { return m_BloomMap; };
 	// 静的メンバ関数
-	static CSimpleBloom* Instance(void) {
-		static std::unique_ptr<CSimpleBloom> Instance(new CSimpleBloom);
-		return Instance.get();
+	static CSimpleBloom& Instance(void) {
+		static CSimpleBloom Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

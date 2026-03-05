@@ -38,9 +38,9 @@ public:
 
 	// 静的メンバ関数
 	// シングルトン
-	static CShapeShadow* Instance(void) {
-		static std::unique_ptr<CShapeShadow> Instance(new CShapeShadow);
-		return Instance.get();
+	static CShapeShadow& Instance(void) {
+		static CShapeShadow Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

@@ -30,9 +30,9 @@ public:
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
-	static CDefaultCubemap* Instance(void) {
-		static std::unique_ptr<CDefaultCubemap> Instance(new CDefaultCubemap);
-		return Instance.get();
+	static CDefaultCubemap& Instance(void) {
+		static CDefaultCubemap Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

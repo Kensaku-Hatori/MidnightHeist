@@ -48,8 +48,8 @@ HRESULT CResult::Init(void)
 	// カメラにシステムを追加
 	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCamera);
 	else CManager::GetCamera()->AddSystem(new CFailedCamera);
-	if (IsClear == true)CSound2D::Instance()->Play(SoundDevice::LABEL_GAMECLEARBGM);
-	else CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEOVERBGM);
+	if (IsClear == true)CSound2D::Instance().Play(SoundDevice::LABEL_GAMECLEARBGM);
+	else CSound2D::Instance().Play(SoundDevice::LABEL_GAMEOVERBGM);
 
     return E_NOTIMPL;
 }
@@ -74,7 +74,7 @@ void CResult::Update(void)
 	if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) ||
 		CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
 	{
-		CManager::GetFade()->SetFade(new CTitle);
+		CFade::Instance().SetFade(new CTitle);
 	}
 }
 

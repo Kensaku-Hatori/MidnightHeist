@@ -66,7 +66,6 @@ public:
 	static CShaderFade* GetShaderFade(void) { return m_pFadeShader; };
 	static CLight* GetLight(void) { return m_pLight; };
 	static CScene* GetScene(void) { return m_pScene; };
-	static CFade* GetFade(void) { return m_pFade; };
 	static btDiscreteDynamicsWorld* GetDynamicsWorld(void) { return m_pDynamicsWorld.get(); }
 	static CThreadPool* GetThreadPool(void) { return m_pThreadPool.get(); }
 	// プレイヤーをリスポーンさせる
@@ -84,7 +83,6 @@ private:
 	static CLight* m_pLight;					// ライトのインスタンス
 	static CShaderFade* m_pFadeShader;			// シェーダフェード
 	static CScene* m_pScene;					// シーンのインスタンス
-	static CFade* m_pFade;						// 画面遷移用のフェードのインスタンス
 	static std::unique_ptr<btDiscreteDynamicsWorld> m_pDynamicsWorld;				// 物理世界
 	static bool m_isPause;						// ポーズ中かどうか
 	static bool m_isClear;							// 敵を全滅させたかどうか

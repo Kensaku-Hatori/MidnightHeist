@@ -47,9 +47,9 @@ HRESULT CTitle::Init(void)
 	CManager::GetLight()->ResetCol();
 	CSetUpLoader::Instance().LoadToScene(GetReg(), Config::SetUp::Path);
 	// タイトルBGMを生成・再生
-	CSound2D::Instance()->Play(SoundDevice::LABEL_TITLEBGM);
+	CSound2D::Instance().Play(SoundDevice::LABEL_TITLEBGM);
 	// 聞き手の初期化
-	CListener::Instance()->Init();
+	CListener::Instance().Init();
 
 	// タイトルプレイヤーが落ちないために地面の当たり判定を生成
 	{
@@ -106,7 +106,7 @@ void CTitle::Uninit(void)
 	m_GroundShape.reset();
 
 	// BGMを停止
-	CSound2D::Instance()->Stop(SoundDevice::LABEL_TITLEBGM);
+	CSound2D::Instance().Stop(SoundDevice::LABEL_TITLEBGM);
 
 	// カメラのシステムを終了
 	CManager::GetCamera()->EndSystems();

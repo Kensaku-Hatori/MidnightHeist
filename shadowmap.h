@@ -46,9 +46,9 @@ public:
 	void SetLightDistance(const float Distance) { m_LightDistance = Distance; }
 
 	// 静的メンバ関数
-	static CShadowMap* Instance(void) {
-		static std::unique_ptr<CShadowMap> Instance(new CShadowMap);
-		return Instance.get();
+	static CShadowMap& Instance(void) {
+		static CShadowMap Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

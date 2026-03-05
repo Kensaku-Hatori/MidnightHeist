@@ -28,14 +28,14 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 	auto view = reg.view<Enemy>();
 
 	// 物陰描画
-	CShapeShadow::Instance()->Begin();
-	CShapeShadow::Instance()->BeginScene();
+	CShapeShadow::Instance().Begin();
+	CShapeShadow::Instance().BeginScene();
 	for (auto entity : view)
 	{
 		DrawShapeShadowMap(reg, entity);
 	}
-	CShapeShadow::Instance()->EndTexs();
-	CShapeShadow::Instance()->End();
+	CShapeShadow::Instance().EndTexs();
+	CShapeShadow::Instance().End();
 
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
@@ -64,7 +64,7 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
 
 		// シェーダー起動
-		CToon::Instance()->Begin();
+		CToon::Instance().Begin();
 
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
@@ -74,23 +74,23 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 			D3DXVECTOR4 SettCol = { pCol.MatD3D.Diffuse.r,pCol.MatD3D.Diffuse.g,pCol.MatD3D.Diffuse.b,pCol.MatD3D.Diffuse.a };
 
 			// シェーダーにパラメータを設定
-			CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+			CToon::Instance().SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance().GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance().GetLightView(), CShadowMap::Instance().GetLightProj());
 
 			// テクスチャパスがあるかどうか
 			if (pCol.pTextureFilename == NULL)
 			{
-				CToon::Instance()->BeginPass(0);
+				CToon::Instance().BeginPass(0);
 			}
 			else
 			{
-				CToon::Instance()->BeginPass(1);
+				CToon::Instance().BeginPass(1);
 			}
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
-			CToon::Instance()->EndPass();
+			CToon::Instance().EndPass();
 		}
 		// シェーダー終了
-		CToon::Instance()->End();
+		CToon::Instance().End();
 		pDevice->SetMaterial(&matDef);
 	}
 }
@@ -124,14 +124,14 @@ void RenderingEnemySystem::DrawShapeShadowMap(entt::registry& Reg, entt::entity 
 
 	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 	{
-		CShapeShadow::Instance()->SetParameters(TransformComp.mtxWorld);
+		CShapeShadow::Instance().SetParameters(TransformComp.mtxWorld);
 
-		CShapeShadow::Instance()->BeginPass(1);
+		CShapeShadow::Instance().BeginPass(1);
 
 		// モデル(パーツ)の描画
 		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
-		CShapeShadow::Instance()->EndPass();
+		CShapeShadow::Instance().EndPass();
 	}
 
 	pDevice->SetMaterial(&matDef);

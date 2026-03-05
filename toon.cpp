@@ -141,18 +141,3 @@ void CToon::SetUseOutLineParameters(D3DXMATRIX World, D3DXMATRIX View, D3DXMATRI
     // GPUに変更を適応
     pEffect->CommitChanges();
 }
-
-//***************************************
-// インスタンスを取得
-//***************************************
-CToon* CToon::Instance(void)
-{
-    // 生成済みなら
-	if (m_Instance != NULL) return m_Instance.get();
-
-    // メモリ確保
-	m_Instance.reset(new CToon);
-
-    // 返す
-	return m_Instance.get();
-}

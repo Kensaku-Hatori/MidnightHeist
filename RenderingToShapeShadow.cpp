@@ -30,9 +30,9 @@ void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// 物陰マップへの書き込みを開始
-	CShapeShadow::Instance()->Begin();
-	CShapeShadow::Instance()->BeginObject();
-	CShapeShadow::Instance()->BeginPass();
+	CShapeShadow::Instance().Begin();
+	CShapeShadow::Instance().BeginObject();
+	CShapeShadow::Instance().BeginPass();
 
 	// アクセス
 	for (auto Entity : view)
@@ -58,19 +58,19 @@ void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
 
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 		{
-			CShapeShadow::Instance()->SetParameters(TransformComp.mtxWorld);
+			CShapeShadow::Instance().SetParameters(TransformComp.mtxWorld);
 
-			CShapeShadow::Instance()->BeginPass(0);
+			CShapeShadow::Instance().BeginPass(0);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
-			CShapeShadow::Instance()->EndPass();
+			CShapeShadow::Instance().EndPass();
 		}
 
 		pDevice->SetMaterial(&matDef);
 	}
-	CShapeShadow::Instance()->EndTexs();
-	CShapeShadow::Instance()->EndPass();
-	CShapeShadow::Instance()->End();
+	CShapeShadow::Instance().EndTexs();
+	CShapeShadow::Instance().EndPass();
+	CShapeShadow::Instance().End();
 }

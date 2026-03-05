@@ -51,7 +51,7 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& reg)
 		pDevice->GetTransform(D3DTS_VIEW, &View);
 		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
-		CToon::Instance()->Begin();
+		CToon::Instance().Begin();
 
 		// マテリアル分回す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
@@ -64,18 +64,18 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& reg)
 			// テクスチャパスがあるかどうか
 			if (pCol.pTextureFilename == NULL)
 			{
-				CToon::Instance()->BeginPass(0);
+				CToon::Instance().BeginPass(0);
 			}
 			else
 			{
-				CToon::Instance()->BeginPass(1);
+				CToon::Instance().BeginPass(1);
 			}
-			CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+			CToon::Instance().SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance().GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance().GetLightView(), CShadowMap::Instance().GetLightProj());
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
-			CToon::Instance()->EndPass();
+			CToon::Instance().EndPass();
 		}
-		CToon::Instance()->End();
+		CToon::Instance().End();
 		// 既存のマテリアルに戻す
 		pDevice->SetMaterial(&matDef);
 	}

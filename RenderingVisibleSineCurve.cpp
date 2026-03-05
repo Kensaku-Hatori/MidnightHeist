@@ -32,7 +32,7 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 	auto view = reg.view<VisibleSound>();
 
 	// シェーダー起動
-	CVisibleSineCurve::Instance()->Begin();
+	CVisibleSineCurve::Instance().Begin();
 
 	for (auto entity : view)
 	{
@@ -48,12 +48,12 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 		float bias = 0.000005f + (0.0000001f * static_cast<int>(entity));
 		pDevice->SetRenderState(D3DRS_DEPTHBIAS, *(DWORD*)&bias);
 		// シェーダー起動
-		CVisibleSineCurve::Instance()->SetParameters(TransformComp.mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro, SineCurveCmp.Radius);
-		CVisibleSineCurve::Instance()->BeginPass();
+		CVisibleSineCurve::Instance().SetParameters(TransformComp.mtxWorld, SineCurveCmp.nCntSineCurve, SineCurveCmp.Speed, SineCurveCmp.Ripple, SineCurveCmp.SineMacro, SineCurveCmp.Radius);
+		CVisibleSineCurve::Instance().BeginPass();
 		// ポリゴンの描画
 		pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 		// シェーダー終了
-		CVisibleSineCurve::Instance()->EndPass();
+		CVisibleSineCurve::Instance().EndPass();
 	}
-	CVisibleSineCurve::Instance()->End();
+	CVisibleSineCurve::Instance().End();
 }

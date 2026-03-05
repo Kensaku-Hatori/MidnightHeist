@@ -36,12 +36,12 @@ HRESULT CEmitter::Init(void)
 	m_Emitter_Reverb_Curve = { m_Emitter_Reverb_CurvePoints, 2 };
 
 	// リスナー取得
-	X3DAUDIO_LISTENER Listener = CListener::Instance()->GetListener();
+	X3DAUDIO_LISTENER Listener = CListener::Instance().GetListener();
 	// マスターボイス・サブミックスボイスを取得
-	IXAudio2MasteringVoice* MasteringVoice = CSoundDevice::Instance()->GetMasteringVoice();
-	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance()->GetSubMixVoice(SoundDevice::BUS_DEFAULT);
+	IXAudio2MasteringVoice* MasteringVoice = CSoundDevice::Instance().GetMasteringVoice();
+	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance().GetSubMixVoice(SoundDevice::BUS_DEFAULT);
 	// フォーマット取得
-	WAVEFORMATEXTENSIBLE SetFmt = CSoundDevice::Instance()->GetAudioFMT(m_Label);
+	WAVEFORMATEXTENSIBLE SetFmt = CSoundDevice::Instance().GetAudioFMT(m_Label);
 	m_SourceChannels = SetFmt.Format.nChannels;
 
 	XAUDIO2_SEND_DESCRIPTOR sendDesc[2] = {
@@ -51,7 +51,7 @@ HRESULT CEmitter::Init(void)
 	XAUDIO2_VOICE_SENDS sendList = { 2, sendDesc };
 
 	// ソースボイスの生成
-	hr = CSoundDevice::Instance()->GetAudio2Device()->CreateSourceVoice(&m_pSourceVoice, &SetFmt.Format, XAUDIO2_VOICE_USEFILTER,
+	hr = CSoundDevice::Instance().GetAudio2Device()->CreateSourceVoice(&m_pSourceVoice, &SetFmt.Format, XAUDIO2_VOICE_USEFILTER,
 		XAUDIO2_DEFAULT_FREQ_RATIO, NULL, &sendList);
 	if (FAILED(hr))
 	{
@@ -72,8 +72,8 @@ HRESULT CEmitter::Init(void)
 
 	// バッファの値設定
 	memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-	buffer.AudioBytes = CSoundDevice::Instance()->GetAudioSize(m_Label);
-	buffer.pAudioData = CSoundDevice::Instance()->GetAudioData(m_Label);
+	buffer.AudioBytes = CSoundDevice::Instance().GetAudioSize(m_Label);
+	buffer.pAudioData = CSoundDevice::Instance().GetAudioData(m_Label);
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = SoundDevice::aSoundInfo[m_Label].nCntLoop;
 
@@ -119,7 +119,7 @@ HRESULT CEmitter::Init(void)
 	m_emitter.DopplerScaler = 1.0f;
 
 	m_dspSettings.SrcChannelCount = m_SourceChannels;
-	m_dspSettings.DstChannelCount = CSoundDevice::Instance()->GetChannels();
+	m_dspSettings.DstChannelCount = CSoundDevice::Instance().GetChannels();
 	m_dspSettings.pMatrixCoefficients = m_matrixCoefficients.data();
 	m_dspSettings.DopplerFactor = 1.0f;
 	m_dspSettings.ReverbLevel = 1.0f;
@@ -170,10 +170,10 @@ void CEmitter::Update(void)
 
 	if (m_dspSettings.pMatrixCoefficients == nullptr) return;
 
-	X3DAUDIO_HANDLE* AudioHandle = CSoundDevice::Instance()->GetAudio3Handle();
-	X3DAUDIO_LISTENER Listener = CListener::Instance()->GetListener();
-	IXAudio2MasteringVoice* MasteringVoice = CSoundDevice::Instance()->GetMasteringVoice();
-	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance()->GetSubMixVoice(SoundDevice::BUS_DEFAULT);
+	X3DAUDIO_HANDLE* AudioHandle = CSoundDevice::Instance().GetAudio3Handle();
+	X3DAUDIO_LISTENER Listener = CListener::Instance().GetListener();
+	IXAudio2MasteringVoice* MasteringVoice = CSoundDevice::Instance().GetMasteringVoice();
+	IXAudio2SubmixVoice* SubMixVoice = CSoundDevice::Instance().GetSubMixVoice(SoundDevice::BUS_DEFAULT);
 
 	if (CMath::IsValidVector(m_emitter.Position) == false || CMath::IsValidVector(m_emitter.OrientTop) == false) return;
 
@@ -196,7 +196,7 @@ void CEmitter::Update(void)
 		hr = m_pSourceVoice->SetOutputMatrix(
 			MasteringVoice, 
 			m_SourceChannels, 
-			CSoundDevice::Instance()->GetChannels(),
+			CSoundDevice::Instance().GetChannels(),
 			m_matrixCoefficients.data());
 
 		if (FAILED(hr)) return;
@@ -239,8 +239,8 @@ void CEmitter::Play(void)
 
 	// バッファの値設定
 	memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-	buffer.AudioBytes = CSoundDevice::Instance()->GetAudioSize(m_Label);
-	buffer.pAudioData = CSoundDevice::Instance()->GetAudioData(m_Label);
+	buffer.AudioBytes = CSoundDevice::Instance().GetAudioSize(m_Label);
+	buffer.pAudioData = CSoundDevice::Instance().GetAudioData(m_Label);
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = SoundDevice::aSoundInfo[m_Label].nCntLoop;
 

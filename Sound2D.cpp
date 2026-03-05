@@ -20,9 +20,9 @@ HRESULT CSound2D::Init(void)
 	for (int nCnt = 0; nCnt < SoundDevice::LABEL_MAX; nCnt++)
 	{
 		// フォーマット取得
-		WAVEFORMATEXTENSIBLE SetFmt = CSoundDevice::Instance()->GetAudioFMT(static_cast<SoundDevice::LABEL>(nCnt));
+		WAVEFORMATEXTENSIBLE SetFmt = CSoundDevice::Instance().GetAudioFMT(static_cast<SoundDevice::LABEL>(nCnt));
 		// ソースボイスの生成
-		hr = CSoundDevice::Instance()->GetAudio2Device()->CreateSourceVoice(&m_pSourceVoice[nCnt], &SetFmt.Format);
+		hr = CSoundDevice::Instance().GetAudio2Device()->CreateSourceVoice(&m_pSourceVoice[nCnt], &SetFmt.Format);
 		if (FAILED(hr))
 		{
 			return S_FALSE;
@@ -33,8 +33,8 @@ HRESULT CSound2D::Init(void)
 
 		// バッファの値設定
 		memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-		buffer.AudioBytes = CSoundDevice::Instance()->GetAudioSize(static_cast<SoundDevice::LABEL>(nCnt));
-		buffer.pAudioData = CSoundDevice::Instance()->GetAudioData(static_cast<SoundDevice::LABEL>(nCnt));
+		buffer.AudioBytes = CSoundDevice::Instance().GetAudioSize(static_cast<SoundDevice::LABEL>(nCnt));
+		buffer.pAudioData = CSoundDevice::Instance().GetAudioData(static_cast<SoundDevice::LABEL>(nCnt));
 		buffer.Flags = XAUDIO2_END_OF_STREAM;
 		buffer.LoopCount = SoundDevice::aSoundInfo[static_cast<SoundDevice::LABEL>(nCnt)].nCntLoop;
 
@@ -79,8 +79,8 @@ void CSound2D::Play(SoundDevice::LABEL Label)
 
 	// バッファの値設定
 	memset(&buffer, 0, sizeof(XAUDIO2_BUFFER));
-	buffer.AudioBytes = CSoundDevice::Instance()->GetAudioSize(Label);
-	buffer.pAudioData = CSoundDevice::Instance()->GetAudioData(Label);
+	buffer.AudioBytes = CSoundDevice::Instance().GetAudioSize(Label);
+	buffer.pAudioData = CSoundDevice::Instance().GetAudioData(Label);
 	buffer.Flags = XAUDIO2_END_OF_STREAM;
 	buffer.LoopCount = SoundDevice::aSoundInfo[Label].nCntLoop;
 

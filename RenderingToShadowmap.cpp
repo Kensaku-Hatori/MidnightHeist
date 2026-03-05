@@ -25,9 +25,9 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 	auto view = reg.view<CastShadow>();
 
 	// シャドウマップへの書き込みを開始
-	CShadowMap::Instance()->Begin();
-	CShadowMap::Instance()->BeginPass();
-	CShadowMap::Instance()->WriteMaps();
+	CShadowMap::Instance().Begin();
+	CShadowMap::Instance().BeginPass();
+	CShadowMap::Instance().WriteMaps();
 
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -63,7 +63,7 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 		{
-			CShadowMap::Instance()->SetParameters(TransformComp.mtxWorld);
+			CShadowMap::Instance().SetParameters(TransformComp.mtxWorld);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
@@ -71,7 +71,7 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 
 		pDevice->SetMaterial(&matDef);
 	}
-	CShadowMap::Instance()->EndMaps();
-	CShadowMap::Instance()->EndPass();
-	CShadowMap::Instance()->End();
+	CShadowMap::Instance().EndMaps();
+	CShadowMap::Instance().EndPass();
+	CShadowMap::Instance().End();
 }

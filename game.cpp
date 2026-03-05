@@ -65,10 +65,10 @@ HRESULT CGame::Init(void)
 	m_IsFinishedFirstNoise = false;
 	CSetUpLoader::Instance().LoadToScene(GetReg(), "data/TEXT/SetUp/GameSetUp.json");
 	// ゲームBGMの再生
-	CSound2D::Instance()->Play(SoundDevice::LABEL_GAMEBGM);
+	CSound2D::Instance().Play(SoundDevice::LABEL_GAMEBGM);
 
 	// ノイズスタート
-	CDistortion::Instance()->StartNoise();
+	CDistortion::Instance().StartNoise();
 
 	// システム追加
 	CManager::GetCamera()->AddSystem(new CGameCamera);
@@ -125,15 +125,15 @@ void CGame::Update(void)
 	}
 
 	// マップマネージャーの更新
-	CMapManager::Instance()->Update();
+	CMapManager::Instance().Update();
 
 	m_IsOlfFinishedFirstNoise = m_IsFinishedFirstNoise;
-	if (m_IsFinishedFirstNoise == false && CDistortion::Instance()->IsNoised() == false) m_IsFinishedFirstNoise = true;
+	if (m_IsFinishedFirstNoise == false && CDistortion::Instance().IsNoised() == false) m_IsFinishedFirstNoise = true;
 
-	if (rand() % 100 + 0 < 1 && CDistortion::Instance()->IsNoised() == false)
+	if (rand() % 100 + 0 < 1 && CDistortion::Instance().IsNoised() == false)
 	{
 		// ノイズスタート
-		CDistortion::Instance()->StartNoise(0.1f, 0.1f, 15.0f);
+		CDistortion::Instance().StartNoise(0.1f, 0.1f, 15.0f);
 	}
 }
 
@@ -155,8 +155,8 @@ void CGame::Uninit(void)
 	m_NearWallShape.reset();
 
 	// ノイズ終了
-	CSound2D::Instance()->Stop(SoundDevice::LABEL_GAMEBGM);
-	CDistortion::Instance()->EndNoise();
+	CSound2D::Instance().Stop(SoundDevice::LABEL_GAMEBGM);
+	CDistortion::Instance().EndNoise();
 	CSystemManager::SetPause(false);
 	CManager::GetCamera()->EndSystems();
 	WriteStutsInfo();
@@ -169,7 +169,7 @@ void CGame::Uninit(void)
 //***************************************
 void CGame::Draw(void)
 {
-	CMapManager::Instance()->Draw();
+	CMapManager::Instance().Draw();
 }
 
 //***************************************

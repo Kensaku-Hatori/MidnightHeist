@@ -24,6 +24,7 @@ struct VS_OUTPUT
 
 // シャドウマップ(テクスチャ)
 texture g_ShadowTexture;
+Texture2D test;
 
 // テクスチャサンプラーを宣言
 sampler2D ShadowSampler = sampler_state
@@ -158,23 +159,42 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
+        float2 uv0 = TransTexCoord + offset[0] * TexelSize;
+        float2 uv1 = TransTexCoord + offset[1] * TexelSize;
+        float2 uv2 = TransTexCoord + offset[2] * TexelSize;
+        float2 uv3 = TransTexCoord + offset[3] * TexelSize;
+
      	// ライト目線によるZ値の再算出
         float ZValue = input.LightPos.z / input.LightPos.w;
         // リアルZ値抽出
         float SM_Z = tex2D(ShadowSampler, TransTexCoord).x;
-    
-        if (ZValue >= 0.0f && ZValue <= 1.0f)
-        {
-            float2 uv0 = TransTexCoord + offset[0] * TexelSize;
-            float2 uv1 = TransTexCoord + offset[1] * TexelSize;
-            float2 uv2 = TransTexCoord + offset[2] * TexelSize;
-            float2 uv3 = TransTexCoord + offset[3] * TexelSize;
+        float SM_Z1 = tex2D(ShadowSampler, uv0).x;
+        float SM_Z2 = tex2D(ShadowSampler, uv1).x;
+        float SM_Z3 = tex2D(ShadowSampler, uv2).x;
+        float SM_Z4 = tex2D(ShadowSampler, uv3).x;
 
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv0).x);
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv1).x);
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv2).x);
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv3).x);
+        if (ZValue > SM_Z)
+        {
+            shadowSum += 1.0f;
         }
+        
+        if (ZValue > SM_Z1)
+        {
+            shadowSum += 1.0f;
+        }
+        if (ZValue > SM_Z2)
+        {
+            shadowSum += 1.0f;
+        }
+        if (ZValue > SM_Z3)
+        {
+            shadowSum += 1.0f;
+        }
+        if (ZValue > SM_Z4)
+        {
+            shadowSum += 1.0f;
+        }
+
     }
     // 影の色を算出
     Shadow = lerp(1.0f, 0.5f, shadowSum / 4);
@@ -218,22 +238,40 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
 
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
+        float2 uv0 = TransTexCoord + offset[0] * TexelSize;
+        float2 uv1 = TransTexCoord + offset[1] * TexelSize;
+        float2 uv2 = TransTexCoord + offset[2] * TexelSize;
+        float2 uv3 = TransTexCoord + offset[3] * TexelSize;
+
      	// ライト目線によるZ値の再算出
         float ZValue = input.LightPos.z / input.LightPos.w;
         // リアルZ値抽出
         float SM_Z = tex2D(ShadowSampler, TransTexCoord).x;
-    
-        if (ZValue >= 0.0f && ZValue <= 1.0f)
-        {
-            float2 uv0 = TransTexCoord + offset[0] * TexelSize;
-            float2 uv1 = TransTexCoord + offset[1] * TexelSize;
-            float2 uv2 = TransTexCoord + offset[2] * TexelSize;
-            float2 uv3 = TransTexCoord + offset[3] * TexelSize;
+        float SM_Z1 = tex2D(ShadowSampler, uv0).x;
+        float SM_Z2 = tex2D(ShadowSampler, uv1).x;
+        float SM_Z3 = tex2D(ShadowSampler, uv2).x;
+        float SM_Z4 = tex2D(ShadowSampler, uv3).x;
 
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv0).x);
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv1).x);
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv2).x);
-            shadowSum += (ZValue - 0.02f > tex2D(ShadowSampler, uv3).x);
+        if (ZValue > SM_Z)
+        {
+            shadowSum += 1.0f;
+        }
+        
+        if (ZValue > SM_Z1)
+        {
+            shadowSum += 1.0f;
+        }
+        if (ZValue > SM_Z2)
+        {
+            shadowSum += 1.0f;
+        }
+        if (ZValue > SM_Z3)
+        {
+            shadowSum += 1.0f;
+        }
+        if (ZValue > SM_Z4)
+        {
+            shadowSum += 1.0f;
         }
     }
     // 影の色を算出

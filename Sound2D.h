@@ -30,9 +30,9 @@ public:
 	void StopAll(void);
 
 	// Ã“Iƒƒ“ƒoŠÖ”
-	static CSound2D* Instance(void) {
-		static std::unique_ptr<CSound2D> Instance = std::make_unique<CSound2D>();
-		return Instance.get();
+	static CSound2D& Instance(void) {
+		static CSound2D Instance;
+		return Instance;
 	}
 private:
 	// ƒƒ“ƒo•Ï”

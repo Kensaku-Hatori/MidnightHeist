@@ -26,12 +26,12 @@ void RenderingMapobjectSystem::Rendering(entt::registry& reg)
 	auto view = reg.view<MapObject>();
 
 	// 影を付けて描画
-	CToon::Instance()->Begin();
+	CToon::Instance().Begin();
 	for (auto entity : view)
 	{
 		DrawUseShadowMap(reg, entity);
 	}
-	CToon::Instance()->End();
+	CToon::Instance().End();
 }
 
 //*********************************************
@@ -69,7 +69,7 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
 	// シェーダー起動
-	CToon::Instance()->Begin();
+	CToon::Instance().Begin();
 
 	// 描画開始
 	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
@@ -82,24 +82,24 @@ void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entit
 		// テクスチャが存在しなかったら
 		if (col.pTextureFilename == NULL)
 		{
-			CToon::Instance()->BeginPass(0);
+			CToon::Instance().BeginPass(0);
 		}
 		else
 		{
-			CToon::Instance()->BeginPass(1);
+			CToon::Instance().BeginPass(1);
 		}
 
 		// パラメータを設定
-		CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), modelinfo.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+		CToon::Instance().SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance().GetTex(), modelinfo.modelinfo.Tex[nCntMat], CShadowMap::Instance().GetLightView(), CShadowMap::Instance().GetLightProj());
 
 		// モデル(パーツ)の描画
 		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
 		// パスを終了
-		CToon::Instance()->EndPass();
+		CToon::Instance().EndPass();
 	}
 	// シェーダー終了
-	CToon::Instance()->End();
+	CToon::Instance().End();
 
 	pDevice->SetMaterial(&matDef);
 }

@@ -34,9 +34,9 @@ public:
 	std::vector<entt::entity>& GetvMapObject(void) { return m_vMapObject; }
 	// 静的メンバ関数
 	// シングルトン
-	static CMapManager* Instance(void) {
-		static std::unique_ptr<CMapManager> Instance(new CMapManager);
-		return Instance.get();
+	static CMapManager& Instance(void) {
+		static CMapManager Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

@@ -40,22 +40,22 @@ public:
 	void Update(void);
 	void Draw(void);
 
-	// 静的メンバ関数
 	// セッター
-	static void SetFade(CScene* pNextScene);
+	void SetFade(CScene* pNextScene);
 
 	// ゲッター
-	static FADE GetFade(void) { return m_pSingleto->m_Fade; };
-	static CFade* GetFadeSingle(void) { return m_pSingleto; };
+	FADE GetFade(void) { return m_Fade; };
 
-	// 生成
-	static CFade* CreateSingle(void);
+	// 静的メンバ関数
+	// ゲッター
+	static CFade& Instance(void) {
+		static CFade Instance;
+		return Instance;
+	}
 private:
 	// コンストラクタ
 	CFade() {};
 
-	// 静的メンバ変数
-	static CFade* m_pSingleto;			// シングルトン
 	// メンバ変数
 	LPDIRECT3DVERTEXBUFFER9 m_pVertex;	// 頂点バッファ
 	FADE m_Fade;						// フェードの状態

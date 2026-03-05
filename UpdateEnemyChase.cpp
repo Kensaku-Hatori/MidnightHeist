@@ -51,11 +51,11 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			// 一番近くの障害物をまたがないポイントへのIdx
 			int BestPoint;
 			// Idxを取得
-			BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+			BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance().GetvMapObject());
 			// 見失った位置のIdx
 			int MissPoint;
 			// Idxを取得
-			MissPoint = CMath::NearCanMovePoint(AICmp.LastLookPlayerPosition, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+			MissPoint = CMath::NearCanMovePoint(AICmp.LastLookPlayerPosition, PatrolPointCmp.PatrolPoint, CMapManager::Instance().GetvMapObject());
 			if (MissPoint < 0) return;
 
 			// 帰るまでの道筋を取得

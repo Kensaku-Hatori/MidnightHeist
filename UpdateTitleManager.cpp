@@ -88,6 +88,6 @@ void UpdateTitleManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& M
 	// コンポーネントを取得
 	auto& myType = Reg.get<Menu2DComponent>(Menu);
 	// タイプに応じた処理を実行
-	if (MENUTYPE::START == myType.myType)CFade::SetFade(new CGame);
+	if (MENUTYPE::START == myType.myType)CFade::Instance().SetFade(new CGame);
 	else if (MENUTYPE::EXIT == myType.myType)PostQuitMessage(0);
 }

@@ -34,9 +34,9 @@ public:
 	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
 
 	// 静的メンバ関数
-	static CDistortion* Instance(void) {
-		static std::unique_ptr<CDistortion> Instance(new CDistortion);
-		return Instance.get();
+	static CDistortion& Instance(void) {
+		static CDistortion Instance;
+		return Instance;
 	};
 private:
 	// コンストラクタ

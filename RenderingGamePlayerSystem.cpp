@@ -38,8 +38,8 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	//*********************************************
 	// 物陰マップに書き込みを開始
 	//*********************************************
-	CShapeShadow::Instance()->Begin();
-	CShapeShadow::Instance()->BeginScene();
+	CShapeShadow::Instance().Begin();
+	CShapeShadow::Instance().BeginScene();
 
 	// アクセス
 	for (auto [Entity] : view.each())
@@ -49,8 +49,8 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	}
 
 	// 書き込みを終了する
-	CShapeShadow::Instance()->EndTexs();
-	CShapeShadow::Instance()->End();
+	CShapeShadow::Instance().EndTexs();
+	CShapeShadow::Instance().End();
 
 	//*********************************************
 	// 通常描画
@@ -74,7 +74,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
 
 		// シェーダー起動
-		CToon::Instance()->Begin();
+		CToon::Instance().Begin();
 
 		// マテリアル分回す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
@@ -85,23 +85,23 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 			// シェーダーに渡す用の色
 			D3DXVECTOR4 SettCol = { pMat[nCntMat].MatD3D.Diffuse.r,pMat[nCntMat].MatD3D.Diffuse.g,pMat[nCntMat].MatD3D.Diffuse.b,pMat[nCntMat].MatD3D.Diffuse.a };
 			// パラメータ設定
-			CToon::Instance()->SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance()->GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance()->GetLightView(), CShadowMap::Instance()->GetLightProj());
+			CToon::Instance().SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance().GetTex(), RenderingComp.Info.modelinfo.Tex[nCntMat], CShadowMap::Instance().GetLightView(), CShadowMap::Instance().GetLightProj());
 
 			// テクスチャパスがあるかどうか
 			if (pMat[nCntMat].pTextureFilename == NULL)
 			{
-				CToon::Instance()->BeginPass(0);
+				CToon::Instance().BeginPass(0);
 			}
 			else
 			{
-				CToon::Instance()->BeginPass(1);
+				CToon::Instance().BeginPass(1);
 			}
 			// モデル(パーツ)の描画
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
 			// シェーダー終了
-			CToon::Instance()->EndPass();
+			CToon::Instance().EndPass();
 		}
-		CToon::Instance()->End();
+		CToon::Instance().End();
 		// 既存のマテリアルに戻す
 		pDevice->SetMaterial(&matDef);
 	}
@@ -136,14 +136,14 @@ void RenderingGamePlayerSystem::RenderingShape(entt::registry& Reg, entt::entity
 
 	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 	{
-		CShapeShadow::Instance()->SetParameters(TransformComp.mtxWorld);
+		CShapeShadow::Instance().SetParameters(TransformComp.mtxWorld);
 
-		CShapeShadow::Instance()->BeginPass(1);
+		CShapeShadow::Instance().BeginPass(1);
 
 		// モデル(パーツ)の描画
 		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
 
-		CShapeShadow::Instance()->EndPass();
+		CShapeShadow::Instance().EndPass();
 	}
 
 	pDevice->SetMaterial(&matDef);

@@ -302,9 +302,9 @@ void CRenderer::Draw()
 		m_BackBufferCol, 1.0f, 0);
 
 	// マップ系のテクスチャをクリア
-	CShapeShadow::Instance()->Clear();
-	CShadowMap::Instance()->Clear();
-	CSimpleBloom::Instance()->ClearAll();
+	CShapeShadow::Instance().Clear();
+	CShadowMap::Instance().Clear();
+	CSimpleBloom::Instance().ClearAll();
 
 	//描画開始
 	if (SUCCEEDED(m_pD3DDevice->BeginScene()))
@@ -339,28 +339,28 @@ void CRenderer::Draw()
 
 		// シーンとフェードの描画
 		CManager::GetScene()->Draw();
-		CManager::GetFade()->Draw();
+		CFade::Instance().Draw();
 
 		// 物陰を描画
-		CShapeShadow::Instance()->DrawTex();
+		CShapeShadow::Instance().DrawTex();
 
 		// レンダータゲットを元に戻す
 		m_pD3DDevice->SetRenderTarget(0, RenderDef);
 
 		// 歪みシェーダ起動
-		CDistortion::Instance()->Begin();
-		if (CDistortion::Instance()->GetNoiseCnt() <= 0)CDistortion::Instance()->BeginPass(1);
-		else CDistortion::Instance()->BeginPass(0);
+		CDistortion::Instance().Begin();
+		if (CDistortion::Instance().GetNoiseCnt() <= 0)CDistortion::Instance().BeginPass(1);
+		else CDistortion::Instance().BeginPass(0);
 
 		// パラメータ設定
-		CDistortion::Instance()->SetParameters(m_SceneTex);
+		CDistortion::Instance().SetParameters(m_SceneTex);
 
 		// シーン描画
 		DrawScene();
 
 		// 歪みシェーダ終了
-		CDistortion::Instance()->EndPass();
-		CDistortion::Instance()->End();
+		CDistortion::Instance().EndPass();
+		CDistortion::Instance().End();
 
 		//DrawBloom();
 
@@ -393,61 +393,61 @@ void CRenderer::DrawScene(void)
 void CRenderer::DrawBloom(void)
 {
 	// 歪みシェーダ起動
-	CSimpleBloom::Instance()->Begin();
-	CSimpleBloom::Instance()->BeginPass(0);
+	CSimpleBloom::Instance().Begin();
+	CSimpleBloom::Instance().BeginPass(0);
 	// パラメータ設定
-	CSimpleBloom::Instance()->SetBrightParameters(m_SceneTex);
+	CSimpleBloom::Instance().SetBrightParameters(m_SceneTex);
 
-	CSimpleBloom::Instance()->BeginBrightMap();
+	CSimpleBloom::Instance().BeginBrightMap();
 
 	// シーン描画
 	DrawScene();
 
 	// 歪みシェーダ終了
-	CSimpleBloom::Instance()->EndBrightMap();
-	CSimpleBloom::Instance()->EndPass();
-	CSimpleBloom::Instance()->End();
+	CSimpleBloom::Instance().EndBrightMap();
+	CSimpleBloom::Instance().EndPass();
+	CSimpleBloom::Instance().End();
 
 
 	// 歪みシェーダ起動
-	CSimpleBloom::Instance()->Begin();
+	CSimpleBloom::Instance().Begin();
 	// パラメータ設定
-	CSimpleBloom::Instance()->SetBloomParameters();
+	CSimpleBloom::Instance().SetBloomParameters();
 
-	CSimpleBloom::Instance()->BeginBloomMap();
+	CSimpleBloom::Instance().BeginBloomMap();
 
-	CSimpleBloom::Instance()->BeginPass(1);
-
-	// シーン描画
-	DrawScene();
-
-	CSimpleBloom::Instance()->EndPass();
-
-	CSimpleBloom::Instance()->BeginPass(2);
+	CSimpleBloom::Instance().BeginPass(1);
 
 	// シーン描画
 	DrawScene();
 
-	CSimpleBloom::Instance()->EndPass();
+	CSimpleBloom::Instance().EndPass();
+
+	CSimpleBloom::Instance().BeginPass(2);
+
+	// シーン描画
+	DrawScene();
+
+	CSimpleBloom::Instance().EndPass();
 
 	// 歪みシェーダ終了
-	CSimpleBloom::Instance()->EndBloomMap();
-	CSimpleBloom::Instance()->End();
+	CSimpleBloom::Instance().EndBloomMap();
+	CSimpleBloom::Instance().End();
 
 
 	// 歪みシェーダ起動
-	CSimpleBloom::Instance()->Begin();
-	CSimpleBloom::Instance()->BeginPass(3);
+	CSimpleBloom::Instance().Begin();
+	CSimpleBloom::Instance().BeginPass(3);
 
 	// パラメータ設定
-	CSimpleBloom::Instance()->SetBloomMap();
+	CSimpleBloom::Instance().SetBloomMap();
 
 	// シーン描画
 	DrawScene();
 
 	// 歪みシェーダ終了
-	CSimpleBloom::Instance()->EndPass();
-	CSimpleBloom::Instance()->End();
+	CSimpleBloom::Instance().EndPass();
+	CSimpleBloom::Instance().End();
 }
 
 //*************************************

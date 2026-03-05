@@ -26,8 +26,8 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 	auto view = reg.view<RenderingOutLine>();
 
 	// シェーダー起動
-	CToon::Instance()->Begin();
-	CToon::Instance()->BeginPass(2);
+	CToon::Instance().Begin();
+	CToon::Instance().BeginPass(2);
 
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -65,7 +65,7 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 		for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.Tex.size(); nCntMat++)
 		{
 			// アウトライン用のパラメータ設定
-			CToon::Instance()->SetUseOutLineParameters(TransformCmp.mtxWorld, View, Proj, OutLineCmp.Thickness, OutLineCmp.Color, OutLineCmp.Height);
+			CToon::Instance().SetUseOutLineParameters(TransformCmp.mtxWorld, View, Proj, OutLineCmp.Thickness, OutLineCmp.Color, OutLineCmp.Height);
 
 			// モデル(パーツ)の描画
 			modelinfo.modelinfo.pSmoothMesh->DrawSubset(nCntMat);
@@ -75,6 +75,6 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 		pDevice->SetMaterial(&matDef);
 	}
 	// シェーダー終了
-	CToon::Instance()->EndPass();
-	CToon::Instance()->End();
+	CToon::Instance().EndPass();
+	CToon::Instance().End();
 }

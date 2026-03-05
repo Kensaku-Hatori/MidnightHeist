@@ -101,7 +101,7 @@ void UpdateEnemyPredictSystem::Update(entt::registry& reg)
 				// 一番近くの障害物をまたがないポイントへのIdx
 				int BestPoint;
 				// Idxを取得
-				BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance()->GetvMapObject());
+				BestPoint = CMath::NearCanMovePoint(TransformCmp.Pos, PatrolPointCmp.PatrolPoint, CMapManager::Instance().GetvMapObject());
 				if (BestPoint < 0) return;
 
 				// 帰るまでの道筋を取得
