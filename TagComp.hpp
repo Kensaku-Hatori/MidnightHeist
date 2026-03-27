@@ -66,7 +66,7 @@ namespace SequenceTag {
 }
 
 // 物理エンジン用
-namespace Pysics {
+namespace Physics {
 	// 剛体
 	struct RigitBody {};
 	// 矩形の当たり判定

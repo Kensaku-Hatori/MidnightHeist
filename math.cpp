@@ -207,14 +207,18 @@ D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
 	// モデルmanagerからインデックスを指定して取得
 	CModelManager::MapObject modelinfo = CModelManager::GetModelInfo(Path);
 
+	// 頂点バッファと頂点数を取得
 	BYTE* pVtxBuff = NULL;
 	WORD SizeFVF = (WORD)D3DXGetFVFVertexSize(modelinfo.modelinfo.pMesh->GetFVF());
 	int nNumVtx = modelinfo.modelinfo.pMesh->GetNumVertices();
+	// ロック
 	modelinfo.modelinfo.pMesh->LockVertexBuffer(D3DLOCK_READONLY, (void**)&pVtxBuff);
+	// 最大値と最小値を代入する用の一時変数
 	D3DXVECTOR3 Max, Min;
 	Max = VEC3_NULL;
 	Min = VEC3_NULL;
 
+	// 一頂点ずつアクセス
 	for (int nCnt = 0; nCnt < nNumVtx; nCnt++)
 	{
 		D3DXVECTOR3* Size = (D3DXVECTOR3*)pVtxBuff;
@@ -244,10 +248,13 @@ D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
 		}
 		pVtxBuff += SizeFVF;
 	}
+	// サイズを計算
 	D3DXVECTOR3 Size;
 	Size = Max;
+	// Y軸だけ半分に設定
 	Size.y *= 0.5f;
 
+	// 頂点をアンロック
 	modelinfo.modelinfo.pMesh->UnlockVertexBuffer();
 	return Size;
 }

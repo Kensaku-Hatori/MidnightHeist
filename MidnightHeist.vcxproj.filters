@@ -55,9 +55,6 @@
     <Filter Include="System\Manager">
       <UniqueIdentifier>{0dde4b15-a541-4506-83af-2ddd24aaa9c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Pysics">
-      <UniqueIdentifier>{e6b45cdf-599a-46e6-8404-2d8f17448ac3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Component\Object">
       <UniqueIdentifier>{1877d57f-c0e3-434b-901e-38ca94c215fd}</UniqueIdentifier>
     </Filter>
@@ -205,11 +202,14 @@
     <Filter Include="Component\Gate">
       <UniqueIdentifier>{611db3ed-2f4c-41b7-8ee9-cdb79dc35d7a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Pysics">
-      <UniqueIdentifier>{c6e9a420-f82a-449e-9dd1-2c19e1011482}</UniqueIdentifier>
-    </Filter>
     <Filter Include="System\Update\Fan">
       <UniqueIdentifier>{947db478-37c5-4cb7-aa1b-c0769545114a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Physics">
+      <UniqueIdentifier>{e6b45cdf-599a-46e6-8404-2d8f17448ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Update\Physics">
+      <UniqueIdentifier>{c6e9a420-f82a-449e-9dd1-2c19e1011482}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -442,10 +442,13 @@
       <Filter>System\Update</Filter>
     </ClCompile>
     <ClCompile Include="UpdateRigidBodySystem.cpp">
-      <Filter>System\Update\Pysics</Filter>
+      <Filter>System\Update\Physics</Filter>
     </ClCompile>
     <ClCompile Include="UpdateEnemySightSystem.cpp">
       <Filter>System\Update\Fan</Filter>
+    </ClCompile>
+    <ClCompile Include="SetUpLoader.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -594,7 +597,7 @@
       <Filter>System\Rendering\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="RayComponent.hpp">
-      <Filter>Component\Pysics</Filter>
+      <Filter>Component\Physics</Filter>
     </ClInclude>
     <ClInclude Include="DivisionComponent.hpp">
       <Filter>Component\Mesh</Filter>
@@ -837,7 +840,7 @@
       <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="UpdateRigidBodySystem.h">
-      <Filter>System\Update\Pysics</Filter>
+      <Filter>System\Update\Physics</Filter>
     </ClInclude>
     <ClInclude Include="UpdateEnemySightSystem.h">
       <Filter>System\Update\Fan</Filter>
@@ -849,7 +852,10 @@
       <Filter>Component\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="btCollisionConfig.hpp">
-      <Filter>Component\Pysics</Filter>
+      <Filter>Component\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="SetUpLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

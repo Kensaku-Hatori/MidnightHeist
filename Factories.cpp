@@ -288,7 +288,7 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 	Collider.LocalQuat = QUAT_NULL;
 
 	Reg.emplace<XRenderingComponent>(myEntity, "data\\MODEL\\testplayer1.x");
-	Reg.emplace<Pysics::RigitBody>(myEntity);
+	Reg.emplace<Physics::RigitBody>(myEntity);
 	Reg.emplace<RigidBodyComponent>(myEntity, 1.0f, CollisionGroupAndMasks::GROUP_PLAYER, CollisionGroupAndMasks::MASK_PLAYER);
 	Reg.emplace<CharactorComponent>(myEntity, 0.1f);
 
@@ -381,7 +381,7 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	Collider.LocalPos = D3DXVECTOR3(0.0f, (Collider.Height * 0.5f) + 20.0f, 0.0f);
 	Collider.LocalQuat = QUAT_NULL;
 
-	Reg.emplace<Pysics::RigitBody>(myEntity);
+	Reg.emplace<Physics::RigitBody>(myEntity);
 	Reg.emplace<RigidBodyComponent>(myEntity, 1.0f, CollisionGroupAndMasks::GROUP_ENEMY, CollisionGroupAndMasks::MASK_ENEMY);
 
 	// エミッタを生成再生
@@ -423,7 +423,7 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	BoxColliderCmp.LocalPos = D3DXVECTOR3(0.0f, SizeCmp.Size.y, 0.0f);
 	BoxColliderCmp.LocalQuat = QUAT_NULL;
 	BoxColliderCmp.HalfSize = D3DXVECTOR3(SizeCmp.Size.x * TransCmp.Scale.x, SizeCmp.Size.y * TransCmp.Scale.y, SizeCmp.Size.z * TransCmp.Scale.z);
-	Reg.emplace<Pysics::RigitBody>(myEntity);
+	Reg.emplace<Physics::RigitBody>(myEntity);
 	Reg.emplace<RigidBodyComponent>(myEntity, 0.0f, CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
 	Reg.emplace<XRenderingComponent>(myEntity, Path);
 

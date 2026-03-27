@@ -69,13 +69,18 @@ namespace MeshFactories {
 }
 
 // 物理系
-namespace Pysics {
+namespace Physics {
+	// コンセプトを設定
 	template<typename T>
+	// ColliderComponentを定義
 	concept ColliderComponent = requires(T _T) {
+		// LocalPosを持っていてベクターに変換できたら
 		{_T.LocalPos} -> std::convertible_to<D3DXVECTOR3>;
+		// LocalQuatを持っていてベクターに変換できたら
 		{_T.LocalQuat} -> std::convertible_to<D3DXQUATERNION>;
 	};
 
+	// 当たり判定を追加
 	template<ColliderComponent T>
 	void AddShapeToCompound(btCompoundShape* Compound, const T& ColliderComp, btCollisionShape* Shape)
 	{

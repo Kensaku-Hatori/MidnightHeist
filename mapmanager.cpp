@@ -47,6 +47,7 @@ void CMapManager::Update(void)
 //***************************************
 void CMapManager::Draw(void)
 {
+	// NOTE:ここでマップオブジェクト前部に掛けるシェーダー起動＆描画してもいいかも？
 }
 
 //***************************************
@@ -57,6 +58,7 @@ void CMapManager::Load(string Path)
 	// jsonファイルを開く
 	ifstream ifs(Path);
 
+	// 開けなかったら
 	if (!ifs)
 	{
 		MessageBox(NULL, "ファイルが読み込めませんでした", "終了メッセージ", MB_OK);
@@ -68,6 +70,7 @@ void CMapManager::Load(string Path)
 		return;
 	}
 
+	// TODO:必要ならばここでステージにおいてあるオブジェクト達の破棄をする
 	// 今置いてあるオブジェクトの破棄
 	for (auto MapObjects = m_vMapObject.begin(); MapObjects != m_vMapObject.end(); MapObjects++)
 	{
@@ -86,6 +89,7 @@ void CMapManager::Load(string Path)
 	// SetStage配列の中にあるデータを代入存在しなかったら終わる
 	for (const auto& obj : jsonData)
 	{
+		// オブジェクトの情報を設定する用の一時変数
 		bool Static;
 		float Mass;
 		D3DXVECTOR3 Pos, Scale;
@@ -116,7 +120,8 @@ void CMapManager::Load(string Path)
 		Scale.y = obj["Transform"]["Scale"]["y"];
 		Scale.z = obj["Transform"]["Scale"]["z"];
 
-		m_vMapObject.push_back(Factories::makeMapobject(CManager::GetScene()->GetReg(), LocalPath, Pos, Quad,Scale));
+		// TODO:オブジェクトの生成＆リストに追加する処理
+		m_vMapObject.push_back(Factories::makeMapobject(CManager::GetScene()->GetReg(), LocalPath, Pos, Quad, Scale));
 	}
 }
 

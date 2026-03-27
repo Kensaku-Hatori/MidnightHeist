@@ -16,7 +16,7 @@
 #include "math.h"
 #include "ParentComponent.hpp"
 
-using namespace Pysics;
+using namespace Physics;
 
 //*********************************************
 // コンストラクタ
