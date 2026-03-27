@@ -1,3 +1,10 @@
+//****************************************************************
+//
+// オクルージョンハイライト処理[ShapeShadow.fx]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
 // グローバル変数宣言ブロック
 float4x4 g_mtxWorld; // ワールドマトリックス
 float4x4 g_View; // 射影変換マトリックス
@@ -6,9 +13,9 @@ float4x4 g_Proj; // プロェクションマトリックス
 // 頂点シェーダ出力構造体
 struct VS_OUTPUT
 {
-    float4 Pos : POSITION;
-    float4 Depth : TEXCOORD1;
-    float2 Uv : TEXCOORD;
+    float4 Pos : POSITION;      // 位置
+    float4 Depth : TEXCOORD1;   // 深度
+    float2 Uv : TEXCOORD;       // テクスチャ座標
 };
 
 // オブジェクト(テクスチャ)

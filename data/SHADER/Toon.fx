@@ -1,3 +1,10 @@
+//****************************************************************
+//
+// トゥーンシェーダー処理[Toon.fx]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
 // グローバル変数宣言ブロック
 float4x4 g_mtxWorld;	// ワールドマトリックス
 float4x4 g_View;		// 射影変換マトリックス
@@ -157,8 +164,10 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
     // 影をぼかした合計値
     float shadowSum = 0.0f;
     
+    // 画面外じゃなかったら
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
+        // 上下左右にずらす
         float2 uv0 = TransTexCoord + offset[0] * TexelSize;
         float2 uv1 = TransTexCoord + offset[1] * TexelSize;
         float2 uv2 = TransTexCoord + offset[2] * TexelSize;
@@ -173,11 +182,11 @@ float4 PS_Toon(VS_OUTPUT input) : COLOR
         float SM_Z3 = tex2D(ShadowSampler, uv2).x;
         float SM_Z4 = tex2D(ShadowSampler, uv3).x;
 
+        // ずらした位置での影判定
         if (ZValue > SM_Z)
         {
             shadowSum += 1.0f;
         }
-        
         if (ZValue > SM_Z1)
         {
             shadowSum += 1.0f;
@@ -236,8 +245,10 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
     // 影をぼかした合計値
     float shadowSum = 0.0f;
 
+    // 画面外じゃなかったら
     if ((saturate(TransTexCoord.x) == TransTexCoord.x) && (saturate(TransTexCoord.y) == TransTexCoord.y))
     {
+        // 上下左右にずらす
         float2 uv0 = TransTexCoord + offset[0] * TexelSize;
         float2 uv1 = TransTexCoord + offset[1] * TexelSize;
         float2 uv2 = TransTexCoord + offset[2] * TexelSize;
@@ -252,11 +263,11 @@ float4 PS_ToonTex(VS_OUTPUT input) : COLOR
         float SM_Z3 = tex2D(ShadowSampler, uv2).x;
         float SM_Z4 = tex2D(ShadowSampler, uv3).x;
 
+        // ずらした位置での影判定
         if (ZValue > SM_Z)
         {
             shadowSum += 1.0f;
         }
-        
         if (ZValue > SM_Z1)
         {
             shadowSum += 1.0f;
@@ -315,6 +326,7 @@ VS_OUTPUT VS_Outline(VS_OUTPUT Input)
 //**********************************************************************************
 float4 PS_Outline(VS_OUTPUT Input) : COLOR
 {
+    // アウトラインを下から描画
     if (Input.PosPS.y > g_Height)
         return g_OutLineColor;
     else

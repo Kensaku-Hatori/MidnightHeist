@@ -1,3 +1,10 @@
+//****************************************************************
+//
+// キューブマップ処理[CubeMap.fx]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
 // グローバル変数宣言ブロック
 float4x4 g_mtxWorld; // ワールドマトリックス
 float4x4 g_View; // 射影変換マトリックス
@@ -21,7 +28,7 @@ samplerCUBE CubeSampler = sampler_state
 struct VS_IN
 {
     // 位置
-    float3 Pos : POSITION;
+    float3 Pos : POSITION;  // 位置
 };
 
 // 頂点出力
@@ -46,8 +53,6 @@ VS_OUT VS(VS_IN IN)
     OUT.Pos = mul(OUT.Pos, g_View);
     OUT.Pos = mul(OUT.Pos, g_Proj);
 
-    // サンプリング方向に使用
-    // カメラの中心にあるのでそのまま
     OUT.Tex = IN.Pos;
 
     return OUT;
