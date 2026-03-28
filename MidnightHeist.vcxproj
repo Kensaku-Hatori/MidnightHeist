@@ -30,7 +30,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -95,13 +95,14 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>Bace/pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\h;$(SolutionDir)Src\cpp;$(SolutionDir)build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>Bace/pch.h</ForcedIncludeFiles>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)Src\h\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,6 +111,9 @@
       <AdditionalDependencies>BulletDynamics_Debug.lib;BulletCollision_Debug.lib;LinearMath_Debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
     </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -120,11 +124,12 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <ForcedIncludeFiles>pch.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(SolutionDir)build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>Bace/pch.h</ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>$(SolutionDir)Src\h;$(SolutionDir)Src\cpp;$(SolutionDir)build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile>Bace/pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(ProjectDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,234 +169,236 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaceCameraSystem.cpp" />
-    <ClCompile Include="defaultcubemap.cpp" />
-    <ClCompile Include="distortion.cpp" />
-    <ClCompile Include="GameCamera.cpp" />
-    <ClCompile Include="RenderingVisibleSineCurve.cpp" />
-    <ClCompile Include="RenderingEnemySightSystem.cpp" />
-    <ClCompile Include="RenderingEnemySystem.cpp" />
-    <ClCompile Include="RenderingMapobjectSystem.cpp" />
-    <ClCompile Include="RenderingMeshLaserSystem.cpp" />
-    <ClCompile Include="RenderingMeshFieldSystem.cpp" />
-    <ClCompile Include="RenderingOutLineSystem.cpp" />
-    <ClCompile Include="RenderingPauseMenu.cpp" />
-    <ClCompile Include="RenderingGamePlayerSystem.cpp" />
-    <ClCompile Include="RenderingSkyBoxSystem.cpp" />
-    <ClCompile Include="RenderingTitlePlayerSystem.cpp" />
-    <ClCompile Include="RenderingToShadowmap.cpp" />
-    <ClCompile Include="RenderingToShapeShadow.cpp" />
-    <ClCompile Include="RenderingUICircle.cpp" />
-    <ClCompile Include="Result.cpp" />
-    <ClCompile Include="ResultCameraSystem.cpp" />
-    <ClCompile Include="SetUpLoader.cpp" />
-    <ClCompile Include="SimpleBloom.cpp" />
-    <ClCompile Include="Sound2D.cpp" />
-    <ClCompile Include="Sound3D.cpp" />
-    <ClCompile Include="SoundDevice.cpp" />
-    <ClCompile Include="ThreadPool.cpp" />
-    <ClCompile Include="title.cpp" />
-    <ClCompile Include="TitleCamera.cpp" />
-    <ClCompile Include="UICircle.cpp" />
-    <ClCompile Include="UpdateEnemySightSystem.cpp" />
-    <ClCompile Include="UpdateGateManager.cpp" />
-    <ClCompile Include="UpdateMtxSystem.cpp" />
-    <ClCompile Include="UpdateRigidBodySystem.cpp" />
-    <ClCompile Include="UpdateStutsAnimSystem.cpp" />
-    <ClCompile Include="UpdateTimerSystem.cpp" />
-    <ClCompile Include="UpdateVisibleSineCurve.cpp" />
-    <ClCompile Include="UpdateEnemyBack.cpp" />
-    <ClCompile Include="UpdateEnemyChase.cpp" />
-    <ClCompile Include="UpdateEnemyPredict.cpp" />
-    <ClCompile Include="UpdateEnemySearch.cpp" />
-    <ClCompile Include="UpdateTitlePlayerSystem.cpp" />
-    <ClCompile Include="UpdateItemSystem.cpp" />
-    <ClCompile Include="UpdateMeshLaserSystem.cpp" />
-    <ClCompile Include="UpdateEnemySystem.cpp" />
-    <ClCompile Include="Update2DSystem.cpp" />
-    <ClCompile Include="Update3DSystem.cpp" />
-    <ClCompile Include="camera.cpp" />
-    <ClCompile Include="fade.cpp" />
-    <ClCompile Include="game.cpp" />
-    <ClCompile Include="input.cpp" />
-    <ClCompile Include="light.cpp" />
-    <ClCompile Include="line.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="manager.cpp" />
-    <ClCompile Include="mapmanager.cpp" />
-    <ClCompile Include="math.cpp" />
-    <ClCompile Include="modelmanager.cpp" />
-    <ClCompile Include="Factories.cpp" />
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="Src\cpp\Bace\camera.cpp" />
+    <ClCompile Include="Src\cpp\Bace\fade.cpp" />
+    <ClCompile Include="Src\cpp\Bace\input.cpp" />
+    <ClCompile Include="Src\cpp\Bace\light.cpp" />
+    <ClCompile Include="Src\cpp\Bace\line.cpp" />
+    <ClCompile Include="Src\cpp\Bace\main.cpp" />
+    <ClCompile Include="Src\cpp\Bace\manager.cpp" />
+    <ClCompile Include="Src\cpp\Bace\object.cpp" />
+    <ClCompile Include="Src\cpp\Bace\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="UpdateGamePlayerSystem.cpp" />
-    <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="Rendering2Dbace.cpp" />
-    <ClCompile Include="Rendering3DBace.cpp" />
-    <ClCompile Include="scene.cpp" />
-    <ClCompile Include="shader.cpp" />
-    <ClCompile Include="shadowmap.cpp" />
-    <ClCompile Include="shapeshadow.cpp" />
-    <ClCompile Include="SystemManager.cpp" />
-    <ClCompile Include="texmanager.cpp" />
-    <ClCompile Include="toon.cpp" />
-    <ClCompile Include="RenderingXSystem.cpp" />
-    <ClCompile Include="UpdateMapobjectSystem.cpp" />
-    <ClCompile Include="UpdateMeshFieldSystem.cpp" />
-    <ClCompile Include="UpdatePauseManager.cpp" />
-    <ClCompile Include="UpdatePauseMenu.cpp" />
-    <ClCompile Include="UpdateTitleManager.cpp" />
-    <ClCompile Include="UpdateUICircleSystem.cpp" />
-    <ClCompile Include="UpdateXSystem.cpp" />
-    <ClCompile Include="VisibleSineCurve.cpp" />
+    <ClCompile Include="Src\cpp\Bace\renderer.cpp" />
+    <ClCompile Include="Src\cpp\Bace\scene.cpp" />
+    <ClCompile Include="Src\cpp\Bace\Sound2D.cpp" />
+    <ClCompile Include="Src\cpp\Bace\Sound3D.cpp" />
+    <ClCompile Include="Src\cpp\Bace\SoundDevice.cpp" />
+    <ClCompile Include="Src\cpp\Bace\Template.cpp" />
+    <ClCompile Include="Src\cpp\Factories.cpp" />
+    <ClCompile Include="Src\cpp\GameCamera.cpp" />
+    <ClCompile Include="Src\cpp\Manager\mapmanager.cpp" />
+    <ClCompile Include="Src\cpp\Manager\modelmanager.cpp" />
+    <ClCompile Include="Src\cpp\Manager\SystemManager.cpp" />
+    <ClCompile Include="Src\cpp\Manager\texmanager.cpp" />
+    <ClCompile Include="Src\cpp\Math\MyMath.cpp" />
+    <ClCompile Include="Src\cpp\ResultCameraSystem.cpp" />
+    <ClCompile Include="Src\cpp\Scene\game.cpp" />
+    <ClCompile Include="Src\cpp\Scene\Result.cpp" />
+    <ClCompile Include="Src\cpp\Scene\title.cpp" />
+    <ClCompile Include="Src\cpp\SetUpLoader.cpp" />
+    <ClCompile Include="Src\cpp\Shader\defaultcubemap.cpp" />
+    <ClCompile Include="Src\cpp\Shader\distortion.cpp" />
+    <ClCompile Include="Src\cpp\Shader\shader.cpp" />
+    <ClCompile Include="Src\cpp\Shader\shadowmap.cpp" />
+    <ClCompile Include="Src\cpp\Shader\shapeshadow.cpp" />
+    <ClCompile Include="Src\cpp\Shader\SimpleBloom.cpp" />
+    <ClCompile Include="Src\cpp\Shader\SkyBox.cpp" />
+    <ClCompile Include="Src\cpp\Shader\toon.cpp" />
+    <ClCompile Include="Src\cpp\Shader\UICircle.cpp" />
+    <ClCompile Include="Src\cpp\Shader\VisibleSineCurve.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Enemy\RenderingEnemySightSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Enemy\RenderingEnemySystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Mesh\RenderingMeshFieldSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Mesh\RenderingMeshLaserSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Object\Rendering2DbaceSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Object\Rendering3DBaceSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Object\RenderingXSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Player\RenderingGamePlayerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Player\RenderingTitlePlayerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\RenderingMapobjectSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\RenderingPauseMenuSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingOutLineSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingSkyBoxSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingToShadowmapSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingToShapeShadowSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingUICircleSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingVisibleSineCurveSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemyBackSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemyChaseSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemyPredictSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemySearchSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemySightSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemySystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Mesh\UpdateMeshFieldSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Mesh\UpdateMeshLaserSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Object\Update2DSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Object\Update3DSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Object\UpdateXSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Player\UpdateGamePlayerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Player\UpdateTitlePlayerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Shader\UpdateUICircleSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\Shader\UpdateVisibleSineCurveSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateGateManagerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateItemSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateMapobjectSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateMtxSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdatePauseManagerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdatePauseMenuSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateRigidBodySystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateStutsAnimSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateTimerSystem.cpp" />
+    <ClCompile Include="Src\cpp\System\Update\UpdateTitleManagerSystem.cpp" />
+    <ClCompile Include="Src\cpp\ThreadPool.cpp" />
+    <ClCompile Include="Src\cpp\TitleCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaceCameraSystem.h" />
-    <ClInclude Include="btCollisionConfig.hpp" />
-    <ClInclude Include="CapsuleComponent.hpp" />
-    <ClInclude Include="CharactorComponent.hpp" />
-    <ClInclude Include="ChildComponent.hpp" />
-    <ClInclude Include="Components.hpp" />
-    <ClInclude Include="defaultcubemap.h" />
-    <ClInclude Include="distortion.h" />
-    <ClInclude Include="EnemyAIUtils.hpp" />
-    <ClInclude Include="EnemyStateComponent.h" />
-    <ClInclude Include="GateManagerComponent.hpp" />
-    <ClInclude Include="Result.h" />
-    <ClInclude Include="ResultCameraSystem.h" />
-    <ClInclude Include="SetUpLoader.h" />
-    <ClInclude Include="SimpleBloom.h" />
-    <ClInclude Include="StutsComponent.h" />
-    <ClInclude Include="ThreadPool.h" />
-    <ClInclude Include="TimerComponent.hpp" />
-    <ClInclude Include="UpdateEnemySightSystem.h" />
-    <ClInclude Include="UpdateGateManager.h" />
-    <ClInclude Include="UpdateMtxSystem.h" />
-    <ClInclude Include="UpdateRigidBodySystem.h" />
-    <ClInclude Include="UpdateStutsAnimSystem.h" />
-    <ClInclude Include="UpdateTimerSystem.h" />
-    <ClInclude Include="VisibleSineCurve.h" />
-    <ClInclude Include="VisibleSineCurveComponent.hpp" />
-    <ClInclude Include="EnemyAIAStarComponent.hpp" />
-    <ClInclude Include="AIComponent.hpp" />
-    <ClInclude Include="DivisionComponent.hpp" />
-    <ClInclude Include="EnemyManagerComponent.hpp" />
-    <ClInclude Include="EnemyPatrolPointComponent.hpp" />
-    <ClInclude Include="EnemySoundListenerComponent.hpp" />
-    <ClInclude Include="FactorieUtils.h" />
-    <ClInclude Include="FanInfoComponent.hpp" />
-    <ClInclude Include="GameCamera.h" />
-    <ClInclude Include="IndexBufferComponent.hpp" />
-    <ClInclude Include="ItemComponent.h" />
-    <ClInclude Include="LockOnUIAnimComponent.hpp" />
-    <ClInclude Include="Menu2DComponent.hpp" />
-    <ClInclude Include="Mesh.hpp" />
-    <ClInclude Include="MeshInfoComponent.hpp" />
-    <ClInclude Include="OutLineComponent.hpp" />
-    <ClInclude Include="ParentComponent.hpp" />
-    <ClInclude Include="PauseUI.hpp" />
-    <ClInclude Include="PlayerAnimetionComponent.hpp" />
-    <ClInclude Include="PlayerSoundVolumeComponent.hpp" />
-    <ClInclude Include="RayComponent.hpp" />
-    <ClInclude Include="RenderFragComponent.hpp" />
-    <ClInclude Include="RenderingVisibleSineCurve.h" />
-    <ClInclude Include="RenderingEnemySightSystem.h" />
-    <ClInclude Include="RenderingEnemySystem.h" />
-    <ClInclude Include="RenderingMapobjectSystem.h" />
-    <ClInclude Include="RenderingMeshLaserSystem.h" />
-    <ClInclude Include="RenderingMeshFieldSystem.h" />
-    <ClInclude Include="RenderingOutLineSystem.h" />
-    <ClInclude Include="RenderingPauseMenu.h" />
-    <ClInclude Include="RenderingGamePlayerSystem.h" />
-    <ClInclude Include="RenderingSkyBoxSystem.h" />
-    <ClInclude Include="RenderingTitlePlayerSystem.h" />
-    <ClInclude Include="RenderingToShadowmap.h" />
-    <ClInclude Include="RenderingToShapeShadow.h" />
-    <ClInclude Include="RenderingUICircle.h" />
-    <ClInclude Include="Select2DComponent.hpp" />
-    <ClInclude Include="ShaderResource.h" />
-    <ClInclude Include="SkyBoxComponent.hpp" />
-    <ClInclude Include="PlayerStateComponent.hpp" />
-    <ClInclude Include="Sound2D.h" />
-    <ClInclude Include="Sound3D.h" />
-    <ClInclude Include="SoundDevice.h" />
-    <ClInclude Include="title.h" />
-    <ClInclude Include="TitleCamera.h" />
-    <ClInclude Include="TitleUI.hpp" />
-    <ClInclude Include="UICircle.h" />
-    <ClInclude Include="UICircleComponent.hpp" />
-    <ClInclude Include="UpdateVisibleSineCurve.h" />
-    <ClInclude Include="UpdateEnemyBack.h" />
-    <ClInclude Include="UpdateEnemyChase.h" />
-    <ClInclude Include="UpdateEnemyPredict.h" />
-    <ClInclude Include="UpdateEnemySearch.h" />
-    <ClInclude Include="UpdateItemSystem.h" />
-    <ClInclude Include="UpdateMeshLaserSystem.h" />
-    <ClInclude Include="UpdateEnemySystem.h" />
-    <ClInclude Include="Update2DSystem.h" />
-    <ClInclude Include="Update3DSystem.h" />
-    <ClInclude Include="baceRenderingsystem.hpp" />
-    <ClInclude Include="baceUpdatesystem.hpp" />
-    <ClInclude Include="camera.h" />
-    <ClInclude Include="ColorComponent.hpp" />
-    <ClInclude Include="entt.hpp" />
-    <ClInclude Include="fade.h" />
-    <ClInclude Include="game.h" />
-    <ClInclude Include="input.h" />
-    <ClInclude Include="json.hpp" />
-    <ClInclude Include="LayerComponent.hpp" />
-    <ClInclude Include="LayerManager.hpp" />
-    <ClInclude Include="light.h" />
-    <ClInclude Include="line.h" />
-    <ClInclude Include="main.h" />
-    <ClInclude Include="manager.h" />
-    <ClInclude Include="mapmanager.h" />
-    <ClInclude Include="math.h" />
-    <ClInclude Include="math_T.h" />
-    <ClInclude Include="modelmanager.h" />
-    <ClInclude Include="NormalComponent.hpp" />
-    <ClInclude Include="Factories.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="UpdateGamePlayerSystem.h" />
-    <ClInclude Include="SizeComponent.hpp" />
-    <ClInclude Include="renderer.h" />
-    <ClInclude Include="Rendering2Dbace.h" />
-    <ClInclude Include="Rendering3DBace.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="scene.h" />
-    <ClInclude Include="shader.h" />
-    <ClInclude Include="shadowmap.h" />
-    <ClInclude Include="shapeshadow.h" />
-    <ClInclude Include="SystemManager.h" />
-    <ClInclude Include="TagComp.hpp" />
-    <ClInclude Include="texmanager.h" />
-    <ClInclude Include="TextureRenderingComponent.h" />
-    <ClInclude Include="toon.h" />
-    <ClInclude Include="TransformComponent.hpp" />
-    <ClInclude Include="UpdateMapobjectSystem.h" />
-    <ClInclude Include="UpdateMeshFieldSystem.h" />
-    <ClInclude Include="UpdatePauseManager.h" />
-    <ClInclude Include="UpdatePauseMenu.h" />
-    <ClInclude Include="UpdateTitleManager.h" />
-    <ClInclude Include="UpdateTitlePlayerSystem.h" />
-    <ClInclude Include="UpdateUICircleSystem.hpp" />
-    <ClInclude Include="UVComponent.hpp" />
-    <ClInclude Include="Velocity.hpp" />
-    <ClInclude Include="VertexRenderingComponent.hpp" />
-    <ClInclude Include="XRenderingComponent.hpp" />
-    <ClInclude Include="RenderingXSystem.h" />
-    <ClInclude Include="UpdateXSystem.h" />
+    <ClInclude Include="Src\h\Bace\camera.h" />
+    <ClInclude Include="Src\h\Bace\fade.h" />
+    <ClInclude Include="Src\h\Bace\input.h" />
+    <ClInclude Include="Src\h\Bace\light.h" />
+    <ClInclude Include="Src\h\Bace\line.h" />
+    <ClInclude Include="Src\h\Bace\main.h" />
+    <ClInclude Include="Src\h\Bace\manager.h" />
+    <ClInclude Include="Src\h\Bace\object.h" />
+    <ClInclude Include="Src\h\Bace\pch.h" />
+    <ClInclude Include="Src\h\Bace\renderer.h" />
+    <ClInclude Include="Src\h\Bace\Sound2D.h" />
+    <ClInclude Include="Src\h\Bace\Sound3D.h" />
+    <ClInclude Include="Src\h\Bace\SoundDevice.h" />
+    <ClInclude Include="Src\h\Bace\Template.h" />
+    <ClInclude Include="Src\h\Component\AIComponent.hpp" />
+    <ClInclude Include="Src\h\Component\AStarComponent.hpp" />
+    <ClInclude Include="Src\h\Component\CapsuleComponent.hpp" />
+    <ClInclude Include="Src\h\Component\CharactorComponent.hpp" />
+    <ClInclude Include="Src\h\Component\ChildComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Components.hpp" />
+    <ClInclude Include="Src\h\Component\Enemy\EnemyAIAStarComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Enemy\EnemyManagerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Enemy\EnemyPatrolPointComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Enemy\EnemySoundListenerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.h" />
+    <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.hpp" />
+    <ClInclude Include="Src\h\Component\FanInfoComponent.hpp" />
+    <ClInclude Include="Src\h\Component\GateManagerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\ItemComponent.h" />
+    <ClInclude Include="Src\h\Component\ItemManagerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\LockOnUIAnimComponent.hpp" />
+    <ClInclude Include="Src\h\Component\ParentComponent.hpp" />
+    <ClInclude Include="Src\h\Component\PatrolAIComponent.hpp" />
+    <ClInclude Include="Src\h\Component\PatrolPointManagerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Player\PlayerAnimetionComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Player\PlayerSoundVolumeComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Player\PlayerStateComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\ColorComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\DivisionComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\IndexBufferComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\LayerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\Menu2DComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\MeshInfoComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\NormalComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\Select2DComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\TextureRenderingComponent.h" />
+    <ClInclude Include="Src\h\Component\Polygone\UVComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Polygone\VertexRenderingComponent.hpp" />
+    <ClInclude Include="Src\h\Component\RayComponent.hpp" />
+    <ClInclude Include="Src\h\Component\RBComponet.hpp" />
+    <ClInclude Include="Src\h\Component\RenderFragComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Shader\OutLineComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Shader\Ripple3DComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Shader\SkyBoxComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Shader\UICircleComponent.hpp" />
+    <ClInclude Include="Src\h\Component\Shader\VisibleSineCurveComponent.hpp" />
+    <ClInclude Include="Src\h\Component\SizeComponent.hpp" />
+    <ClInclude Include="Src\h\Component\StutsComponent.h" />
+    <ClInclude Include="Src\h\Component\TimerComponent.hpp" />
+    <ClInclude Include="Src\h\Component\TransformComponent.hpp" />
+    <ClInclude Include="Src\h\Component\VelocityComponent.hpp" />
+    <ClInclude Include="Src\h\Component\XRenderingComponent.hpp" />
+    <ClInclude Include="Src\h\Manager\mapmanager.h" />
+    <ClInclude Include="Src\h\Manager\modelmanager.h" />
+    <ClInclude Include="Src\h\Manager\SystemManager.h" />
+    <ClInclude Include="Src\h\Manager\texmanager.h" />
+    <ClInclude Include="Src\h\Math\MyMath.h" />
+    <ClInclude Include="Src\h\Math\MyMath_T.h" />
+    <ClInclude Include="Src\h\Resource\resource.h" />
+    <ClInclude Include="Src\h\Resource\ShaderResource.h" />
+    <ClInclude Include="Src\h\Scene\game.h" />
+    <ClInclude Include="Src\h\Scene\Result.h" />
+    <ClInclude Include="Src\h\Scene\scene.h" />
+    <ClInclude Include="Src\h\Scene\title.h" />
+    <ClInclude Include="Src\h\Shader\defaultcubemap.h" />
+    <ClInclude Include="Src\h\Shader\distortion.h" />
+    <ClInclude Include="Src\h\Shader\shader.h" />
+    <ClInclude Include="Src\h\Shader\shadowmap.h" />
+    <ClInclude Include="Src\h\Shader\shapeshadow.h" />
+    <ClInclude Include="Src\h\Shader\SimpleBloom.h" />
+    <ClInclude Include="Src\h\Shader\SkyBox.h" />
+    <ClInclude Include="Src\h\Shader\toon.h" />
+    <ClInclude Include="Src\h\Shader\UICircle.h" />
+    <ClInclude Include="Src\h\Shader\VisibleSineCurve.h" />
+    <ClInclude Include="Src\h\System\BaceCameraSystem.h" />
+    <ClInclude Include="Src\h\System\LayerManager.hpp" />
+    <ClInclude Include="Src\h\System\Rendering\baceRenderingsystem.hpp" />
+    <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySightSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshFieldSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshLaserSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering2DbaceSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering3DBaceSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Obj\RenderingXSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Player\RenderingGamePlayerSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Player\RenderingTitlePlayerSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\RenderingMapobjectSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\RenderingPauseMenuSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingOutLineSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingSkyBoxSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingToShadowmapSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingToShapeShadowSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingUICircleSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingVisibleSineCurveSystem.h" />
+    <ClInclude Include="Src\h\System\ResultCameraSystem.h" />
+    <ClInclude Include="Src\h\System\Update\baceUpdatesystem.hpp" />
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyBackSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyChaseSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyPredictSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemySearchSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemySightSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemySystem.h" />
+    <ClInclude Include="Src\h\System\Update\Mesh\UpdateMeshFieldSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Mesh\UpdateMeshLaserSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Obj\Update2DSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Obj\Update3DSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Obj\UpdateXSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Player\UpdateGamePlayerSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Player\UpdateTitlePlayerSystem.h" />
+    <ClInclude Include="Src\h\System\Update\Shader\UpdateUICircleSystem.hpp" />
+    <ClInclude Include="Src\h\System\Update\Shader\UpdateVisibleSineCurveSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateGateManagerSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateItemSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateMapobjectSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateMtxSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdatePauseManagerSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdatePauseMenuSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateRigidBodySystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateStutsAnimSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateTimerSystem.h" />
+    <ClInclude Include="Src\h\System\Update\UpdateTitleManagerSystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Default.cso" />
-    <None Include="ItemManagerComponent.hpp" />
-    <None Include="ShadowMap.cso" />
-    <None Include="ShapeShadow.cso" />
-    <None Include="Toon.cso" />
+    <ResourceCompile Include="Rc\Shader.rc" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="data\SHADER\Default.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">3.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">3.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="data\SHADER\DefaultCubeMap.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
@@ -401,20 +408,20 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\Distortion.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\ShadowMap.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_Main</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_Main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_Main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\ShapeShadow.fx">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
@@ -441,24 +448,21 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\UICircle.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="data\SHADER\VisibleSineCurve.fx">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">2.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">2.0</ShaderModel>
     </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Shader.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

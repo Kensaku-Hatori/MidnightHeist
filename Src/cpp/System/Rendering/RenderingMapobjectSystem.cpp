@@ -1,0 +1,105 @@
+//****************************************************************
+//
+// マップオブジェクト描画システムの処理[RenderingMapobjectSystem.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// インクルード
+#include "System/Rendering/RenderingMapobjectSystem.h"
+#include "Component\XRenderingComponent.hpp"
+#include "TagComp.hpp"
+#include "Shader/shadowmap.h"
+#include "Shader/toon.h"
+#include "Shader/shapeshadow.h"
+#include "Component/TransformComponent.hpp"
+#include "Bace/manager.h"
+
+using namespace Tag;
+
+//*********************************************
+// 描画
+//*********************************************
+void RenderingMapobjectSystem::Rendering(entt::registry& reg)
+{
+	// エンテティのリストを取得
+	auto view = reg.view<MapObject>();
+
+	// 影を付けて描画
+	CToon::Instance().Begin();
+	for (auto entity : view)
+	{
+		DrawUseShadowMap(reg, entity);
+	}
+	CToon::Instance().End();
+}
+
+//*********************************************
+// シャドウマップを使って描画
+//*********************************************
+void RenderingMapobjectSystem::DrawUseShadowMap(entt::registry& Reg, entt::entity Entity)
+{
+	// コンポーネントを取得
+	auto& TransformComp = Reg.get<Transform3D>(Entity);
+	auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
+
+	// モデルへのインデックスが-1だったら終わる
+	if (RenderingComp.FilePath.empty() == true) return;
+
+	// デバイス取得
+	CRenderer* pRenderer;
+	pRenderer = CManager::GetRenderer();
+	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
+
+	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
+	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
+
+	// モデルmanagerからインデックスを指定して取得
+	CModelManager::MapObject modelinfo = RenderingComp.Info;
+
+	// 現在のマテリアルの取得
+	pDevice->GetMaterial(&matDef);
+
+	// マテリアルデータへのポインタ
+	pMat = (D3DXMATERIAL*)modelinfo.modelinfo.pBuffMat->GetBufferPointer();
+
+	// ビューマトリックス・プロジェクションマトリックスを取得
+	D3DXMATRIX View, Proj;
+	pDevice->GetTransform(D3DTS_VIEW, &View);
+	pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
+
+	// シェーダー起動
+	CToon::Instance().Begin();
+
+	// 描画開始
+	for (int nCntMat = 0; nCntMat < (int)modelinfo.modelinfo.dwNumMat; nCntMat++)
+	{
+		// マテリアルから色をとってくる
+		D3DXMATERIAL col = pMat[nCntMat];
+		// ベクトル型に変換
+		D3DXVECTOR4 SettCol = { col.MatD3D.Diffuse.r,col.MatD3D.Diffuse.g,col.MatD3D.Diffuse.b,col.MatD3D.Diffuse.a };
+
+		// テクスチャが存在しなかったら
+		if (col.pTextureFilename == NULL)
+		{
+			CToon::Instance().BeginPass(0);
+		}
+		else
+		{
+			CToon::Instance().BeginPass(1);
+		}
+
+		// パラメータを設定
+		CToon::Instance().SetUseShadowMapParameters(TransformComp.mtxWorld, View, Proj, SettCol, CShadowMap::Instance().GetTex(), modelinfo.modelinfo.Tex[nCntMat], CShadowMap::Instance().GetLightView(), CShadowMap::Instance().GetLightProj());
+
+		// モデル(パーツ)の描画
+		modelinfo.modelinfo.pMesh->DrawSubset(nCntMat);
+
+		// パスを終了
+		CToon::Instance().EndPass();
+	}
+	// シェーダー終了
+	CToon::Instance().End();
+
+	pDevice->SetMaterial(&matDef);
+}

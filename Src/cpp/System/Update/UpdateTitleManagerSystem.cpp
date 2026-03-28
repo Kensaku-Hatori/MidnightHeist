@@ -1,0 +1,93 @@
+//****************************************************************
+//
+// タイトルマネージャーの更新処理[UpdateTitleSystem.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// インクルード
+#include "System/Update/UpdateTitleManagerSystem.h"
+#include "Bace/manager.h"
+#include "Component/Polygone/Select2DComponent.hpp"
+#include "Component/Polygone/Menu2DComponent.hpp"
+#include "TitleUI.hpp"
+#include "TagComp.hpp"
+#include "Bace/fade.h"
+#include "Scene/game.h"
+#include "Component/Polygone/ColorComponent.hpp"
+#include "Math/MyMath_T.h"
+
+// 名前空間
+using namespace Tag;
+using namespace TitleMenuConfig;
+
+//*********************************************
+// 更新
+//*********************************************
+void UpdateTitleManagerSystem::Update(entt::registry& reg)
+{
+	// ビューを生成
+	auto view = reg.view<TitleManager>();
+
+	// アクセス
+	for (auto entity : view)
+	{
+		// 選択しているメニューを更新
+		auto& SelectMenuCmp = reg.get<Select2DComponent>(entity);
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_W) == true 
+			|| CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_UP) == true) {
+			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu - 1), MENUTYPE::START, MENUTYPE::EXIT));
+		}
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_S) == true 
+			|| CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_DOWN) == true) {
+			SelectMenuCmp.SelectMenu = static_cast<int>(Wrap(static_cast<MENUTYPE>(SelectMenuCmp.SelectMenu + 1), MENUTYPE::START, MENUTYPE::EXIT));
+		}
+		// メニューを更新
+		UpdateTitleMenu(reg, entity);
+	}
+}
+
+//*********************************************
+// メニューの更新
+//*********************************************
+void UpdateTitleManagerSystem::UpdateTitleMenu(entt::registry& Reg, entt::entity& Manager)
+{
+	// コンポーネントを取得
+	auto& SelectMenuCmp = Reg.get<Select2DComponent>(Manager);
+	// ビューを生成
+	auto view = Reg.view<TitleMenu>();
+	// アクセス
+	for (auto entity : view)
+	{
+		// コンポーネントを取得
+		auto& myType = Reg.get<Menu2DComponent>(entity);
+		auto& ColorCmp = Reg.get<ColorComponent>(entity);
+		// 白にする
+		ColorCmp.Col = WHITE;
+		// 選ばれていなかったら早期リターン
+		if (SelectMenuCmp.SelectMenu != myType.myType) continue;
+		// 青にする
+		ColorCmp.Col = BLUE;
+		// エンターキーが押されたら
+		if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) == true || 
+			CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
+		{
+			// メニューに応じた処理を実行
+			FunctionMenu(Reg, entity);
+			// 処理を切り上げる
+			break;
+		}
+	}
+}
+
+//*********************************************
+// メニューの機能
+//*********************************************
+void UpdateTitleManagerSystem::FunctionMenu(entt::registry& Reg, entt::entity& Menu)
+{
+	// コンポーネントを取得
+	auto& myType = Reg.get<Menu2DComponent>(Menu);
+	// タイプに応じた処理を実行
+	if (MENUTYPE::START == myType.myType)CFade::Instance().SetFade(new CGame);
+	else if (MENUTYPE::EXIT == myType.myType)PostQuitMessage(0);
+}

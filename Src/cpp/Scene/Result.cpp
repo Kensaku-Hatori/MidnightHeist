@@ -1,0 +1,86 @@
+//****************************************************************
+//
+// リザルトの処理[Result.cpp]
+// Author Kensaku Hatori
+//
+//****************************************************************
+
+// インクルード
+#include "Scene/Result.h"
+#include "Bace/manager.h"
+#include "Factories.h"
+#include "System/ResultCameraSystem.h"
+#include "Component/Polygone/ColorComponent.hpp"
+#include "Bace/fade.h"
+#include "Scene/title.h"
+#include "Bace/Sound2D.h"
+#include "SetUpLoader.h"
+
+//***************************************
+// 初期化処理
+//***************************************
+HRESULT CResult::Init(void)
+{
+	std::string Path;
+	const bool IsClear = CManager::GetIsClear();
+
+	if (IsClear == true)Path = "data/MODEL/ClockTower.x";
+	else Path = "data/MODEL/Prison.x";
+
+	// タイトル用のモデル生成
+	Factories::makeMapobject(GetReg(), Path);
+	// 牢屋の場合は三個
+	if (IsClear == false)
+	{
+		Factories::makeMapobject(GetReg(), Path, D3DXVECTOR3(400.0f, 0.0f, 0.0f));
+		Factories::makeMapobject(GetReg(), Path, D3DXVECTOR3(-400.0f, 0.0f, 0.0f));
+	}
+
+	// セットアップ
+	CSetUpLoader::Instance().LoadToScene(GetReg(), "data/TEXT/SetUp/ResultSetUp.json");
+
+	// 黒い半透明ポリゴン
+	entt::entity BlackBoard = Factories::makeObject2D(GetReg(), 3, "", D3DXVECTOR2(SCREEN_WIDTH * 0.9f, SCREEN_HEIGHT * 0.5f), D3DXVECTOR2(SCREEN_WIDTH * 0.2f, SCREEN_WIDTH * 0.5f));
+	auto& ColorCmp = GetReg().get<ColorComponent>(BlackBoard);
+	ColorCmp.Col = BLACK;
+	ColorCmp.Col.a = 0.5f;
+
+	// カメラにシステムを追加
+	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCamera);
+	else CManager::GetCamera()->AddSystem(new CFailedCamera);
+	if (IsClear == true)CSound2D::Instance().Play(SoundDevice::LABEL_GAMECLEARBGM);
+	else CSound2D::Instance().Play(SoundDevice::LABEL_GAMEOVERBGM);
+
+    return E_NOTIMPL;
+}
+
+//***************************************
+// 終了処理
+//***************************************
+void CResult::Uninit(void)
+{
+	// カメラのシステムを終了
+	CManager::GetCamera()->EndSystems();
+	// エンティティたちをクリア
+	GetReg().clear();
+    delete this;
+}
+
+//***************************************
+// 更新処理
+//***************************************
+void CResult::Update(void)
+{
+	if (CManager::GetInputKeyboard()->GetTrigger(DIK_RETURN) ||
+		CManager::GetInputJoypad()->GetTrigger(CInputJoypad::JOYKEY_A) == true)
+	{
+		CFade::Instance().SetFade(new CTitle);
+	}
+}
+
+//***************************************
+// 描画
+//***************************************
+void CResult::Draw(void)
+{
+}

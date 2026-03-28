@@ -9,893 +9,815 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Shader">
-      <UniqueIdentifier>{6a908cf0-0523-4e6e-b761-1fe7020139ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Shadow">
-      <UniqueIdentifier>{fdd5876a-f28d-407e-8336-13d9534ae2e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Toon">
-      <UniqueIdentifier>{379039e1-921c-4641-800d-e27b19fe1252}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Manager">
-      <UniqueIdentifier>{8bb8a07a-4fea-4383-8683-8a935605fff8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component">
-      <UniqueIdentifier>{ca9d8ca4-bbe4-42d0-b997-8f731063b666}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System">
-      <UniqueIdentifier>{2a853400-85ce-4099-8a4e-01ab884f480c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Factory">
-      <UniqueIdentifier>{ec8da67a-2938-4ef7-825c-37bb41080a6e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="System\Update">
-      <UniqueIdentifier>{1cef28f4-f240-4beb-9ebf-47ef593c0f5d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering">
-      <UniqueIdentifier>{1f0fdda5-5ba4-4128-980c-02e81ff4c033}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\Object">
-      <UniqueIdentifier>{da422059-c763-44f8-80d7-f3da91e397f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\Bace">
-      <UniqueIdentifier>{b74e73b4-1a73-4485-ad24-087838dafcd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\Bace">
-      <UniqueIdentifier>{31ef84af-631a-40b1-bdd7-5bce1b2cb1e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\Object">
-      <UniqueIdentifier>{de6eb936-d537-4319-b541-4ab4bd4991ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Manager">
-      <UniqueIdentifier>{0dde4b15-a541-4506-83af-2ddd24aaa9c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Object">
-      <UniqueIdentifier>{1877d57f-c0e3-434b-901e-38ca94c215fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Mesh">
-      <UniqueIdentifier>{ad9475d6-f977-46d3-86e8-c83b69f27694}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\Mesh">
-      <UniqueIdentifier>{2371ff08-e835-41c9-bc5c-53e95cc913cb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\Mesh">
-      <UniqueIdentifier>{bfbc150f-e6d1-49e7-9aee-01dfd6cdd5ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\AI">
-      <UniqueIdentifier>{a08ca797-51be-4027-bda5-d579550fe3dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\Enemy">
-      <UniqueIdentifier>{7b48dd37-6db3-4b78-84f3-96ec439722fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Enemy">
-      <UniqueIdentifier>{a0bb9222-9dec-43da-91d9-90db9719ac28}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\Title">
-      <UniqueIdentifier>{84bc1700-095e-44d4-a320-5a1b273bf21d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Title">
-      <UniqueIdentifier>{8bb6e375-5d4b-4997-bcfc-2fad584d770c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\myColliderInfo">
-      <UniqueIdentifier>{2ec852e6-b7db-40b4-b9cd-366c564f2be7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Pause">
-      <UniqueIdentifier>{58f8c510-e8df-407e-8679-cadf1cc765bc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\UI">
-      <UniqueIdentifier>{93d6127c-5d37-42f1-a5f3-1fff07cd9538}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\Pause">
-      <UniqueIdentifier>{5983280d-a05b-4f07-9d33-012648c37bfa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\Pause">
-      <UniqueIdentifier>{e3269bbd-5d3f-4a8e-914b-2e60c69af5f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\Shader">
-      <UniqueIdentifier>{4ce1428a-76d4-4a0a-a542-85c0b7d7f86c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\SkyBox">
-      <UniqueIdentifier>{9930a2aa-4b9d-4ac8-9469-3fbeaaaf8278}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\SkyBox">
-      <UniqueIdentifier>{0459feea-05fb-4e27-a1c2-d43cde2ee8d1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\SkyBox">
-      <UniqueIdentifier>{ceb9390f-80d2-4bd7-9964-1fff26b6bc78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\Distortion">
-      <UniqueIdentifier>{a82cc5e5-fdfb-482b-be6f-86b5ede1bc87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Shader">
-      <UniqueIdentifier>{866afdee-326b-4780-9a20-65c645ac478d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Animation">
-      <UniqueIdentifier>{11781752-c1c9-4c33-ba73-76267ed08c60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Camera">
-      <UniqueIdentifier>{62c227b4-7051-467b-a172-2b9c492220e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ヘッダー ファイル\Camera">
-      <UniqueIdentifier>{46e849a9-bb62-4453-a5ab-c3bea20d7c35}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\SoundVolume">
-      <UniqueIdentifier>{c3839259-8c94-4ff3-9cbb-a2777014b076}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\Item">
-      <UniqueIdentifier>{9a2c4b86-8e16-450d-a864-9dc207c527f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Component\State">
-      <UniqueIdentifier>{cc94b343-a8fe-4112-a3a9-245758f163da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader\UICircle">
-      <UniqueIdentifier>{5b302285-01aa-4f46-b0fc-36a86796412a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Rendering\UICircle">
-      <UniqueIdentifier>{34ebdfeb-e56a-4fa3-9413-4d5240169a22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="System\Update\UICircle">
-      <UniqueIdentifier>{50dc3490-e70e-43d8-ad65-ac26b872c29d}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Bace">
+      <UniqueIdentifier>{6d9354b7-fb1b-4714-90fa-8b7a10fb6f78}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\Manager">
-      <UniqueIdentifier>{76a963a2-7b2a-4ec9-b4c1-566b5f9e332e}</UniqueIdentifier>
+      <UniqueIdentifier>{b0dc62d1-82d3-4c2c-8fa4-ad7238b6cf48}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Player">
-      <UniqueIdentifier>{65921197-71ab-432d-ad44-d9ce01ecd5ab}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Math">
+      <UniqueIdentifier>{928de574-abb8-4185-9686-c005fc28628e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Rendering\Player">
-      <UniqueIdentifier>{362eb8e8-64a1-41ce-a117-b548e0744584}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Resource">
+      <UniqueIdentifier>{098d345c-b67d-4579-a164-2927b6b8a1f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Rendering\Fan">
-      <UniqueIdentifier>{2864a36d-5037-413b-90ca-acdfa203ccf5}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Scene">
+      <UniqueIdentifier>{bd164400-b825-4c21-852c-6b977eea6fd9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Sound">
-      <UniqueIdentifier>{c4aa4651-93db-4ae0-9b3f-679393764d5f}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\Shader">
+      <UniqueIdentifier>{925c08d6-504d-4aee-b3df-88098ff959eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Sound">
-      <UniqueIdentifier>{db8caf04-ca68-4817-a188-edc92ac72410}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System">
+      <UniqueIdentifier>{1a566bbc-9726-4f44-a087-14761a9c2726}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Rendering\EmitterVolumeVisual">
-      <UniqueIdentifier>{d4fbaaba-65c6-4cb6-bf47-486ba5ca185f}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Rendering">
+      <UniqueIdentifier>{f3fe929b-c0a7-4bec-b6be-875a65f0b032}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\EmitterVolumeVisual">
-      <UniqueIdentifier>{7c4224d5-8ad7-4d7f-ba51-203ee2cb860d}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Update">
+      <UniqueIdentifier>{fd9b00e8-f21d-42e8-8fe6-d6eb0ff596aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\VisibleSineCurve">
-      <UniqueIdentifier>{372a6d45-34ce-4448-bd1d-c1b06392d7fa}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Rendering\Enemy">
+      <UniqueIdentifier>{7e93560f-2b1f-45a6-8b3f-f5efdb4c347c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Charactor">
-      <UniqueIdentifier>{a435c973-db72-4f77-b6e0-3308136605af}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Rendering\Mesh">
+      <UniqueIdentifier>{94aa64bd-d0f1-4c97-a080-e6b9dcefa449}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Calc">
-      <UniqueIdentifier>{cbc68277-6479-4676-ac56-8d0014cbc10b}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Rendering\Object">
+      <UniqueIdentifier>{d146bb3f-df3a-47c7-84a3-a57602ee9709}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\Sequence">
-      <UniqueIdentifier>{b855b6df-41e1-4282-855e-210fe988711a}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Rendering\Player">
+      <UniqueIdentifier>{8a46d092-8df9-4901-883d-dbfb90f9a55a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Sequence">
-      <UniqueIdentifier>{5b61fde2-19b6-4028-b3aa-3be7eaa3dcbc}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Rendering\Shader">
+      <UniqueIdentifier>{07f967af-5bd8-4e90-9f10-bf4f48514089}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Sequence">
-      <UniqueIdentifier>{2933df85-0963-4ced-835d-a7a3bee8130d}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Update\Enemy">
+      <UniqueIdentifier>{e2c86a35-6506-4d74-a2e0-d2b3c4e1235e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Stuts">
-      <UniqueIdentifier>{0213fc23-d4de-4fb8-92dd-f7bf4b18bf44}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Update\Mesh">
+      <UniqueIdentifier>{459469da-e7f2-42a0-a247-6fb1890f3b4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Stuts">
-      <UniqueIdentifier>{b6524c77-0d94-479c-971b-a62d9bec729d}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Update\Object">
+      <UniqueIdentifier>{927a3318-34e9-4033-8267-6b485ac8abf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Timer">
-      <UniqueIdentifier>{f8b81b18-af69-4487-9461-4821fd415858}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Update\Player">
+      <UniqueIdentifier>{32530042-a031-47d9-840f-1dae58307560}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Timer">
-      <UniqueIdentifier>{96d521aa-bd11-40cd-bfe8-00aa35112c28}</UniqueIdentifier>
+    <Filter Include="ソース ファイル\System\Update\Shader">
+      <UniqueIdentifier>{9c08407a-5064-41c8-b5f3-442976e0a18d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shader\SimpleBloom">
-      <UniqueIdentifier>{cd588b20-5cc3-4158-a12b-3e0717d3bd24}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Bace">
+      <UniqueIdentifier>{075a9966-8d80-441f-8483-de0c0c0570d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Gate">
-      <UniqueIdentifier>{611db3ed-2f4c-41b7-8ee9-cdb79dc35d7a}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Component">
+      <UniqueIdentifier>{5acc2b92-8e6e-4d3d-be59-87d0b25044cd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Fan">
-      <UniqueIdentifier>{947db478-37c5-4cb7-aa1b-c0769545114a}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Manager">
+      <UniqueIdentifier>{5766ed22-c3ac-44c3-a6a3-25193e4dd887}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Component\Physics">
-      <UniqueIdentifier>{e6b45cdf-599a-46e6-8404-2d8f17448ac3}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Math">
+      <UniqueIdentifier>{2be5f456-9a50-423c-97a2-9b8972615cd0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="System\Update\Physics">
-      <UniqueIdentifier>{c6e9a420-f82a-449e-9dd1-2c19e1011482}</UniqueIdentifier>
+    <Filter Include="ヘッダー ファイル\Resource">
+      <UniqueIdentifier>{f5bc37e8-3d53-4883-a5ec-b1fc060e610b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Scene">
+      <UniqueIdentifier>{0eb68951-1b3e-4b48-8272-36f41f373ac9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Shader">
+      <UniqueIdentifier>{38531b55-7916-4071-9de4-e6c879bb9c71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System">
+      <UniqueIdentifier>{bbc8fd1d-1d8a-4c18-b8f9-739accaf4cc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Enemy">
+      <UniqueIdentifier>{1f3acce2-7ed9-4093-b77d-fee5023f842f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Player">
+      <UniqueIdentifier>{e029f9a7-a8bf-4993-b3fc-1665dca4d543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Polygone">
+      <UniqueIdentifier>{47af0e91-2de9-48c0-837d-a20ba66c5566}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Component\Shader">
+      <UniqueIdentifier>{dd0fb284-5b4f-4610-87e7-667a44aa8c5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Update">
+      <UniqueIdentifier>{e3fec426-b187-44b4-bf69-85498c5b6d9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Rendering">
+      <UniqueIdentifier>{a8f34289-a2ef-4c1e-b3e3-28d5a6543a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Update\Enemy">
+      <UniqueIdentifier>{543a8125-2687-4d5b-9be3-4ceddc101321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Update\Mesh">
+      <UniqueIdentifier>{7240b393-a3b4-474d-89a2-9e0412c97b2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Update\Obj">
+      <UniqueIdentifier>{474a5741-6462-4dd2-9f2c-e80d7c486cce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Update\Player">
+      <UniqueIdentifier>{a15be36a-15fd-4435-a622-0790d4c854aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Update\Shader">
+      <UniqueIdentifier>{6f797a07-b59e-455c-b17d-9dcb485e4b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Rendering\Enemy">
+      <UniqueIdentifier>{8e860c40-0dc7-4885-bc70-9d73da9da7e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Rendering\Mesh">
+      <UniqueIdentifier>{e621af62-f463-450d-978f-5ff784e9e463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Rendering\Obj">
+      <UniqueIdentifier>{2e8565ea-862a-491b-958b-353b1e85b3da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Rendering\Player">
+      <UniqueIdentifier>{180c441b-61c5-4fee-ae1b-e80f7fcf9a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\System\Rendering\Shader">
+      <UniqueIdentifier>{991b6c88-0f78-445d-9b15-444dd00c787d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{de39feab-17c7-4c00-a29b-c5c45962f4a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="input.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\camera.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="light.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\fade.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="line.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\input.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\light.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="manager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\line.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="math.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\main.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="modelmanager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\manager.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\renderer.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\scene.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="texmanager.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\Sound2D.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="fade.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\Sound3D.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="scene.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Src\cpp\Bace\SoundDevice.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>Shader</Filter>
+    <ClCompile Include="Src\cpp\Bace\Template.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
-    <ClCompile Include="shadowmap.cpp">
-      <Filter>Shader\Shadow</Filter>
-    </ClCompile>
-    <ClCompile Include="shapeshadow.cpp">
-      <Filter>Shader\Shadow</Filter>
-    </ClCompile>
-    <ClCompile Include="toon.cpp">
-      <Filter>Shader\Toon</Filter>
-    </ClCompile>
-    <ClCompile Include="mapmanager.cpp">
+    <ClCompile Include="Src\cpp\Manager\mapmanager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Factories.cpp">
-      <Filter>Factory</Filter>
+    <ClCompile Include="Src\cpp\Manager\modelmanager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering2Dbace.cpp">
-      <Filter>System\Rendering\Object</Filter>
+    <ClCompile Include="Src\cpp\Manager\SystemManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering3DBace.cpp">
-      <Filter>System\Rendering\Object</Filter>
+    <ClCompile Include="Src\cpp\Manager\texmanager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingXSystem.cpp">
-      <Filter>System\Rendering\Object</Filter>
+    <ClCompile Include="Src\cpp\Math\MyMath.cpp">
+      <Filter>ソース ファイル\Math</Filter>
     </ClCompile>
-    <ClCompile Include="Update3DSystem.cpp">
-      <Filter>System\Update\Object</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Enemy\RenderingEnemySightSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Update2DSystem.cpp">
-      <Filter>System\Update\Object</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Enemy\RenderingEnemySystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateXSystem.cpp">
-      <Filter>System\Update\Object</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Mesh\RenderingMeshFieldSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="SystemManager.cpp">
-      <Filter>System\Manager</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Mesh\RenderingMeshLaserSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingMapobjectSystem.cpp">
-      <Filter>System\Rendering</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingOutLineSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateMapobjectSystem.cpp">
-      <Filter>System\Update</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingSkyBoxSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateMeshFieldSystem.cpp">
-      <Filter>System\Update\Mesh</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingToShadowmapSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingMeshFieldSystem.cpp">
-      <Filter>System\Rendering\Mesh</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingToShapeShadowSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateMeshLaserSystem.cpp">
-      <Filter>System\Update\Mesh</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingUICircleSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingMeshLaserSystem.cpp">
-      <Filter>System\Rendering\Mesh</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Shader\RenderingVisibleSineCurveSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingEnemySystem.cpp">
-      <Filter>System\Rendering</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Player\RenderingGamePlayerSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Player</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateEnemySystem.cpp">
-      <Filter>System\Update\Enemy</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Player\RenderingTitlePlayerSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Player</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateEnemyChase.cpp">
-      <Filter>System\Update\Enemy</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Object\Rendering2DbaceSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Object</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateEnemySearch.cpp">
-      <Filter>System\Update\Enemy</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Object\Rendering3DBaceSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Object</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateEnemyPredict.cpp">
-      <Filter>System\Update\Enemy</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\Object\RenderingXSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering\Object</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateTitleManager.cpp">
-      <Filter>System\Update\Title</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\RenderingMapobjectSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="UpdatePauseManager.cpp">
-      <Filter>System\Update\Pause</Filter>
+    <ClCompile Include="Src\cpp\System\Rendering\RenderingPauseMenuSystem.cpp">
+      <Filter>ソース ファイル\System\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingPauseMenu.cpp">
-      <Filter>System\Rendering\Pause</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemyBackSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="UpdatePauseMenu.cpp">
-      <Filter>System\Update\Pause</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemyChaseSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingOutLineSystem.cpp">
-      <Filter>System\Rendering\Shader</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemyPredictSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingToShadowmap.cpp">
-      <Filter>System\Rendering\Shader</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemySearchSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingToShapeShadow.cpp">
-      <Filter>System\Rendering\Shader</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemySightSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="defaultcubemap.cpp">
-      <Filter>Shader\SkyBox</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Enemy\UpdateEnemySystem.cpp">
+      <Filter>ソース ファイル\System\Update\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingSkyBoxSystem.cpp">
-      <Filter>System\Rendering\SkyBox</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Mesh\UpdateMeshFieldSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="distortion.cpp">
-      <Filter>Shader\Distortion</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Mesh\UpdateMeshLaserSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateItemSystem.cpp">
-      <Filter>System\Update</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Shader\UpdateUICircleSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Shader\UpdateVisibleSineCurveSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="BaceCameraSystem.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Player\UpdateGamePlayerSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Player</Filter>
     </ClCompile>
-    <ClCompile Include="TitleCamera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Player\UpdateTitlePlayerSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Player</Filter>
     </ClCompile>
-    <ClCompile Include="GameCamera.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Object\Update2DSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Object</Filter>
     </ClCompile>
-    <ClCompile Include="UICircle.cpp">
-      <Filter>Shader\UICircle</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Object\Update3DSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Object</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateUICircleSystem.cpp">
-      <Filter>System\Update\UICircle</Filter>
+    <ClCompile Include="Src\cpp\System\Update\Object\UpdateXSystem.cpp">
+      <Filter>ソース ファイル\System\Update\Object</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingUICircle.cpp">
-      <Filter>System\Rendering\UICircle</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateGateManagerSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateEnemyBack.cpp">
-      <Filter>System\Update\Enemy</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateItemSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateTitlePlayerSystem.cpp">
-      <Filter>System\Update\Player</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateMapobjectSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateGamePlayerSystem.cpp">
-      <Filter>System\Update\Player</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateMtxSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingGamePlayerSystem.cpp">
-      <Filter>System\Rendering\Player</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdatePauseManagerSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingTitlePlayerSystem.cpp">
-      <Filter>System\Rendering\Player</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdatePauseMenuSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingEnemySightSystem.cpp">
-      <Filter>System\Rendering\Fan</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateRigidBodySystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="Sound3D.cpp">
-      <Filter>ソース ファイル\Sound</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateStutsAnimSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="Sound2D.cpp">
-      <Filter>ソース ファイル\Sound</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateTimerSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="SoundDevice.cpp">
-      <Filter>ソース ファイル\Sound</Filter>
+    <ClCompile Include="Src\cpp\System\Update\UpdateTitleManagerSystem.cpp">
+      <Filter>ソース ファイル\System\Update</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingVisibleSineCurve.cpp">
-      <Filter>System\Rendering\EmitterVolumeVisual</Filter>
+    <ClCompile Include="Src\cpp\Shader\defaultcubemap.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateVisibleSineCurve.cpp">
-      <Filter>System\Update\EmitterVolumeVisual</Filter>
+    <ClCompile Include="Src\cpp\Shader\distortion.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="VisibleSineCurve.cpp">
-      <Filter>Shader\VisibleSineCurve</Filter>
+    <ClCompile Include="Src\cpp\Shader\shader.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateMtxSystem.cpp">
-      <Filter>System\Update\Calc</Filter>
+    <ClCompile Include="Src\cpp\Shader\shadowmap.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="ResultCameraSystem.cpp">
-      <Filter>ソース ファイル\Camera</Filter>
+    <ClCompile Include="Src\cpp\Shader\shapeshadow.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateStutsAnimSystem.cpp">
-      <Filter>System\Update\Stuts</Filter>
+    <ClCompile Include="Src\cpp\Shader\SimpleBloom.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="UpdateTimerSystem.cpp">
-      <Filter>System\Update\Timer</Filter>
+    <ClCompile Include="Src\cpp\Shader\SkyBox.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="title.cpp">
-      <Filter>ソース ファイル\Sequence</Filter>
+    <ClCompile Include="Src\cpp\Shader\toon.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="Result.cpp">
-      <Filter>ソース ファイル\Sequence</Filter>
+    <ClCompile Include="Src\cpp\Shader\UICircle.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="game.cpp">
-      <Filter>ソース ファイル\Sequence</Filter>
+    <ClCompile Include="Src\cpp\Shader\VisibleSineCurve.cpp">
+      <Filter>ソース ファイル\Shader</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadPool.cpp">
+    <ClCompile Include="Src\cpp\Scene\game.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\Scene\Result.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\Scene\title.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\Factories.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleBloom.cpp">
-      <Filter>Shader\SimpleBloom</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdateGateManager.cpp">
-      <Filter>System\Update</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdateRigidBodySystem.cpp">
-      <Filter>System\Update\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="UpdateEnemySightSystem.cpp">
-      <Filter>System\Update\Fan</Filter>
-    </ClCompile>
-    <ClCompile Include="SetUpLoader.cpp">
+    <ClCompile Include="Src\cpp\GameCamera.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\ResultCameraSystem.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\SetUpLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\ThreadPool.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\TitleCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\Bace\object.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\cpp\Bace\pch.cpp">
+      <Filter>ソース ファイル\Bace</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="input.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\camera.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\fade.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="light.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\input.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="line.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\light.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="main.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\line.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="manager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\main.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="math.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\manager.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="math_T.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\renderer.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="modelmanager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\Sound2D.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\Sound3D.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\SoundDevice.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Bace\Template.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="texmanager.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Component\AIComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="fade.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Component\AStarComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="scene.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Component\CapsuleComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="shader.h">
-      <Filter>Shader</Filter>
+    <ClInclude Include="Src\h\Component\CharactorComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="shadowmap.h">
-      <Filter>Shader\Shadow</Filter>
+    <ClInclude Include="Src\h\Component\ChildComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="shapeshadow.h">
-      <Filter>Shader\Shadow</Filter>
+    <ClInclude Include="Src\h\Component\Components.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="toon.h">
-      <Filter>Shader\Toon</Filter>
+    <ClInclude Include="Src\h\Component\FanInfoComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="mapmanager.h">
+    <ClInclude Include="Src\h\Component\GateManagerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\ItemComponent.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\ItemManagerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\LockOnUIAnimComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\ParentComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\PatrolAIComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\PatrolPointManagerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\RayComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\RBComponet.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\RenderFragComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\SizeComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\StutsComponent.h">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\TimerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\TransformComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\VelocityComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\XRenderingComponent.hpp">
+      <Filter>ヘッダー ファイル\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Enemy\EnemyAIAStarComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Enemy\EnemyManagerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Enemy\EnemyPatrolPointComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Enemy\EnemySoundListenerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.h">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Shader\OutLineComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Shader\Ripple3DComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Shader\SkyBoxComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Shader\UICircleComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Shader\VisibleSineCurveComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\ColorComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\DivisionComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\IndexBufferComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\LayerComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\Menu2DComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\MeshInfoComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\NormalComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\Select2DComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\TextureRenderingComponent.h">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\UVComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Polygone\VertexRenderingComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Polygone</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Player\PlayerAnimetionComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Player\PlayerSoundVolumeComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Component\Player\PlayerStateComponent.hpp">
+      <Filter>ヘッダー ファイル\Component\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Manager\mapmanager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="entt.hpp">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Manager\modelmanager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Factories.h">
-      <Filter>Factory</Filter>
+    <ClInclude Include="Src\h\Manager\SystemManager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="baceRenderingsystem.hpp">
-      <Filter>System\Rendering\Bace</Filter>
+    <ClInclude Include="Src\h\Manager\texmanager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering2Dbace.h">
-      <Filter>System\Rendering\Object</Filter>
+    <ClInclude Include="Src\h\Math\MyMath.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering3DBace.h">
-      <Filter>System\Rendering\Object</Filter>
+    <ClInclude Include="Src\h\Math\MyMath_T.h">
+      <Filter>ヘッダー ファイル\Math</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingXSystem.h">
-      <Filter>System\Rendering\Object</Filter>
+    <ClInclude Include="Src\h\Scene\game.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="baceUpdatesystem.hpp">
-      <Filter>System\Update\Bace</Filter>
+    <ClInclude Include="Src\h\Scene\Result.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Update3DSystem.h">
-      <Filter>System\Update\Object</Filter>
+    <ClInclude Include="Src\h\Scene\scene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Update2DSystem.h">
-      <Filter>System\Update\Object</Filter>
+    <ClInclude Include="Src\h\Scene\title.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateXSystem.h">
-      <Filter>System\Update\Object</Filter>
+    <ClInclude Include="Src\h\Shader\defaultcubemap.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="LayerManager.hpp">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Shader\distortion.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="SystemManager.h">
-      <Filter>System\Manager</Filter>
+    <ClInclude Include="Src\h\Shader\shader.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="ColorComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\shadowmap.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="LayerComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\shapeshadow.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="NormalComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\SimpleBloom.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="SizeComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\SkyBox.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="TagComp.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\toon.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="TextureRenderingComponent.h">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\UICircle.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="TransformComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\Shader\VisibleSineCurve.h">
+      <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="UVComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\System\BaceCameraSystem.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="VertexRenderingComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\System\LayerManager.hpp">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="XRenderingComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\System\ResultCameraSystem.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingMapobjectSystem.h">
-      <Filter>System\Rendering</Filter>
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyBackSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateMapobjectSystem.h">
-      <Filter>System\Update</Filter>
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyChaseSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="IndexBufferComponent.hpp">
-      <Filter>Component\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyPredictSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.hpp">
-      <Filter>Component\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemySearchSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateMeshFieldSystem.h">
-      <Filter>System\Update\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemySightSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingMeshFieldSystem.h">
-      <Filter>System\Rendering\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemySystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="RayComponent.hpp">
-      <Filter>Component\Physics</Filter>
+    <ClInclude Include="Src\h\System\Update\Mesh\UpdateMeshFieldSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="DivisionComponent.hpp">
-      <Filter>Component\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Mesh\UpdateMeshLaserSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="MeshInfoComponent.hpp">
-      <Filter>Component\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Shader\UpdateUICircleSystem.hpp">
+      <Filter>ヘッダー ファイル\System\Update\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="ParentComponent.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\System\Update\Shader\UpdateVisibleSineCurveSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateMeshLaserSystem.h">
-      <Filter>System\Update\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Player\UpdateGamePlayerSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Player</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingMeshLaserSystem.h">
-      <Filter>System\Rendering\Mesh</Filter>
+    <ClInclude Include="Src\h\System\Update\Player\UpdateTitlePlayerSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Player</Filter>
     </ClInclude>
-    <ClInclude Include="FactorieUtils.h">
-      <Filter>Factory</Filter>
+    <ClInclude Include="Src\h\System\Update\Obj\Update2DSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingEnemySystem.h">
-      <Filter>System\Rendering</Filter>
+    <ClInclude Include="Src\h\System\Update\Obj\Update3DSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="AIComponent.hpp">
-      <Filter>Component\AI</Filter>
+    <ClInclude Include="Src\h\System\Update\Obj\UpdateXSystem.h">
+      <Filter>ヘッダー ファイル\System\Update\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateEnemySystem.h">
-      <Filter>System\Update\Enemy</Filter>
+    <ClInclude Include="Src\h\System\Update\baceUpdatesystem.hpp">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateEnemyChase.h">
-      <Filter>System\Update\Enemy</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateGateManagerSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="Velocity.hpp">
-      <Filter>Component\Object</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateItemSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateEnemySearch.h">
-      <Filter>System\Update\Enemy</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateMapobjectSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateEnemyPredict.h">
-      <Filter>System\Update\Enemy</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateMtxSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateTitleManager.h">
-      <Filter>System\Update\Title</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdatePauseManagerSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="TitleUI.hpp">
-      <Filter>Component\Title</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdatePauseMenuSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyPatrolPointComponent.hpp">
-      <Filter>Component\Enemy</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateRigidBodySystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderResource.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateStutsAnimSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="FanInfoComponent.hpp">
-      <Filter>Component\myColliderInfo</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateTimerSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="PauseUI.hpp">
-      <Filter>Component\Pause</Filter>
+    <ClInclude Include="Src\h\System\Update\UpdateTitleManagerSystem.h">
+      <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="Select2DComponent.hpp">
-      <Filter>Component\UI</Filter>
+    <ClInclude Include="Src\h\System\Rendering\baceRenderingsystem.hpp">
+      <Filter>ヘッダー ファイル\System\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Menu2DComponent.hpp">
-      <Filter>Component\UI</Filter>
+    <ClInclude Include="Src\h\System\Rendering\RenderingMapobjectSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="UpdatePauseManager.h">
-      <Filter>System\Update\Pause</Filter>
+    <ClInclude Include="Src\h\System\Rendering\RenderingPauseMenuSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingPauseMenu.h">
-      <Filter>System\Rendering\Pause</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySightSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="UpdatePauseMenu.h">
-      <Filter>System\Update\Pause</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingOutLineSystem.h">
-      <Filter>System\Rendering\Shader</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshFieldSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingToShadowmap.h">
-      <Filter>System\Rendering\Shader</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshLaserSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingToShapeShadow.h">
-      <Filter>System\Rendering\Shader</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingOutLineSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="defaultcubemap.h">
-      <Filter>Shader\SkyBox</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingSkyBoxSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="SkyBoxComponent.hpp">
-      <Filter>Component\SkyBox</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingToShadowmapSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingSkyBoxSystem.h">
-      <Filter>System\Rendering\SkyBox</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingToShapeShadowSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManagerComponent.hpp">
-      <Filter>Component\Enemy</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingUICircleSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="distortion.h">
-      <Filter>Shader\Distortion</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Shader\RenderingVisibleSineCurveSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="OutLineComponent.hpp">
-      <Filter>Component\Shader</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Player\RenderingGamePlayerSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Player</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateItemSystem.h">
-      <Filter>System\Update</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Player\RenderingTitlePlayerSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Player</Filter>
     </ClInclude>
-    <ClInclude Include="CapsuleComponent.hpp">
-      <Filter>Component\myColliderInfo</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering2DbaceSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerAnimetionComponent.hpp">
-      <Filter>Component\Animation</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering3DBaceSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="LockOnUIAnimComponent.hpp">
-      <Filter>Component\Animation</Filter>
+    <ClInclude Include="Src\h\System\Rendering\Obj\RenderingXSystem.h">
+      <Filter>ヘッダー ファイル\System\Rendering\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="camera.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
+    <ClInclude Include="Src\h\Bace\object.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="BaceCameraSystem.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
+    <ClInclude Include="Src\h\Bace\pch.h">
+      <Filter>ヘッダー ファイル\Bace</Filter>
     </ClInclude>
-    <ClInclude Include="TitleCamera.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
+    <ClInclude Include="Src\h\Resource\resource.h">
+      <Filter>ヘッダー ファイル\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="GameCamera.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerSoundVolumeComponent.hpp">
-      <Filter>Component\SoundVolume</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemComponent.h">
-      <Filter>Component\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerStateComponent.hpp">
-      <Filter>Component\State</Filter>
-    </ClInclude>
-    <ClInclude Include="UICircle.h">
-      <Filter>Shader\UICircle</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateUICircleSystem.hpp">
-      <Filter>System\Update\UICircle</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingUICircle.h">
-      <Filter>System\Rendering\UICircle</Filter>
-    </ClInclude>
-    <ClInclude Include="UICircleComponent.hpp">
-      <Filter>Component\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderFragComponent.hpp">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateEnemyBack.h">
-      <Filter>System\Update\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateTitlePlayerSystem.h">
-      <Filter>System\Update\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateGamePlayerSystem.h">
-      <Filter>System\Update\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingGamePlayerSystem.h">
-      <Filter>System\Rendering\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingTitlePlayerSystem.h">
-      <Filter>System\Rendering\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySoundListenerComponent.hpp">
-      <Filter>Component\SoundVolume</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingEnemySightSystem.h">
-      <Filter>System\Rendering\Fan</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound2D.h">
-      <Filter>ヘッダー ファイル\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound3D.h">
-      <Filter>ヘッダー ファイル\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundDevice.h">
-      <Filter>ヘッダー ファイル\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="VisibleSineCurveComponent.hpp">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderingVisibleSineCurve.h">
-      <Filter>System\Rendering\EmitterVolumeVisual</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateVisibleSineCurve.h">
-      <Filter>System\Update\EmitterVolumeVisual</Filter>
-    </ClInclude>
-    <ClInclude Include="VisibleSineCurve.h">
-      <Filter>Shader\VisibleSineCurve</Filter>
-    </ClInclude>
-    <ClInclude Include="ChildComponent.hpp">
-      <Filter>Component\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="CharactorComponent.hpp">
-      <Filter>Component\Charactor</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateMtxSystem.h">
-      <Filter>System\Update\Calc</Filter>
-    </ClInclude>
-    <ClInclude Include="ResultCameraSystem.h">
-      <Filter>ヘッダー ファイル\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="StutsComponent.h">
-      <Filter>Component\Stuts</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateStutsAnimSystem.h">
-      <Filter>System\Update\Stuts</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateTimerSystem.h">
-      <Filter>System\Update\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="TimerComponent.hpp">
-      <Filter>Component\Timer</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAIUtils.hpp">
-      <Filter>System\Update\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="ThreadPool.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="title.h">
-      <Filter>ヘッダー ファイル\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>ヘッダー ファイル\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="Result.h">
-      <Filter>ヘッダー ファイル\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleBloom.h">
-      <Filter>Shader\SimpleBloom</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateGateManager.h">
-      <Filter>System\Update</Filter>
-    </ClInclude>
-    <ClInclude Include="GateManagerComponent.hpp">
-      <Filter>Component\Gate</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.hpp">
-      <Filter>Component</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateRigidBodySystem.h">
-      <Filter>System\Update\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="UpdateEnemySightSystem.h">
-      <Filter>System\Update\Fan</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAIAStarComponent.hpp">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateComponent.h">
-      <Filter>Component\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="btCollisionConfig.hpp">
-      <Filter>Component\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="SetUpLoader.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Src\h\Resource\ShaderResource.h">
+      <Filter>ヘッダー ファイル\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ShadowMap.cso" />
-    <None Include="ShapeShadow.cso" />
-    <None Include="Toon.cso" />
-    <None Include="Default.cso" />
-    <None Include="ItemManagerComponent.hpp">
-      <Filter>Component\Item</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="data\SHADER\ShadowMap.fx">
-      <Filter>Shader\Shadow</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\ShapeShadow.fx">
-      <Filter>Shader\Shadow</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\Toon.fx">
-      <Filter>Shader\Toon</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\DefaultCubeMap.fx">
-      <Filter>Shader\SkyBox</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\Distortion.fx">
-      <Filter>Shader\Distortion</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\UICircle.fx">
-      <Filter>Shader\UICircle</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\VisibleSineCurve.fx">
-      <Filter>Shader\VisibleSineCurve</Filter>
-    </FxCompile>
-    <FxCompile Include="data\SHADER\SimpleBloom.fx">
-      <Filter>Shader\SimpleBloom</Filter>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Shader.rc">
+    <ResourceCompile Include="Rc\Shader.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="data\SHADER\Default.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\DefaultCubeMap.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\Distortion.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\ShadowMap.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\ShapeShadow.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\SimpleBloom.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\Toon.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\UICircle.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="data\SHADER\VisibleSineCurve.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
