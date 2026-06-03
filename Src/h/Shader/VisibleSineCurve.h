@@ -29,17 +29,17 @@ public:
 	/// パラメーター設定
 	/// </summary>
 	/// <param name="mtxWorld">ワールドマトリックス</param>
-	/// <param name="Counter"></param>
-	/// <param name="Speed"></param>
-	/// <param name="Ripple"></param>
-	/// <param name="Micro"></param>
-	/// <param name="Radius"></param>
+	/// <param name="Counter">カウンタ</param>
+	/// <param name="Speed">速さ</param>
+	/// <param name="Ripple">振幅</param>
+	/// <param name="Micro">細かさ</param>
+	/// <param name="Radius">大きさ</param>
 	void SetParameters(D3DXMATRIX mtxWorld, const int Counter, const float Speed, const float Ripple, const float Micro, const float Radius);
-
-	// ゲッター
-	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
-
-	// 静的メンバ関数
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>インスタンス</returns>
 	static CVisibleSineCurve& Instance(void) {
 		static CVisibleSineCurve Instance;
 		return Instance;
