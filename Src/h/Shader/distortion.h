@@ -1,40 +1,85 @@
-//****************************************************************
+//================================================================
 //
 // 画面の歪みの処理[distortion.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "shader.h"
 
+//****************************************************************
 // 歪みシェーダのクラスを定義
+//****************************************************************
 class CDistortion : public CShader
 {
 public:
 	// デストラクタ
 	~CDistortion();
 
-	// メンバ関数
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>結果</returns>
 	HRESULT Init(void);
+	/// <summary>
+	/// リセット処理(デバイスロスト時)
+	/// </summary>
+	/// <param name=""></param>
 	void ReSet(void);
+	/// <summary>
+	/// リスタート処理(デバイスロスト復帰時)
+	/// </summary>
+	/// <param name=""></param>
 	void ReStart(void);
-
-	// パラメータ設定
+	/// <summary>
+	/// ノイズ開始
+	/// </summary>
+	/// <param name="MaxNoiseRange">ノイズの上限値</param>
+	/// <param name="MinNoiseRange">ノイズの下限値</param>
+	/// <param name="NoiseSpeed">ノイズの速さ</param>
 	void StartNoise(float MaxNoiseRange = 1.0f,float MinNoiseRange = 1.0f,float NoiseSpeed = 150.0f);
+	/// <summary>
+	/// ノイズ終了
+	/// </summary>
+	/// <param name=""></param>
 	void EndNoise(void);
+	/// <summary>
+	/// パラメーター設定
+	/// </summary>
+	/// <param name="Scene"></param>
 	void SetParameters(LPDIRECT3DTEXTURE9 Scene);
-
-	// ゲッター
-	int GetNoiseCnt(void) { return m_NoiseCount; }
-	bool IsNoised(void) { return m_NoiseFrag; }
-	LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
-
-	// 静的メンバ関数
-	static CDistortion& Instance(void) {
+	/// <summary>
+	/// ノイズカウンタを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>カウンタ</returns>
+	inline int GetNoiseCnt(void) { return m_NoiseCount; }
+	/// <summary>
+	/// ノイズ中かどうか
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>ノイズ中かどうか</returns>
+	inline bool IsNoised(void) { return m_NoiseFrag; }
+	///// <summary>
+	///// エフェクトを取得
+	///// </summary>
+	///// <returns></returns>
+	//inline LPD3DXEFFECT& GetEffect() { return CShader::GetEffect(); }
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>インスタンス</returns>
+	inline static CDistortion& Instance(void) {
 		static CDistortion Instance;
 		return Instance;
 	};

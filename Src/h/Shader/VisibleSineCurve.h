@@ -1,24 +1,39 @@
-//****************************************************************
+//================================================================
 //
 // サインカーブシェーダーの処理[VisibleSineCurve.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "shader.h"
 
+//****************************************************************
 // クラスを定義
+//****************************************************************
 class CVisibleSineCurve : public CShader
 {
 public:
 	// デストラクタ
 	~CVisibleSineCurve() = default;
 
-	// メンバ関数
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>結果</returns>
 	HRESULT Init(void);
-
-	// パラメータ設定
+	/// <summary>
+	/// パラメーター設定
+	/// </summary>
+	/// <param name="mtxWorld">ワールドマトリックス</param>
+	/// <param name="Counter"></param>
+	/// <param name="Speed"></param>
+	/// <param name="Ripple"></param>
+	/// <param name="Micro"></param>
+	/// <param name="Radius"></param>
 	void SetParameters(D3DXMATRIX mtxWorld, const int Counter, const float Speed, const float Ripple, const float Micro, const float Radius);
 
 	// ゲッター

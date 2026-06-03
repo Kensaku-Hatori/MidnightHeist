@@ -197,10 +197,3 @@ void CGame::WriteStutsInfo(void)
 	}
 	writing_file.close();
 }
-
-//***************************************
-// プレイヤーをリスポーンさせる
-//***************************************
-void CGame::ResetPlayer(void)
-{
-}

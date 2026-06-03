@@ -1,44 +1,81 @@
-//****************************************************************
+//================================================================
 //
 // 物陰の処理[shapeshadow.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
 //****************************************************************
-
 // 二重インクルード防止
-#ifndef _SHAPESHADOW_H_
-#define _SHAPESHADOW_H_
+//****************************************************************
+#pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "shader.h"
 
+//****************************************************************
 // クラスを定義
+//****************************************************************
 class CShapeShadow : public CShader
 {
 public:
 	// デストラクタ
 	~CShapeShadow();
 
-	// メンバ関数
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>結果</returns>
 	HRESULT Init(void);
+	/// <summary>
+	/// テクスチャへの描画
+	/// </summary>
+	/// <param name=""></param>
 	void DrawTex(void);
+	/// <summary>
+	/// テクスチャクリア
+	/// </summary>
+	/// <param name=""></param>
 	void Clear(void);
+	/// <summary>
+	/// 障害物として書き込みを開始
+	/// </summary>
+	/// <param name=""></param>
 	void BeginObject(void);
+	/// <summary>
+	/// オブジェクトとして書き込みを開始
+	/// </summary>
+	/// <param name=""></param>
 	void BeginScene(void);
+	/// <summary>
+	/// 書き込みを終了
+	/// </summary>
+	/// <param name=""></param>
 	void EndTexs(void);
+	/// <summary>
+	/// リセット処理(デバイスロスト時)
+	/// </summary>
+	/// <param name=""></param>
 	void ReSet(void);
+	/// <summary>
+	/// リスタート処理(デバイスロスト復帰時)
+	/// </summary>
+	/// <param name=""></param>
 	void ReStart(void);
-
-	// セッター
-	void SetParameters(D3DXMATRIX World); // ライトやマテリアルなどの設定
-
-	// ゲッター
-	LPDIRECT3DTEXTURE9 GetTex(void) { return m_SceneTex; }
-	LPDIRECT3DTEXTURE9 GetObjectTex(void) { return m_ObjectTex; }
-
-	// 静的メンバ関数
-	// シングルトン
-	static CShapeShadow& Instance(void) {
+	/// <summary>
+	/// パラメータ設定
+	/// </summary>
+	/// <param name="World">ワールドマトリックス</param>
+	void SetParameters(D3DXMATRIX World);
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>インスタンス</returns>
+	inline static CShapeShadow& Instance(void) {
 		static CShapeShadow Instance;
 		return Instance;
 	};
@@ -65,4 +102,3 @@ private:
 	D3DXHANDLE m_ProjHandle;						// ライトプロジェクションマトリックスのハンドル
 	D3DXHANDLE m_ObjectTexHandle;					// オブジェクトテクスチャのハンドル
 };
-#endif // !_SHAPESHADOW_H_
