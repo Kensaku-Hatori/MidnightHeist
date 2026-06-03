@@ -68,7 +68,7 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
 
 		// ©g‚ª—§‚Ä‚Ä‚¢‚é‰¹‚Ì‘å‚«‚³‚ğq‰f
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(ChildrenCmp.Children[2]);
+		auto& SineCurveCmp = reg.get<Ripple3DComponent>(ChildrenCmp.Children[2]);
 
 		SineCurveCmp.Radius = SoundCmp.ListenerVolume;
 

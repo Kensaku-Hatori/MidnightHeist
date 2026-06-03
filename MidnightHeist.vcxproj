@@ -271,7 +271,6 @@
     <ClInclude Include="Src\h\Bace\Template.h" />
     <ClInclude Include="Src\h\Component\AIComponent.hpp" />
     <ClInclude Include="Src\h\Component\AStarComponent.hpp" />
-    <ClInclude Include="Src\h\Component\CapsuleComponent.hpp" />
     <ClInclude Include="Src\h\Component\CharactorComponent.hpp" />
     <ClInclude Include="Src\h\Component\ChildComponent.hpp" />
     <ClInclude Include="Src\h\Component\Components.hpp" />
@@ -279,7 +278,6 @@
     <ClInclude Include="Src\h\Component\Enemy\EnemyManagerComponent.hpp" />
     <ClInclude Include="Src\h\Component\Enemy\EnemyPatrolPointComponent.hpp" />
     <ClInclude Include="Src\h\Component\Enemy\EnemySoundListenerComponent.hpp" />
-    <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.h" />
     <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.hpp" />
     <ClInclude Include="Src\h\Component\FanInfoComponent.hpp" />
     <ClInclude Include="Src\h\Component\GateManagerComponent.hpp" />
@@ -288,7 +286,6 @@
     <ClInclude Include="Src\h\Component\LockOnUIAnimComponent.hpp" />
     <ClInclude Include="Src\h\Component\ParentComponent.hpp" />
     <ClInclude Include="Src\h\Component\PatrolAIComponent.hpp" />
-    <ClInclude Include="Src\h\Component\PatrolPointManagerComponent.hpp" />
     <ClInclude Include="Src\h\Component\Player\PlayerAnimetionComponent.hpp" />
     <ClInclude Include="Src\h\Component\Player\PlayerSoundVolumeComponent.hpp" />
     <ClInclude Include="Src\h\Component\Player\PlayerStateComponent.hpp" />
@@ -304,13 +301,11 @@
     <ClInclude Include="Src\h\Component\Polygone\UVComponent.hpp" />
     <ClInclude Include="Src\h\Component\Polygone\VertexRenderingComponent.hpp" />
     <ClInclude Include="Src\h\Component\RayComponent.hpp" />
-    <ClInclude Include="Src\h\Component\RBComponet.hpp" />
     <ClInclude Include="Src\h\Component\RenderFragComponent.hpp" />
     <ClInclude Include="Src\h\Component\Shader\OutLineComponent.hpp" />
     <ClInclude Include="Src\h\Component\Shader\Ripple3DComponent.hpp" />
     <ClInclude Include="Src\h\Component\Shader\SkyBoxComponent.hpp" />
     <ClInclude Include="Src\h\Component\Shader\UICircleComponent.hpp" />
-    <ClInclude Include="Src\h\Component\Shader\VisibleSineCurveComponent.hpp" />
     <ClInclude Include="Src\h\Component\SizeComponent.hpp" />
     <ClInclude Include="Src\h\Component\StutsComponent.h" />
     <ClInclude Include="Src\h\Component\TimerComponent.hpp" />

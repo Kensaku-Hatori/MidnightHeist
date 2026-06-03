@@ -11,7 +11,7 @@
 #include "Component/Polygone/VertexRenderingComponent.hpp"
 #include "Component/Polygone/TextureRenderingComponent.h"
 #include "Shader/VisibleSineCurve.h"
-#include "Component/Shader/VisibleSineCurveComponent.hpp"
+#include "Component/Shader/Ripple3DComponent.hpp"
 #include "TagComp.hpp"
 #include "Bace/manager.h"
 
@@ -38,7 +38,7 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 	{
 		auto& TransformComp = reg.get<Transform3D>(entity);
 		auto& VtxComp = reg.get<VertexComponent>(entity);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(entity);
+		auto& SineCurveCmp = reg.get<Ripple3DComponent>(entity);
 
 		// 頂点バッファをデバイスからデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));

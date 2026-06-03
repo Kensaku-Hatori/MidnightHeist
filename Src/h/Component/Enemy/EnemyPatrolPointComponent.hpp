@@ -1,18 +1,25 @@
-//****************************************************************
+//================================================================
 //
 // 巡回ポイントのコンポーネント[PatrolPointComponent.hpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
+// インクルード
+//****************************************************************
 #include "Factories.h"
 #include "Bace/manager.h"
 #include "Scene/scene.h"
 
-// 念のため
+//****************************************************************
+// ネームスペース
+//****************************************************************
 namespace PatrolPoint {
     // 一つの巡回ポイントの構造体
     struct PatrolPointInfo
@@ -38,9 +45,11 @@ namespace PatrolPoint {
 	};
 }
 
-// テクスチャ情報
+//****************************************************************
+// 巡回ポイントのコンポーネント
+//****************************************************************
 struct PatrolPointComponent {
-    // イニシャライズコンストラクタ
+	// 引数ありコンストラクタ
 	PatrolPointComponent(const std::string& Path,const float Radius) {
 		// 名前空間
 		using namespace nlohmann;
@@ -89,15 +98,9 @@ struct PatrolPointComponent {
 			}
 			// 今のベクターのサイズをIdxとして使用
 			LoadInfo.Idx = PatrolPoint.size();
-			//Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", { LoadInfo.Point.x,LoadInfo.Point.y + 100.0f,LoadInfo.Point.z });
 			// 連結
 			PatrolPoint.push_back(LoadInfo);
 		}
-		//int test = 7;
-		//for (int nCnt = 0; nCnt < static_cast<int>(PatrolPoint[test].CanMove.size()); nCnt++)
-		//{
-		//	Factories::makeMapobject(CManager::GetScene()->GetReg(), "data/MODEL/testBall_00.x", PatrolPoint[PatrolPoint[test].CanMove[nCnt]].Point);
-		//}
     };
 	// デストラクタ
 	~PatrolPointComponent() {

@@ -1,14 +1,18 @@
-//****************************************************************
+//================================================================
 //
 // サウンドデバイスの処理[SoundDevice.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
-// 念のため
+//****************************************************************
+// ネームスペース
+//****************************************************************
 namespace SoundDevice {
 	// 定数
 	// リバーブのプリセットの数
@@ -49,33 +53,113 @@ namespace SoundDevice {
 	extern const SOUNDINFO aSoundInfo[SoundDevice::LABEL_MAX];
 }
 
+//****************************************************************
 // クラスを定義
+//****************************************************************
 class CSoundDevice
 {
 public:
 	CSoundDevice() = default;
 	~CSoundDevice() = default;
 
-	// メンバ関数
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>結果</returns>
 	HRESULT Init(void);
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	/// <param name=""></param>
 	void Uninit(void);
+	/// <summary>
+	/// チャンクチェック
+	/// </summary>
+	/// <param name="hFile">ファイルハンドル</param>
+	/// <param name="format">フォーマット</param>
+	/// <param name="pChunkSize">ちゃんくのおおきさ</param>
+	/// <param name="pChunkDataPosition">チャンクの位置</param>
+	/// <returns>結果</returns>
 	HRESULT CheckChunk(HANDLE hFile, DWORD format, DWORD* pChunkSize, DWORD* pChunkDataPosition);
+	/// <summary>
+	/// チャンクを読み込み
+	/// </summary>
+	/// <param name="hFile">ファイルハンドル</param>
+	/// <param name="pBuffer">バッファ</param>
+	/// <param name="dwBuffersize">バッファの大きさ</param>
+	/// <param name="dwBufferoffset">バッファのオフセット</param>
+	/// <returns>結果</returns>
 	HRESULT ReadChunkData(HANDLE hFile, void* pBuffer, DWORD dwBuffersize, DWORD dwBufferoffset);
 
 	// ゲッター
-	IXAudio2* GetAudio2Device(void) { return m_pXAudio2; }
-	X3DAUDIO_HANDLE* GetAudio3Handle(void) { return &m_x3DInstance; }
-	IXAudio2SubmixVoice* GetSubMixVoice(SoundDevice::BUS Bus) { return m_pSubmixVoices[Bus]; }
-	IXAudio2MasteringVoice* GetMasteringVoice(void) { return m_pMasteringVoice; }
-	IUnknown* GetReverbEffect(void) { return m_pReverbEffect; }
-	BYTE* GetAudioData(SoundDevice::LABEL Label) { return m_apDataAudio[Label]; }
-	DWORD GetAudioSize(SoundDevice::LABEL Label) { return m_aSizeAudio[Label]; }
-	DWORD GetChannelMask(void) { return m_dwChannelMask; }
-	UINT32 GetChannels(void) { return m_nChannels; }
-	WAVEFORMATEXTENSIBLE GetAudioFMT(SoundDevice::LABEL Label) { return m_aWaveFMT[Label]; }
 
-	//　静的メンバ関数
-	static CSoundDevice& Instance(void) {
+	/// <summary>
+	/// 2Dサウンドのインスタンスを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>インスタンス</returns>
+	inline IXAudio2* GetAudio2Device(void) { return m_pXAudio2; }
+	/// <summary>
+	/// 3Dサウンドのハンドルを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>ハンドル</returns>
+	inline X3DAUDIO_HANDLE* GetAudio3Handle(void) { return &m_x3DInstance; }
+	/// <summary>
+	/// サブミックスボイスを取得
+	/// </summary>
+	/// <param name="Bus">プール</param>
+	/// <returns>ボイス</returns>
+	inline IXAudio2SubmixVoice* GetSubMixVoice(SoundDevice::BUS Bus) { return m_pSubmixVoices[Bus]; }
+	/// <summary>
+	/// マスターボイスを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>ボイス</returns>
+	inline IXAudio2MasteringVoice* GetMasteringVoice(void) { return m_pMasteringVoice; }
+	/// <summary>
+	/// リバーブエフェクトを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>リバーブエフェクト</returns>
+	inline IUnknown* GetReverbEffect(void) { return m_pReverbEffect; }
+	/// <summary>
+	/// 音のデータを取得
+	/// </summary>
+	/// <param name="Label">ラベル</param>
+	/// <returns>データ</returns>
+	inline BYTE* GetAudioData(SoundDevice::LABEL Label) { return m_apDataAudio[Label]; }
+	/// <summary>
+	/// 音のサイズを取得
+	/// </summary>
+	/// <param name="Label">ラベル</param>
+	/// <returns>サイズ</returns>
+	inline DWORD GetAudioSize(SoundDevice::LABEL Label) { return m_aSizeAudio[Label]; }
+	/// <summary>
+	/// チャンクマスクを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>マスク</returns>
+	inline DWORD GetChannelMask(void) { return m_dwChannelMask; }
+	/// <summary>
+	/// チャンネル数を取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>チャンネル数</returns>
+	inline UINT32 GetChannels(void) { return m_nChannels; }
+	/// <summary>
+	/// 音のフォーマットを取得
+	/// </summary>
+	/// <param name="Label">ラベル</param>
+	/// <returns>フォーマット</returns>
+	inline WAVEFORMATEXTENSIBLE GetAudioFMT(SoundDevice::LABEL Label) { return m_aWaveFMT[Label]; }
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>インスタンス</returns>
+	inline static CSoundDevice& Instance(void) {
 		static CSoundDevice Instance;
 		return Instance;
 	}

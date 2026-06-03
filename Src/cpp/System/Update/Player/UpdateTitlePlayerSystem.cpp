@@ -12,7 +12,6 @@
 #include "Component/Shader/OutLineComponent.hpp"
 #include "Component/VelocityComponent.hpp"
 #include "TagComp.hpp"
-#include "Component/CapsuleComponent.hpp"
 #include "Component/Player/PlayerAnimetionComponent.hpp"
 #include "Component/LockOnUIAnimComponent.hpp"
 #include "Component/ParentComponent.hpp"

@@ -205,7 +205,7 @@ entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR C
 	// コンポーネントを追加
 	Reg.emplace<Transform3D>(myEntity);
 	Reg.emplace<VisibleSound>(myEntity);
-	Reg.emplace<VisibleSineCurveComponent>(myEntity);
+	Reg.emplace<Ripple3DComponent>(myEntity);
 	Reg.emplace<VertexComponent>(myEntity);
 	Reg.emplace<TexComponent>(myEntity, "data\\TEXTURE\\floor.jpg");
 	Reg.emplace<ColorComponent>(myEntity, Col);

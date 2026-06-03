@@ -387,10 +387,3 @@ void CManager::SetScene(CScene* Scene)
 	InitSystems();
 	m_pScene->Init();
 }
-
-//***************************************
-// プレイヤーのリスポーン
-//***************************************
-void CManager::RespawPlayer(void)
-{
-}

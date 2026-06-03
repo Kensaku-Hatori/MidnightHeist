@@ -11,7 +11,6 @@
 // インクルード
 #include "System/Update/baceUpdatesystem.hpp"
 #include "Component/TransformComponent.hpp"
-#include "Component/CapsuleComponent.hpp"
 
 // プレイヤーのアップデート
 struct UpdateTitlePlayerSystem : BaceSystem

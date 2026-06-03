@@ -25,7 +25,7 @@
 #include "Component/Player/PlayerSoundVolumeComponent.hpp"
 #include "Component/Enemy/EnemySoundListenerComponent.hpp"
 #include "Component/ChildComponent.hpp"
-#include "Component/Shader/VisibleSineCurveComponent.hpp"
+#include "Component/Shader/Ripple3DComponent.hpp"
 #include "Component/Components.hpp"
 
 // –¼‘O‹óŠÔ

@@ -11,7 +11,7 @@
 #include "Component/Polygone/TextureRenderingComponent.h"
 #include "Component/Polygone/UVComponent.hpp"
 #include "Component/Polygone/ColorComponent.hpp"
-#include "Component/Shader/VisibleSineCurveComponent.hpp"
+#include "Component/Shader/Ripple3DComponent.hpp"
 #include "TagComp.hpp"
 #include "Math/MyMath_T.h"
 
@@ -32,7 +32,7 @@ void UpdateVisibleSineCurveSystem::Update(entt::registry& reg)
 		// 情報取得
 		auto& VtxCmp = reg.get<VertexComponent>(entity);
 		auto& ColorCmp = reg.get<ColorComponent>(entity);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(entity);
+		auto& SineCurveCmp = reg.get<Ripple3DComponent>(entity);
 		auto& UVCmp = reg.get<UVComponent>(entity);
 
 		// カウンタを進める

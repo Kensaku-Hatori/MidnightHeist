@@ -1,18 +1,23 @@
-//****************************************************************
+//================================================================
 //
 // モデルを一括管理するクラスの処理[modelmanager.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
 //****************************************************************
-
 // 二重インクルード防止
-#ifndef _MODELMANAGER_H_
-#define _MODELMANAGER_H_
+//****************************************************************
+#pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "texmanager.h"
 
+//****************************************************************
 // モデルマネージャーを定義
+//****************************************************************
 class CModelManager
 {
 public:
@@ -20,10 +25,10 @@ public:
 	struct ModelInfo
 	{
 		// モデル情報の構造体
-		LPD3DXMESH pMesh;					// メッシュへのポインタ
-		LPD3DXMESH pSmoothMesh;				// なめらかメッシュへのポインタ
-		LPD3DXBUFFER pBuffMat;				// マテリアルへのポインタ
-		DWORD dwNumMat;						// マテリアルの数
+		LPD3DXMESH pMesh;						// メッシュへのポインタ
+		LPD3DXMESH pSmoothMesh;					// なめらかメッシュへのポインタ
+		LPD3DXBUFFER pBuffMat;					// マテリアルへのポインタ
+		DWORD dwNumMat;							// マテリアルの数
 		std::vector<LPDIRECT3DTEXTURE9> Tex;	// テクスチャパス
 	};
 
@@ -37,20 +42,33 @@ public:
 	~CModelManager();
 
 	// 読み込み・破棄
+
+	/// <summary>
+	/// モデルを読み込み
+	/// </summary>
+	/// <param name="LoadFilePath">ファイルパス</param>
 	static void Load(std::string LoadFilePath);
-
-	// 静的メンバ関数
+	/// <summary>
+	/// 登録解除
+	/// </summary>
+	/// <param name=""></param>
 	static void UnRegistModel(void);
-
-	// ゲッター
+	/// <summary>
+	/// モデル情報を取得
+	/// </summary>
+	/// <param name="Path"></param>
+	/// <returns></returns>
 	static MapObject& GetModelInfo(std::string Path);
 private:
 	// コンストラクタ・デストラクタ
 	CModelManager();
-	// プライベートメンバ関数
+	/// <summary>
+	/// 読み込み失敗した時のモデルを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
 	static MapObject& FailedLoadMesh(void);
 
 	// 静的メンバ変数
 	static std::unordered_map<std::string, MapObject> m_ModelMap;	// モデル情報を格納する変数
 };
-#endif // !_MODELMANAGER_H_

@@ -1,25 +1,32 @@
-//****************************************************************
+//================================================================
 //
 // タイトルの処理[title.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
 //****************************************************************
-
 // 二重インクルード防止
-#ifndef _TITLE_H_
-#define _TITLE_H_
+//****************************************************************
+#pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "scene.h"
 
+//****************************************************************
 // 前方宣言
+//****************************************************************
 class CPlayerTitle;
 class CMapEditer;
 class CTitleManager;
 class CSound2D;
 class CEmitter;
 
+//****************************************************************
 // タイトルクラスを定義
+//****************************************************************
 class CTitle : public CScene
 {
 public:
@@ -27,10 +34,26 @@ public:
 	CTitle();
 	~CTitle();
 
-	// メンバ関数
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>結果</returns>
 	HRESULT Init(void)	override;
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name=""></param>
 	void Update(void)	override;
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	/// <param name=""></param>
 	void Uninit(void)	override;
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	/// <param name=""></param>
 	void Draw(void)		override;
 private:
 	// 定数を設定
@@ -50,4 +73,3 @@ private:
 	std::unique_ptr<btBoxShape>		m_GroundShape;
 	std::unique_ptr<btRigidBody>	m_GroundRB;
 };
-#endif // !_TITLE_H_

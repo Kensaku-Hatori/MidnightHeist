@@ -3,22 +3,24 @@
 // プレイヤーの最初のアニメーションのコンポーネント[PlayerAnimationComponent.hpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // プレイヤーの最初のアニメーションの情報
+//****************************************************************
 struct PlayerAnimComponent {
-	// コンストラクタ
-	PlayerAnimComponent() : IsFinishedBelt(false), IsFinishedBeltOld(false), IsScreen(false), IsFinishedAnim(false), FirstDelayCounter(0), FirstDelayFrame(120) {};
 	// プレイヤーのアニメーション情報
-	int FirstDelayCounter;
-	int FirstDelayFrame;
-	bool IsFinishedBelt;
-	bool IsFinishedBeltOld;
+	int FirstDelayCounter = 0;
+	int FirstDelayFrame = 120;
+	bool IsFinishedBelt = false;
+	bool IsFinishedBeltOld = false;
 	// スクリーン上にプレイヤーがいるかどうか
-	bool IsScreen;
+	bool IsScreen = false;
 	// アニメーションが終了したかどうか
-	bool IsFinishedAnim;
+	bool IsFinishedAnim = false;
 };

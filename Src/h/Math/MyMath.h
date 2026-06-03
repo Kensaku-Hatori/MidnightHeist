@@ -1,22 +1,27 @@
-//****************************************************************
+//================================================================
 //
 // 計算の処理[math.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
 //****************************************************************
-
 // 二重インクルード防止
-#ifndef _MATH_H_
-#define _MATH_H_
+//****************************************************************
+#pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Bace/manager.h"
 #include "Component/FanInfoComponent.hpp"
 #include "Component/XRenderingComponent.hpp"
 #include "Component/RayComponent.hpp"
 #include "Component/Enemy/EnemyPatrolPointComponent.hpp"
 
+//****************************************************************
 // クラスを定義
+//****************************************************************
 class CMath
 {
 public:
@@ -56,11 +61,8 @@ public:
 	static bool IsValidVector(const D3DXVECTOR3& Condition);
 	static bool IsValidVector(const btVector3& Condition);
 	static bool IsValidScaler(const float Condition);
-	//static float CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
-	//static float CalcCapCapDist(CCollision::Capsule Cap1, CCollision::Capsule Cap2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2);
 private:
 	// コンストラクタ・デストラクタ
 	CMath();
 	~CMath();
 };
-#endif // !_MATH_H_

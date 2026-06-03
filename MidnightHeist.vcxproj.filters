@@ -434,9 +434,6 @@
     <ClInclude Include="Src\h\Component\AStarComponent.hpp">
       <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\Component\CapsuleComponent.hpp">
-      <Filter>ヘッダー ファイル\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Src\h\Component\CharactorComponent.hpp">
       <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
@@ -467,13 +464,7 @@
     <ClInclude Include="Src\h\Component\PatrolAIComponent.hpp">
       <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\Component\PatrolPointManagerComponent.hpp">
-      <Filter>ヘッダー ファイル\Component</Filter>
-    </ClInclude>
     <ClInclude Include="Src\h\Component\RayComponent.hpp">
-      <Filter>ヘッダー ファイル\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\h\Component\RBComponet.hpp">
       <Filter>ヘッダー ファイル\Component</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\Component\RenderFragComponent.hpp">
@@ -509,9 +500,6 @@
     <ClInclude Include="Src\h\Component\Enemy\EnemySoundListenerComponent.hpp">
       <Filter>ヘッダー ファイル\Component\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.h">
-      <Filter>ヘッダー ファイル\Component\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Src\h\Component\Enemy\EnemyStateComponent.hpp">
       <Filter>ヘッダー ファイル\Component\Enemy</Filter>
     </ClInclude>
@@ -525,9 +513,6 @@
       <Filter>ヘッダー ファイル\Component\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\Component\Shader\UICircleComponent.hpp">
-      <Filter>ヘッダー ファイル\Component\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\h\Component\Shader\VisibleSineCurveComponent.hpp">
       <Filter>ヘッダー ファイル\Component\Shader</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\Component\Polygone\ColorComponent.hpp">

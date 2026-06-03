@@ -11,7 +11,6 @@
 #include "Component/Shader/OutLineComponent.hpp"
 #include "Component/VelocityComponent.hpp"
 #include "TagComp.hpp"
-#include "Component/CapsuleComponent.hpp"
 #include "Component/Player/PlayerAnimetionComponent.hpp"
 #include "Component/LockOnUIAnimComponent.hpp"
 #include "Component/ParentComponent.hpp"
@@ -25,7 +24,7 @@
 #include "Component/Shader/UICircleComponent.hpp"
 #include "Component/ItemManagerComponent.hpp"
 #include "Component/Player/PlayerSoundVolumeComponent.hpp"
-#include "Component/Shader/VisibleSineCurveComponent.hpp"
+#include "Component/Shader/Ripple3DComponent.hpp"
 #include "Manager/mapmanager.h"
 #include "Math/MyMath_T.h"
 #include "Bace/Sound3D.h"
@@ -71,7 +70,7 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 
 		// ‰~Œ`UI‚Ìî•ñ‚ğæ“¾
 		auto& Parents = reg.get<ChildrenComponent>(entity);
-		auto& SineCurveCmp = reg.get<VisibleSineCurveComponent>(Parents.Children[2]);
+		auto& SineCurveCmp = reg.get<Ripple3DComponent>(Parents.Children[2]);
 
 		// ”­‚µ‚Ä‚¢‚é”ÍˆÍ‚ğİ’è
 		SineCurveCmp.Radius = SoundCmp.SoundVolume;
