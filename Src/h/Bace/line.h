@@ -1,15 +1,22 @@
-//****************************************************************
+//================================================================
 //
 // 線描がの処理[Line.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
+//****************************************************************
+// 二重インクルード防止
+//****************************************************************
+#pragma once
+
+//****************************************************************
+// インクルード
 //****************************************************************
 
-// 二重インクルード防止
-#ifndef _LINE_H_
-#define _LINE_H_
-
+//****************************************************************
 // ラインクラスを定義
+//****************************************************************
 class CLine
 {
 public:
@@ -17,17 +24,35 @@ public:
 	CLine();
 	~CLine();
 
-	// メンバ関数
+	/// <summary>
+	/// クリア
+	/// </summary>
+	/// <param name=""></param>
 	void Clear(void);
+	/// <summary>
+	/// ラインを追加
+	/// </summary>
+	/// <param name="P1">視点</param>
+	/// <param name="P2">終点</param>
+	/// <param name="Col">色</param>
 	void AddLine(const D3DXVECTOR3 P1, const D3DXVECTOR3 P2, const D3DCOLOR Col);
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name=""></param>
 	void Draw(void);
-
-	// 静的メンバ関数
-	static std::unique_ptr<CLine> Create(void);
+	/// <summary>
+	/// シングルトン
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>インスタンス</returns>
+	static CLine& Instance(void) {
+		static CLine Instance;
+		return Instance;
+	}
 private:
 	// ラインの可変長配列
 	std::vector<VERTEX_LINE> m_Vertex;
 	// ワールドマトリックス
 	D3DXMATRIX m_mtxWorld;
 };
-#endif // !_LINE_H_

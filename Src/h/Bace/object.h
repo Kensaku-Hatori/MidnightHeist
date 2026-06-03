@@ -1,22 +1,27 @@
-//****************************************************************
+//================================================================
 //
 // ポリゴン処理[Object.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
 //****************************************************************
-
 // 二十インクルード防止
-#ifndef _OBJECT_H_
-#define _OBJECT_H_
+//****************************************************************
+#pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Bace/main.h"
 
+//****************************************************************
 // クラス宣言
+//****************************************************************
 class CObject
 {
 public:
-	// 規定値を設定
+	// 定数を設定
 	struct Config {
 		static constexpr int Priority = 8;	// 描画順の最大数
 	};
@@ -25,11 +30,23 @@ public:
 	CObject(int Priority = 3);
 	virtual ~CObject();
 
-	// メンバ関数
-	// セッター
-	// ゲッター
+	/// <summary>
+	/// 描画順を取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>描画順</returns>
 	int GetPriority(void) { return m_nPriority; };
+	/// <summary>
+	/// 死亡フラグを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>フラグ</returns>
 	bool GetDeathFlag(void) { return m_bDeath; };
+	/// <summary>
+	/// 次のオブジェクトへのインスタンス
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns></returns>
 	CObject* GetNext(void) { return m_pNext; };
 
 	// 純粋仮想関数
@@ -37,17 +54,43 @@ public:
 	virtual void Uninit(void) = 0;
 	virtual void Update(void) = 0;
 	virtual void Draw(void) = 0;
-
-	// 静的メンバ関数
+	/// <summary>
+	/// すべて破棄
+	/// </summary>
+	/// <param name=""></param>
 	static void ReleaseAll(void);
+	/// <summary>
+	/// すべて更新
+	/// </summary>
+	/// <param name=""></param>
 	static void UpdateAll(void);
+	/// <summary>
+	/// すべて描画
+	/// </summary>
+	/// <param name=""></param>
 	static void DrawAll(void);
+	/// <summary>
+	/// 描画順を指定して削除
+	/// </summary>
+	/// <param name="PriorityCount"></param>
 	static void Delete(const int PriorityCount);
-	// ゲッター
-	static int GetObjectNum(void) { return m_nNumAll; };
-	static CObject* GetTop(const int Priority) { return m_pTop[Priority]; };
+	/// <summary>
+	/// イブジェクトの総数を取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>総数</returns>
+	static inline int GetObjectNum(void) { return m_nNumAll; };
+	/// <summary>
+	/// 描画順ごとの先頭を取得
+	/// </summary>
+	/// <param name="Priority"></param>
+	/// <returns></returns>
+	static inline CObject* GetTop(const int Priority) { return m_pTop[Priority]; };
 protected:
-	// メンバ関数
+	/// <summary>
+	/// 死亡フラグを立てる
+	/// </summary>
+	/// <param name=""></param>
 	void Release(void);
 private:
 	// メンバ変数
@@ -60,4 +103,3 @@ private:
 	int m_nPriority;									// オブジェクトの優先順位
 	bool m_bDeath;										// 死亡フラグ
 };
-#endif // !_OBJECT_H_

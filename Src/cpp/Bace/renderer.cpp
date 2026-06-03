@@ -119,7 +119,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 	m_pD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
 
 	// インスタンスを生成
-	m_pLine = CLine::Create();
+	m_pLine = CLine::Instance();
 
 	// グリッドの間の大きさ
 	float Spacing = 100.0f;
@@ -141,7 +141,7 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 		D3DXVECTOR3 p2((float)Spacing * Size, 0.0f, (float)Spacing * nCnt);
 
 		// 線を追加
-		m_pLine->AddLine(p1, p2, col);
+		m_pLine.AddLine(p1, p2, col);
 	}
 
 	// Z方向に平行な（X軸方向へ伸びる）線群
@@ -158,19 +158,19 @@ HRESULT CRenderer::Init(HWND hWnd, bool bWindow)
 		D3DXVECTOR3 p2((float)nCnt * Spacing, 0.0f, (float)Size * Spacing);
 
 		// 線を追加
-		m_pLine->AddLine(p1, p2, col);
+		m_pLine.AddLine(p1, p2, col);
 	}
 
 	// X用のマニュピレーター(下から見ても消えないように2個生成)
-	m_pLine->AddLine({ 0.0f,0.1f,0.0f }, { 100.0f,0.1f,0.0f }, RED);
-	m_pLine->AddLine({ 0.0f,-0.1f,0.0f }, { 100.0f,-0.1f,0.0f }, RED);
+	m_pLine.AddLine({ 0.0f,0.1f,0.0f }, { 100.0f,0.1f,0.0f }, RED);
+	m_pLine.AddLine({ 0.0f,-0.1f,0.0f }, { 100.0f,-0.1f,0.0f }, RED);
 
 	// Y用のマニュピレーター
-	m_pLine->AddLine({ 0.0f,0.0f,0.0f }, { 0.0f,100.0f,0.0f }, GREEN);
+	m_pLine.AddLine({ 0.0f,0.0f,0.0f }, { 0.0f,100.0f,0.0f }, GREEN);
 
 	// Z用のマニュピレーター(下から見ても消えないように2個生成)
-	m_pLine->AddLine({ 0.0f,0.1f,0.0f }, { 0.0f,0.1f,100.0f }, BLUE);
-	m_pLine->AddLine({ 0.0f,-0.1f,0.0f }, { 0.0f,-0.1f,100.0f }, BLUE);
+	m_pLine.AddLine({ 0.0f,0.1f,0.0f }, { 0.0f,0.1f,100.0f }, BLUE);
+	m_pLine.AddLine({ 0.0f,-0.1f,0.0f }, { 0.0f,-0.1f,100.0f }, BLUE);
 
 	//頂点バッファの生成
 	m_pD3DDevice->CreateVertexBuffer(sizeof(VERTEX_2D) * 4,

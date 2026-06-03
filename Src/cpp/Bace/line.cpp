@@ -81,12 +81,3 @@ void CLine::Draw(void)
 	// ライトを有効に治す
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
 }
-
-//***************************************
-// インスタンスの生成
-//***************************************
-unique_ptr<CLine> CLine::Create(void)
-{
-	// unique_ptr で直接生成して返す
-	return make_unique<CLine>();
-}

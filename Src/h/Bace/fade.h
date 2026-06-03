@@ -1,22 +1,27 @@
-//****************************************************************
+//================================================================
 //
 // フェードの処理[fade.h]
 // Author Kensaku Hatori
 //
+//================================================================
+
 //****************************************************************
-
 // 二重インクルード防止
-#ifndef _FADE_H_
-#define _FADE_H_
+//****************************************************************
+#pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Scene/scene.h"
 
+//****************************************************************
 // フェードクラスを定義
+//****************************************************************
 class CFade
 {
 public:
-	// フェードの規定値を設定
+	// フェードの定数を宣言
 	struct Config {
 		static const D3DXCOLOR DefoultCol;		// 通常色
 		static constexpr float Speed = 0.04f;	// 速さ
@@ -34,21 +39,46 @@ public:
 	// デストラクタ
 	~CFade();
 
-	//プロトタイプ宣言
+	//****************************************************************
+	// メンバ関数
+	//****************************************************************
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name=""></param>
 	void Init(void);
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	/// <param name=""></param>
 	void Uninit(void);
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name=""></param>
 	void Update(void);
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name=""></param>
 	void Draw(void);
-
-	// セッター
+	/// <summary>
+	/// 次のシーンを設定
+	/// </summary>
+	/// <param name="pNextScene">次のシーンのポインタ</param>
 	void SetFade(CScene* pNextScene);
-
-	// ゲッター
-	FADE GetFade(void) { return m_Fade; };
-
-	// 静的メンバ関数
-	// ゲッター
-	static CFade& Instance(void) {
+	/// <summary>
+	/// 遷移状態を取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>遷移状態</returns>
+	inline FADE GetFade(void) { return m_Fade; }
+	/// <summary>
+	/// シングルトンを取得
+	/// </summary>
+	/// <param name=""></param>
+	/// <returns>シングルトン</returns>
+	inline static CFade& Instance(void) {
 		static CFade Instance;
 		return Instance;
 	}
@@ -62,4 +92,3 @@ private:
 	CScene* m_pNexScene;				// 次のシーンのインスタンス
 	D3DXCOLOR m_colorFade;				// フェードの色
 };
-#endif // !_FADE_H_
