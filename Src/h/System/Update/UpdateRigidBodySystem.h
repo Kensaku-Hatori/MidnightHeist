@@ -1,27 +1,42 @@
-//****************************************************************
+//================================================================
 //
 // 剛体の更新システムの処理[UpdateRigitBodySystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "baceUpdatesystem.hpp"
+//****************************************************************
+#include "BaseUpdatesystem.hpp"
 
-// モデルの更新処理
-struct UpdateRigidBodySystem : BaceSystem
+//****************************************************************
+// 剛体の更新処理
+//****************************************************************
+struct UpdateRigidBodySystem final : BaseSystem
 {
-public:
-	// コンストラクタ
 	UpdateRigidBodySystem();
-	// デストラクタ
-	~UpdateRigidBodySystem() = default;
-	// 更新処理
-	void Update(entt::registry& reg)override;
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Update(entt::registry& Reg)override;
 private:
+	/// <summary>
+	/// 剛体が追加された時
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	/// <param name="Entity">エンティティ</param>
 	void OnRigidBodyComponentConstruct(entt::registry& Reg, entt::entity Entity);
+	/// <summary>
+	/// 剛体が削除された時
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	/// <param name="Entity">エンティティ</param>
 	void OnRigidBodyComponentDestruct(entt::registry& Reg, entt::entity Entity);
 };

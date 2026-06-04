@@ -1,23 +1,29 @@
-//****************************************************************
+//================================================================
 //
 // タイトルプレイヤー更新システムの処理[UpdateTitlePlayerSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Update/baceUpdatesystem.hpp"
+//****************************************************************
+#include "System/Update/BaseUpdatesystem.hpp"
 #include "Component/TransformComponent.hpp"
 
-// プレイヤーのアップデート
-struct UpdateTitlePlayerSystem : BaceSystem
+//****************************************************************
+// タイトルプレイヤーのアップデート
+//****************************************************************
+struct UpdateTitlePlayerSystem final : BaseSystem
 {
-	// コンストラクタ・デストラクタ
-	UpdateTitlePlayerSystem() = default;
-	~UpdateTitlePlayerSystem() = default;
-	// 描画
-	void Update(entt::registry& reg)override;
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Update(entt::registry& Reg)override;
 };

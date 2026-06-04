@@ -3,8 +3,8 @@
 #include "Scene/scene.h"
 
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
-std::vector<BaceSystem*> CSystemManager::m_UpdateSystems = {};
-std::vector<BaceRenderingSystem*> CSystemManager::m_RenderingSystems = {};
+std::vector<BaseSystem*> CSystemManager::m_UpdateSystems = {};
+std::vector<BaseRenderingSystem*> CSystemManager::m_RenderingSystems = {};
 std::vector<entt::entity> CSystemManager::m_DestroyList = {};
 bool CSystemManager::m_IsPause = false;
 
@@ -49,13 +49,13 @@ void CSystemManager::RenderingAll(entt::registry& Reg)
 	}
 }
 
-void CSystemManager::AddUpdateSystem(BaceSystem* System)
+void CSystemManager::AddUpdateSystem(BaseSystem* System)
 {
 	if (System == nullptr) return;
 	m_UpdateSystems.push_back(System);
 }
 
-void CSystemManager::AddRenderingSystem(BaceRenderingSystem* System)
+void CSystemManager::AddRenderingSystem(BaseRenderingSystem* System)
 {
 	if (System == nullptr) return;
 	m_RenderingSystems.push_back(System);

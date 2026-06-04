@@ -32,19 +32,19 @@ UpdateRigidBodySystem::UpdateRigidBodySystem()
 //*********************************************
 // 更新
 //*********************************************
-void UpdateRigidBodySystem::Update(entt::registry& reg)
+void UpdateRigidBodySystem::Update(entt::registry& Reg)
 {
 	// ビュー
-	auto RigidBodyView = reg.view<RigitBody>();
+	auto RigidBodyView = Reg.view<RigitBody>();
 
 	// アクセス
 	for (auto Entity : RigidBodyView)
 	{
 		// トランスフォームと剛体をどちらか持っていない場合
-		if (reg.all_of<RigidBodyComponent, Transform3D>(Entity) == false) continue;
+		if (Reg.all_of<RigidBodyComponent, Transform3D>(Entity) == false) continue;
 		// コンポーネント取得
-		auto& RigidBodyCmp = reg.get<RigidBodyComponent>(Entity);
-		auto& TransformCmp = reg.get<Transform3D>(Entity);
+		auto& RigidBodyCmp = Reg.get<RigidBodyComponent>(Entity);
+		auto& TransformCmp = Reg.get<Transform3D>(Entity);
 
 		// 物理世界のトランスフォームを取得用
 		btTransform TransBody;
@@ -53,11 +53,11 @@ void UpdateRigidBodySystem::Update(entt::registry& reg)
 		RigidBodyCmp.Body->getMotionState()->getWorldTransform(TransBody);
 
 		// 親がいたら
-		if (reg.any_of<ParentComponent>(Entity))
+		if (Reg.any_of<ParentComponent>(Entity))
 		{
 			// 親のコンポーネントを取得
-			auto& ParentCmp = reg.get<ParentComponent>(Entity);
-			auto& ParentTransCmp = reg.get<Transform3D>(ParentCmp.Parent);
+			auto& ParentCmp = Reg.get<ParentComponent>(Entity);
+			auto& ParentTransCmp = Reg.get<Transform3D>(ParentCmp.Parent);
 
 			// 親の逆トランスフォーム
 			btTransform ParentInvTrans;

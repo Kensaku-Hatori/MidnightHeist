@@ -16,14 +16,19 @@
 #include "System/Rendering/baseRenderingsystem.hpp"
 
 //****************************************************************
-// プレイヤーのアップデート
+// ゲームプレイヤーの描画システム
 //****************************************************************
 struct RenderingGamePlayerSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingGamePlayerSystem() = default;
-	~RenderingGamePlayerSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
+	/// <summary>
+	/// 物陰描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	/// <param name="Entity">プレイヤー</param>
 	void RenderingShape(entt::registry& Reg, entt::entity Entity);
 };

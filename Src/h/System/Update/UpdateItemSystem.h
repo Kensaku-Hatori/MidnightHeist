@@ -1,24 +1,35 @@
-//****************************************************************
+//================================================================
 //
 // アイテム更新システムの処理[UpdateItemSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "baceUpdatesystem.hpp"
+//****************************************************************
+#include "BaSeUpdatesystem.hpp"
 
-// モデルの更新処理
-struct UpdateItemSystem : BaceSystem
+//****************************************************************
+// アイテムの更新
+//****************************************************************
+struct UpdateItemSystem final : BaseSystem
 {
-	// コンストラクタ
-	UpdateItemSystem() = default;
-	// デストラクタ
-	~UpdateItemSystem() = default;
-	// 更新処理
-	void Update(entt::registry& reg)override;
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Update(entt::registry& Reg)override;
+private:
+	/// <summary>
+	/// ロックオンアニメーション
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	/// <param name="Entity">アイテム</param>
 	void UpdateLockOn(entt::registry& Reg, entt::entity& Entity);
 };

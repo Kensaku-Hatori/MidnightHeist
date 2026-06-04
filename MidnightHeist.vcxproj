@@ -334,9 +334,10 @@
     <ClInclude Include="Src\h\Shader\toon.h" />
     <ClInclude Include="Src\h\Shader\UICircle.h" />
     <ClInclude Include="Src\h\Shader\VisibleSineCurve.h" />
-    <ClInclude Include="Src\h\System\BaceCameraSystem.h" />
+    <ClInclude Include="Src\h\System\BaseCameraSystem.h" />
+    <ClInclude Include="Src\h\System\GameCamera.h" />
     <ClInclude Include="Src\h\System\LayerManager.hpp" />
-    <ClInclude Include="Src\h\System\Rendering\baseRenderingsystem.hpp" />
+    <ClInclude Include="Src\h\System\Rendering\BaseRenderingsystem.hpp" />
     <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySightSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshFieldSystem.h" />
@@ -355,7 +356,7 @@
     <ClInclude Include="Src\h\System\Rendering\Shader\RenderingUICircleSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Shader\RenderingVisibleSineCurveSystem.h" />
     <ClInclude Include="Src\h\System\ResultCameraSystem.h" />
-    <ClInclude Include="Src\h\System\Update\baceUpdatesystem.hpp" />
+    <ClInclude Include="Src\h\System\Update\BaseUpdatesystem.hpp" />
     <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyBackSystem.h" />
     <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyChaseSystem.h" />
     <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyPredictSystem.h" />

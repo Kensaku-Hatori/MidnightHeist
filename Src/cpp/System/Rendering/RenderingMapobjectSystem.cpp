@@ -20,16 +20,16 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingMapobjectSystem::Rendering(entt::registry& reg)
+void RenderingMapobjectSystem::Rendering(entt::registry& Reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<MapObject>();
+	auto view = Reg.view<MapObject>();
 
 	// 影を付けて描画
 	CToon::Instance().Begin();
 	for (auto entity : view)
 	{
-		DrawUseShadowMap(reg, entity);
+		DrawUseShadowMap(Reg, entity);
 	}
 	CToon::Instance().End();
 }

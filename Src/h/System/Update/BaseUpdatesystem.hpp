@@ -1,6 +1,6 @@
 //================================================================
 //
-// 円形UIの更新処理[UpdateUICircleSystem.h]
+// 更新システムの基底クラスの処理[BaseUpdatesystem.hpp]
 // Author Kensaku Hatori
 //
 //================================================================
@@ -11,18 +11,18 @@
 #pragma once
 
 //****************************************************************
-// インクルード
+// 基底クラス
 //****************************************************************
-#include "System/Update/BaseUpdatesystem.hpp"
-
-//****************************************************************
-// 円形UIの更新
-//****************************************************************
-struct UpdateUICircleSystem final : BaseSystem
+struct BaseSystem
 {
 	/// <summary>
-	/// レジストリー
+	/// コンストラクタ
 	/// </summary>
-	/// <param name="Reg">レジストリー</param>
-	void Update(entt::registry& Reg)override;
+	/// <param name="RefPause">ポーズを参照するかどうか</param>
+	BaseSystem(const bool RefPause = true) { IsRefPause = RefPause; };
+
+	virtual ~BaseSystem() = default;
+	virtual void Update(entt::registry& reg) = 0;
+	// ポーズを参照するかどうか
+	bool IsRefPause;
 };

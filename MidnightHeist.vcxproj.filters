@@ -617,7 +617,7 @@
     <ClInclude Include="Src\h\Shader\VisibleSineCurve.h">
       <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\BaceCameraSystem.h">
+    <ClInclude Include="Src\h\System\BaseCameraSystem.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\System\LayerManager.hpp">
@@ -671,7 +671,7 @@
     <ClInclude Include="Src\h\System\Update\Obj\UpdateXSystem.h">
       <Filter>ヘッダー ファイル\System\Update\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\Update\baceUpdatesystem.hpp">
+    <ClInclude Include="Src\h\System\Update\BaseUpdatesystem.hpp">
       <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\System\Update\UpdateGateManagerSystem.h">
@@ -704,7 +704,7 @@
     <ClInclude Include="Src\h\System\Update\UpdateTitleManagerSystem.h">
       <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\Rendering\baseRenderingsystem.hpp">
+    <ClInclude Include="Src\h\System\Rendering\BaseRenderingsystem.hpp">
       <Filter>ヘッダー ファイル\System\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\System\Rendering\RenderingMapobjectSystem.h">
@@ -769,6 +769,9 @@
     </ClInclude>
     <ClInclude Include="Src\h\Resource\ShaderResource.h">
       <Filter>ヘッダー ファイル\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\System\GameCamera.h">
+      <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

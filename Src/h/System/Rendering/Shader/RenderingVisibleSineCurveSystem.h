@@ -1,22 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // サインカーブの描画処理[RenderingVisibleSineCurve.hpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// 敵の描画
-struct RenderingVisibleSineCurveSystem : BaceRenderingSystem
+//****************************************************************
+// サインカーブの描画
+//****************************************************************
+struct RenderingVisibleSineCurveSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingVisibleSineCurveSystem() = default;
-	~RenderingVisibleSineCurveSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

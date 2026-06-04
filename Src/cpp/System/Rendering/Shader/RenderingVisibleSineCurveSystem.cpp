@@ -21,7 +21,7 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
+void RenderingVisibleSineCurveSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -29,16 +29,16 @@ void RenderingVisibleSineCurveSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// エンテティのリストを取得
-	auto view = reg.view<VisibleSound>();
+	auto view = Reg.view<VisibleSound>();
 
 	// シェーダー起動
 	CVisibleSineCurve::Instance().Begin();
 
 	for (auto entity : view)
 	{
-		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& VtxComp = reg.get<VertexComponent>(entity);
-		auto& SineCurveCmp = reg.get<Ripple3DComponent>(entity);
+		auto& TransformComp = Reg.get<Transform3D>(entity);
+		auto& VtxComp = Reg.get<VertexComponent>(entity);
+		auto& SineCurveCmp = Reg.get<Ripple3DComponent>(entity);
 
 		// 頂点バッファをデバイスからデータストリームに設定
 		pDevice->SetStreamSource(0, VtxComp.pVertex, 0, sizeof(VERTEX_3D));

@@ -23,7 +23,7 @@ using namespace Tag;
 //***************************************
 // 更新
 //***************************************
-void RenderingUICircleSystem::Rendering(entt::registry& reg)
+void RenderingUICircleSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -31,7 +31,7 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// エンテティのリストを取得
-	auto view = reg.view<UICircle>();
+	auto view = Reg.view<UICircle>();
 
 	// シェーダ起動
 	CUICircle::Instance().Begin();
@@ -41,11 +41,11 @@ void RenderingUICircleSystem::Rendering(entt::registry& reg)
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& VtxCmp = reg.get<VertexComponent>(entity);
-		auto& TextureCmp = reg.get<TexComponent>(entity);
-		auto& UICircleCmp = reg.get<UICircleComponent>(entity);
-		auto& RenderFragCmp = reg.get<RenderFragComponent>(entity);
+		auto& TransformCmp = Reg.get<Transform3D>(entity);
+		auto& VtxCmp = Reg.get<VertexComponent>(entity);
+		auto& TextureCmp = Reg.get<TexComponent>(entity);
+		auto& UICircleCmp = Reg.get<UICircleComponent>(entity);
+		auto& RenderFragCmp = Reg.get<RenderFragComponent>(entity);
 
 		// 描画フラグが立っていなかったら
 		if (RenderFragCmp.IsRendering == false) continue;

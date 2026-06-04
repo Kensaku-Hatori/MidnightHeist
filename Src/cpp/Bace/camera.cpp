@@ -330,10 +330,10 @@ void CCamera::SetMouseWheel(int zDelta)
 //***************************************
 // システムの追加
 //***************************************
-void CCamera::AddSystem(CBaceSystem* _Add)
+void CCamera::AddSystem(CBaseCameraSystem* _Add)
 {
 	// ポインタ生成
-	std::unique_ptr<CBaceSystem> Add(_Add);
+	std::unique_ptr<CBaseCameraSystem> Add(_Add);
 	// オーナー設定
 	Add->SetOwner(this);
 	// 初期化

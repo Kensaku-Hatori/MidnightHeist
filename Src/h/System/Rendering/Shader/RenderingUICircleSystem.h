@@ -1,22 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // 円形UIの描画システムの処理[RenderingUICircleSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// プレイヤーのアップデート
-struct RenderingUICircleSystem : BaceRenderingSystem
+//****************************************************************
+// 円形UIの描画
+//****************************************************************
+struct RenderingUICircleSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingUICircleSystem() = default;
-	~RenderingUICircleSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

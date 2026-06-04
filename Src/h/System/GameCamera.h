@@ -1,9 +1,14 @@
 //================================================================
 //
-// タイトルカメラの処理[TitleCamera.h]
+// ゲームカメラの処理[GameCamera.h]
 // Author Kensaku Hatori
 //
 //================================================================
+
+//****************************************************************
+// 二重インクルード防止
+//****************************************************************
+#pragma once
 
 //****************************************************************
 // インクルード
@@ -13,13 +18,13 @@
 //****************************************************************
 // 継承クラスを定義
 //****************************************************************
-class CTitleCameraSystem final : public CBaseCameraSystem
+class CGameCameraSystem final : public CBaseCameraSystem
 {
 public:
-	CTitleCameraSystem() = default;
-	~CTitleCameraSystem() = default;
+	CGameCameraSystem() = default;
+	~CGameCameraSystem() = default;
 	/// <summary>
-	/// しょきかしょり
+	/// 初期化処理
 	/// </summary>
 	/// <param name=""></param>
 	void Init(void)override;
@@ -36,8 +41,21 @@ public:
 private:
 	// 定数を宣言
 	struct Config {
-		// 視点・注視点
-		static const D3DXVECTOR3 PosV;
-		static const D3DXVECTOR3 PosR;
+		// デフォルト
+		struct Default {
+			// 視点・注視点
+			static const D3DXVECTOR3 PosV;
+			static const D3DXVECTOR3 PosR;
+		};
+		// プレイヤーが登場した時
+		struct FirstAnimation {
+			// 近さ
+			static constexpr float Zoom = 1400.0f;
+		};
+		// プレイヤーがピッキングしているとき
+		struct PickingZoom {
+			// 近さ
+			static constexpr float Zoom = 1200.0f;
+		};
 	};
 };

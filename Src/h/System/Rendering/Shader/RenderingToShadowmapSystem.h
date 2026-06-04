@@ -1,22 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // シャドウマップへの書き込みシステムの処理[RenderingToShadomapSystem.hpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// プレイヤーのアップデート
-struct RenderingToShadowmapSystem : BaceRenderingSystem
+//****************************************************************
+// シャドウマップへの描画
+//****************************************************************
+struct RenderingToShadowmapSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingToShadowmapSystem() = default;
-	~RenderingToShadowmapSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

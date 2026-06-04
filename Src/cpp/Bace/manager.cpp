@@ -52,8 +52,8 @@
 #include "System/Update/Enemy/UpdateEnemySightSystem.h"
 
 // •`‰æƒVƒXƒeƒ€
-#include "System/Rendering/Obj/Rendering2DbaceSystem.h"
-#include "System/Rendering/Obj/Rendering3DBaceSystem.h"
+#include "System/Rendering/Obj/Rendering2DBaseSystem.h"
+#include "System/Rendering/Obj/Rendering3DBaseSystem.h"
 #include "System/Rendering/Obj/RenderingXSystem.h"
 #include "System/Rendering/Player/RenderingGamePlayerSystem.h"
 #include "System/Rendering/Player/RenderingTitlePlayerSystem.h"

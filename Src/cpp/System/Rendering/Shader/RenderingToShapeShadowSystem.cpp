@@ -19,10 +19,10 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
+void RenderingToShapeShadowSystem::Rendering(entt::registry& Reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<CastShapeShadow>();
+	auto view = Reg.view<CastShapeShadow>();
 
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -38,8 +38,8 @@ void RenderingToShapeShadowSystem::Rendering(entt::registry& reg)
 	for (auto Entity : view)
 	{
 		// コンポーネントを取得
-		auto& TransformComp = reg.get<Transform3D>(Entity);
-		auto& RenderingComp = reg.get<XRenderingComponent>(Entity);
+		auto& TransformComp = Reg.get<Transform3D>(Entity);
+		auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
 
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingComp.FilePath.empty() == true) return;

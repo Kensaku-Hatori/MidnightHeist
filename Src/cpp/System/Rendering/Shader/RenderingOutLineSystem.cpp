@@ -20,10 +20,10 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingOutLineSystem::Rendering(entt::registry& reg)
+void RenderingOutLineSystem::Rendering(entt::registry& Reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<RenderingOutLine>();
+	auto view = Reg.view<RenderingOutLine>();
 
 	// シェーダー起動
 	CToon::Instance().Begin();
@@ -43,9 +43,9 @@ void RenderingOutLineSystem::Rendering(entt::registry& reg)
 	for (auto Entity : view)
 	{
 		// コンポーネントを取得
-		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& RenderingCmp = reg.get<XRenderingComponent>(Entity);
-		auto& OutLineCmp = reg.get<OutLineComponent>(Entity);
+		auto& TransformCmp = Reg.get<Transform3D>(Entity);
+		auto& RenderingCmp = Reg.get<XRenderingComponent>(Entity);
+		auto& OutLineCmp = Reg.get<OutLineComponent>(Entity);
 
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingCmp.FilePath.empty() == true) return;

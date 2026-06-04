@@ -13,8 +13,8 @@
 //****************************************************************
 // インクルード
 //****************************************************************
-#include "System/Update/baceUpdatesystem.hpp"
-#include "System/Rendering/baceRenderingsystem.hpp"
+#include "System/Update/BaseUpdatesystem.hpp"
+#include "System/Rendering/BaseRenderingsystem.hpp"
 
 //****************************************************************
 // クラスを定義
@@ -38,12 +38,12 @@ public:
 	/// 更新システムの追加
 	/// </summary>
 	/// <param name="System">追加するシステム</param>
-	static void AddUpdateSystem(BaceSystem* System);
+	static void AddUpdateSystem(BaseSystem* System);
 	/// <summary>
 	/// 描画システムの追加
 	/// </summary>
 	/// <param name="System">追加するシステム</param>
-	static void AddRenderingSystem(BaceRenderingSystem* System);
+	static void AddRenderingSystem(BaseRenderingSystem* System);
 	/// <summary>
 	/// ポーズ状態を設定
 	/// </summary>
@@ -80,8 +80,8 @@ public:
 private:
 	CSystemManager() {}
 	// メンバ変数
-	static std::vector<BaceSystem*> m_UpdateSystems;				// 更新処理の配列
-	static std::vector<BaceRenderingSystem*> m_RenderingSystems;	// 描画処理の配列
+	static std::vector<BaseSystem*> m_UpdateSystems;				// 更新処理の配列
+	static std::vector<BaseRenderingSystem*> m_RenderingSystems;	// 描画処理の配列
 	static std::vector<entt::entity> m_DestroyList;					// 削除予定のエンティティ
 	static bool m_IsPause;											// ポーズ中かどうか
 };

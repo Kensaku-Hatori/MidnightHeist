@@ -21,10 +21,10 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
+void RenderingSkyBoxSystem::Rendering(entt::registry& Reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<SkyBoxComponent>();
+	auto view = Reg.view<SkyBoxComponent>();
 
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -35,9 +35,9 @@ void RenderingSkyBoxSystem::Rendering(entt::registry& reg)
 	for (auto Entity : view)
 	{
 		// 情報を取得
-		auto& VertexCmp = reg.get<VertexComponent>(Entity);
-		auto& IdxBuffCmp = reg.get<IndexBufferComponent>(Entity);
-		auto& SkyBoxCmp = reg.get<SkyBoxComponent>(Entity);
+		auto& VertexCmp = Reg.get<VertexComponent>(Entity);
+		auto& IdxBuffCmp = Reg.get<IndexBufferComponent>(Entity);
+		auto& SkyBoxCmp = Reg.get<SkyBoxComponent>(Entity);
 
 		// 回転
 		SkyBoxCmp.Angle += D3DXToRadian(1.0f / 60.0f);

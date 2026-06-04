@@ -1,22 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // アウトラインの描画システムの処理[RenderingOutLineSystem.hpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// プレイヤーのアップデート
-struct RenderingOutLineSystem : BaceRenderingSystem
+//****************************************************************
+// アウトラインの描画
+//****************************************************************
+struct RenderingOutLineSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingOutLineSystem() = default;
-	~RenderingOutLineSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

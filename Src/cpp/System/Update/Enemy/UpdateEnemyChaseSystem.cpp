@@ -12,14 +12,14 @@
 //*********************************************
 // 更新
 //*********************************************
-void UpdateEnemyChaseSystem::Update(entt::registry& reg)
+void UpdateEnemyChaseSystem::Update(entt::registry& Reg)
 {
 	// 敵のビュー
-	auto view = reg.view<Enemy, AIComponent,EnemyStateComponent>();
+	auto view = Reg.view<Enemy, AIComponent,EnemyStateComponent>();
 
 	// プレイヤーのビューを取得
-	auto PlayerView = reg.view<Player>();
-	auto PatrolManagerview = reg.view<PatrolPointManager>();
+	auto PlayerView = Reg.view<Player>();
+	auto PatrolManagerview = Reg.view<PatrolPointManager>();
 
 	// プレイヤーが存在しないまたはパトロールポイントマネージャーが存在しなかったらスキップ
 	if (PlayerView.empty() || PatrolManagerview.empty()) return;
@@ -35,11 +35,11 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 		if (StateCmp.State != EnemyState::ENEMYSTATE::CHASE) continue;
 
 		// プレイヤーとパトロールポイントマネージャーのコンポーネントを取得
-		auto& PatrolPointCmp = reg.get<PatrolPointComponent>(PatrolManagerEneity);
-		auto& PlayerTransCmp = reg.get<Transform3D>(playerEntity);
+		auto& PatrolPointCmp = Reg.get<PatrolPointComponent>(PatrolManagerEneity);
+		auto& PlayerTransCmp = Reg.get<Transform3D>(playerEntity);
 
 		// 自分のコンポーネントを取得
-		auto& TransformCmp = reg.get<Transform3D>(Entity);
+		auto& TransformCmp = Reg.get<Transform3D>(Entity);
 
 		// プレイヤーとの間にオブジェクトがあったら
 		if (AICmp.IsOldBlockedToPlayer == false && AICmp.IsBlockedToPlayer == true)
@@ -74,7 +74,7 @@ void UpdateEnemyChaseSystem::Update(entt::registry& reg)
 			// ステートを切り替えたので切り上げ
 			continue;
 		}
-		UpdateMove(reg, Entity, playerEntity);
+		UpdateMove(Reg, Entity, playerEntity);
 	}
 }
 

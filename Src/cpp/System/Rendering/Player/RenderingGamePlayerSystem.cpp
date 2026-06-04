@@ -22,7 +22,7 @@ using namespace SequenceTag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
+void RenderingGamePlayerSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -33,7 +33,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<Player,InGame>();
+	auto view = Reg.view<Player,InGame>();
 
 	//*********************************************
 	// 物陰マップに書き込みを開始
@@ -45,7 +45,7 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	for (auto [Entity] : view.each())
 	{
 		// 描画
-		RenderingShape(reg, Entity);
+		RenderingShape(Reg, Entity);
 	}
 
 	// 書き込みを終了する
@@ -59,8 +59,8 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& reg)
 	for (auto [entity] : view.each())
 	{
 		// 情報を取得
-		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& RenderingComp = reg.get<XRenderingComponent>(entity);
+		auto& TransformComp = Reg.get<Transform3D>(entity);
+		auto& RenderingComp = Reg.get<XRenderingComponent>(entity);
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);

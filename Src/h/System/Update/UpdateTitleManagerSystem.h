@@ -1,24 +1,41 @@
-//****************************************************************
+//================================================================
 //
 // タイトルマネージャーの更新処理[UpdateTitleSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "baceUpdatesystem.hpp"
+//****************************************************************
+#include "BaseUpdatesystem.hpp"
 
-// 敵のアップデート
-struct UpdateTitleManagerSystem : BaceSystem
+//****************************************************************
+// タイトルマネージャーのアップデート
+//****************************************************************
+struct UpdateTitleManagerSystem final : BaseSystem
 {
-	// コンストラクタ・デストラクタ
-	UpdateTitleManagerSystem() = default;
-	~UpdateTitleManagerSystem() = default;
-	// 更新
-	void Update(entt::registry& reg)override;
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="Reg"></param>
+	void Update(entt::registry& Reg)override;
+private:
+	/// <summary>
+	/// タイトルメニューの更新
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	/// <param name="Manager">マネージャー</param>
 	void UpdateTitleMenu(entt::registry& Reg,entt::entity& Manager);
+	/// <summary>
+	/// メニューが選ばれた時の処理
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	/// <param name="Menu">選ばれたメニュー</param>
 	void FunctionMenu(entt::registry& Reg, entt::entity& Menu);
 };

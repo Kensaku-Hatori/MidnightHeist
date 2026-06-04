@@ -15,7 +15,7 @@
 #include "Manager/SystemManager.h"
 #include "Component/AIComponent.hpp"
 #include "Shader/distortion.h"
-#include "GameCamera.h"
+#include "System/GameCamera.h"
 #include "Bace/Sound2D.h"
 #include "SetUpLoader.h"
 #include "btCollisionConfig.hpp"
@@ -71,7 +71,7 @@ HRESULT CGame::Init(void)
 	CDistortion::Instance().StartNoise();
 
 	// システム追加
-	CManager::GetCamera()->AddSystem(new CGameCamera);
+	CManager::GetCamera()->AddSystem(new CGameCameraSystem);
 
 	// カメラの初期化
 	CManager::GetCamera()->SetRot(CCamera::Config::Game::Rot);

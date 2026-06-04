@@ -19,10 +19,10 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
+void RenderingToShadowmapSystem::Rendering(entt::registry& Reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<CastShadow>();
+	auto view = Reg.view<CastShadow>();
 
 	// シャドウマップへの書き込みを開始
 	CShadowMap::Instance().Begin();
@@ -43,8 +43,8 @@ void RenderingToShadowmapSystem::Rendering(entt::registry& reg)
 	for (auto Entity : view)
 	{
 		// コンポーネントを取得
-		auto& TransformComp = reg.get<Transform3D>(Entity);
-		auto& RenderingComp = reg.get<XRenderingComponent>(Entity);
+		auto& TransformComp = Reg.get<Transform3D>(Entity);
+		auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
 
 		// モデルへのインデックスが-1だったら終わる
 		if (RenderingComp.FilePath.empty() == true) return;

@@ -1,22 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // 物陰への書き込みシステムの処理[RenderingToShapeShadowSystem.hpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// プレイヤーのアップデート
-struct RenderingToShapeShadowSystem : BaceRenderingSystem
+//****************************************************************
+// 物陰として描画
+//****************************************************************
+struct RenderingToShapeShadowSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingToShapeShadowSystem() = default;
-	~RenderingToShapeShadowSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

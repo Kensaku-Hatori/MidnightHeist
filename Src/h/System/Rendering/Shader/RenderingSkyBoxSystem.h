@@ -1,22 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // スカイボックスの描画システムの処理[RenderingSkyBoxSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// プレイヤーのアップデート
-struct RenderingSkyBoxSystem : BaceRenderingSystem
+//****************************************************************
+// スカイボックスの描画
+//****************************************************************
+struct RenderingSkyBoxSystem final : BaseRenderingSystem
 {
-	// コンストラクタ・デストラクタ
-	RenderingSkyBoxSystem() = default;
-	~RenderingSkyBoxSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

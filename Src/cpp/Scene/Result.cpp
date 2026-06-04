@@ -46,8 +46,8 @@ HRESULT CResult::Init(void)
 	ColorCmp.Col.a = 0.5f;
 
 	// カメラにシステムを追加
-	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCamera);
-	else CManager::GetCamera()->AddSystem(new CFailedCamera);
+	if (IsClear == true)CManager::GetCamera()->AddSystem(new CClearCameraSystem);
+	else CManager::GetCamera()->AddSystem(new CFailedCameraSystem);
 	if (IsClear == true)CSound2D::Instance().Play(SoundDevice::LABEL_GAMECLEARBGM);
 	else CSound2D::Instance().Play(SoundDevice::LABEL_GAMEOVERBGM);
 

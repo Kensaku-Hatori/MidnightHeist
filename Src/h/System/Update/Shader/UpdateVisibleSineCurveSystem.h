@@ -1,23 +1,28 @@
-//****************************************************************
+//================================================================
 //
 // サインカーブの更新システムの処理[UpdateVisibleSineCurveSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Update/baceUpdatesystem.hpp"
+//****************************************************************
+#include "System/Update/BaseUpdatesystem.hpp"
 
-// モデルの更新処理
-struct UpdateVisibleSineCurveSystem : BaceSystem
+//****************************************************************
+// 波紋の更新処理
+//****************************************************************
+struct UpdateVisibleSineCurveSystem final : BaseSystem
 {
-	// コンストラクタ
-	UpdateVisibleSineCurveSystem() = default;
-	// デストラクタ
-	~UpdateVisibleSineCurveSystem() = default;
-	// 更新処理
-	void Update(entt::registry& reg)override;
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Update(entt::registry& Reg)override;
 };

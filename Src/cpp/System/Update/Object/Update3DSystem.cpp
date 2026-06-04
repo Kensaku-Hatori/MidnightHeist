@@ -22,21 +22,21 @@ using namespace Tag;
 //*********************************************
 // 更新
 //*********************************************
-void Update3DSystem::Update(entt::registry& reg)
+void Update3DSystem::Update(entt::registry& Reg)
 {
 	// ビューを生成
-	auto view = reg.view<Object3D>();
+	auto view = Reg.view<Object3D>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& Trans = reg.get<Transform3D>(entity);
-		auto& VtxCmp = reg.get<VertexComponent>(entity);
-		auto& SizeCmp = reg.get<SizeComponent>(entity);
-		auto& ColorCmp = reg.get<ColorComponent>(entity);
-		auto& NorCmp = reg.get<NorComponent>(entity);
-		auto& UVCmp = reg.get<UVComponent>(entity);
+		auto& Trans = Reg.get<Transform3D>(entity);
+		auto& VtxCmp = Reg.get<VertexComponent>(entity);
+		auto& SizeCmp = Reg.get<SizeComponent>(entity);
+		auto& ColorCmp = Reg.get<ColorComponent>(entity);
+		auto& NorCmp = Reg.get<NorComponent>(entity);
+		auto& UVCmp = Reg.get<UVComponent>(entity);
 
 		VERTEX_3D* pVtx = NULL;
 

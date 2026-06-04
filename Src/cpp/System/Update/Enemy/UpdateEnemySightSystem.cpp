@@ -17,17 +17,17 @@ using namespace Tag;
 //*********************************************
 // 更新
 //*********************************************
-void UpdateEnemySightSystem::Update(entt::registry& reg)
+void UpdateEnemySightSystem::Update(entt::registry& Reg)
 {
 	// ビュー生成
-	auto view = reg.view<SightFan>();
+	auto view = Reg.view<SightFan>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネントを取得
-		auto& VtxCmp = reg.get<VertexComponent>(entity);
-		auto& ColorCmp = reg.get<ColorComponent>(entity);
+		auto& VtxCmp = Reg.get<VertexComponent>(entity);
+		auto& ColorCmp = Reg.get<ColorComponent>(entity);
 
 		VERTEX_3D* pVtx = NULL;
 

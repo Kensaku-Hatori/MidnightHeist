@@ -9,7 +9,6 @@
 #include "System/Update/UpdateItemSystem.h"
 #include "Component/Shader/OutLineComponent.hpp"
 #include "TagComp.hpp"
-#include "Component/CapsuleComponent.hpp"
 #include "Component/Player/PlayerAnimetionComponent.hpp"
 #include "Component/ParentComponent.hpp"
 #include "Component/Polygone/ColorComponent.hpp"

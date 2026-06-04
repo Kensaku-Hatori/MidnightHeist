@@ -12,14 +12,14 @@
 //*********************************************
 // 更新
 //*********************************************
-void UpdateEnemySearchSystem::Update(entt::registry& reg)
+void UpdateEnemySearchSystem::Update(entt::registry& Reg)
 {
 	// 敵のビュー
-	auto view = reg.view<Enemy, AIComponent,EnemyStateComponent>();
+	auto view = Reg.view<Enemy, AIComponent,EnemyStateComponent>();
 
 	// パトロールポイントとプレイヤーのビュー
-	auto PatrolManagerview = reg.view<PatrolPointManager>();
-	auto Playerview = reg.view<Player, InGame>();
+	auto PatrolManagerview = Reg.view<PatrolPointManager>();
+	auto Playerview = Reg.view<Player, InGame>();
 
 	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
 	if (PatrolManagerview.empty()) return;
@@ -31,20 +31,20 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 		if (StateCmp.State != EnemyState::ENEMYSTATE::SEARCH) continue;
 
 		// 扇情報を取得
-		auto& FanInfoCmp = reg.get<FanComponent>(Entity);
+		auto& FanInfoCmp = Reg.get<FanComponent>(Entity);
 		// Entityを取得
 		auto PatrolManagerEneity = *PatrolManagerview.begin();
 		auto PlayerEneity = *Playerview.begin();
 		// コンポーネントを取得
-		auto& PatrolPointCmp = reg.get<PatrolPointComponent>(PatrolManagerEneity);
-		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
-		auto& PlayerSoundVolumeCmp = reg.get<PlayerSoundVolumeComponent>(PlayerEneity);
+		auto& PatrolPointCmp = Reg.get<PatrolPointComponent>(PatrolManagerEneity);
+		auto& PlayerTransformCmp = Reg.get<Transform3D>(PlayerEneity);
+		auto& PlayerSoundVolumeCmp = Reg.get<PlayerSoundVolumeComponent>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
-		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
-		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& VelocityCmp = reg.get<VelocityComponent>(Entity);
-		auto& EnemyListenerVolumeCmp = reg.get<EnemyListenerComponent>(Entity);
+		auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
+		auto& TransformCmp = Reg.get<Transform3D>(Entity);
+		auto& VelocityCmp = Reg.get<VelocityComponent>(Entity);
+		auto& EnemyListenerVolumeCmp = Reg.get<EnemyListenerComponent>(Entity);
 
 		// プレイヤーまでのベクトル
 		D3DXVECTOR3 ToPlayer = PlayerTransformCmp.Pos - TransformCmp.Pos;
@@ -120,7 +120,7 @@ void UpdateEnemySearchSystem::Update(entt::registry& reg)
 			VelocityCmp.Velocity.y = RBCmp.Body->getLinearVelocity().y();
 		}
 		// 移動
-		UpdateMove(reg, Entity);
+		UpdateMove(Reg, Entity);
 	}
 }
 

@@ -13,23 +13,23 @@
 //*********************************************
 // 更新
 //*********************************************
-void UpdateEnemySystem::Update(entt::registry& reg)
+void UpdateEnemySystem::Update(entt::registry& Reg)
 {
 	// ビュー取得
-	auto view = reg.view<Enemy>();
+	auto view = Reg.view<Enemy>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// 情報を取得
-		auto& Transform = reg.get<Transform3D>(entity);
-		auto& FanInfoCmp = reg.get<FanComponent>(entity);
-		auto& ChildrenCmp = reg.get<ChildrenComponent>(entity);
-		auto& EnemyAiCmp = reg.get<AIComponent>(entity);
-		auto& SoundCmp = reg.get<EnemyListenerComponent>(entity);
-		auto& StateCmp = reg.get<EnemyStateComponent>(entity);
-		auto& ChractorCmp = reg.get<CharactorComponent>(entity);
-		auto& SightColorCmp = reg.get<ColorComponent>(ChildrenCmp.Children[1]);
+		auto& Transform = Reg.get<Transform3D>(entity);
+		auto& FanInfoCmp = Reg.get<FanComponent>(entity);
+		auto& ChildrenCmp = Reg.get<ChildrenComponent>(entity);
+		auto& EnemyAiCmp = Reg.get<AIComponent>(entity);
+		auto& SoundCmp = Reg.get<EnemyListenerComponent>(entity);
+		auto& StateCmp = Reg.get<EnemyStateComponent>(entity);
+		auto& ChractorCmp = Reg.get<CharactorComponent>(entity);
+		auto& SightColorCmp = Reg.get<ColorComponent>(ChildrenCmp.Children[1]);
 		
 		switch (StateCmp.State)
 		{
@@ -68,7 +68,7 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		D3DXQuaternionRotationAxis(&SetQuat, &VecUp, angle);
 
 		// 自身が立てている音の大きさを子往診
-		auto& SineCurveCmp = reg.get<Ripple3DComponent>(ChildrenCmp.Children[2]);
+		auto& SineCurveCmp = Reg.get<Ripple3DComponent>(ChildrenCmp.Children[2]);
 
 		SineCurveCmp.Radius = SoundCmp.ListenerVolume;
 
@@ -76,7 +76,7 @@ void UpdateEnemySystem::Update(entt::registry& reg)
 		D3DXQuaternionSlerp(&Transform.Quat, &Transform.Quat, &ChractorCmp.QuatDest, ChractorCmp.QuatSpeed);
 
 		// 光線たちの更新
-		UpdateRays(reg, entity);
+		UpdateRays(Reg, entity);
 	}
 }
 

@@ -22,7 +22,7 @@ using namespace SequenceTag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingTitlePlayerSystem::Rendering(entt::registry& reg)
+void RenderingTitlePlayerSystem::Rendering(entt::registry& Reg)
 {
 	CRenderer* pRenderer;
 	pRenderer = CManager::GetRenderer();
@@ -32,14 +32,14 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<Player, InTitle>();
+	auto view = Reg.view<Player, InTitle>();
 
 	// アクセス
 	for (auto [entity] : view.each())
 	{
 		// 情報を取得
-		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& RenderingComp = reg.get<XRenderingComponent>(entity);
+		auto& TransformComp = Reg.get<Transform3D>(entity);
+		auto& RenderingComp = Reg.get<XRenderingComponent>(entity);
 
 		// 現在のマテリアルの取得
 		pDevice->GetMaterial(&matDef);

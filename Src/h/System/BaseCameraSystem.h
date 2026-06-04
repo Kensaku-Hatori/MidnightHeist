@@ -1,6 +1,6 @@
 //================================================================
 //
-// 円形UIの更新処理[UpdateUICircleSystem.h]
+// 基本のカメラシステム[BaseCameraSysmte.h]
 // Author Kensaku Hatori
 //
 //================================================================
@@ -13,16 +13,31 @@
 //****************************************************************
 // インクルード
 //****************************************************************
-#include "System/Update/BaseUpdatesystem.hpp"
 
 //****************************************************************
-// 円形UIの更新
+// 前方宣言
 //****************************************************************
-struct UpdateUICircleSystem final : BaseSystem
+class CCamera;
+
+//****************************************************************
+// クラス定義
+//****************************************************************
+class CBaseCameraSystem
 {
+public:
+	CBaseCameraSystem() = default;
+	virtual ~CBaseCameraSystem() = default;
+
+	virtual void Init(void) = 0;
+	virtual void Update(void) = 0;
+	virtual void Uninit(void) = 0;
+
 	/// <summary>
-	/// レジストリー
+	/// オーナーを設定
 	/// </summary>
-	/// <param name="Reg">レジストリー</param>
-	void Update(entt::registry& Reg)override;
+	/// <param name="_Owner">オーナー</param>
+	inline void SetOwner(CCamera* _Owner) { m_pOwner = _Owner; }
+protected:
+	// オーナー
+	CCamera* m_pOwner;
 };

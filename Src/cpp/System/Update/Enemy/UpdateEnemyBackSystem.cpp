@@ -12,14 +12,14 @@
 //*********************************************
 // 更新
 //*********************************************
-void UpdateEnemyBackSystem::Update(entt::registry& reg)
+void UpdateEnemyBackSystem::Update(entt::registry& Reg)
 {
 	// 敵のビュー
-	auto view = reg.view<Enemy, AIComponent,EnemyStateComponent>();
+	auto view = Reg.view<Enemy, AIComponent,EnemyStateComponent>();
 
 	// パトロールポイントとプレイヤーのビュー
-	auto PatrolManagerview = reg.view<PatrolPointManager>();
-	auto Playerview = reg.view<Player>();
+	auto PatrolManagerview = Reg.view<PatrolPointManager>();
+	auto Playerview = Reg.view<Player>();
 
 	// プレイヤーかパトロールポイントマネージャーが存在しなかったら切り上げ
 	if (PatrolManagerview.empty() || Playerview.empty()) return;
@@ -31,18 +31,18 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 		if (StateCmp.State != EnemyState::ENEMYSTATE::BACK) continue;
 
 		// 扇情報を取得
-		auto& FanInfoCmp = reg.get<FanComponent>(Entity);
+		auto& FanInfoCmp = Reg.get<FanComponent>(Entity);
 		// Entityを取得
 		auto PatrolManagerEneity = *PatrolManagerview.begin();
 		auto PlayerEneity = *Playerview.begin();
 		// コンポーネントを取得
-		auto& PatrolPointCmp = reg.get<PatrolPointComponent>(PatrolManagerEneity);
-		auto& PlayerTransformCmp = reg.get<Transform3D>(PlayerEneity);
+		auto& PatrolPointCmp = Reg.get<PatrolPointComponent>(PatrolManagerEneity);
+		auto& PlayerTransformCmp = Reg.get<Transform3D>(PlayerEneity);
 
 		// 自分自身のコンポーネントを取得
-		auto& RBCmp = reg.get<RigidBodyComponent>(Entity);
-		auto& TransformCmp = reg.get<Transform3D>(Entity);
-		auto& VelocityCmp = reg.get<VelocityComponent>(Entity);
+		auto& RBCmp = Reg.get<RigidBodyComponent>(Entity);
+		auto& TransformCmp = Reg.get<Transform3D>(Entity);
+		auto& VelocityCmp = Reg.get<VelocityComponent>(Entity);
 
 		// 視界内にプレイヤーがいてかつプレイヤーとの間にオブジェクトがなかったら
 		if (CMath::IsPointInFan(FanInfoCmp, PlayerTransformCmp.Pos) == true &&
@@ -94,7 +94,7 @@ void UpdateEnemyBackSystem::Update(entt::registry& reg)
 			VelocityCmp.Velocity.y = RBCmp.Body->getLinearVelocity().y();
 		}
 		// 移動
-		UpdateMove(reg, Entity);
+		UpdateMove(Reg, Entity);
 	}
 }
 

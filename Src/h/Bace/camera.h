@@ -15,7 +15,7 @@
 //****************************************************************
 #include "main.h"
 #include "input.h"
-#include "System/BaceCameraSystem.h"
+#include "System/BaseCameraSystem.h"
 
 //****************************************************************
 // カメラクラスを定義
@@ -94,7 +94,7 @@ public:
 	/// システムを追加
 	/// </summary>
 	/// <param name="_Add">追加したいシステムのポインタ</param>
-	void AddSystem(CBaceSystem* _Add);
+	void AddSystem(CBaseCameraSystem* _Add);
 	/// <summary>
 	/// マトリックスを初期値に再設定
 	/// </summary>
@@ -230,7 +230,7 @@ private:
 	static CInputMouse* m_pInputMouse;
 
 	// メンバ変数
-	std::vector<std::unique_ptr<CBaceSystem>> m_SystemList;	// システムのリスト
+	std::vector<std::unique_ptr<CBaseCameraSystem>> m_SystemList;	// システムのリスト
 	D3DXMATRIX m_mtxProjection;								// プロジェクションマトリックス
 	D3DXMATRIX m_mtxView;									// ビューマトリックス
 

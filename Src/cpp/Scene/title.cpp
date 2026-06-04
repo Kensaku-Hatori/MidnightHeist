@@ -77,7 +77,7 @@ HRESULT CTitle::Init(void)
 		CManager::GetDynamicsWorld()->addRigidBody(m_GroundRB.get(), CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
 	}
 	// カメラにシステムを追加
-	CManager::GetCamera()->AddSystem(new CTitleCamera);
+	CManager::GetCamera()->AddSystem(new CTitleCameraSystem);
 	return S_OK;
 }
 
