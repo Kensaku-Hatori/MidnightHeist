@@ -1,21 +1,20 @@
-//****************************************************************
+//================================================================
 //
 // フェードの処理[fade.cpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Bace/fade.h"
 #include "Bace/manager.h"
 #include "Math/MyMath_T.h"
 
-// 規定値を設定
-const D3DXCOLOR CFade::Config::DefoultCol = { 0.0f,0.0f,0.0f,0.0f };
-
-//************************************
+//****************************************************************
 // 初期化処理
-//************************************
+//****************************************************************
 void CFade::Init(void)
 {
 	CRenderer* pRenderer;
@@ -30,12 +29,12 @@ void CFade::Init(void)
 		FVF_VERTEX_2D,
 		D3DPOOL_MANAGED,
 		&m_pVertex,
-		NULL);
+		nullptr);
 
 	//頂点バッファをロックし、頂点情報へのポインタを取得
 	m_pVertex->Lock(0, 0, (void**)&pVtx, 0);
 
-	if (pVtx != NULL)
+	if (pVtx != nullptr)
 	{
 		//頂点座標の設定
 		pVtx[0].pos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -48,35 +47,35 @@ void CFade::Init(void)
 		pVtx[2].rhw = 1.0f;
 		pVtx[3].rhw = 1.0f;
 		//頂点カラーの設定
-		pVtx[0].col = m_colorFade;
-		pVtx[1].col = m_colorFade;
-		pVtx[2].col = m_colorFade;
-		pVtx[3].col = m_colorFade;
+		pVtx[0].col = m_ColorFade;
+		pVtx[1].col = m_ColorFade;
+		pVtx[2].col = m_ColorFade;
+		pVtx[3].col = m_ColorFade;
 	}
 
 	//頂点バッファをアンロック
 	m_pVertex->Unlock();
 }
 
-//************************************
+//****************************************************************
 // 終了処理
-//************************************
+//****************************************************************
 void CFade::Uninit(void)
 {
 	// 頂点バッファが生成されていたら
-	if (m_pVertex != NULL)
+	if (m_pVertex != nullptr)
 	{
 		// シングルトンのメンバ変数を破棄
 		m_pVertex->Release();
-		m_pVertex = NULL;
+		m_pVertex = nullptr;
 	}
 	// シーンをNULLにする
-	m_pNexScene = NULL;
+	m_pNextScene = nullptr;
 }
 
-//************************************
+//****************************************************************
 // 更新処理
-//************************************
+//****************************************************************
 void CFade::Update(void)
 {
 	// 初期状態以外だったら
@@ -90,9 +89,9 @@ void CFade::Update(void)
 		if (m_Fade == FADE_IN)
 		{
 			// アルファ値を下げる
-			m_colorFade.a = Clamp(m_colorFade.a - Config::Speed, 0.0f, 1.0f);
+			m_ColorFade.a = Clamp(m_ColorFade.a - Config::Speed, 0.0f, 1.0f);
 			// 最小値になったら
-			if (m_colorFade.a <= 0.0f)
+			if (m_ColorFade.a <= 0.0f)
 			{
 				m_Fade = FADE_NONE;
 			}
@@ -101,28 +100,28 @@ void CFade::Update(void)
 		else if (m_Fade == FADE_OUT)
 		{
 			// アルファ値をあげる
-			m_colorFade.a = Clamp(m_colorFade.a + Config::Speed, 0.0f, 1.0f);
+			m_ColorFade.a = Clamp(m_ColorFade.a + Config::Speed, 0.0f, 1.0f);
 			// 最大値になったら
-			if (m_colorFade.a >= 1.0f)
+			if (m_ColorFade.a >= 1.0f)
 			{
 				m_Fade = FADE_IN;
-				CManager::SetScene(m_pNexScene);
+				CManager::SetScene(m_pNextScene);
 			}
 		}
 		//頂点カラーの設定
-		pVtx[0].col = m_colorFade;
-		pVtx[1].col = m_colorFade;
-		pVtx[2].col = m_colorFade;
-		pVtx[3].col = m_colorFade;
+		pVtx[0].col = m_ColorFade;
+		pVtx[1].col = m_ColorFade;
+		pVtx[2].col = m_ColorFade;
+		pVtx[3].col = m_ColorFade;
 
 		//頂点バッファをアンロック
 		m_pVertex->Unlock();
 	}
 }
 
-//************************************
+//****************************************************************
 // 描画処理
-//************************************
+//****************************************************************
 void CFade::Draw(void)
 {
 	// デバイスの取得
@@ -143,9 +142,9 @@ void CFade::Draw(void)
 	pDevice->DrawPrimitive(D3DPT_TRIANGLESTRIP, 0, 2);
 }
 
-//************************************
+//****************************************************************
 // フェードと次のシーンを設定
-//************************************
+//****************************************************************
 void CFade::SetFade(CScene* pNextScene)
 {
 	// 今のフェードが初期状態じゃなかったら
@@ -157,18 +156,11 @@ void CFade::SetFade(CScene* pNextScene)
 		return;
 	}
 	// 次のシーンがNULLじゃなかったら
-	if (m_pNexScene != NULL)
+	if (m_pNextScene != nullptr)
 	{
-		m_pNexScene = NULL;
+		m_pNextScene = nullptr;
 	}
 	// 次のシーンのポインタとモードを設定
 	m_Fade = FADE_OUT;
-	m_pNexScene = pNextScene;
-}
-
-//************************************
-// デストラクタ
-//************************************
-CFade::~CFade()
-{
+	m_pNextScene = pNextScene;
 }

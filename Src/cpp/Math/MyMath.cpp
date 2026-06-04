@@ -1,19 +1,21 @@
-//****************************************************************
+//================================================================
 //
 // 計算の処理[math.cpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Math/MyMath.h"
 #include "Math/MyMath_T.h"
 #include "Manager/modelmanager.h"
 #include "Component/TransformComponent.hpp"
 
-//***************************************
+//****************************************************************
 // 浮動小数点のランダム
-//***************************************
+//****************************************************************
 float CMath::randf(float Max, float Min)
 {
 	if (Max <= 0 || Min <= 0) return 0.0f;
@@ -22,9 +24,9 @@ float CMath::randf(float Max, float Min)
 	return Out;
 }
 
-//***************************************
+//****************************************************************
 // 座標を3Dから2Dに変換する
-//***************************************
+//****************************************************************
 D3DXVECTOR3 CMath::Get3Dto2DPosition(const D3DXVECTOR3 Position)
 {
 	CRenderer* pRenderer;
@@ -47,9 +49,9 @@ D3DXVECTOR3 CMath::Get3Dto2DPosition(const D3DXVECTOR3 Position)
 	return OutPos;
 }
 
-//***************************************
+//****************************************************************
 // 座標を2Dから3Dに変換する
-//***************************************
+//****************************************************************
 D3DXVECTOR3 CMath::Get2Dto3DPosition(const D3DXVECTOR3 Position)
 {
 	CRenderer* pRenderer;
@@ -72,9 +74,9 @@ D3DXVECTOR3 CMath::Get2Dto3DPosition(const D3DXVECTOR3 Position)
 	return OutPos;
 }
 
-//***************************************
+//****************************************************************
 // 移動量を計算
-//***************************************
+//****************************************************************
 D3DXVECTOR3 CMath::CalcMove(D3DXVECTOR3* Pos,float Speed)
 {
 	CCamera* pCamera = CManager::GetCamera();
@@ -130,9 +132,9 @@ D3DXVECTOR3 CMath::CalcMove(D3DXVECTOR3* Pos,float Speed)
 	return *Pos += Move;
 }
 
-//***************************************
+//****************************************************************
 // ランダムなベクトルを算出
-//***************************************
+//****************************************************************
 D3DXVECTOR3 CMath::RandVector(D3DXVECTOR3 MaxDir, D3DXVECTOR3 MinDir)
 {
 	D3DXVECTOR3 randVec;
@@ -148,9 +150,9 @@ D3DXVECTOR3 CMath::RandVector(D3DXVECTOR3 MaxDir, D3DXVECTOR3 MinDir)
 	return randVec;
 }
 
-//***************************************
+//****************************************************************
 // ベクトルのなす角を求める
-//***************************************
+//****************************************************************
 float CMath::VectersFromAngle(D3DXVECTOR3 VecA, D3DXVECTOR3 VecB,D3DXVECTOR3 Border)
 {
 	D3DXVec3Normalize(&VecA, &VecA);
@@ -160,9 +162,9 @@ float CMath::VectersFromAngle(D3DXVECTOR3 VecA, D3DXVECTOR3 VecB,D3DXVECTOR3 Bor
 	return (float)acos(D3DXVec3Dot(&VecA, &VecB)) * Dot;
 }
 
-//***************************************
+//****************************************************************
 // 小数点を第二位までに変換
-//***************************************
+//****************************************************************
 float CMath::ConvertFloat(float Value,int Format)
 {
 	int Convert;
@@ -172,9 +174,9 @@ float CMath::ConvertFloat(float Value,int Format)
 	return Out;
 }
 
-//***************************************
+//****************************************************************
 // クォータニオンを変換
-//***************************************
+//****************************************************************
 btQuaternion CMath::SetQuad(D3DXQUATERNION Set)
 {
 	return btQuaternion(Set.x, Set.y, Set.z, Set.w);
@@ -185,9 +187,9 @@ D3DXQUATERNION CMath::SetQuad(btQuaternion Set)
 	return D3DXQUATERNION(Set.x(), Set.y(), Set.z(), Set.w());
 }
 
-//***************************************
+//****************************************************************
 // ベクトルを変換
-//***************************************
+//****************************************************************
 btVector3 CMath::SetVec(D3DXVECTOR3 Set)
 {
 	return btVector3(Set.x, Set.y, Set.z);
@@ -198,10 +200,10 @@ D3DXVECTOR3 CMath::SetVec(btVector3 Set)
 	return D3DXVECTOR3(Set.x(), Set.y(), Set.z());
 }
 
-//***************************************
+//****************************************************************
 // モデルの大きさを計測
 // 戻り値半分の大きさ
-//***************************************
+//****************************************************************
 D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
 {
 	// モデルmanagerからインデックスを指定して取得
@@ -259,9 +261,9 @@ D3DXVECTOR3 CMath::CalcModelSize(std::string Path)
 	return Size;
 }
 
-//***************************************
+//****************************************************************
 // ヒューリスティック関数
-//***************************************
+//****************************************************************
 float CMath::Heuristic(const D3DXVECTOR3& Start, const D3DXVECTOR3& Goal)
 {
 	// ベクトルを引く
@@ -270,21 +272,18 @@ float CMath::Heuristic(const D3DXVECTOR3& Start, const D3DXVECTOR3& Goal)
 	return D3DXVec3Length(&Vec);
 }
 
-/// <summary>
-/// 距離を計算
-/// </summary>
-/// <param name="Start"><始点>
-/// <param name="End"><終点>
-/// <returns><距離>
+//****************************************************************
+// 距離を計算
+//****************************************************************
 float CMath::CalcDistance(const D3DXVECTOR3 Start, const D3DXVECTOR3 End)
 {
 	D3DXVECTOR3 Vec = End - Start;
 	return D3DXVec3Length(&Vec);
 }
 
-//***************************************
+//****************************************************************
 // エースターアルゴリズム
-//***************************************
+//****************************************************************
 std::vector<int> CMath::AStar(std::vector<PatrolPoint::PatrolPointInfo>& Points, const int StartIdx, const int GoalIdx)
 {
 	// オープンリストとクローズリストを宣言
@@ -397,9 +396,9 @@ std::vector<int> CMath::AStar(std::vector<PatrolPoint::PatrolPointInfo>& Points,
 	return {};
 }
 
-//***************************************
+//****************************************************************
 // 近くの障害物がないポイントを検索
-//***************************************
+//****************************************************************
 int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolPointInfo>& Points, std::vector<entt::entity>& MapObjects)
 {
 	// ソートするための比較用変数
@@ -470,9 +469,9 @@ int CMath::NearCanMovePoint(D3DXVECTOR3 Origin, std::vector<PatrolPoint::PatrolP
 	return BestPoint;
 }
 
-//***************************************
+//****************************************************************
 // プレイヤーまで障害物がないかどうか
-//***************************************
+//****************************************************************
 bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, std::vector<entt::entity>& MapObjects)
 {
 	// 目標値までの距離
@@ -517,9 +516,9 @@ bool CMath::IsCanSight(const D3DXVECTOR3& Origin, const D3DXVECTOR3& DestPos, st
 	return IsCanSight;
 }
 
-//***************************************
+//****************************************************************
 // 扇形の中に点が存在するかどうか
-//***************************************
+//****************************************************************
 bool CMath::IsPointInFan(const FanComponent Fan, const D3DXVECTOR3 Point)
 {
 	// 距離を計算
@@ -554,14 +553,9 @@ bool CMath::IsPointInFan(const FanComponent Fan, const D3DXVECTOR3 Point)
 	}
 }
 
-/// <summary>
-/// 光線とメッシュの当たり判定
-/// </summary>
-/// <param name="Mesh"><メッシュ>
-/// <param name="MeshMtx"><メッシュのマトリックス>
-/// <param name="Ray"><光線の情報>
-/// <param name="Distance"><当たったポリゴンまでの距離>
-/// <returns><当たったかどうか/true = 当たった>
+//****************************************************************
+// 光線とメッシュの当たり判定
+//****************************************************************
 bool CMath::IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComponent Ray, float* Distance)
 {
 	// モデルのマトリックスの逆行列
@@ -599,14 +593,9 @@ bool CMath::IsCollisionRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx
 	return hit;
 }
 
-/// <summary>
-/// 光線がメッシュによって遮られているかどうか
-/// </summary>
-/// <param name="Mesh"><メッシュ>
-/// <param name="MeshMtx"><メッシュのマトリックス>
-/// <param name="Ray"><光線の情報>
-/// <param name="Border"><光線の長さ>
-/// <returns><遮られているかどうか/true = 遮られている>
+//****************************************************************
+// 光線がメッシュによって遮られているかどうか
+//****************************************************************
 bool CMath::IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, const RayComponent Ray, float Border)
 {
 	// モデルのマトリックスの逆行列
@@ -643,13 +632,9 @@ bool CMath::IsBlockedRayToMesh(const LPD3DXMESH Mesh, const D3DXMATRIX MeshMtx, 
 	else return false;
 }
 
-/// <summary>
-/// 光線とメッシュ達の当たり判定
-/// </summary>
-/// <param name="Ojbects"><メッシュとトランスフォームが存在するエンテティのベクター>
-/// <param name="Ray"><光線の情報>
-/// <param name="Distance"><当たったメッシュへの最短距離>
-/// <returns><当たったかどうか/true = 当たった>
+//****************************************************************
+// 光線とメッシュ達の当たり判定
+//****************************************************************
 bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const RayComponent Ray, float* Distance)
 {
 	// 当たったかどうか
@@ -688,13 +673,9 @@ bool CMath::IsCollisionRayToMeshes(std::vector<entt::entity>& Objects, const Ray
 	return Hit;
 }
 
-/// <summary>
-/// 光線がメッシュ達によって遮られているかどうか
-/// </summary>
-/// <param name="Objects"><メッシュとトランスフォームが存在するエンテティのベクター>
-/// <param name="Ray"><光線の情報>
-/// <param name="Border"><光線の長さ>
-/// <returns><遮られているかどうか/true = 遮られている>
+//****************************************************************
+// 光線がメッシュ達によって遮られているかどうか
+//****************************************************************
 bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayComponent Ray, float Border)
 {
 	// 保存用の距離
@@ -722,45 +703,34 @@ bool CMath::IsBlockedRayToMeshes(std::vector<entt::entity>& Objects, const RayCo
 	return false;
 }
 
-/// <summary>
-/// ベクターの要素がすべて有効かどうか
-/// </summary>
-/// <param name="Condition">"確かめたいベクトル変数"</param>
-/// <returns>"true = 有効","false = 無効"</returns>
+//****************************************************************
+// ベクターの要素がすべて有効かどうか
+//****************************************************************
 bool CMath::IsValidVector(const D3DXVECTOR3& Condition)
 {
 	return std::isfinite(Condition.x) && std::isfinite(Condition.y) && std::isfinite(Condition.z);
 }
 
-/// <summary>
-/// ベクターの要素がすべて有効かどうか
-/// </summary>
-/// <param name="Condition">"確かめたいベクトル変数"</param>
-/// <returns>"true = 有効","false = 無効s"</returns>
+//****************************************************************
+// ベクターの要素がすべて有効かどうか
+//****************************************************************
 bool CMath::IsValidVector(const btVector3& Condition)
 {
 	D3DXVECTOR3 Vec = SetVec(Condition);
 	return std::isfinite(Vec.x) && std::isfinite(Vec.y) && std::isfinite(Vec.z);
 }
 
-/// <summary>
-/// 要素が有効かどうか
-/// </summary>
-/// <param name="Condition">"確かめたい変数"</param>
-/// <returns>"true = 有効","false = 無効s"</returns>
+//****************************************************************
+// 要素が有効かどうか
+//****************************************************************
 bool CMath::IsValidScaler(const float Condition)
 {
 	return std::isfinite(Condition);
 }
 
-/// <summary>
-/// ワールドマトリックスの計算
-/// </summary>
-/// <param name="Out">"出力用マトリックス(初期化済み)"</param>
-/// <param name="Pos">"位置"</param>
-/// <param name="Scale">"拡大率"</param>
-/// <param name="Quat">"向き"</param>
-/// <returns>"計算結果"</returns>
+//****************************************************************
+// ワールドマトリックスの計算
+//****************************************************************
 D3DXMATRIX CMath::CalcMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
 {
 	// 拡大率のマトリックス、回転行列、平行移動行列を計算
@@ -777,15 +747,9 @@ D3DXMATRIX CMath::CalcMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3
 	return *Out;
 }
 
-/// <summary>
-/// マトリックス同士をかけ合わせる
-/// </summary>
-/// <param name="Out">"出力用マトリックス(初期化済み)"</param>
-/// <param name="Pos">"位置"</param>
-/// <param name="Scale">"大きさ"</param>
-/// <param name="Quat">"向き"</param>
-/// <param name="Parent">"かけ合わせるマトリックス"</param>
-/// <returns>"計算結果"</returns>
+//****************************************************************
+// マトリックス同士をかけ合わせる
+//****************************************************************
 D3DXMATRIX CMath::CalcMultiplyMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat, D3DXMATRIX Parent)
 {
 	// 拡大率のマトリックス、回転行列、平行移動行列を計算
@@ -803,14 +767,9 @@ D3DXMATRIX CMath::CalcMultiplyMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, 
 	return *Out;
 }
 
-/// <summary>
-/// 逆行列を計算
-/// </summary>
-/// <param name="Out">"出力用マトリックス(初期化済み)"</param>
-/// <param name="Pos">"位置"</param>
-/// <param name="Scale">"大きさ"</param>
-/// <param name="Quat">"向き"</param>
-/// <returns>"計算結果"</returns>
+//****************************************************************
+// 逆行列を計算
+//****************************************************************
 D3DXMATRIX CMath::CalcInverseMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
 {
 	// 拡大率のマトリックス、回転行列、平行移動行列を計算
@@ -828,6 +787,9 @@ D3DXMATRIX CMath::CalcInverseMtxWorld(D3DXMATRIX* Out, const D3DXVECTOR3& Pos, c
 	return *Out;
 }
 
+//****************************************************************
+// ワールドマトリックスを計算
+//****************************************************************
 D3DXMATRIX CMath::CalcMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
 {
 	// 拡大率のマトリックス、回転行列、平行移動行列を計算
@@ -844,6 +806,9 @@ D3DXMATRIX CMath::CalcMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale,
 	return mtxWorld;
 }
 
+//****************************************************************
+// マトリックスを合成
+//****************************************************************
 D3DXMATRIX CMath::CalcMultiplyMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat, D3DXMATRIX Parent)
 {
 	// 拡大率のマトリックス、回転行列、平行移動行列を計算
@@ -861,6 +826,9 @@ D3DXMATRIX CMath::CalcMultiplyMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3
 	return mtxWorld;
 }
 
+//****************************************************************
+// 逆行列を計算
+//****************************************************************
 D3DXMATRIX CMath::CalcInverseMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3& Scale, const D3DXQUATERNION Quat)
 {
 	// 拡大率のマトリックス、回転行列、平行移動行列を計算
@@ -876,196 +844,4 @@ D3DXMATRIX CMath::CalcInverseMtxWorld(const D3DXVECTOR3& Pos, const D3DXVECTOR3&
 
 	// かけ合わせたものを返す
 	return mtxWorld;
-}
-
-////***************************************
-//// 線分と線分の最接点距離
-////***************************************
-//float CMath::CalcSegSegDist(CCollision::Segment Seg1, CCollision::Segment Seg2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2)
-//{
-//	// ベクトルを引く
-//	D3DXVECTOR3 Vec1 = Seg1.End - Seg1.Start;
-//	D3DXVECTOR3 Vec2 = Seg2.End - Seg2.Start;
-//	D3DXVECTOR3 toVec = Seg1.Start - Seg2.Start;
-//	// 長さを図る
-//	float Length1 = D3DXVec3Dot(&Vec1, &Vec1);
-//	float Length2 = D3DXVec3Dot(&Vec2, &Vec2);
-//	float toLength = D3DXVec3Dot(&Vec2, &toVec);
-//	// 小数点100万分の位置まで考慮する
-//	float Epsilon = 1e-6f;
-//
-//	if (Length1 <= Epsilon && Length2 <= Epsilon)
-//	{
-//		*S = 0.0f;
-//		*T = 0.0f;
-//		*C1 = Seg1.Start;
-//		*C2 = Seg2.Start;
-//		D3DXVECTOR3 VecC = *C1 - *C2;
-//		return D3DXVec3Dot(&VecC,&VecC);
-//	}
-//	if (Length1 <= Epsilon)
-//	{
-//		*S = 0.0f;
-//		*T = toLength / Length2;
-//		*T = Clamp(*T, 0.0f, 1.0f);
-//	}
-//	else
-//	{
-//		float C = D3DXVec3Dot(&Vec1, &toVec);
-//		if (Length2 <= Epsilon)
-//		{
-//			*T = 0.0f;
-//			*S = Clamp(-C / Length1, 0.0f, 1.0f);
-//		}
-//		else
-//		{
-//			float B = D3DXVec3Dot(&Vec1, &Vec2);
-//			float Ttom = B * (*S) + toLength;
-//			if (Ttom < 0.0f)
-//			{
-//				*T = 0.0f;
-//				*S = Clamp(-C / Length1, 0.0f, 1.0f);
-//			}
-//			else if (Ttom > Length2)
-//			{
-//				*T = 1.0f;
-//				*S = Clamp((B - C) / Length1, 0.0f, 1.0f);
-//			}
-//			else
-//			{
-//				*T = Ttom / Length2;
-//			}
-//			float Denom = (Length1 * Length2) - (B * B);
-//			if (Denom != 0.0f)
-//			{
-//				*S = Clamp((B * toLength) / Denom, 0.0f, 1.0f);
-//			}
-//			else
-//			{
-//				*S = 0.0f;
-//			}
-//			*T = (B * (*S) + toLength) / Length2;
-//			if (*T < 0.0f)
-//			{
-//				*T = 0.0f;
-//				*S = Clamp(-C / Length1, 0.0f, 1.0f);
-//			}
-//			else if (*T > 1.0f)
-//			{
-//				*T = 1.0f;
-//				*S = Clamp((B - C) / Length1, 0.0f, 1.0f);
-//			}
-//		}
-//	}
-//	*C1 = Seg1.Start + Vec1 * (*S);
-//	*C2 = Seg2.Start + Vec2 * (*T);
-//	D3DXVECTOR3 VecC = *C1 - *C2;
-//	return D3DXVec3Dot(&VecC,&VecC);
-//}
-//
-/////
-///// <<カプセル同士の最接点距離を計算>>
-///// <製作者>
-///// 羽鳥健作
-///// <param name="Cap1"><カプセル１>
-///// <param name="Cap2"><カプセル２>
-///// <param name="S"><最接点１のスカラー値(出力用)>
-///// <param name="T"><最接点２のスカラー値(出力用)>
-///// <param name="C1"><最接点１(出力用)>
-///// <param name="C2"><最接点２(出力用)>
-///// <returns><二つのカプセルの最接点距離をリターン>
-///// 
-//float CMath::CalcCapCapDist(CCollision::Capsule Cap1, CCollision::Capsule Cap2, float* S, float* T, D3DXVECTOR3* C1, D3DXVECTOR3* C2)
-//{
-//	// カプセルの終点から始点までのベクトル
-//	D3DXVECTOR3 Vec1 = Cap1.End - Cap1.Start;
-//	D3DXVECTOR3 Vec2 = Cap2.End - Cap2.Start;
-//	// カプセルからもう一方のカプセルまでのベクトル
-//	D3DXVECTOR3 toVec = Cap1.Start - Cap2.Start;
-//	// それぞれのベクトルのながさ
-//	float Length1 = D3DXVec3Dot(&Vec1, &Vec1);
-//	float Length2 = D3DXVec3Dot(&Vec2, &Vec2);
-//	float toLength = D3DXVec3Dot(&Vec2, &toVec);
-//	// 誤差をなくすための一時変数(100万分の1まで考慮)
-//	float Epsilon = 1e-6f;
-//	// 両方のカプセルが点だったら
-//	if (Length1 <= Epsilon && Length2 <= Epsilon)
-//	{
-//		*S = 0.0f;
-//		*T = 0.0f;
-//		*C1 = Cap1.Start;
-//		*C2 = Cap2.Start;
-//		D3DXVECTOR3 VecC = *C1 - *C2;
-//		return D3DXVec3Dot(&VecC, &VecC);
-//	}
-//	// 片方のカプセル１が点だったら
-//	if (Length1 <= Epsilon)
-//	{
-//		*S = 0.0f;
-//		*T = toLength / Length2;
-//		*T = Clamp(*T, 0.0f, 1.0f);
-//	}
-//	// それ以外
-//	else
-//	{
-//		float C = D3DXVec3Dot(&Vec1, &toVec);
-//		// カプセル２が点だったら
-//		if (Length2 <= Epsilon)
-//		{
-//			*T = 0.0f;
-//			*S = Clamp(-C / Length1, 0.0f, 1.0f);
-//		}
-//		// それ以外
-//		else
-//		{
-//			float B = D3DXVec3Dot(&Vec1, &Vec2);
-//			float Ttom = B * (*S) + toLength;
-//			if (Ttom < 0.0f)
-//			{
-//				*T = 0.0f;
-//				*S = Clamp(-C / Length1, 0.0f, 1.0f);
-//			}
-//			else if (Ttom > Length2)
-//			{
-//				*T = 1.0f;
-//				*S = Clamp((B - C) / Length1, 0.0f, 1.0f);
-//			}
-//			else
-//			{
-//				*T = Ttom / Length2;
-//			}
-//			float Denom = (Length1 * Length2) - (B * B);
-//			if (Denom != 0.0f)
-//			{
-//				*S = Clamp((B * toLength) / Denom, 0.0f, 1.0f);
-//			}
-//			else
-//			{
-//				*S = 0.0f;
-//			}
-//			*T = (B * (*S) + toLength) / Length2;
-//			if (*T < 0.0f)
-//			{
-//				*T = 0.0f;
-//				*S = Clamp(-C / Length1, 0.0f, 1.0f);
-//			}
-//			else if (*T > 1.0f)
-//			{
-//				*T = 1.0f;
-//				*S = Clamp((B - C) / Length1, 0.0f, 1.0f);
-//			}
-//		}
-//	}
-//	*C1 = Cap1.Start + Vec1 * (*S);
-//	*C2 = Cap2.Start + Vec2 * (*T);
-//	D3DXVECTOR3 VecC = *C1 - *C2;
-//	return D3DXVec3Dot(&VecC, &VecC);
-//}
-
-//***************************************
-// デストラクタ
-//***************************************
-CMath::~CMath()
-{
-
 }

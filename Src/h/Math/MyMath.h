@@ -63,6 +63,6 @@ public:
 	static bool IsValidScaler(const float Condition);
 private:
 	// コンストラクタ・デストラクタ
-	CMath();
-	~CMath();
+	CMath() = default;
+	~CMath() = default;
 };

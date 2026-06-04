@@ -1,10 +1,13 @@
-//*************************************
+//================================================================
 //
 //　ウインドウ表示処理[main.cpp]
 //　Author:Hatori Kensaku
 //
-//*************************************
+//================================================================
+
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Bace/main.h"
 #include "Bace/renderer.h"
 #include "Bace/manager.h"
@@ -12,26 +15,21 @@
 #include "Resource/resource.h"
 #include <crtdbg.h>
 
-//プロトタイプ宣言
+//****************************************************************
+// ウィンドウプロシージャ
+//****************************************************************
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+// グローバル変数宣言
 int g_nCountFPS = 0;
 
-//*************************************
+//****************************************************************
 // メイン関数
-//*************************************
+//****************************************************************
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _In_ LPSTR ipCmdLine, _In_ int nCmdShow)
 {
 	// メモリリーク検知
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_ALWAYS_DF);//メモリリーク検知
-	//_CrtSetBreakAlloc(131);
-
-	//// スレッド数が足りなかった場合
-	//auto ThreadCount = std::thread::hardware_concurrency();
-	//if (ThreadCount < 3)
-	//{
-	//	return E_FAIL;
-	//}
 
 	WNDCLASSEX wcex =
 	{
@@ -77,6 +75,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	DWORD dwCurrentTime;
 	DWORD dwExecLastTime;
 
+	// マウスカーソル非表示
 	ShowCursor(FALSE);
 
 	if (FAILED(CSoundDevice::Instance().Init()))
@@ -176,9 +175,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	return(int)msg.wParam;
 }
 
-//*************************************
+//****************************************************************
 // ウインドウプロシージャ
-//*************************************
+//****************************************************************
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	int nID;
@@ -224,17 +223,17 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-//*************************************
+//****************************************************************
 // FPSを取得
-//*************************************
+//****************************************************************
 int GetFPS(void)
 {
 	return g_nCountFPS;
 }
 
-//*************************************
+//****************************************************************
 // デルタタイムを取得
-//*************************************
+//****************************************************************
 float GetDeltaTime(void)
 {
 	float dt = 1.0f / GetFPS();

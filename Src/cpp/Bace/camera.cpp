@@ -1,19 +1,25 @@
-//****************************************************************
+//================================================================
 //
 // カメラの処理[camera.cpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Bace/camera.h"
 #include "Bace/manager.h"
 #include "Math/MyMath.h"
 
+//****************************************************************
 // 名前空間
+//****************************************************************
 using namespace std;
 
+//****************************************************************
 // 定数を設定
+//****************************************************************
 const D3DXVECTOR3 CCamera::Config::Title::PosV = { 400.0f,20.0f ,1020.0f };
 const D3DXVECTOR3 CCamera::Config::Title::PosR = { 200.0f,0.0f ,170.0f };
 const D3DXVECTOR3 CCamera::Config::Title::Rot = { -D3DX_PI * 0.15f,-D3DX_PI * 0.25f ,0.0f };
@@ -22,66 +28,68 @@ const D3DXVECTOR3 CCamera::Config::Game::PosV = { 0.0f,1280.0f ,800.0f };
 const D3DXVECTOR3 CCamera::Config::Game::PosR = VEC3_NULL;
 const D3DXVECTOR3 CCamera::Config::Game::Rot = { D3DX_PI * 0.35f,0.0f ,0.0f };
 
+//****************************************************************
 // 静的メンバ変数宣言
+//****************************************************************
 CInputKeyboard* CCamera::m_pInputKeyboard = CManager::GetInputKeyboard();
 CInputJoypad* CCamera::m_pInputJoypad = CManager::GetInputJoypad();
 CInputMouse* CCamera::m_pInputMouse = CManager::GetInputMouse();
 
-//***************************************
+//****************************************************************
 // コンストラクタ
-//***************************************
+//****************************************************************
 CCamera::CCamera()
 {
 	// カメラの初期化の値
-	m_posV = VEC3_NULL;
-	m_posVDest = VEC3_NULL;
-	m_posR = VEC3_NULL;
-	m_posRDest = VEC3_NULL;
-	m_vecU = VEC3_NULL;
-	m_rot = VEC3_NULL;
+	m_posV		= VEC3_NULL;
+	m_posVDest	= VEC3_NULL;
+	m_posR		= VEC3_NULL;
+	m_posRDest	= VEC3_NULL;
+	m_vecU		= VEC3_NULL;
+	m_rot		= VEC3_NULL;
 	m_fDistance = NULL;
 
 	// 視野角、視界の広さの初期値を設定
-	m_fFov = NULL;
-	m_fZnear = NULL;
-	m_fZfar = NULL;
+	m_fFov		= NULL;
+	m_fZnear	= NULL;
+	m_fZfar		= NULL;
 }
 
-//***************************************
+//****************************************************************
 // デストラクタ
-//***************************************
+//****************************************************************
 CCamera::~CCamera()
 {
 }
 
-//***************************************
+//****************************************************************
 // 初期化処理
-//***************************************
+//****************************************************************
 HRESULT CCamera::Init(void)
 {
 	// カメラの初期化の値
-	m_posV = VEC3_NULL;
-	m_posVDest = VEC3_NULL;
-	m_posR = VEC3_NULL;
-	m_posRDest = VEC3_NULL;
-	m_vecU = VEC_UP;
-	m_rot = { D3DX_PI * 0.35f,0.0f,0.0f };
+	m_posV		= VEC3_NULL;
+	m_posVDest	= VEC3_NULL;
+	m_posR		= VEC3_NULL;
+	m_posRDest	= VEC3_NULL;
+	m_vecU		= VEC_UP;
+	m_rot		= { D3DX_PI * 0.35f,0.0f,0.0f };
 
 	// 視点の補完速度を初期化
-	m_fSpeedV = CCamera::Config::Defoult::SpeedV;
+	m_fSpeedV	= CCamera::Config::Defoult::SpeedV;
 
 	// 注視点までの距離
-	m_fDistance = Config::Defoult::Distance;
+	m_fDistance	= Config::Defoult::Distance;
 
 	// 視野角、視界の広さの初期値を設定
-	m_fFov = Config::Defoult::Fov;
-	m_fZnear = Config::Defoult::Near;
-	m_fZfar = Config::Defoult::Far;
+	m_fFov		= Config::Defoult::Fov;
+	m_fZnear	= Config::Defoult::Near;
+	m_fZfar		= Config::Defoult::Far;
 
 	// デバイスを取得
-	m_pInputKeyboard = CManager::GetInputKeyboard();
-	m_pInputJoypad = CManager::GetInputJoypad();
-	m_pInputMouse = CManager::GetInputMouse();
+	m_pInputKeyboard	= CManager::GetInputKeyboard();
+	m_pInputJoypad		= CManager::GetInputJoypad();
+	m_pInputMouse		= CManager::GetInputMouse();
 
 	// 正常終了
 	return S_OK;
@@ -210,13 +218,16 @@ void CCamera::UpdateMouseMove(void)
 
 	if (isSlideMove() == true)
 	{
+		// カメラの視線ベクトル
 		D3DXVECTOR3 VecZ = m_posRDest - m_posVDest;
 		D3DXVECTOR3 VecX, VecY, Move;
 		Move = VEC3_NULL;
+		// 外積でカメラのローカル空間での各軸を求める
 		D3DXVec3Cross(&VecX, &VecZ, &m_vecU);
 		D3DXVec3Normalize(&VecX, &VecX);
 		D3DXVec3Cross(&VecY, &VecX, &VecZ);
 		D3DXVec3Normalize(&VecY, &VecY);
+		// 動かす
 		Move += VecX * m_pInputMouse->GetVelocity().x;
 		Move += VecY * m_pInputMouse->GetVelocity().y;
 		Move *= 0.5f;

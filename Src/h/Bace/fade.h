@@ -23,7 +23,6 @@ class CFade
 public:
 	// フェードの定数を宣言
 	struct Config {
-		static const D3DXCOLOR DefoultCol;		// 通常色
 		static constexpr float Speed = 0.04f;	// 速さ
 	};
 
@@ -37,7 +36,7 @@ public:
 	}FADE;
 
 	// デストラクタ
-	~CFade();
+	~CFade() = default;
 
 	//****************************************************************
 	// メンバ関数
@@ -84,11 +83,11 @@ public:
 	}
 private:
 	// コンストラクタ
-	CFade() {};
+	CFade() = default;
 
 	// メンバ変数
 	LPDIRECT3DVERTEXBUFFER9 m_pVertex;	// 頂点バッファ
 	FADE m_Fade;						// フェードの状態
-	CScene* m_pNexScene;				// 次のシーンのインスタンス
-	D3DXCOLOR m_colorFade;				// フェードの色
+	CScene* m_pNextScene;				// 次のシーンのインスタンス
+	D3DXCOLOR m_ColorFade;				// フェードの色
 };
