@@ -22,17 +22,17 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderingEnemySystem::Rendering(entt::registry& reg)
+void RenderingEnemySystem::Rendering(entt::registry& Reg)
 {
 	// エンテティのリストを取得
-	auto view = reg.view<Enemy>();
+	auto view = Reg.view<Enemy>();
 
 	// 物陰描画
 	CShapeShadow::Instance().Begin();
 	CShapeShadow::Instance().BeginScene();
 	for (auto entity : view)
 	{
-		DrawShapeShadowMap(reg, entity);
+		DrawShapeShadowMap(Reg, entity);
 	}
 	CShapeShadow::Instance().EndTexs();
 	CShapeShadow::Instance().End();
@@ -44,8 +44,8 @@ void RenderingEnemySystem::Rendering(entt::registry& reg)
 	for (auto Entity : view)
 	{
 		// コンポーネントを取得
-		auto& TransformComp = reg.get<Transform3D>(Entity);
-		auto& RenderingComp = reg.get<XRenderingComponent>(Entity);
+		auto& TransformComp = Reg.get<Transform3D>(Entity);
+		auto& RenderingComp = Reg.get<XRenderingComponent>(Entity);
 
 		// デバイス取得
 		CRenderer* pRenderer;

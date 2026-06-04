@@ -704,7 +704,7 @@
     <ClInclude Include="Src\h\System\Update\UpdateTitleManagerSystem.h">
       <Filter>ヘッダー ファイル\System\Update</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\Rendering\baceRenderingsystem.hpp">
+    <ClInclude Include="Src\h\System\Rendering\baseRenderingsystem.hpp">
       <Filter>ヘッダー ファイル\System\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\System\Rendering\RenderingMapobjectSystem.h">
@@ -749,10 +749,10 @@
     <ClInclude Include="Src\h\System\Rendering\Player\RenderingTitlePlayerSystem.h">
       <Filter>ヘッダー ファイル\System\Rendering\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering2DbaceSystem.h">
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering2DBaseSystem.h">
       <Filter>ヘッダー ファイル\System\Rendering\Obj</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering3DBaceSystem.h">
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering3DBaseSystem.h">
       <Filter>ヘッダー ファイル\System\Rendering\Obj</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\System\Rendering\Obj\RenderingXSystem.h">

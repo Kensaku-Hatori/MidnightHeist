@@ -1,23 +1,28 @@
-//****************************************************************
+//================================================================
 //
-// メッシュフィールド描画基本システムのクラスの処理[RenderingMeshFieldSystem.h]
+// メッシュレーザー描画システム[RenderingMeshLaserSystem.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
-#include "System/Rendering/baceRenderingsystem.hpp"
+//****************************************************************
+#include "System/Rendering/baseRenderingsystem.hpp"
 
-// 2D描画基本システムのクラス
-struct RenderMehLaerSystem : BaceRenderingSystem
+//****************************************************************s
+// メッシュレーザー描画システム
+//****************************************************************
+struct RenderMehLaerSystem final : BaseRenderingSystem
 {
-	// デストラクタ
-	RenderMehLaerSystem() = default;
-	// コンストラクタ
-	~RenderMehLaerSystem() = default;
-	// 描画
-	void Rendering(entt::registry& reg)override;
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="Reg">レジストリー</param>
+	void Rendering(entt::registry& Reg)override;
 };

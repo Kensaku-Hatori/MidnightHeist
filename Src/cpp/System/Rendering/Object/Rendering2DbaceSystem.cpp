@@ -6,7 +6,7 @@
 //****************************************************************
 
 // インクルード
-#include "System/Rendering/Obj/Rendering2DbaceSystem.h"
+#include "System/Rendering/Obj/Rendering2DBaseSystem.h"
 #include "TagComp.hpp"
 #include "Bace/manager.h"
 #include "Manager/texmanager.h"
@@ -20,7 +20,7 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void Render2DSystem::Rendering(entt::registry& reg)
+void Render2DSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -28,20 +28,20 @@ void Render2DSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// 描画が整理されたリストを取得
-	auto Entitys = LayerManager::GetSortEntityList<Object2D>(reg);
+	auto Entitys = LayerManager::GetSortEntityList<Object2D>(Reg);
 
 	// アクセス
 	for (auto List : Entitys)
 	{
 		// コンポーネントが存在したら
-		if (reg.any_of<RenderFragComponent>(List) == true)
+		if (Reg.any_of<RenderFragComponent>(List) == true)
 		{
 			// 描画フラグを確認
-			if (reg.get<RenderFragComponent>(List).IsRendering == false) continue;
+			if (Reg.get<RenderFragComponent>(List).IsRendering == false) continue;
 		}
 		// コンポーネント取得
-		auto& VtxComp = reg.get<VertexComponent>(List);
-		auto& TextureComp = reg.get<TexComponent>(List);
+		auto& VtxComp = Reg.get<VertexComponent>(List);
+		auto& TextureComp = Reg.get<TexComponent>(List);
 
 		// 頂点バッファが生成されていなかったら
 		if (VtxComp.pVertex == nullptr) continue;

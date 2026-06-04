@@ -21,7 +21,7 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void RenderXSystem::Rendering(entt::registry& reg)
+void RenderXSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -32,14 +32,14 @@ void RenderXSystem::Rendering(entt::registry& reg)
 	D3DXMATERIAL* pMat;		// マテリアルへのポインタ
 
 	// エンテティのリストを取得
-	auto view = reg.view<ObjectX>();
+	auto view = Reg.view<ObjectX>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネント取得
-		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& RenderingComp = reg.get<XRenderingComponent>(entity);
+		auto& TransformComp = Reg.get<Transform3D>(entity);
+		auto& RenderingComp = Reg.get<XRenderingComponent>(entity);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformComp.mtxWorld);

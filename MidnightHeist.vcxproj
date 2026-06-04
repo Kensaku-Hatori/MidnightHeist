@@ -336,13 +336,13 @@
     <ClInclude Include="Src\h\Shader\VisibleSineCurve.h" />
     <ClInclude Include="Src\h\System\BaceCameraSystem.h" />
     <ClInclude Include="Src\h\System\LayerManager.hpp" />
-    <ClInclude Include="Src\h\System\Rendering\baceRenderingsystem.hpp" />
+    <ClInclude Include="Src\h\System\Rendering\baseRenderingsystem.hpp" />
     <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySightSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Enemy\RenderingEnemySystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshFieldSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Mesh\RenderingMeshLaserSystem.h" />
-    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering2DbaceSystem.h" />
-    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering3DBaceSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering2DBaseSystem.h" />
+    <ClInclude Include="Src\h\System\Rendering\Obj\Rendering3DBaseSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Obj\RenderingXSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Player\RenderingGamePlayerSystem.h" />
     <ClInclude Include="Src\h\System\Rendering\Player\RenderingTitlePlayerSystem.h" />

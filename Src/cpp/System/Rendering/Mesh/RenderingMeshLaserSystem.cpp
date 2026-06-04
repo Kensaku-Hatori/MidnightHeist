@@ -20,7 +20,7 @@ using namespace Tag;
 //*********************************************
 // 更新
 //*********************************************
-void RenderMehLaerSystem::Rendering(entt::registry& reg)
+void RenderMehLaerSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -28,7 +28,7 @@ void RenderMehLaerSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// ビュー生成
-	auto view = reg.view<Laser>();
+	auto view = Reg.view<Laser>();
 
 	// ライトの影響を受けない
 	pDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
@@ -37,10 +37,10 @@ void RenderMehLaerSystem::Rendering(entt::registry& reg)
 	for (auto entity : view)
 	{
 		// 自分自身の情報を取得
-		auto& TransformCmp = reg.get<Transform3D>(entity);
-		auto& MeshInfo = reg.get<MeshInfoComponent>(entity);
-		auto& VtxCmp = reg.get<VertexComponent>(entity);
-		auto& IdxBuffCmp = reg.get<IndexBufferComponent>(entity);
+		auto& TransformCmp = Reg.get<Transform3D>(entity);
+		auto& MeshInfo = Reg.get<MeshInfoComponent>(entity);
+		auto& VtxCmp = Reg.get<VertexComponent>(entity);
+		auto& IdxBuffCmp = Reg.get<IndexBufferComponent>(entity);
 
 		// ワールドマトリックスの設定
 		pDevice->SetTransform(D3DTS_WORLD, &TransformCmp.mtxWorld);

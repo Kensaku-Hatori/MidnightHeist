@@ -9,12 +9,12 @@
 #pragma once
 
 // 描画システムの基底クラス
-struct BaceRenderingSystem
+struct BaseRenderingSystem
 {
 	// コンストラクタ
-	BaceRenderingSystem(const bool RefPause = false) { IsRefPause = RefPause; };
+	BaseRenderingSystem(const bool RefPause = false) { IsRefPause = RefPause; };
 	// デストラクタ
-	virtual ~BaceRenderingSystem() = default;
+	virtual ~BaseRenderingSystem() = default;
 	// 純粋仮想関数
 	virtual void Rendering(entt::registry& reg) = 0;
 	// ポーズを参照するかどうか

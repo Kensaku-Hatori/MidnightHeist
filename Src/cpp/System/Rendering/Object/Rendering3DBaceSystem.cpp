@@ -6,7 +6,7 @@
 //****************************************************************
 
 // インクルード
-#include "System/Rendering/Obj/Rendering3DBaceSystem.h"
+#include "System/Rendering/Obj/Rendering3DBaseSystem.h"
 #include "Bace/manager.h"
 #include "Component/TransformComponent.hpp"
 #include "Component/Polygone/VertexRenderingComponent.hpp"
@@ -20,7 +20,7 @@ using namespace Tag;
 //*********************************************
 // 描画
 //*********************************************
-void Render3DSystem::Rendering(entt::registry& reg)
+void Render3DSystem::Rendering(entt::registry& Reg)
 {
 	// デバイス取得
 	CRenderer* pRenderer;
@@ -28,15 +28,15 @@ void Render3DSystem::Rendering(entt::registry& reg)
 	LPDIRECT3DDEVICE9 pDevice = pRenderer->GetDevice();
 
 	// エンテティのリストを取得
-	auto view = reg.view<Object3D>();
+	auto view = Reg.view<Object3D>();
 
 	// アクセス
 	for (auto entity : view)
 	{
 		// コンポーネント取得
-		auto& TransformComp = reg.get<Transform3D>(entity);
-		auto& VtxComp = reg.get<VertexComponent>(entity);
-		auto& TextureComp = reg.get<TexComponent>(entity);
+		auto& TransformComp = Reg.get<Transform3D>(entity);
+		auto& VtxComp = Reg.get<VertexComponent>(entity);
+		auto& TextureComp = Reg.get<TexComponent>(entity);
 
 		// テクスチャを設定
 		pDevice->SetTexture(0, TextureComp.Tex);
