@@ -39,6 +39,7 @@ void Render2DSystem::Rendering(entt::registry& Reg)
 			// 描画フラグを確認
 			if (Reg.get<RenderFragComponent>(List).IsRendering == false) continue;
 		}
+
 		// コンポーネント取得
 		auto& VtxComp = Reg.get<VertexComponent>(List);
 		auto& TextureComp = Reg.get<TexComponent>(List);

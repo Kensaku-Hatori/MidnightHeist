@@ -26,6 +26,11 @@ void CSystemManager::UpdateAll(entt::registry& Reg)
 			(*Systems)->Update(Reg);
 		}
 	}
+	for (auto& Destroys : m_DestroyList)
+	{
+		Reg.destroy(Destroys);
+	}
+	m_DestroyList.clear();
 }
 
 void CSystemManager::RenderingAll(entt::registry& Reg)
@@ -41,12 +46,11 @@ void CSystemManager::RenderingAll(entt::registry& Reg)
 			(*Systems)->Rendering(Reg);
 		}
 	}
-	for (auto Destroys = m_DestroyList.begin(); Destroys != m_DestroyList.end();)
+	for (auto& Destroys : m_DestroyList)
 	{
-		CManager::GetScene()->GetReg().destroy((*Destroys));
-		Destroys = m_DestroyList.erase(Destroys);
-		if (Destroys == m_DestroyList.end()) break;
+		Reg.destroy(Destroys);
 	}
+	m_DestroyList.clear();
 }
 
 void CSystemManager::AddUpdateSystem(BaseSystem* System)

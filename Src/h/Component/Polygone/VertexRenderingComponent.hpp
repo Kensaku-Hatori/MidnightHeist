@@ -16,6 +16,8 @@
 struct VertexComponent {
 	// 頂点バッファ
 	LPDIRECT3DVERTEXBUFFER9 pVertex = nullptr;
+	VertexComponent() {};
+	VertexComponent& operator = (const VertexComponent&) = delete;
 	// デストラクタ
 	~VertexComponent() {
 		// 頂点バッファの破棄
