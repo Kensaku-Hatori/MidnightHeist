@@ -1,11 +1,13 @@
-//****************************************************************
+//================================================================
 //
 // 剛体の更新システムの処理[UpdateRigitBodySystem.cpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "System/Update/UpdateRigidBodySystem.h"
 #include "Component/Components.hpp"
 #include "Scene/scene.h"
@@ -16,11 +18,14 @@
 #include "Math/MyMath.h"
 #include "Component/ParentComponent.hpp"
 
+//****************************************************************
+// ネームスペース
+//****************************************************************
 using namespace Physics;
 
-//*********************************************
+//****************************************************************
 // コンストラクタ
-//*********************************************
+//****************************************************************
 UpdateRigidBodySystem::UpdateRigidBodySystem()
 {
 	// 関数をコネクト
@@ -29,9 +34,9 @@ UpdateRigidBodySystem::UpdateRigidBodySystem()
 	Reg.on_destroy<RigidBodyComponent>().connect<&UpdateRigidBodySystem::OnRigidBodyComponentDestruct>(this);
 }
 
-//*********************************************
+//****************************************************************
 // 更新
-//*********************************************
+//****************************************************************
 void UpdateRigidBodySystem::Update(entt::registry& Reg)
 {
 	// ビュー
@@ -84,9 +89,9 @@ void UpdateRigidBodySystem::Update(entt::registry& Reg)
 	}
 }
 
-//*********************************************
+//****************************************************************
 // 剛体が追加されたら
-//*********************************************
+//****************************************************************
 void UpdateRigidBodySystem::OnRigidBodyComponentConstruct(entt::registry& Reg, entt::entity Entity)
 {
 	// 親子関係コンポーネントが存在したら
@@ -146,9 +151,9 @@ void UpdateRigidBodySystem::OnRigidBodyComponentConstruct(entt::registry& Reg, e
 	CManager::GetDynamicsWorld()->addRigidBody(RBCmp.Body, RBCmp.Group, RBCmp.Mask);
 }
 
-//*********************************************
+//****************************************************************
 // 剛体が削除されたら
-//*********************************************
+//****************************************************************
 void UpdateRigidBodySystem::OnRigidBodyComponentDestruct(entt::registry& Reg, entt::entity Entity)
 {
 	// コンポーネントを取得

@@ -1,11 +1,13 @@
-//****************************************************************
+//================================================================
 //
 // プレイヤー更新システムのクラスの処理[playerUpdateSystem.cpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "System/Update/Player/UpdateGamePlayerSystem.h"
 #include "Component/TransformComponent.hpp"
 #include "Component/Shader/OutLineComponent.hpp"
@@ -36,13 +38,15 @@
 #include "Component/Enemy/EnemySoundListenerComponent.hpp"
 #include "Component/Components.hpp"
 
+//****************************************************************
 // 名前空間
+//****************************************************************
 using namespace Tag;
 using namespace SequenceTag;
 
-//*********************************************
+//****************************************************************
 // 更新
-//*********************************************
+//****************************************************************
 void UpdateGamePlayerSystem::Update(entt::registry& reg)
 {
 	auto view = reg.view<Player, InGame>();
@@ -136,9 +140,9 @@ void UpdateGamePlayerSystem::Update(entt::registry& reg)
 	}
 }
 
-//*********************************************
+//****************************************************************
 // 移動の更新
-//*********************************************
+//****************************************************************
 void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Player)
 {
 	// コンポーネント取得
@@ -258,9 +262,9 @@ void UpdateGamePlayerSystem::UpdateMovement(entt::registry& reg, entt::entity Pl
 	RBCmp.Body->setLinearVelocity(moveDir);
 }
 
-//*********************************************
+//****************************************************************
 // ロックオンの更新
-//*********************************************
+//****************************************************************
 void UpdateGamePlayerSystem::UpdateLockOn(entt::registry& reg, entt::entity Player)
 {
 	// ロックオンが無効だったら
@@ -355,9 +359,9 @@ void UpdateGamePlayerSystem::UpdateLockOn(entt::registry& reg, entt::entity Play
 	LockOnColor.Col = Color;
 }
 
-//*********************************************
+//****************************************************************
 // アイテムの解錠
-//*********************************************
+//****************************************************************
 void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Player)
 {
 	// アイテムのビュー
@@ -438,9 +442,9 @@ void UpdateGamePlayerSystem::UpdateUnLock(entt::registry& Reg, entt::entity Play
 	CircleRenderFrag.IsRendering = IsRenderingLocalFrag;
 }
 
-//*********************************************
+//****************************************************************
 // 状態ごとの更新
-//*********************************************
+//****************************************************************
 void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Player)
 {
 	// 状態コンポーネントを取得
@@ -473,9 +477,9 @@ void UpdateGamePlayerSystem::UpdateState(entt::registry& Reg, entt::entity Playe
 	}
 }
 
-//*********************************************
+//****************************************************************
 // 近くの敵へのバイブレーション
-//*********************************************
+//****************************************************************
 void UpdateGamePlayerSystem::UpdateToEnemyVibration(entt::registry& Reg, entt::entity Player)
 {
 	// 敵のビュー

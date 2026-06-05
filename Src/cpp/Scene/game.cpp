@@ -1,11 +1,13 @@
-//************************************************************
+//================================================================
 //
 //　ゲームの処理[game.cpp]
 //　Author:Hatori Kensaku
 //
-//************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Scene/game.h"
 #include "Bace/manager.h"
 #include "math.h"
@@ -20,38 +22,44 @@
 #include "SetUpLoader.h"
 #include "btCollisionConfig.hpp"
 
+//****************************************************************
 // 静的メンバ変数宣言
+//****************************************************************
 bool CGame::m_IsFinishedFirstNoise = false;
 bool CGame::m_IsOlfFinishedFirstNoise = false;
 int CGame::m_Time = 0;
 int CGame::m_EnCount = 0;
 int CGame::m_Steal = 0;
 
+//****************************************************************
 // ネームスペース
+//****************************************************************
 using ordered_json = nlohmann::ordered_json;
 using namespace std;
 
-// 規定値を設定
+//****************************************************************
+// 定数を設定
+//****************************************************************
 const btVector3 CGame::Config::NearWall::Size = btVector3(1000.0f, 1000.0f, 0.0f);
 const btVector3 CGame::Config::NearWall::Origin = btVector3(0.0f, 0.0f, 500.0f);
 
-//***************************************
+//****************************************************************
 // コンストラクタ
-//***************************************
+//****************************************************************
 CGame::CGame() : CScene(MODE_GAME)
 {
 }
 
-//***************************************
+//****************************************************************
 // デストラクタ
-//***************************************
+//****************************************************************
 CGame::~CGame()
 {
 }
 
-//***************************************
+//****************************************************************
 // 初期化処理
-//***************************************
+//****************************************************************
 HRESULT CGame::Init(void)
 {
 	// スタッツ情報を初期化
@@ -89,29 +97,24 @@ HRESULT CGame::Init(void)
 		groundTransform.setOrigin(Config::NearWall::Origin);
 
 		btScalar mass(0);
-
-		//rigidbody is dynamic if and only if mass is non zero, otherwise static
 		bool isDynamic = (mass != 0.f);
 
 		btVector3 localInertia(0, 0, 0);
-		if (isDynamic)
-			m_NearWallShape->calculateLocalInertia(mass, localInertia);
+		if (isDynamic)m_NearWallShape->calculateLocalInertia(mass, localInertia);
 
-		//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 		btDefaultMotionState* motionState = new btDefaultMotionState(groundTransform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, motionState, m_NearWallShape.get(), localInertia);
 		m_NearWallRB = std::make_unique<btRigidBody>(rbInfo);
 
-		//add the body to the dynamics world
 		CManager::GetDynamicsWorld()->addRigidBody(m_NearWallRB.get(), CollisionGroupAndMasks::GROUP_MAPOBJECT, CollisionGroupAndMasks::MASK_MAPOBJECT);
 	}
 
 	return S_OK;
 }
 
-//***************************************
+//****************************************************************
 // 更新処理
-//***************************************
+//****************************************************************
 void CGame::Update(void)
 {
 	if (CManager::isPause() == false)
@@ -137,9 +140,9 @@ void CGame::Update(void)
 	}
 }
 
-//***************************************
+//****************************************************************
 // 終了処理
-//***************************************
+//****************************************************************
 void CGame::Uninit(void)
 {
 	// 剛体の削除
@@ -164,17 +167,17 @@ void CGame::Uninit(void)
 	delete this;
 }
 
-//***************************************
+//****************************************************************
 // 描画処理
-//***************************************
+//****************************************************************
 void CGame::Draw(void)
 {
 	CMapManager::Instance().Draw();
 }
 
-//***************************************
+//****************************************************************
 // スタッツを書き込む
-//***************************************
+//****************************************************************
 void CGame::WriteStutsInfo(void)
 {
 	ordered_json j;

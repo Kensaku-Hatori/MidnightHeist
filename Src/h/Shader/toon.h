@@ -90,6 +90,4 @@ private:
 	D3DXHANDLE m_OutLineHeightHandle;	// アウトライン描画する高さの閾値ハンドル
 	D3DXHANDLE m_OutLineThicknessHandle;// アウトラインの太さハンドル
 	D3DXHANDLE m_OutLineColorHandle;	// アウトラインの色ハンドル
-	// 静的メンバ変数
-	static std::unique_ptr<CToon> m_Instance;
 };

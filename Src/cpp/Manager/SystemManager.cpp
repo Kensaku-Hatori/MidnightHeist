@@ -1,13 +1,28 @@
+//================================================================
+//
+// システムを管理[SystemManager.cpp]
+// Author Kensaku Hatori
+//
+//================================================================
+
+//****************************************************************
+// インクルード
+//****************************************************************
 #include "Manager/SystemManager.h"
 #include "Bace/manager.h"
 #include "Scene/scene.h"
 
+//****************************************************************
 // 静的メンバ変数宣言
+//****************************************************************
 std::vector<BaseSystem*> CSystemManager::m_UpdateSystems = {};
 std::vector<BaseRenderingSystem*> CSystemManager::m_RenderingSystems = {};
 std::vector<entt::entity> CSystemManager::m_DestroyList = {};
 bool CSystemManager::m_IsPause = false;
 
+//****************************************************************
+// すべての更新
+//****************************************************************
 void CSystemManager::UpdateAll(entt::registry& Reg)
 {
 	if (CManager::GetInputKeyboard()->GetTrigger(DIK_P) == true ||
@@ -33,6 +48,9 @@ void CSystemManager::UpdateAll(entt::registry& Reg)
 	m_DestroyList.clear();
 }
 
+//****************************************************************
+// すべての描画
+//****************************************************************
 void CSystemManager::RenderingAll(entt::registry& Reg)
 {
 	for (auto Systems = m_RenderingSystems.begin(); Systems != m_RenderingSystems.end(); Systems++)
@@ -53,18 +71,27 @@ void CSystemManager::RenderingAll(entt::registry& Reg)
 	m_DestroyList.clear();
 }
 
+//****************************************************************
+// 更新システムを追加
+//****************************************************************
 void CSystemManager::AddUpdateSystem(BaseSystem* System)
 {
 	if (System == nullptr) return;
 	m_UpdateSystems.push_back(System);
 }
 
+//****************************************************************
+// 描画システムを追加
+//****************************************************************
 void CSystemManager::AddRenderingSystem(BaseRenderingSystem* System)
 {
 	if (System == nullptr) return;
 	m_RenderingSystems.push_back(System);
 }
 
+//****************************************************************
+// システムの破棄
+//****************************************************************
 void CSystemManager::EndSystem(void)
 {
 	for (auto Systems = m_UpdateSystems.begin(); Systems != m_UpdateSystems.end();)
@@ -81,6 +108,9 @@ void CSystemManager::EndSystem(void)
 	}
 }
 
+//****************************************************************
+// エンティティを破棄
+//****************************************************************
 void CSystemManager::AddDestroyList(entt::entity Entity)
 {
 	m_DestroyList.push_back(Entity);

@@ -1,22 +1,26 @@
-//****************************************************************
+//================================================================
 //
 // ファクトリ[Factories.cpp]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "FactorieUtils.h"
 
+//****************************************************************
 // 名前空間
+//****************************************************************
 using ordered_json = nlohmann::ordered_json;
 using namespace std;
 using namespace Tag;
 using namespace SequenceTag;
 
-//*********************************************
+//****************************************************************
 // オブジェクト2Dの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const std::string& Path, D3DXVECTOR2 Pos, D3DXVECTOR2 Size, entt::entity Parent)
 {
 	// エンティティを生成
@@ -51,9 +55,9 @@ entt::entity Factories::makeObject2D(entt::registry& Reg, const int Layer, const
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // オブジェクト3Dの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeObject3D(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -88,9 +92,9 @@ entt::entity Factories::makeObject3D(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // オブジェクトXの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path)
 {
 	// エンティティを生成
@@ -104,9 +108,9 @@ entt::entity Factories::makeObjectX(entt::registry& Reg, const std::string& Path
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // 3Dの視界を生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 {
 	// エンティティを生成
@@ -144,9 +148,9 @@ entt::entity Factories::make3DSightFan(entt::registry& Reg, entt::entity Parent)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // 3D視界を初期化
-//*********************************************
+//****************************************************************
 void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 {
 	// コンポーネントを取得
@@ -195,9 +199,9 @@ void Factories::InitSightFan(entt::registry& Reg, entt::entity& Entity)
 	VtxCmp.pVertex->Unlock();
 }
 
-//*********************************************
+//****************************************************************
 // 音の大きさを可視化オブジェクトを生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR Col, entt::entity Parent)
 {
 	// エンティティを生成
@@ -231,9 +235,9 @@ entt::entity Factories::makeEmitterVolume(entt::registry& Reg, const D3DXCOLOR C
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // 円形UIの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeUICircle(entt::registry& Reg, entt::entity Parent)
 {
 	// エンティティを生成
@@ -270,9 +274,9 @@ entt::entity Factories::makeUICircle(entt::registry& Reg, entt::entity Parent)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // オブジェクトPlayerの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& Pos)
 {
 	// エンティティを生成
@@ -295,9 +299,9 @@ entt::entity Factories::makeBacePlayer(entt::registry& Reg, const D3DXVECTOR3& P
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // ゲームプレイヤーの初期化
-//*********************************************
+//****************************************************************
 void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 {
 	// コンポーネントを追加
@@ -321,18 +325,18 @@ void Factories::InitGamePlayer(entt::registry& Reg, entt::entity& Entity)
 	Reg.emplace<LockOnAnimComponent>(LockOnEntity, VEC2_NULL, 60, 120, 60).ApperColor = RED;
 }
 
-//*********************************************
+//****************************************************************
 // タイトルプレイヤーの初期化
-//*********************************************
+//****************************************************************
 void Factories::InitTitlePlayer(entt::registry& Reg, entt::entity& Entity)
 {
 	// プレイヤーにタグを追加する
 	Reg.emplace<InTitle>(Entity);
 }
 
-//*********************************************
+//****************************************************************
 // 数字ポリゴンの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin, const int Value, const D3DXVECTOR2 DigitSize, const D3DXVECTOR2 DigitOffset)
 {
 	// エンティティを生成
@@ -348,9 +352,9 @@ entt::entity Factories::makeNumber(entt::registry& Reg, const D3DXVECTOR2 Origin
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // オブジェクトEnemyの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vector<BasicAI::PatrolMap>& PointList)
 {
 	// エンティティを生成
@@ -401,9 +405,9 @@ entt::entity Factories::makeEnemy(entt::registry& Reg, D3DXVECTOR3 Pos, std::vec
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // オブジェクトMapobjectの生成
-//*********************************************
+//****************************************************************
 entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Path,const D3DXVECTOR3& Pos, const D3DXQUATERNION& Quat, const D3DXVECTOR3& Scale, const entt::entity& Parent)
 {
 	// エンティティを生成
@@ -433,9 +437,9 @@ entt::entity Factories::makeMapobject(entt::registry& Reg, const std::string& Pa
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // パスをもとにコンポーネントをマッピング
-//*********************************************
+//****************************************************************
 void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path)
 {
 	// アイテムなら
@@ -456,9 +460,9 @@ void Factories::MappingModelPathToComponent(entt::registry& Reg, entt::entity& E
 	}
 }
 
-//*********************************************
+//****************************************************************
 // タイトルマネージャーの生成
-//*********************************************
+//****************************************************************
 entt::entity ManagerFactories::makeTitleManager(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -473,9 +477,9 @@ entt::entity ManagerFactories::makeTitleManager(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // タイトルマネージャー初期化
-//*********************************************
+//****************************************************************
 void ManagerFactories::InitTitleManager(entt::registry& Reg)
 {
 	// タイトルメニュー用のポリゴンを作成
@@ -487,9 +491,9 @@ void ManagerFactories::InitTitleManager(entt::registry& Reg)
 	}
 }
 
-//*********************************************
+//****************************************************************
 // ポーズマネージャーの生成
-//*********************************************
+//****************************************************************
 entt::entity ManagerFactories::makePauseManager(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -504,9 +508,9 @@ entt::entity ManagerFactories::makePauseManager(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // ポーズマネージャー初期化
-//*********************************************
+//****************************************************************
 void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent)
 {
 	// ポーズメニュー用のポリゴンを作成
@@ -519,9 +523,9 @@ void ManagerFactories::InitPauseManager(entt::registry& Reg, entt::entity Parent
 	}
 }
 
-//*********************************************
+//****************************************************************
 // ゲートマネージャーの生成
-//*********************************************
+//****************************************************************
 entt::entity ManagerFactories::makeGateManager(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -537,9 +541,9 @@ entt::entity ManagerFactories::makeGateManager(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // ゲートマネージャーの初期化
-//*********************************************
+//****************************************************************
 void ManagerFactories::InitGateManager(entt::registry& Reg, entt::entity& Entity)
 {
 	// 親子関係コンポーネント用のリスト
@@ -552,9 +556,9 @@ void ManagerFactories::InitGateManager(entt::registry& Reg, entt::entity& Entity
 	Reg.emplace<ChildrenComponent>(Entity, Children);
 }
 
-//*********************************************
+//****************************************************************
 // エネミーマネージャーの生成
-//*********************************************
+//****************************************************************
 entt::entity ManagerFactories::makeEnemyManager(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -565,9 +569,9 @@ entt::entity ManagerFactories::makeEnemyManager(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // アイテムマネージャの生成
-//*********************************************
+//****************************************************************
 entt::entity ManagerFactories::makeItemManager(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -588,9 +592,9 @@ entt::entity ManagerFactories::makeItemManager(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // スタッツマネージャーの生成
-//*********************************************
+//****************************************************************
 entt::entity ManagerFactories::makeStutsManager(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -652,9 +656,9 @@ entt::entity ManagerFactories::makeStutsManager(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // メッシュフィールドの生成
-//*********************************************
+//****************************************************************
 entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size, const std::string Path)
 {
 	// エンティティを生成
@@ -675,9 +679,9 @@ entt::entity MeshFactories::makeMeshField(entt::registry& Reg, const int DivH, c
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // メッシュフィールドの初期化
-//*********************************************
+//****************************************************************
 HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& Entity)
 {
 	// デバイスを取得
@@ -779,9 +783,9 @@ HRESULT MeshFactories::InitMeshField(entt::registry& Reg, const entt::entity& En
 	return S_OK;
 }
 
-//*********************************************
+//****************************************************************
 // メッシュレーザーの生成
-//*********************************************
+//****************************************************************
 entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 {
 	// エンティティを生成
@@ -802,9 +806,9 @@ entt::entity MeshFactories::makeLaser(entt::registry& Reg, entt::entity Parent)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // メッシュレーザーの初期化
-//*********************************************
+//****************************************************************
 HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& Entity)
 {
 	// デバイスを取得
@@ -918,9 +922,9 @@ HRESULT MeshFactories::InitLaserMesh(entt::registry& Reg, const entt::entity& En
 	return S_OK;
 }
 
-//*********************************************
+//****************************************************************
 // 巡回ポイントの作成
-//*********************************************
+//****************************************************************
 entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::string Path)
 {
 	// エンティティを生成
@@ -933,9 +937,9 @@ entt::entity MeshFactories::makePatrolPointFromFile(entt::registry& Reg, std::st
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // スカイボックスの作成
-//*********************************************
+//****************************************************************
 entt::entity MeshFactories::makeSkyBox(entt::registry& Reg)
 {
 	// エンティティを生成
@@ -952,9 +956,9 @@ entt::entity MeshFactories::makeSkyBox(entt::registry& Reg)
 	return myEntity;
 }
 
-//*********************************************
+//****************************************************************
 // メッシュ矩形の初期化
-//*********************************************
+//****************************************************************
 HRESULT MeshFactories::InitMeshCube(entt::registry& Reg, const entt::entity& Entity)
 {
 	// コンポーネントを取得
