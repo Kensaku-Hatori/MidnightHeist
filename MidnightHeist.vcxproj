@@ -312,6 +312,7 @@
     <ClInclude Include="Src\h\Component\TransformComponent.hpp" />
     <ClInclude Include="Src\h\Component\VelocityComponent.hpp" />
     <ClInclude Include="Src\h\Component\XRenderingComponent.hpp" />
+    <ClInclude Include="Src\h\Factories.h" />
     <ClInclude Include="Src\h\Manager\mapmanager.h" />
     <ClInclude Include="Src\h\Manager\modelmanager.h" />
     <ClInclude Include="Src\h\Manager\SystemManager.h" />
@@ -324,6 +325,7 @@
     <ClInclude Include="Src\h\Scene\Result.h" />
     <ClInclude Include="Src\h\Scene\scene.h" />
     <ClInclude Include="Src\h\Scene\title.h" />
+    <ClInclude Include="Src\h\SetUpLoader.h" />
     <ClInclude Include="Src\h\Shader\defaultcubemap.h" />
     <ClInclude Include="Src\h\Shader\distortion.h" />
     <ClInclude Include="Src\h\Shader\shader.h" />
@@ -382,6 +384,8 @@
     <ClInclude Include="Src\h\System\Update\UpdateStutsAnimSystem.h" />
     <ClInclude Include="Src\h\System\Update\UpdateTimerSystem.h" />
     <ClInclude Include="Src\h\System\Update\UpdateTitleManagerSystem.h" />
+    <ClInclude Include="Src\h\ThreadPool.h" />
+    <ClInclude Include="Src\h\TitleCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Rc\Shader.rc" />

@@ -1,17 +1,23 @@
-//****************************************************************
+//================================================================
 //
 // ファクトリ[Factories.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include "Component/AIComponent.hpp"
 
+//****************************************************************
 // 通常のファクトリー
+//****************************************************************
 namespace Factories {
 	entt::entity makeObject2D(entt::registry& Reg, const int Layer = 3, const std::string& Path = {}, D3DXVECTOR2 Pos = VEC2_NULL, D3DXVECTOR2 Size = { 100.0f,100.0f }, entt::entity Parent = entt::null);
 	entt::entity makeObject3D(entt::registry& Reg);
@@ -36,7 +42,9 @@ namespace Factories {
 	void MappingModelPathToComponent(entt::registry& Reg, entt::entity& Entity, std::string Path);
 }
 
+//****************************************************************
 // マネージャー系のファクトリ
+//****************************************************************
 namespace ManagerFactories {
 	entt::entity makeTitleManager(entt::registry& Reg);
 	void InitTitleManager(entt::registry& Reg);
@@ -54,7 +62,9 @@ namespace ManagerFactories {
 	entt::entity makeStutsManager(entt::registry& Reg);
 }
 
+//****************************************************************
 // メッシュ系のファクトリー
+//****************************************************************
 namespace MeshFactories {
 	entt::entity makeMeshField(entt::registry& Reg, const int DivH, const int DivV, const D3DXVECTOR2& Size,const std::string Path);
 	HRESULT InitMeshField(entt::registry& Reg, const entt::entity& Entity);
@@ -68,7 +78,9 @@ namespace MeshFactories {
 	HRESULT InitMeshCube(entt::registry& Reg, const entt::entity& Entity);
 }
 
+//****************************************************************
 // 物理系
+//****************************************************************
 namespace Physics {
 	// コンセプトを設定
 	template<typename T>

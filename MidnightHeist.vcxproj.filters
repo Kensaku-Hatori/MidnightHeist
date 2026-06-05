@@ -617,13 +617,7 @@
     <ClInclude Include="Src\h\Shader\VisibleSineCurve.h">
       <Filter>ヘッダー ファイル\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Src\h\System\BaseCameraSystem.h">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
     <ClInclude Include="Src\h\System\LayerManager.hpp">
-      <Filter>ヘッダー ファイル\System</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\h\System\ResultCameraSystem.h">
       <Filter>ヘッダー ファイル\System</Filter>
     </ClInclude>
     <ClInclude Include="Src\h\System\Update\Enemy\UpdateEnemyBackSystem.h">
@@ -770,8 +764,26 @@
     <ClInclude Include="Src\h\Resource\ShaderResource.h">
       <Filter>ヘッダー ファイル\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Src\h\ThreadPool.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\Factories.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\System\ResultCameraSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Src\h\System\GameCamera.h">
-      <Filter>ヘッダー ファイル\System</Filter>
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\System\BaseCameraSystem.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\TitleCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\h\SetUpLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

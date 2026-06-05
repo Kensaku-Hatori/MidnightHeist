@@ -1,18 +1,24 @@
-//****************************************************************
+//================================================================
 //
 // スレッドプールの処理[ThreadPool.h]
 // Author Kensaku Hatori
 //
-//****************************************************************
+//================================================================
 
+//****************************************************************
 // 二重インクルード防止
+//****************************************************************
 #pragma once
 
+//****************************************************************
 // インクルード
+//****************************************************************
 #include <queue>
 #include <future>
 
+//****************************************************************
 // クラス定義
+//****************************************************************
 class CThreadPool
 {
 public:
@@ -20,7 +26,7 @@ public:
 	~CThreadPool();
 
 	template <typename F, typename... Args, typename R = std::invoke_result_t<std::decay_t<F>, std::decay_t<Args>...>>
-	std::future<R> submit(F&& func, const Args&&... args);
+	std::future<R> submit(F&& func, Args&&... args);
 private:
 	// メンバ関数
 	template <typename F>
@@ -45,7 +51,7 @@ private:
 // タスクを提出
 //***************************************
 template<typename F, typename ...Args, typename R>
-inline std::future<R> CThreadPool::submit(F&& func, const Args && ...args)
+inline std::future<R> CThreadPool::submit(F&& func, Args && ...args)
 {
 	auto task = std::make_shared<std::packaged_task<R()>>([func, args...]() {
 		return func(args...);
