@@ -18,7 +18,7 @@ struct VS_OUTPUT
     float2 Uv : TEXCOORD;       // テクスチャ座標
 };
 
-// オブジェクト(テクスチャ)
+// 障害物(テクスチャ)
 texture g_ObjectTexture;
 
 // テクスチャサンプラーを宣言
