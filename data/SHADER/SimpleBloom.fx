@@ -16,7 +16,7 @@ struct VS_OUTPUT
     float2 tex : TEXCOORD; // テクスチャ座標
 };
 
-// シャドウマップ(テクスチャ)
+// シーンのテクスチャ(テクスチャ)
 texture g_SceneTexture;
 
 // テクスチャサンプラーを宣言
@@ -31,7 +31,7 @@ sampler2D SceneSampler = sampler_state
     AddressV = CLAMP;
 };
 
-// シャドウマップ(テクスチャ)
+// 輝度抽出テクスチャ(テクスチャ)
 texture g_BrightTexture;
 
 // テクスチャサンプラーを宣言
@@ -46,7 +46,7 @@ sampler2D BrightSampler = sampler_state
     AddressV = CLAMP;
 };
 
-// シャドウマップ(テクスチャ)
+// ぼかした後(テクスチャ)
 texture g_BloomTexture;
 
 // テクスチャサンプラーを宣言
