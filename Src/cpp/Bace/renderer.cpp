@@ -366,7 +366,7 @@ void CRenderer::Draw()
 		CDistortion::Instance().EndPass();
 		CDistortion::Instance().End();
 
-		//DrawBloom();
+		DrawBloom();
 
 		//描画終了
 		m_pD3DDevice->EndScene();
@@ -396,7 +396,7 @@ void CRenderer::DrawScene(void)
 //****************************************************************
 void CRenderer::DrawBloom(void)
 {
-	// 歪みシェーダ起動
+	// ブルーム起動
 	CSimpleBloom::Instance().Begin();
 	CSimpleBloom::Instance().BeginPass(0);
 	// パラメータ設定
@@ -407,26 +407,26 @@ void CRenderer::DrawBloom(void)
 	// シーン描画
 	DrawScene();
 
-	// 歪みシェーダ終了
+	// ブルーム終了
 	CSimpleBloom::Instance().EndBrightMap();
 	CSimpleBloom::Instance().EndPass();
 	CSimpleBloom::Instance().End();
 
 
-	// 歪みシェーダ起動
+	// ブルーム起動
 	CSimpleBloom::Instance().Begin();
 	// パラメータ設定
 	CSimpleBloom::Instance().SetBloomParameters();
-
 	CSimpleBloom::Instance().BeginBloomMap();
-
 	CSimpleBloom::Instance().BeginPass(1);
 
 	// シーン描画
 	DrawScene();
 
+	// ブルーム終了
 	CSimpleBloom::Instance().EndPass();
 
+	// ブルーム起動
 	CSimpleBloom::Instance().BeginPass(2);
 
 	// シーン描画
@@ -434,12 +434,12 @@ void CRenderer::DrawBloom(void)
 
 	CSimpleBloom::Instance().EndPass();
 
-	// 歪みシェーダ終了
+	// ブルーム終了
 	CSimpleBloom::Instance().EndBloomMap();
 	CSimpleBloom::Instance().End();
 
 
-	// 歪みシェーダ起動
+	// ブルーム起動
 	CSimpleBloom::Instance().Begin();
 	CSimpleBloom::Instance().BeginPass(3);
 
@@ -449,7 +449,7 @@ void CRenderer::DrawBloom(void)
 	// シーン描画
 	DrawScene();
 
-	// 歪みシェーダ終了
+	// ブルーム終了
 	CSimpleBloom::Instance().EndPass();
 	CSimpleBloom::Instance().End();
 }
