@@ -84,6 +84,7 @@ float4 PS_Comp(VS_OUTPUT input) : COLOR
     // 現在の震度を計算
     float Depth = input.Depth.z / input.Depth.w;
     
+    // テクスチャ座標を計算
     float2 TransTexCoord;
     TransTexCoord.x = input.Depth.x / input.Depth.w / 2.0f + 0.5f;
     TransTexCoord.y = -input.Depth.y / input.Depth.w / 2.0f + 0.5f;
@@ -110,11 +111,13 @@ float4 PS_Comp(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 technique StandardDraw
 {
+    // パス0(マップに書き込み)
     pass P0_Write
     {
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_Write();
     }
+    // パス1(マップの情報と比較)
     pass P1_Compare
     {
         VertexShader = compile vs_3_0 VS_main();

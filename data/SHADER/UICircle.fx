@@ -30,8 +30,10 @@ VS_OUTPUT VS_main(VS_OUTPUT input)
 {
 	// 出力用変数
 	VS_OUTPUT output = (VS_OUTPUT) 0;
+    // 流し込まれた情報を代入
     output.col = input.col;
     output.nor = input.nor;
+    // 座標変換
     output.pos = mul(input.pos, g_mtxWorld);
     output.pos = mul(output.pos, g_mtxView);
     output.Pos = output.pos;
@@ -85,6 +87,7 @@ float4 PS_main(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 technique StandardDraw
 {
+    // パス0
 	pass P0
 	{
         // ゼットバッファへの書き込みを無効化

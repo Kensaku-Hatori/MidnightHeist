@@ -38,6 +38,9 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& Reg)
 	// エンテティのリストを取得
 	auto view = Reg.view<Player, InTitle>();
 
+	// シェーダー起動
+	CToon::Instance().Begin();
+
 	// アクセス
 	for (auto [entity] : view.each())
 	{
@@ -54,8 +57,6 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& Reg)
 		D3DXMATRIX View, Proj;
 		pDevice->GetTransform(D3DTS_VIEW, &View);
 		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
-
-		CToon::Instance().Begin();
 
 		// マテリアル分回す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
@@ -79,8 +80,9 @@ void RenderingTitlePlayerSystem::Rendering(entt::registry& Reg)
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
 			CToon::Instance().EndPass();
 		}
-		CToon::Instance().End();
 		// 既存のマテリアルに戻す
 		pDevice->SetMaterial(&matDef);
 	}
+	// シェーダー終了
+	CToon::Instance().End();
 }

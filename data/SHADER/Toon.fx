@@ -338,6 +338,7 @@ float4 PS_Outline(VS_OUTPUT Input) : COLOR
 //**********************************************************************************
 technique StandardDraw
 {
+    // トゥーン描画(シャドウマップ適応)
 	pass P0_Toon
 	{
 		// 表面だけを描画
@@ -345,6 +346,7 @@ technique StandardDraw
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_Toon();
     }
+    // テクスチャありトゥーン描画(シャドウマップ適応)
 	pass P1_ToonTex
 	{
 		// 表面だけを描画
@@ -352,6 +354,7 @@ technique StandardDraw
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_ToonTex();
     }
+    // アウトライン描画
 	pass P2_Outline
 	{
 		// 裏面だけを描画

@@ -44,6 +44,9 @@ void RenderingEnemySystem::Rendering(entt::registry& Reg)
 	D3DMATERIAL9 matDef;						// 現在のマテリアルの保存用
 	D3DXMATERIAL* pMat;							// マテリアルへのポインタ
 
+	// シェーダー起動
+	CToon::Instance().Begin();
+
 	// アクセス
 	for (auto Entity : view)
 	{
@@ -66,9 +69,6 @@ void RenderingEnemySystem::Rendering(entt::registry& Reg)
 
 		// マテリアルデータへのポインタ
 		pMat = (D3DXMATERIAL*)RenderingComp.Info.modelinfo.pBuffMat->GetBufferPointer();
-
-		// シェーダー起動
-		CToon::Instance().Begin();
 
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
 		{
@@ -93,10 +93,10 @@ void RenderingEnemySystem::Rendering(entt::registry& Reg)
 			RenderingComp.Info.modelinfo.pMesh->DrawSubset(nCntMat);
 			CToon::Instance().EndPass();
 		}
-		// シェーダー終了
-		CToon::Instance().End();
 		pDevice->SetMaterial(&matDef);
 	}
+	// シェーダー終了
+	CToon::Instance().End();
 }
 
 //****************************************************************

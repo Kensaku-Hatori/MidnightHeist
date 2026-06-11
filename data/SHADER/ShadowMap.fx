@@ -30,12 +30,13 @@ VS_OUTPUT VS_Main(VS_INPUT In)
 {
     VS_OUTPUT Out;
 
+    // 座標変換
     float4 wpos = mul(In.Pos, g_mtxWorld);
     float4 lightPos = mul(wpos, g_LightView);
     lightPos = mul(lightPos, g_LightProj);
-
+    // ライトから見た位置
     Out.Pos = lightPos;
-	
+	// 深度を計算
     Out.Depth = Out.Pos.z / Out.Pos.w;
     
     return Out;
@@ -55,6 +56,7 @@ float4 PS_Main(VS_OUTPUT In) : COLOR0
 //**********************************************************************************
 technique StandardDraw
 {
+    // パス0
 	pass P0
 	{
 		VertexShader = compile vs_3_0 VS_Main();

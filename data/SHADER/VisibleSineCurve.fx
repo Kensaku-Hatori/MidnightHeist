@@ -71,6 +71,7 @@ float4 PS_main(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 technique StandardDraw
 {
+    // ƒpƒX0
 	pass P0
 	{
         VertexShader = compile vs_3_0 VS_main();

@@ -58,7 +58,9 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& Reg)
 
 	//*********************************************
 	// 通常描画
-	//*********************************************
+	//*********************************************	
+	// シェーダー起動
+	CToon::Instance().Begin();
 	// アクセス
 	for (auto [entity] : view.each())
 	{
@@ -76,9 +78,6 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& Reg)
 		D3DXMATRIX View, Proj;
 		pDevice->GetTransform(D3DTS_VIEW, &View);
 		pDevice->GetTransform(D3DTS_PROJECTION, &Proj);
-
-		// シェーダー起動
-		CToon::Instance().Begin();
 
 		// マテリアル分回す
 		for (int nCntMat = 0; nCntMat < (int)RenderingComp.Info.modelinfo.dwNumMat; nCntMat++)
@@ -105,10 +104,10 @@ void RenderingGamePlayerSystem::Rendering(entt::registry& Reg)
 			// シェーダー終了
 			CToon::Instance().EndPass();
 		}
-		CToon::Instance().End();
 		// 既存のマテリアルに戻す
 		pDevice->SetMaterial(&matDef);
 	}
+	CToon::Instance().End();
 }
 
 //****************************************************************

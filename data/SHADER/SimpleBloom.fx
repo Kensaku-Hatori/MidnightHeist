@@ -101,6 +101,7 @@ float4 PS_Filter(VS_OUTPUT input) : COLOR
     }
 }
 
+// テクセルサイズ
 float2 TexelSize = float2(0.0078125 * 0.25f, 0.013888888888889 * 0.25f);
 
 //**********************************************************************************
@@ -151,21 +152,25 @@ float4 PS_Multiply(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 technique StandardDraw
 {
+    // 明るい奴だけ書き込む
     pass P0
     {
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_Filter();
     }
+    // 横にずらす
     pass P1
     {
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_BloomWidth();
     }
+    // 縦にずらす
     pass P2
     {
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_BloomHeight();
     }
+    // シーンの画像と合成
     pass P3
     {
         VertexShader = compile vs_3_0 VS_main();

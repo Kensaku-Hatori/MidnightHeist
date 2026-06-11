@@ -119,11 +119,13 @@ float4 PS_main(VS_OUTPUT input) : COLOR
 //**********************************************************************************
 technique StandardDraw
 {
+    // パス0
 	pass P0
 	{
         VertexShader = compile vs_3_0 VS_main();
         PixelShader = compile ps_3_0 PS_main();
     }
+    // パス1
     pass P1
     {
         VertexShader = compile vs_3_0 VS_main();
